@@ -1,9 +1,8 @@
-import { IAppState } from './../../models/IAppState';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { IPromise } from 'q';
 import { Store } from '@ngrx/store';
+import { IAppState } from '../../store/reducers';
 
 
 @Injectable()
@@ -11,7 +10,7 @@ export class SPService {
 
   private readonly userList: string = 'https://jsonplaceholder.typicode.com/users';
 
-  constructor(private http: Http, private store: Store<IAppState>) { }
+  constructor(private http: HttpClient, private store: Store<IAppState>) { }
 
  /*  getAllUsers(): Promise<IUser[]> {
     return this.http.get(this.userList)

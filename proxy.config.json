@@ -1,11 +1,13 @@
 {
-    "/MobileTicket/*": {
-      "target": "http://localhost:9090",
-      "secure": false
+    "/calendar-backend/*": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "changeOrigin": true
     },
-    "/geo/*": {
-      "target": "http://localhost:9090",
-      "secure": false
+    "/rest/*": {
+      "target": "http://localhost:8080",
+      "secure": false,
+      "changeOrigin": true
     }
   }
   
