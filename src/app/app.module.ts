@@ -1,6 +1,5 @@
 // Angular
 import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
