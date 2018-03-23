@@ -1,0 +1,11 @@
+{
+    "/MobileTicket/*": {
+      "target": "http://localhost:9090",
+      "secure": false
+    },
+    "/geo/*": {
+      "target": "http://localhost:9090",
+      "secure": false
+    }
+  }
+  
