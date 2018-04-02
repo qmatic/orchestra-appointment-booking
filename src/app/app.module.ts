@@ -5,8 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpLoaderFactory } from '../i18n/translations-loader';
+import { HttpLoaderFactory } from '../i18n/TranslationsLoaderFactory';
 import { StoreModule } from '@ngrx/store';
 import rootReducer from '../redux/reducers/root-reducer';
 import { TranslateService } from "@ngx-translate/core";
@@ -42,5 +41,8 @@ export class AppModule {
   constructor(private translate: TranslateService) {
     // No Suffix for english language file (staffBookingMessages.properties)
     this.translate.setDefaultLang('staffBookingMessages');
+    
+    // Set user language
+    this.translate.use('staffBookingMessages');
   }
 }
