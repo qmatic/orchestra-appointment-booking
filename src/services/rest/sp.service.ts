@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 @Injectable()
 export class SPService {
 
-  private readonly userList: string = 'https://jsonplaceholder.typicode.com/users';
+  private readonly spEndPoint: string = '/rest/servicepoint/';
 
   constructor(private http: Http, private store: Store<IAppState>) { }
 
@@ -26,5 +26,9 @@ export class SPService {
       });
   }
  */
+
+    fetchUserInfo() {
+        return this.http.get(this.spEndPoint + '/user')
+    }
 
 }

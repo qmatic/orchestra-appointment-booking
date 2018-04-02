@@ -1,4 +1,5 @@
 <div>{{ 'customer_served' | translate }}</div>
+<h3>Welcome - {{fullName$ | async}}</h3>
 <qm-list [header]="'Branches'">
 <qm-list-item *ngFor="let b of branches">
 {{b}}

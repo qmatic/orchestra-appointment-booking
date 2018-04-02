@@ -1,2 +1,7 @@
+import { UserReducer } from './user-reducer';
 import { IAppState } from './../../models/IAppState';
-export default { } as IAppState; //store : reducer
+
+
+export default {
+    user: UserReducer
+ };

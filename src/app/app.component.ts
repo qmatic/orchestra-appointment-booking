@@ -1,4 +1,8 @@
+import { IAppState } from './../models/IAppState';
+import { IUser } from './../models/IUser';
 import { Component } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'app-root',
@@ -6,7 +10,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  fullName$: Observable<string>;
+
+  constructor(private store: Store<IAppState>) { }
+
+  ngOnInit() {
+    this.fullName$ = this.store.select<string>(store => store.user.fullName)
+  }
 
   branches = ['Colombo', 'Galle', 'Kandy'];
 }
