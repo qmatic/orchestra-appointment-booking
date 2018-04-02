@@ -1,1 +1,6 @@
 <div>{{ 'customer_served' | translate }}</div>
+<qm-list [header]="'Branches'">
+<qm-list-item *ngFor="let b of branches">
+{{b}}
+</qm-list-item>
+</qm-list>

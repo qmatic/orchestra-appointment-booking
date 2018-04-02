@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import rootReducer from '../redux/reducers/root-reducer';
 import { TranslateService } from "@ngx-translate/core";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { SharedComponentsModule } from '../components/shared-components.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   imports: [
     HttpClientModule,
     BrowserModule,
+    SharedComponentsModule,
     StoreModule.forRoot(
       rootReducer
     ),
