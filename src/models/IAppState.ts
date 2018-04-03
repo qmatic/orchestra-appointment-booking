@@ -1,4 +1,7 @@
+import { IBranch } from './IBranch';
 import { IUser } from './IUser';
 export interface IAppState {
-    user: IUser
+    readonly user: IUser,
+    readonly branchList: IBranch[];
+    readonly filteredBranchList: IBranch[];
 }

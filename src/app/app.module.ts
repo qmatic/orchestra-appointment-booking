@@ -12,10 +12,11 @@ import { StoreModule, Store } from "@ngrx/store";
 import rootReducer from '../redux/reducers/root-reducer';
 import { TranslateService } from "@ngx-translate/core";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from "../redux/effects/user";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedComponentsModule } from '../components/shared-components.module';
+import { EffectsModule } from '@ngrx/effects';
+import { branchListReducer } from '../redux/reducers/branch-list.reducer';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,11 @@ import { SharedComponentsModule } from '../components/shared-components.module';
     HttpModule,
     BrowserModule,
     SharedComponentsModule,
+    EffectsModule.forRoot([]),
     StoreModule.forRoot(
-      rootReducer
+      {
+        branchList:  branchListReducer
+      }
     ),
     EffectsModule.forRoot([UserEffects]),
     StoreModule.forRoot(

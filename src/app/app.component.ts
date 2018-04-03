@@ -1,7 +1,9 @@
 import { IAppState } from './../models/IAppState';
+import { FILTER_BRANCH_LIST } from './../redux/actions/branch-list.actions';
 import { IUser } from './../models/IUser';
+import { Store } from '@ngrx/store';
+import { IBranch } from './../models/IBranch';
 import { Component } from '@angular/core';
-import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
 @Component({
@@ -11,12 +13,15 @@ import { Observable } from "rxjs/Observable";
 })
 export class AppComponent {
   fullName$: Observable<string>;
+  branchState: Observable<IBranch[]>;
+  branches = ['Colombo', 'Galle', 'Kandy'];
 
-  constructor(private store: Store<IAppState>) { }
 
   ngOnInit() {
-    this.fullName$ = this.store.select<string>(store => store.user.fullName)
+    
   }
-
-  branches = ['Colombo', 'Galle', 'Kandy'];
-}
+  
+  constructor(private store: Store<IAppState>) {
+    this.branchState = this.store.select(state => state.branchList);
+    this.fullName$ = this.store.select<string>(store => store.user.fullName);
+  }}

@@ -1,7 +1,7 @@
 <div>{{ 'customer_served' | translate }}</div>
 <h3>Welcome - {{fullName$ | async}}</h3>
 <qm-list [header]="'Branches'">
-<qm-list-item *ngFor="let b of branches">
-{{b}}
-</qm-list-item>
+  <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
+  {{b.name}}
+  </qm-list-item>
 </qm-list>
