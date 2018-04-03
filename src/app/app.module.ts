@@ -1,5 +1,4 @@
 import { FETCH_USER_INFO } from './../redux/actions/user';
-import {HttpModule} from '@angular/http';
 import { SPService } from './../services/rest/sp.service';
 import { appRoutes } from './../routes/app-routes';
 import { RouterModule } from '@angular/router';
@@ -24,7 +23,6 @@ import { branchListReducer } from '../redux/reducers/branch-list.reducer';
   ],
   imports: [
     HttpClientModule,
-    HttpModule,
     BrowserModule,
     SharedComponentsModule,
     EffectsModule.forRoot([]),

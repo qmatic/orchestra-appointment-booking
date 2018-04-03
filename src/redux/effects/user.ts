@@ -13,22 +13,22 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { TranslateService } from "@ngx-translate/core";
 
 @Injectable()
 export class UserEffects {
-    constructor(private actions$: Actions, private http: Http, private translate: TranslateService) {
+    constructor(private actions$: Actions, private http: HttpClient, private translate: TranslateService) {
     }
 
     @Effect()
     getUsers$ = this.actions$
         .ofType(userActions.FETCH_USER_INFO)
         .switchMap((action) => this.http.get('rest/servicepoint/user'))
-        .mergeMap(user => {
+        .mergeMap((user:IUser) => {
             // Set user language
-            this.translate.use('staffBookingMessages' + (user.json().locale == "en" ? "" : user.json().locale));
-            return [{type: userActions.FETCH_USER_SUCCESS, payload: user.json()}]
+            this.translate.use('staffBookingMessages' + (user.locale == "en" ? "" : user.locale));
+            return [{type: userActions.FETCH_USER_SUCCESS, payload: user}]
         })
         .catch(err => [{ type: userActions.FETCH_USER_FAIL, payload: err }]);
 }
