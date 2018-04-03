@@ -27,7 +27,7 @@ export class UserEffects {
         .switchMap((action) => this.http.get('rest/servicepoint/user'))
         .mergeMap(user => {
             // Set user language
-            this.translate.use('staffBookingMessages' + user.json().locale == "en" ? "" : user.json().locale);
+            this.translate.use('staffBookingMessages' + (user.json().locale == "en" ? "" : user.json().locale));
             return [{type: userActions.FETCH_USER_SUCCESS, payload: user.json()}]
         })
         .catch(err => [{ type: userActions.FETCH_USER_FAIL, payload: err }]);

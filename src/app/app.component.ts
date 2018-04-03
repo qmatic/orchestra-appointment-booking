@@ -14,6 +14,7 @@ import { Observable } from "rxjs/Observable";
 export class AppComponent {
   fullName$: Observable<string>;
   branchState: Observable<IBranch[]>;
+  langDir$: Observable<string>;
   branches = ['Colombo', 'Galle', 'Kandy'];
 
 
@@ -22,6 +23,7 @@ export class AppComponent {
   }
   
   constructor(private store: Store<IAppState>) {
+    this.langDir$ = this.store.select(state => state.user.direction);
     this.branchState = this.store.select(state => state.branchList);
     this.fullName$ = this.store.select<string>(store => store.user.fullName);
   }}
