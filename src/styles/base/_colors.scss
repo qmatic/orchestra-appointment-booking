@@ -1,0 +1,97 @@
+// Generic colors
+
+$midnight-blue: #1a1c34;
+$pale-blue: #334366;
+
+$qmatic-bordeaux: #E50046;
+$pale-aquamarine: #03996C;
+
+$light-gray: #f4f4f4;
+
+$charcoal: #2b2b2b;
+$soft-gray: #e0e0e0;
+
+$d-gray: #D8D8D8;
+
+$white: #FFFFFF;
+$light-transparent75: rgba(255, 255, 255, 0.75);
+$light-transparent50: rgba(255, 255, 255, 0.5);
+$light-transparent42: rgba(255, 255, 255, 0.42);
+$light-transparent12: rgba(255, 255, 255, 0.12);
+
+$black: #000000;
+$dark-transparent82: rgba(0, 0, 0, 0.82);
+$dark-transparent62: rgba(0, 0, 0, 0.62);
+$dark-transparent42: rgba(0, 0, 0, 0.42);
+$dark-transparent12: rgba(0, 0, 0, 0.12);
+$dark-transparent04: rgba(0, 0, 0, 0.04);
+$dark-transparent02: rgba(0, 0, 0, 0.02);
+
+$background-gradient-stop1: #32405C;
+$background-gradient-stop2: #40526E;
+$background-gradient-stop3: #374561;
+$background-gradient-stop4: #394561;
+$background-gradient-stop5: #484766;
+
+$light-aquamarine: rgb(209, 237, 228);
+$lighter-aquamarine: rgba(209, 237, 228, 0.3);
+
+$toggle-unchecked-background: #C7C7C7;
+$standard-border-color: $dark-transparent12;
+
+// Application colors
+$primary-color: $qmatic-bordeaux;
+$secondary-color: $pale-aquamarine;
+$tertiary-color: $midnight-blue;
+
+$standard-box-shadow: 0 2px 4px 0 $dark-transparent42;
+
+// Header
+$header-background-color: $tertiary-color;
+
+// Main
+$dark-background-gradient: linear-gradient(254.96deg, $background-gradient-stop1 0%, $background-gradient-stop2 34.9%, $background-gradient-stop3 62.87%, $background-gradient-stop4 77.12%, $background-gradient-stop5 100%);
+
+// Dashboard
+$tab-background-color: $white;
+$dashboard-body-box-shadow: $standard-box-shadow;
+
+// Footer
+$footer-background-color: $tertiary-color;
+$footer-text-color: $light-transparent50;
+
+// Buttons
+$button-disabled-color: $dark-transparent42;
+$button-disabled-border-color: #949494;
+
+$primary-button-background: $qmatic-bordeaux;
+$primary-button-text-color: $white;
+$primary-button-border-color: $qmatic-bordeaux;
+$primary-button-active-color: $dark-transparent82;
+
+$secondary-button-background: $white;
+$secondary-button-text-color: $qmatic-bordeaux;
+$secondary-button-border-color: $qmatic-bordeaux;
+$secondary-button-active-color: $dark-transparent82;
+
+$primary-action-button-color: $qmatic-bordeaux;
+$primary-action-button-active-color: $dark-transparent82;
+$primary-action-button-disabled-color: $dark-transparent42;
+
+
+$customer-count-btn-background-color: $white;
+
+// Booking
+$list-item-selected-color: $light-aquamarine;
+$list-item-hover-color: $dark-transparent04;
+
+// Toasts
+$toast-success-background-color: $secondary-color;
+$toast-error-background-color: $primary-color;
+$toast-text-color: $white;
+
+// Print
+$print-border-color: $d-gray;
+
+// Textfields
+$disabled-background: $dark-transparent04;

@@ -1,0 +1,44 @@
+// Font
+$font-family: 'Roboto', sans-serif;
+
+// Font-weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+$base-unit: 16px;
+
+// Standard padding and margin
+$standard-padding: 16px;
+$standard-margin: 16px;
+
+$global-header-height: 56px;
+$global-footer-height: 40px;
+$global-main-height: calc(100vh - #{$global-header-height} - #{$global-footer-height});
+
+
+
+// Z-indexes
+$z-index: (
+  dropdown-body: 20,
+  header: 90,
+  backdrop: 100,
+  toastContainer: 150,
+  modal: 200,
+);
+
+$anim-speed: 0.25s;
+
+$standard-border-radius: 4px;
+$large-border-radius: 8px;
+
+$button-font-size: 16px;
+
+$list-item-padding: $base-unit / 2;
+
+// Booking list
+$booking-list-width: 390px;
+
+// Appointment dropdown
+$dropdown-body-height: 460px;

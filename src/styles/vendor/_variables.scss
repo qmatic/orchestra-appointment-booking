@@ -1,0 +1,12 @@
+// Bootstrap overrides
+$grid-columns:                12 !default;
+$grid-gutter-width:           16px !default;
+
+// Breakpoints (if it needs overriding)
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 900px, //1025px, //992px
+    xl: 1200px
+) !default;

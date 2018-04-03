@@ -1,0 +1,19 @@
+.qm-hide {
+  display: none !important;
+}
+
+.sr-only {
+  @include sr-only()
+}
+
+.qm-full-height {
+  height: 100%;
+}
+
+.qm-emphasis {
+  font-weight: $font-weight-medium;
+}
+
+.qm-underline {
+  text-decoration: underline;
+}
