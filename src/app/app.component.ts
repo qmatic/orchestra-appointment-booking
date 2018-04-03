@@ -1,5 +1,5 @@
 import { IAppState } from './../models/IAppState';
-import { FILTER_BRANCH_LIST } from './../redux/actions/branch-list.actions';
+import { FILTER_BRANCH_LIST } from './../store/actions/branch-list.actions';
 import { IUser } from './../models/IUser';
 import { Store } from '@ngrx/store';
 import { IBranch } from './../models/IBranch';
@@ -23,7 +23,7 @@ export class AppComponent {
   }
   
   constructor(private store: Store<IAppState>) {
-    this.langDir$ = this.store.select(state => state.user.direction);
+    this.langDir$ = this.store.select(state => state.user.data.direction);
     this.branchState = this.store.select(state => state.branchList);
-    this.fullName$ = this.store.select<string>(store => store.user.fullName);
+    this.fullName$ = this.store.select<string>(store => store.user.data.fullName);
   }}

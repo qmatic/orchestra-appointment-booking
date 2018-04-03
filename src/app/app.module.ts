@@ -1,4 +1,4 @@
-import { FETCH_USER_INFO } from './../redux/actions/user';
+import { FETCH_USER_INFO } from './../store/actions/user';
 import { SPService } from './../services/rest/sp.service';
 import { appRoutes } from './../routes/app-routes';
 import { RouterModule } from '@angular/router';
@@ -8,14 +8,14 @@ import { AppComponent } from './app.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../i18n/TranslationsLoaderFactory';
 import { StoreModule, Store } from "@ngrx/store";
-import rootReducer from '../redux/reducers/root-reducer';
 import { TranslateService } from "@ngx-translate/core";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { UserEffects } from "../redux/effects/user";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SharedComponentsModule } from '../components/shared-components.module';
 import { EffectsModule } from '@ngrx/effects';
-import { branchListReducer } from '../redux/reducers/branch-list.reducer';
+import effects from './../store/effects';
+import rootReducer from '../store/reducers/root-reducer';
+import { branchListReducer } from '../store/reducers/branch-list.reducer';
 
 @NgModule({
   declarations: [
@@ -25,16 +25,8 @@ import { branchListReducer } from '../redux/reducers/branch-list.reducer';
     HttpClientModule,
     BrowserModule,
     SharedComponentsModule,
-    EffectsModule.forRoot([]),
-    StoreModule.forRoot(
-      {
-        branchList:  branchListReducer
-      }
-    ),
-    EffectsModule.forRoot([UserEffects]),
-    StoreModule.forRoot(
-      rootReducer
-    ),
+    EffectsModule.forRoot(effects),
+    StoreModule.forRoot(rootReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 5
     }),

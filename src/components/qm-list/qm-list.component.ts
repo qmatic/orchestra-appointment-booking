@@ -1,5 +1,5 @@
 import { IAppState } from './../../models/IAppState';
-import { FILTER_BRANCH_LIST } from './../../redux/actions/branch-list.actions';
+import { FILTER_BRANCH_LIST } from './../../store/actions/branch-list.actions';
 import { Store } from '@ngrx/store';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
