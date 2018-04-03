@@ -1,5 +1,5 @@
 import { IUser } from './../../models/IUser';
-import { FETCH_USER_INFO, SET_USER, FETCH_USER_FAIL } from './../actions/user';
+import * as userActions from './../actions/user';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
@@ -23,12 +23,12 @@ export class UserEffects {
 
     @Effect()
     getUsers$ = this.actions$
-        .ofType(FETCH_USER_INFO)
+        .ofType(userActions.FETCH_USER_INFO)
         .switchMap((action) => this.http.get('rest/servicepoint/user'))
-        .switchMap(user => {
+        .mergeMap(user => {
             // Set user language
             this.translate.use('staffBookingMessages' + user.json().locale == "en" ? "" : user.json().locale);
-            return [{type: SET_USER, payload: user.json()}]
+            return [{type: userActions.FETCH_USER_SUCCESS, payload: user.json()}]
         })
-        .catch(err => [{ type: FETCH_USER_FAIL, payload: err }]);
+        .catch(err => [{ type: userActions.FETCH_USER_FAIL, payload: err }]);
 }

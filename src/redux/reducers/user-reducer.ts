@@ -1,4 +1,4 @@
-import { FETCH_USER_FAIL, SET_USER } from './../actions/user';
+import * as userActions from './../actions/user';
 import { IUser } from './../../models/IUser';
 
 
@@ -15,7 +15,7 @@ const initialState = {
 
 export function UserReducer(state:IUser = initialState, action) {
   switch (action.type) {
-    case SET_USER:
+    case userActions.FETCH_USER_SUCCESS:
         return { 
             ...action.payload 
         };
