@@ -5,6 +5,7 @@
   <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
   {{b.name}}
   </qm-list-item>
+
 </qm-list>
 </div-->
     <div class="qm-app">
@@ -704,104 +705,18 @@
         <div class="col-6 qm-booking-flow__col">
             
 
+<qm-list [header]="'Branches'">
+  <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
+  {{b.name}}
+  </qm-list-item>
+
+</qm-list>
 
 
-<fieldset class="qm-booking">
-    <legend class="qm-booking__header">
-        <span class="qm-booking__header-layout qm-generic-layout qm-generic-layout--nowrap qm-generic-layout--space-between">
-            <span class="qm-booking__col-hd">
-                <span class="qm-booking__header-text">Branch</span>
-            </span>
-            <span class="qm-booking__col-inf">
-                
-    <div class="qm-icon-item ">
-        <i class="qm-icon-item__icon icon-home" aria-hidden="true"></i>
-        <div class="qm-icon-item__text-container">
-            <span class="qm-icon-item__text qm-emphasis" title="Neongatan 8, 203 94, A very long city name">Neongatan 8, 203 94, A very long city name</span>
-            
-        </div>
-    </div>
 
-            </span>
-        </span>
-    </legend>
-    <div class="qm-booking__body">
-        <div class="qm-booking__search">
-            
-<div class="qm-search">
-    <label for="branchSearch" class="sr-only">Search branch</label>
-    <input id="branchSearch" type="search" class="qm-search__input" placeholder="Search branch" name="q" />
-    <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
-        <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
-        <span class="sr-only">Search</span>
-    </button>
-</div>
 
-        </div>
-        <ul class="qm-booking__list">
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Neongatan 8, Mölndal</span>
-        </span>
-    </label>
-</li>
 
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Västra Hamngatan 21</span>
-        </span>
-    </label>
-</li>
 
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Femman</span>
-        </span>
-    </label>
-</li>
-
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Kabbeleksgatan 2c</span>
-        </span>
-    </label>
-</li>
-
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Kungsportsavenyn 1</span>
-        </span>
-    </label>
-</li>
-
-            
-<li class="qm-selector-item ">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="radio" name="branch" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">Övre husargatan 20b, 2 tr. upp</span>
-        </span>
-    </label>
-</li>
-
-        </ul>
-    </div>
-</fieldset>
 
         </div>
     </div>

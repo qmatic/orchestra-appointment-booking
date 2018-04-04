@@ -1,0 +1,33 @@
+.qm-customer-count-presentational {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-top: rem(5px);
+  margin-bottom: rem($standard-margin * 2);
+
+  &__headline {
+    flex: 0 1 auto;
+    color: $dark-transparent82;
+    font-size: rem(18px);
+    line-height: rem(24px);
+  }
+
+  &__number-of-customers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    text-align: center;
+    height: rem(40px);
+    width: rem(40px);
+    border: 1px solid $standard-border-color;
+    margin-left: rem($standard-margin);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.qm-appointment-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  &__item {
+    & + & {
+      margin-top: rem($standard-margin / 2);
+    }
+
+    &:last-child {
+      margin-bottom: rem($standard-margin / 2);
+    }
+  }
+}

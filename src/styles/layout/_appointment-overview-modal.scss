@@ -1,0 +1,16 @@
+.qm-appointment-overview-modal {
+  transform: translate(-50%, -54%);
+
+  .qm-modal__header-full {
+    margin-bottom: rem($standard-margin / 2);
+  }
+
+  &__actions-container {
+    margin-top: rem(70px);
+  }
+
+  .qm-customer-card__name {
+    color: $dark-transparent82;
+    pointer-events: none;
+  }
+}

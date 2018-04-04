@@ -1,0 +1,125 @@
+$qm-btn-mod: (
+        primary: (
+                $primary-button-background,
+                $primary-button-text-color,
+                $primary-button-border-color,
+                $primary-button-active-color,
+                $primary-button-text-color,
+                $primary-button-active-color,
+                $button-disabled-color,
+                $white,
+                $button-disabled-border-color),
+        secondary: (
+                $secondary-button-background,
+                $secondary-button-text-color,
+                $secondary-button-border-color,
+                transparent,
+                $secondary-button-active-color,
+                $secondary-button-border-color,
+                $button-disabled-color,
+                $white,
+                $button-disabled-color)
+);
+
+.qm-btn {
+  display: inline-flex;
+  border: 1px solid transparent;
+  padding: rem($standard-padding / 2 $standard-padding * 2);
+  border-radius: rem($standard-border-radius);
+  justify-content: center;
+  height: auto;
+  cursor: pointer;
+  font-size: rem($button-font-size);
+  font-weight: $font-weight-light;
+  &__icon {
+    font-size: rem(32px);
+    margin-right: rem($standard-padding / 2);
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-padding / 2);
+    }
+  }
+  &__text {
+    &:after {
+      display: block;
+      content: attr(title);
+      font-weight: $font-weight-medium;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+  }
+  &:hover,
+  &:focus {
+    font-weight: $font-weight-medium;
+  }
+  &[disabled] {
+    cursor: auto;
+    &:hover,
+    &:focus {
+      font-weight: $font-weight-light;
+    }
+  }
+  & + & {
+    margin-left: rem(16px);
+    @at-root [dir='rtl'] & {
+      margin-right: rem(16px);
+      margin-left: 0;
+    }
+  }
+  & + &--full,
+  &--full + & {
+    margin-top: rem($standard-margin / 2);
+    margin-left: 0;
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+    }
+  }
+
+  @each $name, $options in $qm-btn-mod {
+    $bg: nth($options, 1);
+    $text-color: nth($options, 2);
+    $border-color: nth($options, 3);
+    $active-bg: nth($options, 4);
+    $active-color: nth($options, 5);
+    $active-border-color: nth($options, 6);
+    $disabled-bg: nth($options, 7);
+    $disabled-text-color: nth($options, 8);
+    $disabled-border-color: nth($options, 9);
+
+    &--#{$name} {
+      background: $bg;
+      color: $text-color;
+      border-color: $border-color;
+      &:active {
+        background: $active-bg;
+        border-color: $active-border-color;
+        color: $active-color;
+      }
+      &[disabled] {
+        background: $disabled-bg;
+        border-color: $disabled-border-color;
+        color: $disabled-text-color;
+      }
+    }
+  }
+
+  &--with-icon {
+    justify-content: flex-start;
+    align-items: center;
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+  &--full {
+    width: 100%;
+  }
+  &--small {
+    font-size: rem(14px);
+    padding: rem(6px $standard-padding);
+  }
+
+  &--extend-width-md {
+    min-width: rem(182px);
+  }
+}

@@ -1,0 +1,36 @@
+.qm-chosen-select {
+  display: flex;
+
+  &__label {
+    font-size: rem(14px);
+    line-height: rem(16px);
+    color: $dark-transparent62;
+    width: 100%;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__top-container {
+    display: block;
+    margin-bottom: rem(5px);
+  }
+
+  &__select {
+    width: 100%;
+  }
+
+  &--error {
+    .chosen-container {
+      .chosen-single {
+        border: 2px solid $primary-color;
+        height: rem(40px);
+
+        span {
+          line-height: rem(21px);
+        }
+      }
+    }
+  }
+}

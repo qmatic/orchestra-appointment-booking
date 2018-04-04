@@ -1,0 +1,27 @@
+.qm-booking-history {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+
+  &__headline {
+    display: block;
+    line-height: rem(28px);
+    margin-bottom: 0;
+    margin-top: rem(12px);
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__description {
+    color: $secondary-color;
+    margin-bottom: rem($standard-margin / 4);
+    text-align: right;
+
+    @at-root [dir='rtl'] & {
+      text-align: left;
+    }
+  }
+}

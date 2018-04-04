@@ -5,3 +5,9 @@
 
 // Global styles (fonts, icons etc)
 @import "styles/base/_manifest.scss";
+
+// Layout specific common styles
+@import "styles/layout/_manifest.scss";
+
+// Reusable components without a specific angular component
+@import "styles/components/_manifest.scss";

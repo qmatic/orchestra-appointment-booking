@@ -1,0 +1,32 @@
+.qm-search {
+  position: relative;
+
+  &__input {
+    width: 100%;
+    border: 1px solid $standard-border-color;
+    box-shadow: 0 0 4px 0 $dark-transparent04;
+    padding: rem(10px 48px 10px 12px);
+    color: $dark-transparent82;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    height: rem(46px);
+
+    @at-root [dir='rtl'] & {
+      padding: rem(10px 12px 10px 48px);
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    right: rem($base-unit / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    color: $dark-transparent42;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: rem($base-unit / 2);
+    }
+  }
+}

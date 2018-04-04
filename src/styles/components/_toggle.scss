@@ -1,0 +1,92 @@
+.qm-toggle {
+  display: block;
+
+  &__label {
+    display: block;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  &__input {
+    @extend .sr-only;
+
+    &:checked {
+      &+ .qm-toggle__selector {
+        .qm-toggle__slider {
+          background-color: $secondary-color;
+
+          &:before {
+            transform: translateX(rem(20px));
+            content: "\e946";
+            color: $white;
+            background-color: transparent;
+
+            @at-root [dir='rtl'] & {
+              content: "\e945";
+              transform: translateX(rem(-20px));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__selector {
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  &__text {
+    color: $secondary-color;
+    font-size: rem(16px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    margin-right: rem($standard-margin / 2);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 2);
+    }
+  }
+
+  &__nr-of-selected {
+    display: inline-block;
+  }
+
+  &__switch {
+    position: relative;
+    width: rem(46px);
+    height: rem(26px);
+  }
+
+  &__slider {
+    position: absolute;
+    border-radius: rem(26px);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $dark-transparent12;
+    transition: background-color $anim-speed ease-in-out;
+
+    &:before {
+      content: "";
+      @extend .icomoon-styles;
+      position: absolute;
+      height: rem(18px);
+      width: rem(18px);
+      left: rem(4px);
+      bottom: rem(4px);
+      font-size: rem(18px);
+      background-color: white;
+      border-radius: 50%;
+      transition: transform $anim-speed ease-in-out;
+
+      @at-root [dir='rtl'] & {
+        left: auto;
+        right: rem(4px);
+      }
+    }
+  }
+}

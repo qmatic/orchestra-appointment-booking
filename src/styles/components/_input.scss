@@ -1,0 +1,10 @@
+.qm-input {
+  &[type="text"],
+  &[type="email"],
+  &[type="tel"],
+  &[type="number"] {
+    border: 1px solid $standard-border-color;
+    color: $dark-transparent82;
+    padding: rem($standard-padding / 2 12px);
+  }
+}

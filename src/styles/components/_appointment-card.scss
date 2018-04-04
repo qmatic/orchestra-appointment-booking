@@ -1,0 +1,71 @@
+.qm-appointment-card {
+  display: flex;
+  flex-wrap: nowrap;
+  box-shadow: $standard-box-shadow;
+  border-radius: $standard-border-radius;
+  color: $dark-transparent82;
+  padding: rem(20px 12px);
+
+  &:hover {
+    background: $dark-transparent04;
+    text-decoration: none;
+  }
+
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &__headline {
+    display: inline-block;
+    font-size: rem(21px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    color: $primary-color;
+    margin-bottom: rem($standard-margin);
+  }
+
+  &__content-container {
+    flex: 1 1 auto;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      .qm-appointment-card__headline {
+        font-weight: $font-weight-regular;
+      }
+    }
+
+    &:active {
+      .qm-appointment-card__headline {
+        color: $dark-transparent82;
+      }
+    }
+  }
+
+  &__action-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: rem($standard-margin);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin);
+    }
+  }
+
+  &__btn {
+    & + & {
+      margin-left: 0;
+
+      @at-root [dir='rtl'] & {
+        margin-right: 0;
+      }
+    }
+    .qm-action-btn__icon {
+      margin-bottom: 0;
+    }
+  }
+}

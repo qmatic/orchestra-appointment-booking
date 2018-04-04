@@ -1,0 +1,26 @@
+.qm-expire-counter {
+  max-width: 230px;
+  width: 100%;
+  padding: rem($standard-padding * 1.5 $standard-padding);
+  background: $white;
+  border-radius: rem($standard-border-radius);
+  box-shadow: $standard-box-shadow;
+  text-align: center;
+
+  &__label {
+    display: block;
+    font-size: rem(18px);
+    line-height: rem(21px);
+    font-weight: $font-weight-light;
+    color: $dark-transparent62;
+    margin-bottom: rem($standard-margin / 2);
+  }
+
+  &__time {
+    display: block;
+    font-size: rem(30px);
+    line-height: rem(35px);
+    color: $dark-transparent62;
+    font-weight: $font-weight-regular;
+  }
+}

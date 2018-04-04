@@ -1,0 +1,15 @@
+.qm-modal-row {
+  @include make-row();
+}
+
+.qm-modal-col-6 {
+  @include make-col-ready();
+  @include make-col(6);
+  margin-bottom: rem(4px);
+}
+
+.qm-modal-col-12 {
+  @include make-col-ready();
+  @include make-col(12);
+  margin-bottom: rem(4px);
+}

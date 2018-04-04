@@ -1,0 +1,7 @@
+.qm-main {
+  margin-top: $global-header-height;
+  display: flex;
+  // min-height: $global-main-height;
+  height: $global-main-height;
+  background: $dark-background-gradient;
+}

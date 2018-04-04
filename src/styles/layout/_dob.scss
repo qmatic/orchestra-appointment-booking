@@ -1,0 +1,60 @@
+.qm-dob {
+  display: flex;
+  margin-left: rem(-$standard-margin / 4);
+  margin-right: rem(-$standard-margin / 4);
+  flex-wrap: wrap;
+
+
+  &__month {
+    flex: 0 1 160px;
+    padding-left: rem($standard-padding / 4);
+    padding-right: rem($standard-padding / 4);
+
+    .qm-chosen-select__label {
+      margin-bottom: 0;
+    }
+  }
+
+  &__day {
+    flex: 0 0 66px;
+    padding-left: rem($standard-padding / 4);
+    padding-right: rem($standard-padding / 4);
+
+    .qm-standard-number-field__label {
+      margin-bottom: 0;
+    }
+  }
+
+  &__year {
+    flex: 0 0 94px;
+    padding-left: rem($standard-padding / 4);
+    padding-right: rem($standard-padding / 4);
+
+    .qm-standard-number-field__label {
+      margin-bottom: 0;
+    }
+  }
+
+  &__error-message {
+    flex: 0 0 100%;
+    visibility: hidden;
+    font-size: rem(12px);
+    line-height: rem(16px);
+    color: $primary-color;
+    min-height: rem(16px);
+    margin-top: rem(1px);
+    padding-left: rem($standard-padding / 4);
+    padding-right: rem($standard-padding / 4);
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &--error {
+
+    .qm-dob__error-message {
+      visibility: visible;
+    }
+  }
+}

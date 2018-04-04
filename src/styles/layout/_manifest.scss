@@ -1,0 +1,18 @@
+@import '_header';
+@import '_main';
+@import '_footer';
+
+// Positional components
+@import '_dashboard.scss';
+@import '_generic-layout';
+@import '_customer-search';
+@import '_booking-header';
+@import '_booking-flow';
+@import '_booking-footer';
+@import '_booking-information';
+@import '_modal';
+@import '_dob';
+@import '_appointment-overview-modal';
+@import '_form-modal';
+@import '_inactive-modal';
+@import '_expire-counter';

@@ -1,0 +1,13 @@
+.qm-button-wrapper {
+  display: flex;
+  align-items: flex-end;
+
+  & + & {
+    margin-left: rem($standard-margin * 1.5);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin * 1.5);
+    }
+  }
+}

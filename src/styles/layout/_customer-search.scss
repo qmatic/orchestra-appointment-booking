@@ -1,0 +1,28 @@
+.qm-customer-search {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__headline {
+    flex: 1 1 100%;
+  }
+
+  &__layout {
+    display: flex;
+    width: 100%;
+  }
+
+  &__search-container {
+    flex: 1 1 auto;
+    margin-right: rem($base-unit);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($base-unit);
+    }
+  }
+
+  &__action-container {
+    flex: 0 0 auto;
+    display: flex;
+  }
+}

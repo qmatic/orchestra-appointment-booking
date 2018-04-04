@@ -1,0 +1,98 @@
+.qm-booking {
+  height: 100%;
+  max-width: rem($booking-list-width);
+  width: 100%;
+
+  &__header {
+    padding: rem($standard-padding / 2 0);
+    margin-bottom: 0;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__header-layout {
+      align-items: center;
+  }
+
+  &__header-left {
+    display: inline-block;
+    flex: 0 1 auto;
+    overflow: hidden;
+  }
+
+  &__header-right {
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+
+  &__col {
+    &-hd {
+      flex: 0 0 auto;
+      overflow: hidden;
+      padding-right: rem($standard-padding);
+
+      @at-root [dir='rtl'] & {
+        padding-right: 0;
+        padding-left: rem($standard-padding);
+      }
+    }
+    &-inf {
+      flex: 0 2 auto;
+      overflow: hidden;
+    }
+  }
+
+  &__header-text {
+    display: block;
+    font-size: rem(18px);
+    line-height: rem(26px);
+    color: $dark-transparent82;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__body {
+    border: 1px solid $standard-border-color;
+    height: calc(100% - 42px);
+  }
+
+  &__search {
+    height: rem(62px);
+    padding: rem($standard-padding / 2);
+  }
+
+  &__list {
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: calc(100% - 62px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+
+    &--empty {
+      background: $dark-transparent04;
+    }
+
+    &--error {
+      background: transparentize($primary-color, 0.88);
+    }
+  }
+
+  &--time {
+    margin-top: rem(62px);
+    height: calc(100% - 52px);
+
+    .qm-booking__body {
+      height: calc(100% - 52px);
+    }
+
+    .qm-booking__list {
+      height: 100%;
+    }
+  }
+}

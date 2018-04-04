@@ -1,0 +1,66 @@
+.qm-dropdown {
+  position: relative;
+
+  &__btn {
+    position: relative;
+    width: 100%;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    text-align: left;
+    padding: rem($standard-padding / 2 $standard-padding * 2 $standard-padding / 2 $standard-padding / 2);
+    background: $white;
+    border: 1px solid $standard-border-color;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: $dark-transparent04;
+    }
+
+    &:after {
+      content: "\e902";
+      @extend .icomoon-styles;
+      position: absolute;
+      top: 50%;
+      right: $base-unit / 2;
+      transform: translateY(-50%);
+
+      @at-root [dir='rtl'] & {
+        right: auto;
+        left: $base-unit / 2;
+      }
+    }
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+      padding: rem($standard-padding $standard-padding / 2 $standard-padding $standard-padding * 2);
+    }
+
+    &[aria-expanded="true"] {
+      &:after {
+        content: "\e905";
+      }
+
+      & + .qm-dropdown__body {
+        display: block;
+
+      }
+    }
+  }
+
+  &__body {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background: $white;
+    z-index: map-get($z-index, "dropdown-body");
+    max-height: rem($dropdown-body-height);
+    padding: rem($standard-padding / 2);
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-shadow: $standard-box-shadow;
+  }
+}

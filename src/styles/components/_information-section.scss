@@ -1,0 +1,21 @@
+.qm-information-section {
+
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  & + & {
+    margin-top: rem($standard-margin * 2);
+  }
+
+  &__headline {
+    font-size: rem(18px);
+    font-weight: $font-weight-regular;
+    margin-bottom: rem($standard-margin / 2);
+  }
+
+  &__text {
+    color: $dark-transparent82;
+    font-weight: $font-weight-light;
+  }
+}

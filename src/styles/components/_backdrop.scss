@@ -1,0 +1,9 @@
+.qm-backdrop {
+  position: fixed;
+  top: $global-header-height;
+  bottom: $global-footer-height;
+  left: 0;
+  right: 0;
+  z-index: map-get($z-index, "backdrop");
+  background-color: $dark-transparent42;
+}

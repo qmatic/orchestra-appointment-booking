@@ -1,0 +1,16 @@
+.qm-headline {
+  color: $dark-transparent82;
+  font-weight: $font-weight-light;
+  font-size: rem(18px);
+  line-height: rem(24px);
+
+  &--large {
+    font-size: rem(24px);
+    line-height: rem(32px);
+    margin-bottom: rem($standard-margin);
+  }
+
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+}

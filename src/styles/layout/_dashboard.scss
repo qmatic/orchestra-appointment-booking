@@ -1,0 +1,50 @@
+.qm-dashboard-row {
+  @include make-row();
+  height: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.qm-dashboard-col-9 {
+  @include make-col-ready();
+  @include make-col(9);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.qm-dashboard-col-7 {
+  @include make-col-ready();
+  @include make-col(7);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.qm-dashboard-col-5 {
+  @include make-col-ready();
+  @include make-col(5);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.qm-dashboard-col-3 {
+  @include make-col-ready();
+  @include make-col(3);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.qm-dashboard-col {
+  @include make-col-ready();;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}

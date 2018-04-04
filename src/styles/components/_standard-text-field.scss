@@ -1,0 +1,78 @@
+.qm-standard-text-field {
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &__label {
+    width: 100%;
+  }
+
+  &__top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(5px);
+  }
+
+  &__text {
+    font-size: rem(14px);
+    line-height: rem(16px);
+    color: $dark-transparent62;
+  }
+
+  &__required {
+    font-size: rem(12px);
+    line-height: rem(16px);
+    color: $secondary-color;
+  }
+
+  &__input {
+    width: 100%;
+    font-size: rem(18px);
+    font-weight: $font-weight-light;
+    height: rem(42px);
+
+    &[disabled] {
+      background: $disabled-background;
+    }
+  }
+
+  &__error-message {
+    display: inline-block;
+    visibility: hidden;
+    font-size: rem(12px);
+    line-height: rem(16px);
+    color: $primary-color;
+    margin-top: rem(3px);
+    min-height: rem(16px);
+  }
+
+  // Modifiers
+
+  &--large {
+    .qm-standard-text-field__label {
+      max-width: rem(270px);
+    }
+
+    .qm-standard-text-field__text {
+      color: $dark-transparent82;
+      font-size: rem(18px);
+      line-height: rem(24px);
+    }
+
+    .qm-standard-text-field__top-container {
+      margin-bottom: rem($standard-margin / 2);
+    }
+  }
+
+  &--error {
+    .qm-standard-text-field__input {
+      border: 2px solid $primary-color;
+      padding: rem(7px 12px);
+    }
+
+    .qm-standard-text-field__error-message {
+      visibility: visible;
+    }
+  }
+}

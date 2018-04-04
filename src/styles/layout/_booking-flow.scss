@@ -1,0 +1,35 @@
+.qm-booking-flow {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+
+  &__row {
+    flex: 0 1 100%;
+  }
+
+  &__col {
+    height: 100%;
+
+    &--time-col {
+      flex: 0 0 140px;
+    }
+
+    &--date-col {
+      flex: 0 1 $booking-list-width;
+    }
+  }
+}
+
+@media screen and (min-width: #{map-get($grid-breakpoints, 'xl')}) {
+  .qm-booking-flow {
+    &__row {
+      margin-left: -$standard-margin;
+      margin-right: -$standard-margin;
+    }
+
+    &__col {
+      padding-left: $standard-margin;
+      padding-right: $standard-margin;
+    }
+  }
+}

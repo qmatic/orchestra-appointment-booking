@@ -1,0 +1,60 @@
+.qm-standard-number-field {
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &__label {
+    width: 100%;
+  }
+
+  &__top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(5px);
+  }
+
+  &__text {
+    font-size: rem(14px);
+    line-height: rem(16px);
+    color: $dark-transparent62;
+  }
+
+  &__required {
+    font-size: rem(12px);
+    line-height: rem(16px);
+    color: $secondary-color;
+  }
+
+  &__input {
+    font-size: rem(18px);
+    font-weight: $font-weight-light;
+    width: 100%;
+    text-align: center;
+    padding: rem($standard-padding / 2 $standard-padding) !important;
+    height: rem(42px);
+  }
+
+  &__error-message {
+    display: inline-block;
+    visibility: hidden;
+    font-size: rem(12px);
+    line-height: rem(16px);
+    color: $primary-color;
+    margin-top: rem(3px);
+    min-height: rem(16px);
+  }
+
+  // Modifiers
+
+  &--error {
+    .qm-standard-number-field__input {
+      border: 2px solid $primary-color;
+      padding: rem(7px 12px);
+    }
+
+    .qm-standard-number-field__error-message {
+      visibility: visible;
+    }
+  }
+}
