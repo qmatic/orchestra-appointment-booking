@@ -1,5 +1,27 @@
-<h2>
-  {{header}}
-</h2>
-<input type="text" [formControl]="searchInputControl" [(ngModel)]="searchText"/>
-<ng-content></ng-content>
+<fieldset class="qm-booking">
+    <legend class="qm-booking__header">
+        <span class="qm-booking__header-layout qm-generic-layout qm-generic-layout--nowrap qm-generic-layout--space-between">
+            <span class="qm-booking__col-hd">
+                <span class="qm-booking__header-text"> {{header}}</span>
+            </span>
+            <span class="qm-booking__col-inf">
+                 <div class="qm-icon-item">
+        <i class="qm-icon-item__icon icon-home" aria-hidden="true"></i>
+        <div class="qm-icon-item__text-container">
+            <span class="qm-icon-item__text qm-emphasis" title="Neongatan 8, 203 94, A very long city name">
+            Neongatan 8, 203 94, A very long city name</span>
+                <span class="qm-icon-item__text">{{ description }}</span>
+        </div>
+    </div>
+            </span>
+        </span>
+    </legend>
+    <div class="qm-booking__body">
+        <div class="qm-booking__search">
+        <input type="text" [formControl]="searchInputControl"  placeholder='Search branch' [(ngModel)]="searchText"/>
+        </div>
+        <ul class="qm-booking__list">
+            <ng-content></ng-content>
+        </ul>
+    </div>
+</fieldset>

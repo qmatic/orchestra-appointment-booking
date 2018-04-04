@@ -17,7 +17,6 @@ export class QmListComponent implements OnInit {
   @Input()
   header: string;
   searchText: string = '';
-
   searchInputControl = new FormControl();
 
   ngOnInit() {
