@@ -11,6 +11,7 @@
     <div class="qm-app">
         <header class="qm-header" id="header">
     <div class="qm-header__left">
+
         <a href="/" class="qm-action-btn qm-action-btn--only-icon qm-header__home-btn">
             <i class="qm-action-btn__icon icon-home" aria-hidden="true"></i>
             <span class="sr-only">Home</span>
@@ -26,7 +27,7 @@
             <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
             <span class="sr-only">Help</span>
         </a>
-        <a href="#" class="qm-header__user-name">Bouwdewijn van Duijn</a>
+        <a href="#" class="qm-header__user-name">{{userFullName$ | async}}</a>
         <a href="/logout.jsp" class="qm-action-btn qm-action-btn--only-icon qm-header__logout-btn">
             <i class="qm-action-btn__icon icon-exit" aria-hidden="true"></i>
             <span class="sr-only">Logout</span>
@@ -35,14 +36,14 @@
 </header>
 
         <main class="qm-main">
-    
+
 
 <div class="qm-dashboard">
     <div class="qm-dashboard__header">
         <div class="row">
             <div class="col-sm-5 qm-hide">
                 <div class="qm-box qm-full-height">
-                    
+
 <section class="qm-customer-card ">
     <h1 class="qm-customer-card__headline">
         <a href="#" class="qm-customer-card__name">Arne Elhagen</a>
@@ -57,32 +58,32 @@
             <span class="qm-customer-card__list-item-text">kalleolofsson@gmail.com</span>
         </li>
     </ul>
-    
-        
+
+
 <button
-    
-    
-    
+
+
+
     class="qm-btn qm-btn--secondary qm-customer-card__btn">
-    
+
     <span class="qm-btn__text" title="Clear/change customer">Clear/change customer</span>
 </button>
 
-    
+
 </section>
 
                 </div>
             </div>
             <div class="col-sm-5">
                 <div class="qm-box qm-full-height">
-                    
+
 
 
 <div class="qm-customer-search">
     <h2 class="qm-headline qm-headline--large qm-customer-search__headline">Find or create new customer</h2>
     <div class="qm-customer-search__layout">
         <div class="qm-customer-search__search-container">
-            
+
 <div class="qm-search">
     <label for="customerSearch" class="sr-only">Search by name, phone or other</label>
     <input id="customerSearch" type="search" class="qm-search__input" placeholder="Search by name, phone or other" name="q" />
@@ -94,13 +95,13 @@
 
         </div>
         <div class="qm-customer-search__action-container">
-            
+
 <button
-    
-    
-     aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot; 
+
+
+     aria-haspopup=&quot;true&quot; aria-expanded=&quot;false&quot;
     class="qm-btn qm-btn--primary">
-    
+
     <span class="qm-btn__text" title="New customer">New customer</span>
 </button>
 
@@ -115,7 +116,7 @@
                     <div class="qm-booking-history">
     <span class="qm-headline qm-headline--large qm-booking-history__headline">Booked appointments</span>
     <p class="qm-booking-history__description">The customer has 5 booked appointments</p>
-    
+
 
 
 
@@ -123,348 +124,348 @@
     <button class="qm-dropdown__btn js-dropdown-btn" aria-expanded="false" aria-haspopup="true">View or edit appointments</button>
     <div class="qm-dropdown__body">
         <ul class="qm-appointment-list">
-            
+
             <li class="qm-appointment-list__item">
-                
+
 <div class="qm-appointment-card">
     <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline">Wednesday 17 January 2018</span>
         <ul class="qm-icon-list">
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-clock" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="3:00 pm - 3:30 pm">3:00 pm - 3:30 pm</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Customer Service">Customer Service</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-home" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Femman">Femman</span>
-            
+
                 <span class="qm-icon-list-item__text">Östra Hamngatan 15</span>
-            
+
         </div>
     </li>
 
-            
+
         </ul>
     </a>
     <div class="qm-appointment-card__action-container">
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Delete">Delete</span>
-    
+
 </button>
 
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Print">Print</span>
-    
+
 </button>
 
     </div>
 </div>
 
             </li>
-            
+
             <li class="qm-appointment-list__item">
-                
+
 <div class="qm-appointment-card">
     <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline">Thursday 18 January 2018</span>
         <ul class="qm-icon-list">
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-clock" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="3:00 pm - 3:30 pm">3:00 pm - 3:30 pm</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Customer Service">Customer Service</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-home" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Qmatic">Qmatic</span>
-            
+
                 <span class="qm-icon-list-item__text">Neongatan 8, 123 43 Mölndal</span>
-            
+
         </div>
     </li>
 
-            
+
         </ul>
     </a>
     <div class="qm-appointment-card__action-container">
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Delete">Delete</span>
-    
+
 </button>
 
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Print">Print</span>
-    
+
 </button>
 
     </div>
 </div>
 
             </li>
-            
+
             <li class="qm-appointment-list__item">
-                
+
 <div class="qm-appointment-card">
     <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline">Friday 19 January 2018</span>
         <ul class="qm-icon-list">
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-clock" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="3:00 pm - 3:30 pm">3:00 pm - 3:30 pm</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Customer Service">Customer Service</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-home" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="The site">The site</span>
-            
+
                 <span class="qm-icon-list-item__text">Kabbeleksgatan 2c</span>
-            
+
         </div>
     </li>
 
-            
+
         </ul>
     </a>
     <div class="qm-appointment-card__action-container">
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Delete">Delete</span>
-    
+
 </button>
 
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Print">Print</span>
-    
+
 </button>
 
     </div>
 </div>
 
             </li>
-            
+
             <li class="qm-appointment-list__item">
-                
+
 <div class="qm-appointment-card">
     <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline">Saturday 20 January 2018</span>
         <ul class="qm-icon-list">
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-clock" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="3:00 pm - 3:30 pm">3:00 pm - 3:30 pm</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Customer Service">Customer Service</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-home" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Neongatan 8, 123 43 Mölndal">Neongatan 8, 123 43 Mölndal</span>
-            
+
         </div>
     </li>
 
-            
+
         </ul>
     </a>
     <div class="qm-appointment-card__action-container">
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Delete">Delete</span>
-    
+
 </button>
 
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Print">Print</span>
-    
+
 </button>
 
     </div>
 </div>
 
             </li>
-            
+
             <li class="qm-appointment-list__item">
-                
+
 <div class="qm-appointment-card">
     <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline">Sunday 21 January 2018</span>
         <ul class="qm-icon-list">
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-clock" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="3:00 pm - 3:30 pm">3:00 pm - 3:30 pm</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Customer Service">Customer Service</span>
-            
+
         </div>
     </li>
 
-            
-                
+
+
     <li class="qm-icon-list-item ">
         <i class="qm-icon-list-item__icon icon-home" aria-hidden="true"></i>
         <div class="qm-icon-list-item__text-container">
             <span class="qm-icon-list-item__text qm-icon-list-item__text--emphasis" title="Neongatan 8, 123 43 Mölndal">Neongatan 8, 123 43 Mölndal</span>
-            
+
         </div>
     </li>
 
-            
+
         </ul>
     </a>
     <div class="qm-appointment-card__action-container">
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Delete">Delete</span>
-    
+
 </button>
 
-        
+
 <button
-    
-    
+
+
      class="qm-action-btn qm-appointment-card__btn">
     <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-    
+
         <span class="qm-action-btn__text" title="Print">Print</span>
-    
+
 </button>
 
     </div>
 </div>
 
             </li>
-            
+
         </ul>
     </div>
 </div>
@@ -475,7 +476,7 @@
             </div>
             <div class="col-sm-2">
                 <div class="qm-expire-counter-layout">
-                    
+
 <div class="qm-expire-counter ">
     <span class="qm-expire-counter__label">Reservation will expire in:</span>
     <span class="qm-expire-counter__time js-expire-counter-time">09:59</span>
@@ -502,7 +503,7 @@
 <div class="qm-booking-flow">
     <div class="row qm-booking-flow__row">
         <div class="col-6 qm-booking-flow__col">
-            
+
 
 
 
@@ -513,7 +514,7 @@
                 <span class="qm-booking__header-text">Service</span>
             </span>
             <span class="qm-booking__header-right">
-                
+
     <span class="qm-toggle ">
         <label class="qm-toggle__label">
             <input class="qm-toggle__input" type="checkbox"  name="showSelected"   />
@@ -531,7 +532,7 @@
     </legend>
     <div class="qm-booking__body">
         <div class="qm-booking__search">
-            
+
 <div class="qm-search">
     <label for="serviceSearch" class="sr-only">Search service</label>
     <input id="serviceSearch" type="search" class="qm-search__input" placeholder="Search service" name="q" />
@@ -543,7 +544,7 @@
 
         </div>
         <ul class="qm-booking__list">
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -554,7 +555,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -565,7 +566,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -576,7 +577,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -587,7 +588,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -598,7 +599,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -609,7 +610,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -620,7 +621,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -631,7 +632,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -642,7 +643,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -653,7 +654,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -664,7 +665,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -675,7 +676,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -686,7 +687,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="checkbox" name="service" />
@@ -703,7 +704,7 @@
         </div>
         <div class="col-6 qm-booking-flow__col">
             <qm-list [header]="'Branches'">
-                <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
+                <qm-list-item *ngFor="let b of branches">
                 {{b.name}}
                 </qm-list-item>
             </qm-list>
@@ -719,7 +720,7 @@
             <div class="qm-customer-count">
     <span class="qm-customer-count__label">Customers</span>
     <div class="qm-customer-count__container">
-        
+
         <div class="qm-customer-count__actions-container">
             <button class="qm-customer-count__btn qm-customer-count__btn--decrease" aria-controls="amountOfCustomers">
                 <i class="qm-customer-count__btn-icon icon-subtract" aria-hidden="true"></i>
@@ -743,7 +744,7 @@
 <div class="qm-booking-flow">
     <div class="row qm-booking-flow__row flex-nowrap">
         <div class="col qm-booking-flow__col qm-booking-flow__col--date-col">
-            
+
 
 
 <fieldset class="qm-booking">
@@ -752,7 +753,7 @@
     </legend>
     <div class="qm-booking__body">
         <div class="qm-booking__search">
-            
+
 <div class="qm-search">
     <label for="dateSearch" class="sr-only">Search date</label>
     <input id="dateSearch" type="search" class="qm-search__input" placeholder="Search date" name="q" />
@@ -764,7 +765,7 @@
 
         </div>
         <ul class="qm-booking__list">
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -774,7 +775,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -784,7 +785,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -794,7 +795,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -804,7 +805,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -814,7 +815,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -824,7 +825,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -834,7 +835,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -844,7 +845,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -854,7 +855,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item ">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="date" />
@@ -870,7 +871,7 @@
 
         </div>
         <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
-            
+
 
 
 <fieldset class="qm-booking qm-booking--time">
@@ -879,7 +880,7 @@
     </legend>
     <div class="qm-booking__body">
         <ul class="qm-booking__list">
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -889,7 +890,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -899,7 +900,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -909,7 +910,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -919,7 +920,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -929,7 +930,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -939,7 +940,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -949,7 +950,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -959,7 +960,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -969,7 +970,7 @@
     </label>
 </li>
 
-            
+
 <li class="qm-selector-item qm-selector-item--centered">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input" type="radio" name="time" />
@@ -990,16 +991,16 @@
                     </div>
                 </div>
                 <div class="qm-dashboard-col-3">
-                    
+
 <div class="qm-booking-information">
-    
+
 <fieldset class="qm-notify">
     <legend class="qm-notify__header">
         <span class="qm-notify__header-text">Notify customer</span>
     </legend>
     <ul class="qm-notify__list">
         <li class="qm-notify__list-item">
-            
+
 <div class="qm-standard-radio">
     <label class="qm-standard-radio__label">
         <input type="radio" class="qm-standard-radio__input" name="notify" />
@@ -1012,7 +1013,7 @@
 
         </li>
         <li class="qm-notify__list-item">
-            
+
 <div class="qm-standard-radio">
     <label class="qm-standard-radio__label">
         <input type="radio" class="qm-standard-radio__input" name="notify" />
@@ -1025,7 +1026,7 @@
 
         </li>
         <li class="qm-notify__list-item">
-            
+
 <div class="qm-standard-radio">
     <label class="qm-standard-radio__label">
         <input type="radio" class="qm-standard-radio__input" name="notify" />
@@ -1040,24 +1041,24 @@
     </ul>
 </fieldset>
 
-    
+
 <div class="qm-standard-text-field qm-standard-text-field--large">
     <label class="qm-standard-text-field__label">
         <span class="qm-standard-text-field__top-container">
             <span class="qm-standard-text-field__text">Title</span>
-            
+
         </span>
         <input type="text"
                 class="qm-input qm-standard-text-field__input"
-                
-                 placeholder="Write a title for the visit" 
-                 name="title" 
+
+                 placeholder="Write a title for the visit"
+                 name="title"
                 />
         <span class="qm-standard-text-field__error-message">Appointment title cannot be blank</span>
     </label>
 </div>
 
-    
+
 
 <div class="qm-notes">
     <div class="qm-notes__edit-container">
@@ -1070,23 +1071,23 @@
         </div>
         <textarea id="notesEdit" class="qm-notes__textarea" maxlength="255" rows="5"></textarea>
         <div class="qm-generic-layout qm-generic-layout--align-right">
-            
+
 <button
-    
-    
-    
+
+
+
     class="qm-btn qm-btn--secondary qm-btn--small js-notes-cancel-btn">
-    
+
     <span class="qm-btn__text" title="Cancel">Cancel</span>
 </button>
 
-            
+
 <button
-    
-    
-    
+
+
+
     class="qm-btn qm-btn--primary qm-btn--small js-notes-save-btn">
-    
+
     <span class="qm-btn__text" title="Save">Save</span>
 </button>
 
@@ -1108,26 +1109,26 @@
 </div>
                 </div>
             </div>
-            
+
 <div class="qm-booking-footer">
     <div class="qm-booking-footer__content qm-generic-layout qm-generic-layout--align-right">
-        
+
 <button
-    
-    
-    
+
+
+
     class="qm-btn qm-btn--secondary">
-    
+
     <span class="qm-btn__text" title="Clear all fields">Clear all fields</span>
 </button>
 
-        
+
 <button
-    
-    
-    
+
+
+
     class="qm-btn qm-btn--primary">
-    
+
     <span class="qm-btn__text" title="Save appointment">Save appointment</span>
 </button>
 
@@ -1144,7 +1145,7 @@
     </div>
 </footer>
     </div>
-    
+
 <div id="message" class="qm-messages js-messages">
 
 </div>

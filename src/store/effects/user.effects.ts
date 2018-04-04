@@ -1,34 +1,43 @@
-import { IUser } from './../../models/IUser';
-import * as userActions from './../actions/user.actions';
+import { Injectable } from '@angular/core';
+import { Store, Action } from '@ngrx/store';
+import { Effect, Actions } from '@ngrx/effects';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { Store } from '@ngrx/store';
-import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/toArray';
-import { HttpClient } from '@angular/common/http';
-import { TranslateService } from "@ngx-translate/core";
+import { switchMap, catchError, tap } from 'rxjs/operators';
+import * as UserActions from './../actions';
+import { IUser } from './../../models/IUser';
+import { UserDataService, DataServiceError } from '../services';
+
+const toAction = UserActions.toAction();
 
 @Injectable()
 export class UserEffects {
-    constructor(private actions$: Actions, private http: HttpClient, private translate: TranslateService) {
-    }
+    constructor(
+      private actions$: Actions,
+      private translate: TranslateService,
+      private userDataService: UserDataService
+    ) {}
 
     @Effect()
-    getUsers$ = this.actions$
-        .ofType(userActions.FETCH_USER_INFO)
-        .switchMap((action) => this.http.get('rest/servicepoint/user'))
-        .mergeMap((user:IUser) => {
-            // Set user language
-            this.translate.use('staffBookingMessages' + (user.locale == "en" ? "" : user.locale));
-            return [{type: userActions.FETCH_USER_SUCCESS, payload: user}]
+    getUserInfo$: Observable<Action> = this.actions$
+      .ofType(UserActions.FETCH_USER_INFO)
+      .pipe(
+        switchMap(() =>
+          toAction(
+            this.userDataService.getUserInfo(),
+            UserActions.FetchUserInfoSuccess,
+            UserActions.FetchUserInfoFail
+          )
+        )
+      );
+
+    @Effect({ dispatch: false })
+    setLanguage$: Observable<Action> = this.actions$
+      .ofType(UserActions.FETCH_USER_INFO_SUCCESS)
+      .pipe(
+        tap((action: UserActions.FetchUserInfoSuccess) => {
+          this.translate.use('staffBookingMessages' + (action.payload.locale === 'en' ? '' : action.payload.locale));
         })
-        .catch(err => [{ type: userActions.FETCH_USER_FAIL, payload: err }]);
+      );
 }

@@ -1,25 +1,38 @@
+import { Action } from '@ngrx/store';
 import { IUser } from './../../models/IUser';
-import { Action } from "@ngrx/store";
+import { DataAction, DataErrorAction } from './data.actions';
+import { DataServiceError } from '../services';
 
 // Fetching user info
-export const FETCH_USER_INFO = "FETCH_USER_INFO";
-export const FETCH_USER_FAIL = "FETCH_USER_FAIL";
-export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
+export const FETCH_USER_INFO = '[User] FETCH_USER_INFO';
+export const FETCH_USER_INFO_FAIL = '[User] FETCH_USER_INFO_FAIL';
+export const FETCH_USER_INFO_SUCCESS = '[User] FETCH_USER_SUCCESS';
 
+export abstract class UserAction implements DataAction<IUser> {
+  readonly type: string;
+  constructor(public readonly payload: IUser) {}
+}
+
+export abstract class HeroErrorAction implements DataErrorAction<IUser> {
+  readonly type: string;
+  constructor(public readonly payload: DataServiceError<IUser>) {}
+}
 
 export class FetchUserInfo implements Action {
   readonly type = FETCH_USER_INFO;
 }
 
-export class FetchUserFail implements Action {
-  readonly type = FETCH_USER_FAIL;
+export class FetchUserInfoFail implements Action {
+  readonly type = FETCH_USER_INFO_FAIL;
   constructor(public payload: Object) {}
 }
 
-export class FetchUserSuccess implements Action {
-  readonly type = FETCH_USER_SUCCESS;
+export class FetchUserInfoSuccess implements Action {
+  readonly type = FETCH_USER_INFO_SUCCESS;
   constructor(public payload: IUser) {}
 }
 
 // Action types
-export type UserAction = FetchUserInfo | FetchUserFail | FetchUserSuccess;
+export type AllUserActions = FetchUserInfo
+                        | FetchUserInfoFail
+                        | FetchUserInfoSuccess;

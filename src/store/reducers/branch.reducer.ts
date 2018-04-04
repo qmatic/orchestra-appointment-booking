@@ -1,16 +1,43 @@
-import { FILTER_BRANCH_LIST } from './../actions/branch-list.actions';
-import { IBranch, BRANCHES_DATA } from './../../models/IBranch';
-import { Action } from '@ngrx/store';
+import { IBranch } from '../../models/IBranch';
+import * as BranchActions from '../actions';
 
+export interface IBranchState {
+  branches: IBranch[];
+  selectedBranch: IBranch[];
+  filteredBranches: IBranch[];
+  searchText: string;
+}
 
-export function branchReducer(state: any = { branchList : BRANCHES_DATA, filteredBranchList: BRANCHES_DATA }, action) {
+export const initialState: IBranchState = {
+  branches: [],
+  selectedBranch: [],
+  filteredBranches: [],
+  searchText: ''
+};
+
+export function reducer (
+  state: IBranchState = initialState,
+  action: BranchActions.AllBranchActions
+): IBranchState {
   switch (action.type) {
-    case FILTER_BRANCH_LIST:
-        return Object.assign({}, state, { 
-            searchText:  action.payload,
-            filteredBranchList : state.branchList.filter(x => x.name && x.name.toLowerCase().indexOf(action.payload.toLowerCase()) != -1)
-        });
-    default:
+    case BranchActions.FILTER_BRANCH_LIST: {
+      const newSearchText = action.payload;
+
+      return {
+        ...state,
+        searchText: newSearchText,
+        filteredBranches: getFilteredBranches(state, newSearchText)
+      };
+    }
+    default: {
         return state;
     }
+  }
+}
+
+function getFilteredBranches (
+  branchState: IBranchState,
+  searchText: string
+) {
+  return branchState.branches.filter(x => x.name && x.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 }

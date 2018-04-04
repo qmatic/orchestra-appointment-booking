@@ -1,10 +1,8 @@
-import { Observable } from 'rxjs/Observable';
-import { IAppState } from './../../models/IAppState';
-import { FILTER_BRANCH_LIST } from './../../store/actions/branch-list.actions';
-import { Store } from '@ngrx/store';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
+
+import { BranchDispatchers } from '../../store';
 
 @Component({
   selector: 'qm-list',
@@ -13,21 +11,20 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class QmListComponent implements OnInit {
 
-  constructor(private store: Store<IAppState>) { }
+  constructor(
+    private branchDispatchers: BranchDispatchers
+  ) {}
 
   @Input()
   header: string;
-  searchText: string = '';
+  searchText = '';
   searchInputControl = new FormControl();
 
   ngOnInit() {
     this.searchInputControl.valueChanges
       .debounceTime(500)
-      .subscribe((txt)=> {
-        this.store.dispatch({
-          type: FILTER_BRANCH_LIST,
-          payload: txt
-        });
+      .subscribe((text: string) => {
+        this.branchDispatchers.filter(text);
       });
   }
 }
