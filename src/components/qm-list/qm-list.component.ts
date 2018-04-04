@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { IAppState } from './../../models/IAppState';
 import { FILTER_BRANCH_LIST } from './../../store/actions/branch-list.actions';
 import { Store } from '@ngrx/store';

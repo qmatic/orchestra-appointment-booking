@@ -1,3 +1,10 @@
-<li class="qm-list-item-content">
-    <ng-content></ng-content>  
+<li class="qm-selector-item">
+    <label class="qm-selector-item__label">
+        <input class="qm-selector-item__input" type="radio" name="somename" />
+        <span class="qm-selector-item__selector">
+            <span class="qm-selector-item__selector-text">
+                <ng-content></ng-content>
+            </span>
+        </span>
+    </label>
 </li>

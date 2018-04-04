@@ -1,5 +1,6 @@
 .qm-icon-item {
   display: flex;
+  height: rem(24px);
   @at-root [dir='rtl'] & {
     text-align: right;
   }

@@ -15,7 +15,7 @@ export class AppComponent {
   fullName$: Observable<string>;
   branchState: Observable<IBranch[]>;
   langDir$: Observable<string>;
-  branches = ['Colombo', 'Galle', 'Kandy'];
+  branches = ['Colombo', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy'];
   
   constructor(private store: Store<IAppState>) {
     this.langDir$ = this.store.select(state => state.user.data.direction);

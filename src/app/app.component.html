@@ -506,7 +506,7 @@
 
 
 
-<fieldset class="qm-booking">
+    <fieldset class="qm-booking">
     <legend class="qm-booking__header">
         <span class="qm-booking__header-layout qm-generic-layout qm-generic-layout--nowrap qm-generic-layout--space-between">
             <span class="qm-booking__header-left">
@@ -700,24 +700,13 @@
         </ul>
     </div>
 </fieldset>
-
         </div>
         <div class="col-6 qm-booking-flow__col">
-            
-
-<qm-list [header]="'Branches'">
-  <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
-  {{b.name}}
-  </qm-list-item>
-
-</qm-list>
-
-
-
-
-
-
-
+            <qm-list [header]="'Branches'">
+                <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
+                {{b.name}}
+                </qm-list-item>
+            </qm-list>
         </div>
     </div>
 </div>
