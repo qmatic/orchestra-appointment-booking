@@ -15,7 +15,7 @@ import { SharedComponentsModule } from '../components/shared-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import effects from './../store/effects';
 import rootReducer from '../store/reducers/root-reducer';
-import { branchListReducer } from '../store/reducers/branch-list.reducer';
+import { branchReducer } from '../store/reducers/branch.reducer';
 import { FetchUserInfo } from "../store/actions/user.actions";
 
 @NgModule({
