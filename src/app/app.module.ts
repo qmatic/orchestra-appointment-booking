@@ -1,4 +1,4 @@
-import { FETCH_USER_INFO } from './../store/actions/user';
+import { FetchSystemInfo } from './../store/actions/system-info.actions';
 import { SPService } from './../services/rest/sp.service';
 import { appRoutes } from './../routes/app-routes';
 import { RouterModule } from '@angular/router';
@@ -16,14 +16,15 @@ import { EffectsModule } from '@ngrx/effects';
 import effects from './../store/effects';
 import rootReducer from '../store/reducers/root-reducer';
 import { branchListReducer } from '../store/reducers/branch-list.reducer';
+import { FetchUserInfo } from "../store/actions/user.actions";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    HttpClientModule,
     BrowserModule,
+    HttpClientModule,
     SharedComponentsModule,
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(rootReducer),
@@ -50,7 +51,7 @@ export class AppModule {
   constructor(private translate: TranslateService, private store: Store<number>) {
     // No Suffix for english language file (staffBookingMessages.properties)
     this.translate.setDefaultLang('staffBookingMessages');
-    
-    this.store.dispatch({type: FETCH_USER_INFO});
+    this.store.dispatch(new FetchUserInfo());
+    this.store.dispatch(new FetchSystemInfo());
   }
 }

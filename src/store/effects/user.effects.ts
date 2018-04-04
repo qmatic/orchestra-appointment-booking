@@ -1,5 +1,5 @@
 import { IUser } from './../../models/IUser';
-import * as userActions from './../actions/user';
+import * as userActions from './../actions/user.actions';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';

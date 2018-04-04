@@ -1,31 +1,32 @@
-import { IUserState } from './user-reducer';
-import * as userActions from './../actions/user.actions';
+import { ISystemInfo } from './../../models/ISystemInfo';
+import * as systemInfoActions from './../actions/system-info.actions';
 import { IUser } from './../../models/IUser';
 
-export interface IUserState {
-    data: IUser,
+export interface ISystemInfoState {
+    data: ISystemInfo,
     loaded: boolean,
     error: Object
 }
 
 const initialState = {
   data: {
-        id: "",
-        userName: "",
-        firstName: "",
-        lastName: "",
-        locale: "",
-        direction: "",
-        fullName: ""
+        productName: "",
+        releaseName: "",
+        productVersion: "",
+        licenseCompanyName: "",
+        defaultLanguage: "",
+        protocol: "",
+        host: "",
+        port: ""
     },
     loaded: false,
     error:  null
 }
 
 
-export function UserReducer(state:IUserState = initialState, action: userActions.UserAction) {
+export function SystemInfoReducer(state:ISystemInfoState = initialState, action: systemInfoActions.SystemInfoAction) {
   switch (action.type) {
-    case userActions.FETCH_USER_SUCCESS:
+    case systemInfoActions.FETCH_SYSTEM_INFO_SUCCESS:
         return { 
             ...state,
             data: {
@@ -34,7 +35,7 @@ export function UserReducer(state:IUserState = initialState, action: userActions
             loaded: true,
             error: null
         };
-    case userActions.FETCH_USER_FAIL:
+    case systemInfoActions.FETCH_SYSTEM_INFO_FAIL:
         return { 
             ...state,
             data: {

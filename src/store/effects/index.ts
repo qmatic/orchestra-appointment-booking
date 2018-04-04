@@ -1,3 +1,4 @@
-import { UserEffects } from './user';
+import { UserEffects } from './user.effects';
+import { SystemInfoEffects } from './system-info.effects';
 
-export default [UserEffects];
+export default [UserEffects, SystemInfoEffects];

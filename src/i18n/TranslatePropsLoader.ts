@@ -24,7 +24,6 @@ export class TranslatePropsLoader implements TranslateLoader {
   public getTranslation(lang: string): Observable<any> {
     return this.http
       .get(`${this.prefix}/${lang}${this.suffix}`, { responseType: "text" })
-      .map()
       .pipe(map((contents: string) => this.parse(contents)));
   }
 

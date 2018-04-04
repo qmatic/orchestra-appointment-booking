@@ -16,11 +16,6 @@ export class AppComponent {
   branchState: Observable<IBranch[]>;
   langDir$: Observable<string>;
   branches = ['Colombo', 'Galle', 'Kandy'];
-
-
-  ngOnInit() {
-    
-  }
   
   constructor(private store: Store<IAppState>) {
     this.langDir$ = this.store.select(state => state.user.data.direction);
