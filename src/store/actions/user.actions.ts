@@ -8,16 +8,6 @@ export const FETCH_USER_INFO = '[User] FETCH_USER_INFO';
 export const FETCH_USER_INFO_FAIL = '[User] FETCH_USER_INFO_FAIL';
 export const FETCH_USER_INFO_SUCCESS = '[User] FETCH_USER_SUCCESS';
 
-export abstract class UserAction implements DataAction<IUser> {
-  readonly type: string;
-  constructor(public readonly payload: IUser) {}
-}
-
-export abstract class HeroErrorAction implements DataErrorAction<IUser> {
-  readonly type: string;
-  constructor(public readonly payload: DataServiceError<IUser>) {}
-}
-
 export class FetchUserInfo implements Action {
   readonly type = FETCH_USER_INFO;
 }
