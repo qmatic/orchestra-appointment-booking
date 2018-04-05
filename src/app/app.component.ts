@@ -1,3 +1,4 @@
+import { BranchDispatchers } from './../store/services/branch.dispatchers';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -18,10 +19,20 @@ export class AppComponent {
 
   constructor(
     private userSelectors: UserSelectors,
-    private branchSelectors: BranchSelectors
+    private branchSelectors: BranchSelectors,
+    private branchDispatchers: BranchDispatchers
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
+  }
+
+  branchSearch(searchText) {
+    this.branchDispatchers.filter(searchText);
+  }
+
+  serviceSearch(searchText) {
+    // tslint:disable-next-line:no-trailing-whitespace
+    
   }
 }

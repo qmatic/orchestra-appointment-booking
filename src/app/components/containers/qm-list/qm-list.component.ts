@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { BranchDispatchers } from '../../../../store';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'qm-list',
@@ -17,6 +18,9 @@ export class QmListComponent implements OnInit {
   @Input()
   header: string;
 
+  @Output()
+  search: EventEmitter<string> = new EventEmitter<string>();
+
   searchText = '';
   searchInputControl = new FormControl();
 
@@ -24,7 +28,7 @@ export class QmListComponent implements OnInit {
     this.searchInputControl.valueChanges
       .debounceTime(500)
       .subscribe((text: string) => {
-        this.branchDispatchers.filter(text);
+        this.search.emit(text);
       });
   }
 }

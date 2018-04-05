@@ -470,7 +470,7 @@
 
 
                         <fieldset class="qm-booking">
-                            <qm-list [header]="'Services'">
+                            <qm-list [header]="'Services'" (search)="serviceSearch($event)">
                                 <qm-select-item *ngFor="let b of branches$ | async">
                                   {{b.name}}
                                 </qm-select-item>
@@ -478,7 +478,7 @@
                         </fieldset>
                       </div>
                       <div class="col-6 qm-booking-flow__col">
-                        <qm-list [header]="'Branches'">
+                        <qm-list [header]="'Branches'" (search)="branchSearch($event)">
                           <qm-list-item *ngFor="let b of branches$ | async">
                             {{b.name}}
                           </qm-list-item>
