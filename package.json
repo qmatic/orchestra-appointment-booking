@@ -10,7 +10,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "": ""
+    "build-war-dev": "ng build && gulp build:war:properties",
+    "build-war-prod": "ng build --prod && build:war:properties",
+    "build-artifactory": "ng build --prod && gulp build:artifactory"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +46,8 @@
     "codelyzer": "^4.0.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
+    "gulp-sync": "^0.1.4",
+    "gulp-zip": "^4.1.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",

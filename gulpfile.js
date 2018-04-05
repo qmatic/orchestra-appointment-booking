@@ -1,139 +1,78 @@
-const gulp = require('gulp');
-const zip = require('gulp-zip');
-var fs = require('fs');
-const del = require('del')
+const gulp = require("gulp");
+const gulpsync = require("gulp-sync")(gulp);
+const zip = require("gulp-zip");
+var fs = require("fs");
+const del = require("del");
 
-gulp.task('clean:build', function () {
-    return del([
-        './dist'
-    ])
-})
-
-gulp.task('clean:war', function () {
-    return del([
-        './dist/*', '!./dist/webapp'
-    ])
-})
-
-gulp.task('clean:dist', function () {
-    return del([
-        './dist/css/**/*',
-        '!./dist/css/bundle.css',
-        './dist/scripts/**/*',
-        '!./dist/scripts/bundle.js',
-        '!./dist/scripts/json2.js',
-        '!./dist/scripts/rest-ie.js',
-        '!./dist/scripts/upgrades',
-        '!./dist/scripts/upgrades/**/*'
-    ])
+// Clean up tasks
+gulp.task("clean:artifactory", function() {
+  return del(["./dist/*", "!./dist/*.zip"]);
 });
 
+gulp.task("clean:war", function() {
+  return del(["./dist/*", "!./dist/properties", "!./dist/webapp", "!./dist/release-notes"]);
+});
 
-gulp.task('build:artifactory:zip', function () {
-    try {
-        var appData = JSON.parse(fs.readFileSync('./app.json'));
-        if (appData) {
-            var version = appData.version;
-            return gulp.src(['dist/**/*'])
-                .pipe(zip( 'counter-' + version + '.zip'))
-                .pipe(gulp.dest('dist/'));
-        }
-    } catch (ex) {
-        console.log("There was an exception when trying to read the package.json! - " + ex);
-        return false;
+// Copy properties files
+gulp.task("create:properties", function() {
+  return gulp.src(["./src/assets/i18n/*"]).pipe(gulp.dest("./dist/properties"));
+});
+
+// Copy release notes
+gulp.task("create:release-notes", function() {
+  return gulp.src(["release-notes/**"]).pipe(gulp.dest("dist/release-notes/"));
+});
+
+// Create war
+gulp.task("create:war", function() {
+  return gulp
+    .src(["./dist/**/*"])
+    .pipe(zip("StaffBooking.war"))
+    .pipe(gulp.dest("./dist/webapp/"));
+});
+
+// Create artifcatory zip
+gulp.task("create:artifactory:zip", function() {
+  try {
+    var appData = JSON.parse(fs.readFileSync("./src/app.json"));
+    if (appData) {
+      var version = appData.version;
+      return gulp
+        .src(["dist/**/*"])
+        .pipe(zip("StaffBooking-" + version + ".zip"))
+        .pipe(gulp.dest("dist/"));
     }
+  } catch (ex) {
+    console.log(
+      "There was an exception when trying to read the package.json! - " + ex
+    );
+    return false;
+  }
 });
-
-
-gulp.task('build:artifactory:clean', function () {
-    return del([
-        './dist/**/*',
-        '!./dist/*.zip'
-    ])
-});
-
-
-gulp.task('util:war', function () {
-    return gulp.src(['dist/**', '!dist/lang'])
-        .pipe(zip('workstationterminal.war'))
-        .pipe(gulp.dest('dist/webapp/'))
-});
-
 
 /**
- * Create developement war
- */
-gulp.task('build:dev:war', gulpsync.sync(
-    [
-        'clean:build',
-        'compile:nunjucks',
-        'compile:scss',
-        'move:js',
-        'move:assets',
-        'move:images',
-        'move:icons',
-        'cache:killer',
-        'move:config',
-        'util:war',
-        'clean:war',
-        'move:lang',
-        'clean:build:utts'
-    ]), function () {
-        return console.log(`build:dev:war TASK COMPLETE!!`);
-    })
-
-
-/**
-* Create Production war
+* Dev/Prod build
 */
-gulp.task('build:prod:war', gulpsync.sync(
-    [
-        'clean:build',
-        'compile:scss',
-        'move:js',
-        'compile:nunjucks',
-        'index:concat:uglify',
-        'index:minify',
-        'clean:dist',
-        'move:assets',
-        'move:images',
-        'move:icons',
-        'cache:killer',
-        'move:inf',
-        'move:config',
-        'util:war',
-        'clean:war',
-        'move:lang',
-        'clean:build:utts'
-    ]), function () {
-        return console.log(`build:prod:war TASK COMPLETE!!`);
-    })
+gulp.task(
+  "build:war:properties",
+  gulpsync.sync([
+    "create:war", 
+    "create:properties",
+    "clean:war"
+  ])
+);
 
 /**
 * Artifactory build
 */
-gulp.task('build:artifactory', gulpsync.sync(
-    [
-        'clean:build',
-        'compile:scss',
-        'move:js',
-        'compile:nunjucks',
-        'index:concat:uglify',
-        'index:minify',
-        'clean:dist',
-        'move:assets',
-        'move:images',
-        'move:icons',
-        'cache:killer',
-        'move:inf',
-        'move:config',
-        'util:war',
-        'clean:war',
-        'move:lang',
-        'clean:build:utts',
-        'move:release-notes',
-        'build:artifactory:zip',
-        'build:artifactory:clean'
-    ]), function () {
-        return console.log(`build:artifactory TASK COMPLETE!!`);
-    })
+gulp.task(
+  "build:artifactory",
+  gulpsync.sync([
+    "create:war",
+    "create:properties",
+    "create:release-notes",
+    "clean:war",
+    "create:artifactory:zip",
+    "clean:artifactory"
+  ])
+);
