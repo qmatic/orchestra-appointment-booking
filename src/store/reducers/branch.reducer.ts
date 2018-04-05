@@ -9,7 +9,7 @@ export interface IBranchState {
 }
 
 export const initialState: IBranchState = {
-  branches: [],
+  branches: [{name: 'Colombo'}],
   selectedBranch: [],
   filteredBranches: [],
   searchText: ''
