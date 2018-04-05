@@ -23,6 +23,7 @@ export class QmListComponent implements OnInit {
 
   searchText = '';
   searchInputControl = new FormControl();
+  description = 'This is the description';
 
   ngOnInit() {
     this.searchInputControl.valueChanges
