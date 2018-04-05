@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 @Component({
   selector: 'qm-action-button',
@@ -6,7 +12,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./qm-action-button.component.scss']
 })
 export class QmActionButtonComponent implements OnInit {
-
   @Input() btnClassName = '';
   @Input() iconClassName = '';
   @Input() text = '';
@@ -23,10 +28,7 @@ export class QmActionButtonComponent implements OnInit {
   }
 
   getType(): string {
-    if ( this.hasType() ) {
-      return this.type;
-    }
-    return 'button';
+    return this.hasType() ? this.type : 'button';
   }
 
   getButtonClasses(): string {

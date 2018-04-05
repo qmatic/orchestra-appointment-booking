@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 @Component({
   selector: 'qm-button',
@@ -9,12 +15,11 @@ export class QmButtonComponent implements OnInit {
   @Input() btnClassName = '';
   @Input() iconClassName = '';
   @Input() text = '';
-
   @Input() type = '';
   @Input() disabled = false;
   @Output() handleClick: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() { }
 
@@ -23,10 +28,7 @@ export class QmButtonComponent implements OnInit {
   }
 
   getType(): string {
-    if ( this.hasType() ) {
-      return this.type;
-    }
-    return 'button';
+    return this.hasType() ? this.type : 'button';
   }
 
   getButtonClasses(): string {
