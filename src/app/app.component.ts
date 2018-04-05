@@ -15,11 +15,6 @@ export class AppComponent {
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   branches$: Observable<IBranch[]>;
-  branches = ['Colombo', 'Galle', 'Kandy', 'Galle', 'Kandy',
-  'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle',
-  'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy',
-  'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy', 'Galle',
-  'Kandy', 'Galle', 'Kandy', 'Galle', 'Kandy'];
 
   constructor(
     private userSelectors: UserSelectors,
@@ -27,5 +22,6 @@ export class AppComponent {
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.branches$ = this.branchSelectors.branches$;
-  }}
+    this.branches$ = this.branchSelectors.filteredBranches$;
+  }
+}
