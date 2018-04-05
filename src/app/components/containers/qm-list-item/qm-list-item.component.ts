@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'qm-list-item',
@@ -13,6 +14,9 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementR
 })
 export class QmListItemComponent implements OnInit {
 
+  @Output()
+  change = new EventEmitter();
+
   constructor(private _element: ElementRef) { }
 
   ngOnInit() {
@@ -25,4 +29,9 @@ export class QmListItemComponent implements OnInit {
   handleBlur() {
     this._element.nativeElement.classList.remove('qm-list-item-focus');
   }
+
+  handleChange($event) {
+    this.change.emit($event);
+  }
 }
+
