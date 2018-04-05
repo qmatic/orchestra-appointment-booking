@@ -51,10 +51,12 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<any>[] = environment.production
   ? []
   : [debug];
+import { QmGlobalFooterComponent } from './components/qm-global-footer/qm-global-footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QmGlobalFooterComponent
   ],
   imports: [
     BrowserModule,
