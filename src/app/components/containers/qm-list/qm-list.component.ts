@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
-
-import { BranchDispatchers } from '../../store';
+import { BranchDispatchers } from '../../../../store';
 
 @Component({
   selector: 'qm-list',
@@ -17,6 +16,7 @@ export class QmListComponent implements OnInit {
 
   @Input()
   header: string;
+
   searchText = '';
   searchInputControl = new FormControl();
 

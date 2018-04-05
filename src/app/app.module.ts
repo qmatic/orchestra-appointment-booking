@@ -20,8 +20,6 @@ import { effects } from '../store/effects';
 // Routes
 import { appRoutes } from './../routes/app-routes';
 
-// Modules
-import { SharedComponentsModule } from '../components/shared-components.module';
 
 // Services
 import { SPService } from './../services/rest/sp.service';
@@ -31,6 +29,11 @@ import { storeServices } from '../store';
 import { AppComponent } from './app.component';
 import { QmGlobalFooterComponent } from './components/presentational/qm-global-footer/qm-global-footer.component';
 
+// Containers
+import { QmListComponent } from './components/containers/qm-list/qm-list.component';
+import { QmListItemComponent } from './components/containers/qm-list-item/qm-list-item.component';
+import { QmListSelectItemComponent } from './components/containers/qm-select-item/qm-select-item.component';
+
 // Env
 import { environment } from '../environments/environment';
 
@@ -38,6 +41,7 @@ import { environment } from '../environments/environment';
 import { UserDispatchers, SystemInfoDispatchers } from '../store';
 import { FetchSystemInfo } from './../store/actions/system-info.actions';
 import { FetchUserInfo } from '../store/actions/user.actions';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -56,14 +60,17 @@ export const metaReducers: MetaReducer<any>[] = environment.production
 @NgModule({
   declarations: [
     AppComponent,
-    QmGlobalFooterComponent
+    QmGlobalFooterComponent,
+    QmListComponent,
+    QmListItemComponent,
+    QmListSelectItemComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    SharedComponentsModule,
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers }),
+    ReactiveFormsModule,
     StoreDevtoolsModule.instrument({
       maxAge: 5
     }),
