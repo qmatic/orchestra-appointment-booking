@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { mergeMap } from 'rxjs/operators';
-import { ISystemInfo } from './../../../models/ISystemInfo';
+import { ISystemInfo } from './../../../../models/ISystemInfo';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toArray';
-import { IAppState } from '../../../store/index';
+import { IAppState } from '../../../../store/index';
 
 @Component({
   selector: 'qm-global-footer',

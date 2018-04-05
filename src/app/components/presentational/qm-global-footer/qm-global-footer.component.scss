@@ -1,0 +1,18 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-footer {
+  background: $footer-background-color;
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $global-footer-height;
+  }
+
+  &__text {
+    color: $footer-text-color;
+    font-size: rem(14px);
+    margin-bottom: 0;
+  }
+}

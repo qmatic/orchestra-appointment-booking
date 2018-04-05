@@ -29,6 +29,7 @@ import { storeServices } from '../store';
 
 // Components
 import { AppComponent } from './app.component';
+import { QmGlobalFooterComponent } from './components/presentational/qm-global-footer/qm-global-footer.component';
 
 // Env
 import { environment } from '../environments/environment';
@@ -51,7 +52,6 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<any>[] = environment.production
   ? []
   : [debug];
-import { QmGlobalFooterComponent } from './components/qm-global-footer/qm-global-footer.component';
 
 @NgModule({
   declarations: [
