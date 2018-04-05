@@ -28,6 +28,8 @@ import { storeServices } from '../store';
 // Components
 import { AppComponent } from './app.component';
 import { QmGlobalFooterComponent } from './components/presentational/qm-global-footer/qm-global-footer.component';
+import { QmButtonComponent } from './components/presentational/qm-button/qm-button.component';
+import { QmActionButtonComponent } from './components/presentational/qm-action-button/qm-action-button.component';
 
 // Containers
 import { QmListComponent } from './components/containers/qm-list/qm-list.component';
@@ -63,7 +65,9 @@ export const metaReducers: MetaReducer<any>[] = environment.production
     QmGlobalFooterComponent,
     QmListComponent,
     QmListItemComponent,
-    QmListSelectItemComponent
+    QmListSelectItemComponent,
+    QmButtonComponent,
+    QmActionButtonComponent
   ],
   imports: [
     BrowserModule,
