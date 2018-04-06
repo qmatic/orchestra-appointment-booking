@@ -4,8 +4,6 @@ const zip = require("gulp-zip");
 var fs = require("fs");
 const del = require("del");
 var sftp = require('gulp-sftp');
-var publisher = require("artifactory-publisher");
-var curl = require('curl-cmd');
 var ncmd = require('node-cmd');
 
 require('events').EventEmitter.prototype._maxListeners = 100;
@@ -46,7 +44,7 @@ try {
     console.log("Default Configuration Imported. Remote Orchestra is " + targetOrchestraUrl)
 } catch (ex) {
 
-    // For those who don't provide an external configuration file, use the following default. 
+    // For those who don't provide an external configuration file, use the following default.
     // Assuming Orchestra is running on local machine
     var targetOrchestraUrl = "http://localhost:8080";
     console.log("You are using default gulp configuration. Remote Orchestra is " + targetOrchestraUrl)
@@ -141,7 +139,7 @@ gulp.task('deploy:lang', function () {
 gulp.task(
   "build:war:properties",
   gulpsync.sync([
-    "create:war", 
+    "create:war",
     "create:properties",
     "clean:war"
   ])

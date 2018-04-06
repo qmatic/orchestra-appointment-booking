@@ -20,6 +20,7 @@ export class QmListItemComponent implements OnInit {
   constructor(private _element: ElementRef) { }
 
   ngOnInit() {
+
   }
 
   handleFocus() {

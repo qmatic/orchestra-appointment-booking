@@ -2,7 +2,7 @@
       (click)="onClick($event)"
       class="{{ getButtonClasses() }}"
       type="{{ getType() }}"
-      [disabled]="isDisabled">
+      [disabled]="disabled">
       <i *ngIf="hasIconClasses()" class="{{ getIconClasses() }}" aria-hidden="true"></i>
       <span class="{{ getTextClasses() }}" title="{{ text }}">
         {{ text }}
