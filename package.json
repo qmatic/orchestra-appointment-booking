@@ -3,16 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
     "startlocal": "ng serve --proxy-config proxy.config.localhost.json",
     "build": "ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
     "build-war-dev": "ng build && gulp build:war:properties",
-    "build-war-prod": "ng build --prod && build:war:properties",
-    "build-artifactory": "ng build --prod && gulp build:artifactory"
+    "build-war-prod": "ng build --prod && gulp build:war:properties",
+    "build-artifactory": "ng build --prod && gulp build:artifactory",
+    "deploy-war-dev": "ng build && gulp build:war:deploy",
+    "deploy-war-prod": "ng build --prod && gulp build:war:deploy",
+    "deploy-lang": "gulp deploy:lang",
+    "deploy-artifactory": "ng build --prod && gulp build:artifactory:deploy"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +47,7 @@
     "codelyzer": "^4.0.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
+    "gulp-sftp": "^0.1.5",
     "gulp-sync": "^0.1.4",
     "gulp-zip": "^4.1.0",
     "jasmine-core": "~2.8.0",
@@ -55,6 +57,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "node-cmd": "^3.0.0",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Product-Name: QMATIC Orchestra
+Release-Name: 7.0
+Build-Version: 4.0.0.90000
+Build-Date: 2017-11-15
+Build-Commit: c46d6097333a5274f270
+Built-By: joelan
+

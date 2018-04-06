@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="qmatic-conf" export="true" />
+            <module name="qmatic-jpa-lib" export="true" />
+            <module name="qmatic-aaa-lib" export="true" />
+            <module name="qmatic-api-lib" export="true"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

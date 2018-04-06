@@ -24,7 +24,7 @@ export class SPService {
  */
 
     fetchUserInfo() {
-        return this.http.get(this.spEndPoint + '/user');
+        return this.http.get(this.spEndPoint + 'user');
     }
 
 }

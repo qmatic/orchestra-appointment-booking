@@ -45,5 +45,5 @@ proxy.config.localhost.json
 Thumbs.db
 /build
 
-# gulp
+# Gulp configurations
 gulp.config.json
