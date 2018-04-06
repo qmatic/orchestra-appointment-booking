@@ -44,3 +44,6 @@ proxy.config.localhost.json
 .DS_Store
 Thumbs.db
 /build
+
+# Gulp configurations
+gulp.config.json
