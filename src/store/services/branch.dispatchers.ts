@@ -8,6 +8,10 @@ import * as BranchActions from '../actions';
 export class BranchDispatchers {
   constructor(private store: Store<IAppState>) {}
 
+  fetchBranches() {
+    this.store.dispatch(new BranchActions.FetchBranches);
+  }
+
   filter(text: string) {
     this.store.dispatch(new BranchActions.FilterBranchList(text));
   }

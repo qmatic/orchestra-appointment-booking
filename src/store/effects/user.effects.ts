@@ -3,11 +3,9 @@ import { Store, Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { switchMap, catchError, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import * as UserActions from './../actions';
-import { IUser } from './../../models/IUser';
-import { UserDataService, DataServiceError } from '../services';
+import { UserDataService } from '../services';
 
 const toAction = UserActions.toAction();
 

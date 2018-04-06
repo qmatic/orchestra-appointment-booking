@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { switchMap, mergeMap, catchError, map } from 'rxjs/operators';
-import { ISystemInfo } from './../../models/ISystemInfo';
+import { switchMap } from 'rxjs/operators';
 import * as SystemInfoActions from './../actions';
-
-import { SystemInfoDataService, DataServiceError } from '../services';
+import { SystemInfoDataService } from '../services';
 
 const toAction = SystemInfoActions.toAction();
-
 
 @Injectable()
 export class SystemInfoEffects {
     constructor(
       private actions$: Actions,
-      private http: HttpClient,
       private systemInfoDataService: SystemInfoDataService
     ) {}
 

@@ -23,7 +23,7 @@ import { appRoutes } from './../routes/app-routes';
 
 // Services
 import { SPService } from './../services/rest/sp.service';
-import { storeServices } from '../store';
+import { storeServices, BranchDispatchers, ServiceDispatchers } from '../store';
 
 // Components
 import { AppComponent } from './app.component';
@@ -78,7 +78,7 @@ export const metaReducers: MetaReducer<any>[] = environment.production
     StoreModule.forRoot(reducers, { metaReducers }),
     ReactiveFormsModule,
     StoreDevtoolsModule.instrument({
-      maxAge: 5
+      maxAge: 20
     }),
     TranslateModule.forRoot({
       loader: {
@@ -100,12 +100,16 @@ export class AppModule {
   constructor(
     private translate: TranslateService,
     private userDispatchers: UserDispatchers,
-    private systemInfoDispatchers: SystemInfoDispatchers
+    private systemInfoDispatchers: SystemInfoDispatchers,
+    private serviceDispachers: ServiceDispatchers,
+    private branchDispatchers: BranchDispatchers
   ) {
     // No Suffix for english language file (staffBookingMessages.properties)
     this.translate.setDefaultLang('staffBookingMessages');
 
     this.userDispatchers.fetchUserInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
+    this.serviceDispachers.fetchServices();
+    this.branchDispatchers.fetchBranches();
   }
 }

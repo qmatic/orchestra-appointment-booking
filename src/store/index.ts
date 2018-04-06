@@ -4,6 +4,9 @@ export * from './reducers';
 export * from './services';
 
 import {
+  ServiceDataService,
+  ServiceDispatchers,
+  ServiceSelectors,
   BranchDataService,
   BranchDispatchers,
   BranchSelectors,
@@ -16,6 +19,9 @@ import {
 } from './services';
 
 export const storeServices = [
+  ServiceDataService,
+  ServiceDispatchers,
+  ServiceSelectors,
   BranchDataService,
   BranchDispatchers,
   BranchSelectors,

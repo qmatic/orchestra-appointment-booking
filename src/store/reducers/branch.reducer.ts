@@ -6,13 +6,19 @@ export interface IBranchState {
   selectedBranch: IBranch[];
   filteredBranches: IBranch[];
   searchText: string;
+  loading: boolean;
+  loaded: boolean;
+  error: Object;
 }
 
 export const initialState: IBranchState = {
   branches: [],
   selectedBranch: [],
   filteredBranches: [],
-  searchText: ''
+  searchText: '',
+  loading: false,
+  loaded: false,
+  error: null
 };
 
 export function reducer (
@@ -20,6 +26,31 @@ export function reducer (
   action: BranchActions.AllBranchActions
 ): IBranchState {
   switch (action.type) {
+    case BranchActions.FETCH_BRANCHES: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case BranchActions.FETCH_BRANCHES_SUCCESS: {
+      return {
+        ...state,
+        branches: {
+          ...action.payload.branchList
+        },
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case BranchActions.FETCH_BRANCHES_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
     case BranchActions.FILTER_BRANCH_LIST: {
       const newSearchText = action.payload;
 

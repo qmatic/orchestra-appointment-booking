@@ -6,15 +6,15 @@ import { catchError } from 'rxjs/operators';
 
 import { calendarEndpoint, DataServiceError } from './data.service';
 
-import { IBranchResponse } from '../../models/IBranchResponse';
+import { IServiceResponse } from '../../models/IServiceResponse';
 
 @Injectable()
-export class BranchDataService {
+export class ServiceDataService {
   constructor(private http: HttpClient) {}
 
-  getBranches(): Observable<IBranchResponse> {
+  getServices(): Observable<IServiceResponse> {
     return this.http
-      .get<IBranchResponse>(`${calendarEndpoint}branches/`)
+      .get<IServiceResponse>(`${calendarEndpoint}services/`)
       .pipe(catchError(this.handleError()));
   }
 
