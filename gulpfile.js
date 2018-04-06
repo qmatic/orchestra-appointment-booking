@@ -34,14 +34,10 @@ try {
     var targetArtifactoryUsername = config.artifactory.username
     var targetArtifactoryPassword = config.artifactory.password
     var targetArtifactoryUrl = targetArtifactoryProtocol + '://' + targetArtifactoryIp + ':' + targetArtifactoryPort;
-
-    console.log("Default Configuration Imported. Remote Orchestra is " + targetOrchestraUrl)
 } catch (ex) {
-
     // For those who don't provide an external configuration file, use the following default.
     // Assuming Orchestra is running on local machine
-    var targetOrchestraUrl = "http://localhost:8080";
-    console.log("You are using default gulp configuration. Remote Orchestra is " + targetOrchestraUrl)
+    console.log(ex);
 }
 
 // Clean up tasks
