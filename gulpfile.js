@@ -103,9 +103,15 @@ gulp.task('deploy:war', function () {
 // Deploy build to artifactory
 gulp.task('deploy:war:artifactory', function () {
   var warName = fs.readdirSync('./dist')[0];
-  var fileExtension = warName.substring(file.lastIndexOf(".")+1)
+  var fileExtension = warName.substring(warName.lastIndexOf(".")+1)
   if(fileExtension === "zip") {
-    ncmd.get(`curl -u '${targetArtifactoryUsername}:${targetArtifactoryPassword}' -X PUT ${targetArtifactoryUrl}${targetArtifactoryPath}/${warName} -T ./dist/${warName}`);
+    ncmd.get(`curl -u '${targetArtifactoryUsername}:${targetArtifactoryPassword}' -X PUT ${targetArtifactoryUrl}${targetArtifactoryPath}/${warName} -T ./dist/${warName}`, function(err, data, stderr){
+            if (!err) {
+               console.log(data)
+            } else {
+               console.log(err)
+            }
+        });
   } else {
     console.log("War file not found!!");
   }
