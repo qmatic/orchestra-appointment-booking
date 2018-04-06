@@ -1,0 +1,26 @@
+<header class="qm-header" id="header">
+  <div class="qm-header__left">
+    <a href="/" class="qm-action-btn qm-action-btn--only-icon qm-header__home-btn">
+      <i class="qm-action-btn__icon icon-home" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'label.home' | translate }}</span>
+    </a>
+    <a href="/" class="qm-header__brand-logo-container">
+      <img class="qm-header__brand-logo" [src]="brandLogoSrc" alt="" role="presentation" />
+      <span class="sr-only">{{ 'label.home' | translate }}</span>
+    </a>
+    <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span>
+    <p *ngIf="userIsAdmin$ | async as userIsAdmin" style="color: white;">Am I admin? {{ userIsAdmin }}</p>
+  </div>
+
+  <div class="qm-header__right">
+    <a href="/help" target="_blank" class="qm-action-btn qm-action-btn--only-icon qm-header__help-btn">
+      <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'label.help' | translate }}</span>
+    </a>
+    <span class="qm-header__user-name">{{userFullName$ | async}}</span>
+    <a href="/logout.jsp" class="qm-action-btn qm-action-btn--only-icon qm-header__logout-btn">
+      <i class="qm-action-btn__icon icon-exit" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'label.logout' | translate }}</span>
+    </a>
+  </div>
+</header>

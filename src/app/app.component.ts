@@ -7,13 +7,11 @@ import { IAppState } from '../store/reducers';
 import { UserSelectors, BranchSelectors } from '../store';
 
 @Component({
-  selector: 'app-root',
+  selector: 'qm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   branches$: Observable<IBranch[]>;
 
@@ -22,7 +20,6 @@ export class AppComponent {
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers
   ) {
-    this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
   }
@@ -33,6 +30,6 @@ export class AppComponent {
 
   serviceSearch(searchText) {
     // tslint:disable-next-line:no-trailing-whitespace
-    
+
   }
 }

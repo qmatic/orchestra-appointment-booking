@@ -6,4 +6,5 @@ export interface IUser {
   locale: string;
   direction: string;
   fullName: string;
+  isAdmin: boolean;
 }

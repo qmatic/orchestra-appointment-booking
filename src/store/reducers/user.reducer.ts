@@ -17,7 +17,8 @@ const initialState = {
     lastName: '',
     locale: '',
     direction: '',
-    fullName: ''
+    fullName: '',
+    isAdmin: true
   },
   loading: false,
   loaded: false,
@@ -41,6 +42,7 @@ export function reducer(
       return {
         ...state,
         data: {
+            ...state.data,
             ...action.payload
         },
         loading: false,

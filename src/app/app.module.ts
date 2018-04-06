@@ -27,11 +27,12 @@ import { storeServices } from '../store';
 
 // Components
 import { AppComponent } from './app.component';
-import { QmGlobalFooterComponent } from './components/presentational/qm-global-footer/qm-global-footer.component';
+import { QmPageFooterComponent } from './components/presentational/qm-page-footer/qm-page-footer.component';
 import { QmButtonComponent } from './components/presentational/qm-button/qm-button.component';
 import { QmActionButtonComponent } from './components/presentational/qm-action-button/qm-action-button.component';
 
 // Containers
+import { QmPageHeaderComponent } from './components/containers/qm-page-header/qm-page-header.component';
 import { QmListComponent } from './components/containers/qm-list/qm-list.component';
 import { QmListItemComponent } from './components/containers/qm-list-item/qm-list-item.component';
 import { QmListSelectItemComponent } from './components/containers/qm-select-item/qm-select-item.component';
@@ -62,12 +63,13 @@ export const metaReducers: MetaReducer<any>[] = environment.production
 @NgModule({
   declarations: [
     AppComponent,
-    QmGlobalFooterComponent,
+    QmPageFooterComponent,
     QmListComponent,
     QmListItemComponent,
     QmListSelectItemComponent,
     QmButtonComponent,
-    QmActionButtonComponent
+    QmActionButtonComponent,
+    QmPageHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +104,7 @@ export class AppModule {
   ) {
     // No Suffix for english language file (staffBookingMessages.properties)
     this.translate.setDefaultLang('staffBookingMessages');
+
     this.userDispatchers.fetchUserInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
   }

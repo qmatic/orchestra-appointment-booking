@@ -9,35 +9,9 @@
 </qm-list>
 </div-->
 <div class="qm-app" dir="{{ userDirection$ | async }}">
-  <header class="qm-header" id="header">
-    <div class="qm-header__left">
-
-        <a href="/" class="qm-action-btn qm-action-btn--only-icon qm-header__home-btn">
-            <i class="qm-action-btn__icon icon-home" aria-hidden="true"></i>
-            <span class="sr-only">Home</span>
-        </a>
-        <div class="qm-header__brand-logo-container">
-            <img class="qm-header__brand-logo" src="/assets/images/brand_logo_header.png" alt="" role="presentation"/>
-        </div>
-        <span class="qm-header__application-name">Staff booking module</span>
-    </div>
-
-    <div class="qm-header__right">
-      <a href="/help" target="_blank" class="qm-action-btn qm-action-btn--only-icon qm-header__help-btn">
-        <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
-        <span class="sr-only">Help</span>
-      </a>
-      <a href="#" class="qm-header__user-name">{{userFullName$ | async}}</a>
-      <a href="/logout.jsp" class="qm-action-btn qm-action-btn--only-icon qm-header__logout-btn">
-        <i class="qm-action-btn__icon icon-exit" aria-hidden="true"></i>
-        <span class="sr-only">Logout</span>
-      </a>
-    </div>
-  </header>
+  <qm-page-header></qm-page-header>
 
   <main class="qm-main">
-
-
     <div class="qm-dashboard">
       <div class="qm-dashboard__header">
         <div class="row">
@@ -895,11 +869,12 @@
     </div>
 
   </main>
-  <footer class="qm-footer">
+  <qm-page-footer></qm-page-footer>
+  <!-- <footer class="qm-footer">
     <div class="qm-footer__content">
       <p class="qm-footer__text">Powered by QMATIC Orchestra 6.2 [3.2.0.244] Licensed to Mozart show room</p>
     </div>
-  </footer>
+  </footer> -->
 </div>
 
 <div id="message" class="qm-messages js-messages">

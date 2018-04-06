@@ -28,6 +28,11 @@ const getUserDirection = createSelector(
   (state: IUser) => state.direction
 );
 
+const getUserIsAdmin = createSelector(
+  getUser,
+  (state: IUser) => state.isAdmin
+);
+
 @Injectable()
 export class UserSelectors {
   constructor(private store: Store<IAppState>) {}
@@ -36,4 +41,5 @@ export class UserSelectors {
   userFullName$ = this.store.select(getUserFullName);
   userLocale$ = this.store.select(getUserLocale);
   userDirection$ = this.store.select(getUserDirection);
+  userIsAdmin$ = this.store.select(getUserIsAdmin);
 }
