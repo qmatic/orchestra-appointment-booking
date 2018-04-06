@@ -1,6 +1,12 @@
 @import '../../../../styles/base/_component-manifest.scss';
 :host {
-  display: inline-block;
+  display: inline-flex;
+}
+
+:host(.qm-search__btn) {
+  .qm-action-btn {
+    color: $dark-transparent42;
+  }
 }
 
 .qm-action-btn {

@@ -16,6 +16,7 @@ export class QmActionButtonComponent implements OnInit {
   @Input() iconClassName = '';
   @Input() text = '';
   @Input() type = '';
+  @Input() onlyIcon = false;
   @Input() disabled = false;
   @Output() handleClick: EventEmitter<any> = new EventEmitter<any>();
 
@@ -31,10 +32,21 @@ export class QmActionButtonComponent implements OnInit {
     return this.hasType() ? this.type : 'button';
   }
 
+  getTextClasses(): string {
+    let textClasses = 'qm-action-btn__text';
+    if ( this.onlyIcon ) {
+      textClasses += ' sr-only';
+    }
+    return textClasses;
+  }
+
   getButtonClasses(): string {
     let buttonClasses = 'qm-action-btn';
     if ( this.hasButtonClasses() ) {
       buttonClasses += ' ' + this.btnClassName;
+    }
+    if ( this.onlyIcon ) {
+      buttonClasses += ' qm-action-btn--only-icon';
     }
     return buttonClasses;
   }

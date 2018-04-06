@@ -4,7 +4,7 @@
       type="{{ getType() }}"
       [disabled]="isDisabled">
       <i *ngIf="hasIconClasses()" class="{{ getIconClasses() }}" aria-hidden="true"></i>
-      <span class="qm-action-btn__text" title="{{ text }}">
+      <span class="{{ getTextClasses() }}" title="{{ text }}">
         {{ text }}
       </span>
 </button>
