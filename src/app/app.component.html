@@ -867,22 +867,11 @@
         </div>
       </div>
     </div>
-
   </main>
   <qm-page-footer></qm-page-footer>
-  <!-- <footer class="qm-footer">
-    <div class="qm-footer__content">
-      <p class="qm-footer__text">Powered by QMATIC Orchestra 6.2 [3.2.0.244] Licensed to Mozart show room</p>
-    </div>
-  </footer> -->
 </div>
 
-<div id="message" class="qm-messages js-messages">
-
-</div>
-<div id="error" class="qm-messages js-errors">
-
-</div>
+<div class="qm-messages" toastContainer dir="{{ userDirection$ | async }}"></div>
 <!-- json2.js include for IE7 which does not have native JSON support, see http://www.json.org/js.html for source code and further info -->
 <!--[if lt IE 8]>
 <script type="text/javascript" src="scripts/core/json2.js"></script>

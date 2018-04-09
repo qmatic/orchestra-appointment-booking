@@ -1,9 +1,41 @@
+.toast-container {
+  margin: rem(0 $standard-margin 0 $standard-margin);
+  width: 100%;
+}
+
+.toast-close-button {
+  flex: 0 0 20px;
+  color: $light-transparent42;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  order: 1;
+
+  span {
+    @include sr-only();
+  }
+
+  &:before {
+    content: "\e907";
+    @extend .icomoon-styles;
+    font-size: rem(16px);
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    &:before {
+      color: $toast-text-color;
+    }
+  }
+}
+
 // Block
 .qm-toast {
+  display: flex;
   padding: rem($standard-padding 24px $standard-padding);
   color: $toast-text-color;
   background: $tertiary-color;
-  display: none;
   max-width: 570px;
   width: 100%;
   z-index: 3;
@@ -39,24 +71,6 @@
       text-align: right;
       padding-right: 0;
       padding-left: rem($standard-padding * 2);
-    }
-  }
-
-  &__close-btn {
-    flex: 0 0 20px;
-    color: $light-transparent42;
-    cursor: pointer;
-
-    &:hover,
-    &:focus,
-    &:active {
-      .qm-action-btn__icon {
-        color: $toast-text-color;
-      }
-    }
-
-    .qm-action-btn__icon {
-      font-size: rem(16px);
     }
   }
 

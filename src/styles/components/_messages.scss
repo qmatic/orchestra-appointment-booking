@@ -1,10 +1,7 @@
 // Toast containers
 .qm-messages {
   position: fixed;
+  top: $global-header-height;
   z-index: map-get($z-index, 'toastContainer');
-  visibility: hidden;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  margin: rem(0 $standard-margin 0 $standard-margin);
   width: 100%;
 }

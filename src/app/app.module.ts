@@ -2,7 +2,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+// Toastr
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 // NGRX Store
 import { StoreModule, Store, ActionReducer, MetaReducer } from '@ngrx/store';
@@ -23,6 +27,7 @@ import { appRoutes } from './../routes/app-routes';
 
 // Services
 import { SPService } from './../services/rest/sp.service';
+import { ToastService } from './../services/util/toast.service';
 import { storeServices, BranchDispatchers, ServiceDispatchers } from '../store';
 
 // Components
@@ -60,6 +65,13 @@ export const metaReducers: MetaReducer<any>[] = environment.production
   ? []
   : [debug];
 
+// Global options for Toastr
+const toastrGlobalOptions = {
+  maxOpened: 3,
+  autoDismiss: true,
+  iconClasses: {}
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,9 +86,12 @@ export const metaReducers: MetaReducer<any>[] = environment.production
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers }),
     ReactiveFormsModule,
+    ToastrModule.forRoot(toastrGlobalOptions),
+    ToastContainerModule,
     StoreDevtoolsModule.instrument({
       maxAge: 20
     }),
@@ -92,7 +107,7 @@ export const metaReducers: MetaReducer<any>[] = environment.production
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [SPService, TranslateService, ...storeServices],
+  providers: [SPService, ToastService, TranslateService, ...storeServices],
   bootstrap: [AppComponent]
 })
 export class AppModule {
