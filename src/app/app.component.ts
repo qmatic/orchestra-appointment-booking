@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
   userDirection$: Observable<string>;
   branches$: Observable<IBranch[]>;
-  toastCount = 0;
+
   constructor(
     private userSelectors: UserSelectors,
     private branchSelectors: BranchSelectors,
