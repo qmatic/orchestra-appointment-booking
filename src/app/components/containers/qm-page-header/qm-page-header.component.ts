@@ -11,6 +11,7 @@ import { UserSelectors } from '../../../../store';
 export class QmPageHeaderComponent implements OnInit {
   brandLogoSrc = 'assets/images/brand_logo_header.png';
   userFullName$: Observable<string>;
+  userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
 
   constructor(
@@ -18,6 +19,7 @@ export class QmPageHeaderComponent implements OnInit {
   ) {
     this.userIsAdmin$ = this.userSelectors.userIsAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() { }

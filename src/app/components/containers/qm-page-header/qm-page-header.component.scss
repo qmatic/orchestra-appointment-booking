@@ -1,14 +1,14 @@
 @import '../../../../styles/base/_component-manifest.scss';
 
 :host {
-  position: fixed;
-  top: 0;
   width: 100%;
   z-index: map-get($z-index, "header");
 }
 
 .qm-header {
   display: flex;
+  position: fixed;
+  top: 0;
   width: 100%;
   height: $global-header-height;
   justify-content: space-between;
@@ -96,7 +96,6 @@
 
 @media screen and (min-width: #{map-get($grid-breakpoints, 'lg')}) {
   .qm-header {
-
     &__brand-logo {
       width: 95px;
     }
