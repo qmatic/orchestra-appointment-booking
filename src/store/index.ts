@@ -15,7 +15,10 @@ import {
   SystemInfoSelectors,
   UserDataService,
   UserDispatchers,
-  UserSelectors
+  UserSelectors,
+  LicenseDataService,
+  LicenseDispatchers,
+  LicenseInfoSelectors
 } from './services';
 
 export const storeServices = [
@@ -30,5 +33,8 @@ export const storeServices = [
   SystemInfoSelectors,
   UserDataService,
   UserDispatchers,
-  UserSelectors
+  UserSelectors,
+  LicenseDataService,
+  LicenseDispatchers,
+  LicenseInfoSelectors
 ];

@@ -1,6 +1,8 @@
+import { LicenseAuthGuard } from './../routes/license-auth-guard';
+import { LicenseDispatchers } from './../store/services/license.dispatchers';
 // Angular
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from "@angular/router";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -50,6 +52,10 @@ import { UserDispatchers, SystemInfoDispatchers } from '../store';
 import { FetchSystemInfo } from './../store/actions/system-info.actions';
 import { FetchUserInfo } from '../store/actions/user.actions';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QmInvalidLicenseComponent } from './components/presentational/qm-invalid-license/qm-invalid-license.component';
+import { QmAppComponent } from './components/containers/qm-app/qm-app.component';
+import { QmAppLoaderComponent } from './components/containers/qm-app-loader/qm-app-loader.component';
+import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-page-not-found/qm-app-page-not-found.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -81,6 +87,10 @@ const toastrGlobalOptions = {
     QmListSelectItemComponent,
     QmButtonComponent,
     QmActionButtonComponent,
+    QmInvalidLicenseComponent,
+    QmAppComponent,
+    QmAppLoaderComponent,
+    QmAppPageNotFoundComponent,
     QmPageHeaderComponent
   ],
   imports: [
@@ -107,7 +117,7 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [SPService, ToastService, TranslateService, ...storeServices],
+  providers: [SPService, ToastService, TranslateService, ...storeServices, LicenseAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
@@ -117,14 +127,18 @@ export class AppModule {
     private userDispatchers: UserDispatchers,
     private systemInfoDispatchers: SystemInfoDispatchers,
     private serviceDispachers: ServiceDispatchers,
-    private branchDispatchers: BranchDispatchers
+    private branchDispatchers: BranchDispatchers,
+private licenseInfoDispatchers: LicenseDispatchers,
+    private router: Router
   ) {
     // No Suffix for english language file (staffBookingMessages.properties)
+    this.router.navigate(['/loading']);
     this.translate.setDefaultLang('staffBookingMessages');
 
     this.userDispatchers.fetchUserInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
+this.licenseInfoDispatchers.fetchLicenseInfo();
   }
 }

@@ -6,6 +6,10 @@
     "/calendar-backend/*": {
       "target": "http://10.2.2.210:8080",
       "secure": false
+    },
+    "/qsystem/rest/*": {
+      "target": "http://10.2.2.210:8080",
+      "secure": false
     }
 }
   
