@@ -12,5 +12,4 @@ export class QmInvalidLicenseComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
