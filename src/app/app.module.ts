@@ -2,7 +2,7 @@ import { LicenseAuthGuard } from './../routes/license-auth-guard';
 import { LicenseDispatchers } from './../store/services/license.dispatchers';
 // Angular
 import { NgModule } from '@angular/core';
-import { RouterModule, Router } from "@angular/router";
+import { RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';

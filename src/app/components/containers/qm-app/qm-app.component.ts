@@ -29,12 +29,12 @@ export class QmAppComponent {
   }
 
   branchSearch(searchText) {
-    this.branchDispatchers.filter(searchText);
+    // this.branchDispatchers.filter(searchText);
   }
 
   serviceSearch(searchText) {
     // tslint:disable-next-line:no-trailing-whitespace
-    
+
   }
 
 }

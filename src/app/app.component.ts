@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   branchSearch(searchText) {
-    this.branchDispatchers.filter(searchText);
+    //this.branchDispatchers.filter(searchText);
   }
 
   serviceSearch(searchText) {
