@@ -132,13 +132,13 @@ private licenseInfoDispatchers: LicenseDispatchers,
     private router: Router
   ) {
     // No Suffix for english language file (staffBookingMessages.properties)
-    this.router.navigate(['/loading']);
     this.translate.setDefaultLang('staffBookingMessages');
 
     this.userDispatchers.fetchUserInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
-this.licenseInfoDispatchers.fetchLicenseInfo();
+    this.licenseInfoDispatchers.fetchLicenseInfo();
+    this.router.navigate(['/loading']);
   }
 }
