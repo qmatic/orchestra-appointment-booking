@@ -1,40 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IBranch } from '../../../../models/IBranch';
+import { ToastContainerDirective } from 'ngx-toastr';
 import {
-  UserSelectors,
-  BranchDispatchers,
-  BranchSelectors
+  UserSelectors
 } from '../../../../store/index';
+import { ToastService } from '../../../../services/util/toast.service';
 
 @Component({
   selector: 'qm-qm-app',
   templateUrl: './qm-app.component.html',
   styleUrls: ['./qm-app.component.scss']
 })
-export class QmAppComponent {
-
+export class QmAppComponent implements OnInit {
+  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
-  branches$: Observable<IBranch[]>;
 
   constructor(
     private userSelectors: UserSelectors,
-    private branchSelectors: BranchSelectors,
-    private branchDispatchers: BranchDispatchers
+    private toastService: ToastService
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.branches$ = this.branchSelectors.filteredBranches$;
   }
 
-  branchSearch(searchText) {
-    // this.branchDispatchers.filter(searchText);
+  ngOnInit() {
+    this.toastService.setToastContainer(this.toastContainer);
   }
-
-  serviceSearch(searchText) {
-    // tslint:disable-next-line:no-trailing-whitespace
-
-  }
-
 }
