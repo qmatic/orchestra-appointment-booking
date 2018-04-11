@@ -1,0 +1,61 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: flex;
+  padding: rem($base-unit $base-unit * 4);
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.qm-dashboard {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+
+  // Search and customer card
+  &__header {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: rem($standard-margin);
+  }
+
+  // Booking flow
+  &__body {
+    flex: 1 1 auto;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    overflow: hidden;
+
+    &--card-shade {
+      padding-top: rem($base-unit);
+
+      &:before {
+        content: "";
+        display: block;
+        background: $light-transparent42;
+        height: rem($base-unit);
+        width: 90%;
+        border-radius: rem($standard-border-radius $standard-border-radius 0 0);
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    background: $tab-background-color;
+    display: flex;
+    flex-direction: column;
+    padding: rem($standard-padding * 2 $standard-padding * 2 $standard-padding);
+    box-shadow: $dashboard-body-box-shadow;
+    border-radius: $standard-border-radius;
+    overflow: hidden;
+  }
+}

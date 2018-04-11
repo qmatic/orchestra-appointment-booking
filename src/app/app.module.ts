@@ -43,6 +43,8 @@ import { QmPageHeaderComponent } from './components/containers/qm-page-header/qm
 import { QmListComponent } from './components/containers/qm-list/qm-list.component';
 import { QmListItemComponent } from './components/containers/qm-list-item/qm-list-item.component';
 import { QmListSelectItemComponent } from './components/containers/qm-select-item/qm-select-item.component';
+import { QmMainComponent } from './components/containers/qm-main/qm-main.component';
+import { QmDashboardComponent } from './components/containers/qm-dashboard/qm-dashboard.component';
 
 // Env
 import { environment } from '../environments/environment';
@@ -91,7 +93,9 @@ const toastrGlobalOptions = {
     QmAppComponent,
     QmAppLoaderComponent,
     QmAppPageNotFoundComponent,
-    QmPageHeaderComponent
+    QmPageHeaderComponent,
+    QmMainComponent,
+    QmDashboardComponent
   ],
   imports: [
     BrowserModule,
