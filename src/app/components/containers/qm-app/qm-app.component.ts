@@ -18,7 +18,7 @@ export class QmAppComponent implements OnInit {
 
   constructor(
     private userSelectors: UserSelectors,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;

@@ -36,9 +36,8 @@ export function reducer (
     case ServiceActions.FETCH_SERVICES_SUCCESS: {
       return {
         ...state,
-        services: {
-          ...action.payload.serviceList
-        },
+        services: action.payload.serviceList
+        ,
         loading: false,
         loaded: true,
         error: null

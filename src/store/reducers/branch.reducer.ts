@@ -36,9 +36,8 @@ export function reducer (
     case BranchActions.FETCH_BRANCHES_SUCCESS: {
       return {
         ...state,
-        branches: {
-          ...action.payload.branchList
-        },
+        branches: action.payload.branchList
+        ,
         loading: false,
         loaded: true,
         error: null
@@ -52,23 +51,14 @@ export function reducer (
       };
     }
     case BranchActions.FILTER_BRANCH_LIST: {
-      const newSearchText = action.payload;
 
       return {
         ...state,
-        searchText: newSearchText,
-        filteredBranches: getFilteredBranches(state, newSearchText)
+        searchText:  action.payload
       };
     }
     default: {
         return state;
     }
   }
-}
-
-function getFilteredBranches (
-  branchState: IBranchState,
-  searchText: string
-) {
-  return branchState.branches.filter(x => x.name && x.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 }

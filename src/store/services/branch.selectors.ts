@@ -17,10 +17,10 @@ const getSelectedBranch = createSelector(
   (state: IBranchState) => state.selectedBranch
 );
 
-const getFilteredBranches = createSelector(
-  getBranchState,
-  (state: IBranchState) => state.filteredBranches
-);
+const getFilteredBranches = createSelector(getBranchState, (state: IBranchState) => {
+  return state.branches.filter(x => !state.searchText || x.name
+    && x.name.toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1);
+});
 
 @Injectable()
 export class BranchSelectors {
@@ -28,5 +28,6 @@ export class BranchSelectors {
   // selectors$
   branches$ = this.store.select(getAllBranches);
   selectedBranch$ = this.store.select(getSelectedBranch);
+  // filteredBranches$ = this.store.select(getFilteredBranches);
   filteredBranches$ = this.store.select(getFilteredBranches);
 }

@@ -21,7 +21,8 @@ export class QmDashboardComponent implements OnInit {
   }
 
   branchSearch(searchText) {
-    // this.branchDispatchers.filter(searchText);
+    console.log(searchText);
+    this.branchDispatchers.filter(searchText);
   }
 
   serviceSearch(searchText) {
