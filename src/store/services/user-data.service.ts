@@ -14,7 +14,7 @@ export class UserDataService {
 
   getUserInfo(): Observable<IUser> {
     return this.http
-      .get<IUser>(`${restEndpoint}servicepoint/user`)
+      .get<IUser>(`${restEndpoint}/user`)
       .pipe(catchError(this.handleError()));
   }
 

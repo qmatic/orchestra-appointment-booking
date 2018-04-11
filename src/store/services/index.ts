@@ -21,3 +21,5 @@ export * from './branch.selectors';
 export * from './user.selectors';
 export * from './system-info.selectors';
 export * from './license.selectors';
+
+export * from './user-role';

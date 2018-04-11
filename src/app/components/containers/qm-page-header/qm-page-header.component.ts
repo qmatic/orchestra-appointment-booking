@@ -1,3 +1,4 @@
+import { UserRoleSelectors } from './../../../../store/services/user-role/user-role.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
@@ -19,9 +20,10 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private userSelectors: UserSelectors,
+    private userRoleSelectors: UserRoleSelectors,
     private spService: SPService
   ) {
-    this.userIsAdmin$ = this.userSelectors.userIsAdmin$;
+    this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
   }

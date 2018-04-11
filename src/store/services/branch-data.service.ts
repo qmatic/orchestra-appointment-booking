@@ -14,7 +14,7 @@ export class BranchDataService {
 
   getBranches(): Observable<IBranchResponse> {
     return this.http
-      .get<IBranchResponse>(`${calendarEndpoint}branches/`)
+      .get<IBranchResponse>(`${calendarEndpoint}/branches/`)
       .pipe(catchError(this.handleError()));
   }
 

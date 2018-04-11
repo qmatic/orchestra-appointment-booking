@@ -1,3 +1,5 @@
+import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
+import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
 import { LicenseAuthGuard } from './../routes/license-auth-guard';
 import { LicenseDispatchers } from './../store/services/license.dispatchers';
 // Angular
@@ -121,7 +123,7 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [SPService, ToastService, TranslateService, ...storeServices, LicenseAuthGuard],
+  providers: [SPService, ToastService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule {
@@ -132,7 +134,8 @@ export class AppModule {
     private systemInfoDispatchers: SystemInfoDispatchers,
     private serviceDispachers: ServiceDispatchers,
     private branchDispatchers: BranchDispatchers,
-private licenseInfoDispatchers: LicenseDispatchers,
+    private licenseInfoDispatchers: LicenseDispatchers,
+    private userRoleDispatchers: UserRoleDispatchers,
     private router: Router
   ) {
     // No Suffix for english language file (staffBookingMessages.properties)

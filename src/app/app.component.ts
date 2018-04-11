@@ -1,3 +1,4 @@
+import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
 import { BranchDispatchers } from './../store/services/branch.dispatchers';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
     private userSelectors: UserSelectors,
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private userRoleDispatchers: UserRoleDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
@@ -30,6 +32,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
+    this.userRoleDispatchers.fetchUserRoleInfo();
   }
 
   branchSearch(searchText) {

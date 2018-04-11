@@ -8,6 +8,9 @@ import 'rxjs/add/operator/map';
 
 import { qsystemEndpoint, DataServiceError } from './data.service';
 
+const APPOINTMENT_MANAGER_STANDARD_COMPONENT = 'Appointment Manager Standard';
+const APPOINTMENT_MANAGER_PREMIUM_COMPONENT = 'Appointment Manager Premium';
+
 @Injectable()
 export class LicenseDataService {
   constructor(private http: HttpClient) {}
@@ -16,7 +19,7 @@ export class LicenseDataService {
     return this.http
       .get<Object>(`${qsystemEndpoint}/license`).map((res: {components: [ILicense]}) => {
         const isValidLicense = res.components.reduce((result, next) => {
-               if (next.name === 'Appointment Manager Standard' || next.name === 'Appointment Manager Premium') {
+               if (next.name === APPOINTMENT_MANAGER_STANDARD_COMPONENT || next.name === APPOINTMENT_MANAGER_PREMIUM_COMPONENT) {
                    result = result || (+next.licensedAmount > 0);
                }
                return result;
