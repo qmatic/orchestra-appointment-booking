@@ -18,6 +18,11 @@ const getUserFullName = createSelector(
   (state: IUser) => state.fullName
 );
 
+const getUserUserName = createSelector(
+  getUser,
+  (state: IUser) => state.userName
+);
+
 const getUserLocale = createSelector(
   getUser,
   (state: IUser) => state.locale
@@ -39,6 +44,7 @@ export class UserSelectors {
   // selectors$
   user$ = this.store.select(getUser);
   userFullName$ = this.store.select(getUserFullName);
+  userUserName$ = this.store.select(getUserUserName);
   userLocale$ = this.store.select(getUserLocale);
   userDirection$ = this.store.select(getUserDirection);
   userIsAdmin$ = this.store.select(getUserIsAdmin);

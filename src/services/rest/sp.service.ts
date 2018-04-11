@@ -1,14 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { UserSelectors, DataServiceError } from '../../store';
 
 @Injectable()
-export class SPService {
+export class SPService implements OnDestroy {
+
+  userSubscription: Subscription;
+  currentUserName$: Observable<string>;
+  userName: string;
 
   private readonly spEndPoint: string = '/rest/servicepoint/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userSelectors: UserSelectors) {
+    this.currentUserName$ = this.userSelectors.userUserName$;
+    this.userSubscription = this.currentUserName$.subscribe(userName => this.userName = userName);
+  }
 
+  ngOnDestroy () {
+    this.userSubscription.unsubscribe();
+  }
  /*  getAllUsers(): Promise<IUser[]> {
     return this.http.get(this.userList)
       .toPromise().then(res => {
@@ -23,8 +37,30 @@ export class SPService {
   }
  */
 
-    fetchUserInfo() {
-        return this.http.get(this.spEndPoint + 'user');
-    }
+  fetchUserInfo() {
+    return this.http.get(this.spEndPoint + 'user');
+  }
 
+  logout() {
+    return this.http.get(this.spEndPoint + 'user/status')
+            .pipe(switchMap((status: any) => {
+                const servicePointId = status.servicePointId !== null
+                                        ? status.servicePointId : 0;
+                return this.http.delete(this.spEndPoint + 'branches/' + status.branchId
+                + '/servicePoints/' + servicePointId
+                + '/users/' + this.userName);
+              }
+            ))
+            .pipe(switchMap(() => this.http.put(this.spEndPoint + 'logout', {})))
+            .pipe(catchError(this.handleError()));
+  }
+
+
+  private handleError<T>(requestData?: T) {
+    return (res: HttpErrorResponse) => {
+      const error = new DataServiceError(res.error, requestData);
+      console.error(error);
+      return new ErrorObservable(error);
+    };
+  }
 }

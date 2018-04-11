@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
+import { SPService } from '../../../../services/rest/sp.service';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -8,14 +10,16 @@ import { UserSelectors } from '../../../../store';
   templateUrl: './qm-page-header.component.html',
   styleUrls: ['./qm-page-header.component.scss']
 })
-export class QmPageHeaderComponent implements OnInit {
+export class QmPageHeaderComponent implements OnInit, OnDestroy {
   brandLogoSrc = 'assets/images/brand_logo_header.png';
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
+  logoutSubscription: Subscription;
 
   constructor(
-    private userSelectors: UserSelectors
+    private userSelectors: UserSelectors,
+    private spService: SPService
   ) {
     this.userIsAdmin$ = this.userSelectors.userIsAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -23,5 +27,14 @@ export class QmPageHeaderComponent implements OnInit {
   }
 
   ngOnInit() { }
+  ngOnDestroy() {
+    this.logoutSubscription.unsubscribe();
+  }
 
+  logout(event: Event) {
+    event.preventDefault();
+    this.spService.logout().subscribe(() => {
+      window.location.href = '/logout.jsp';
+    });
+  }
 }
