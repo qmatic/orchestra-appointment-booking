@@ -7,7 +7,7 @@ import { ToastContainerDirective } from 'ngx-toastr';
 
 import { IBranch } from './../models/IBranch';
 import { IAppState } from '../store/reducers';
-import { UserSelectors, BranchSelectors, SystemInfoDispatchers } from '../store';
+import { UserSelectors, BranchSelectors, SystemInfoDispatchers, UserDispatchers } from '../store';
 import { ToastService } from '../services/util/toast.service';
 
 @Component({
@@ -27,7 +27,8 @@ export class AppComponent implements OnInit {
     private toastService: ToastService,
     private userRoleDispatchers: UserRoleDispatchers,
     private systemInfoDispatchers: SystemInfoDispatchers,
-    private serviceDispachers: ServiceDispatchers
+    private serviceDispachers: ServiceDispatchers,
+    private userDispatchers: UserDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
     this.userRoleDispatchers.fetchUserRoleInfo();
+    this.userDispatchers.fetchUserInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
