@@ -1,7 +1,6 @@
 import { IBranch } from './../../../../models/IBranch';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IBranch } from '../../../../models/IBranch';
 import { BranchSelectors, BranchDispatchers } from '../../../../store';
 
 @Component({

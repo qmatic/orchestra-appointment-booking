@@ -47,3 +47,6 @@ Thumbs.db
 
 # Gulp configurations
 gulp.config.json
+
+# Remove proxy config
+proxy.config.json
