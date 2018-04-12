@@ -10,11 +10,13 @@ import { BranchSelectors, BranchDispatchers } from '../../../../store';
 })
 export class QmDashboardComponent implements OnInit {
   branches$: Observable<IBranch[]>;
+  services: Array<any>;
   constructor(
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers
   ) {
     this.branches$ = this.branchSelectors.filteredBranches$;
+    this.services = [{name: 'AR/VR Demo'}, {name: 'Car alarm system'}, {name: 'Extended warranty'}];
   }
 
   ngOnInit() {
