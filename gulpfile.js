@@ -63,7 +63,7 @@ gulp.task("create:release-notes", function() {
 gulp.task("create:war", function() {
   return gulp
     .src(["./dist/**/*"])
-    .pipe(zip("StaffBooking.war"))
+    .pipe(zip("staffbooking.war"))
     .pipe(gulp.dest("./dist/webapp/"));
 });
 
@@ -75,7 +75,7 @@ gulp.task("create:artifactory:zip", function() {
       var version = appData.version;
       return gulp
         .src(["dist/**/*"])
-        .pipe(zip("StaffBooking-" + version + ".zip"))
+        .pipe(zip("staffbooking-" + version + ".zip"))
         .pipe(gulp.dest("dist/"));
     }
   } catch (ex) {
@@ -89,7 +89,7 @@ gulp.task("create:artifactory:zip", function() {
 
 // Deploy build to orchestra
 gulp.task('deploy:war', function () {
-    return gulp.src('./dist/webapp/StaffBooking.war')
+    return gulp.src('./dist/webapp/staffbooking.war')
         .pipe(sftp({
             remotePath: remoteDeploymentDefaultPath,
             remotePlatform: remoteDeploymentPlatform,

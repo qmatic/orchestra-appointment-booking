@@ -8,7 +8,6 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets/i18n/*",
         "assets/images/*",
         "WEB-INF/",
         "META-INF",
