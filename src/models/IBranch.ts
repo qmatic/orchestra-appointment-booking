@@ -3,4 +3,5 @@ export class IBranch {
     name: string;
     addressCity: string;
     addressLine1: string;
+    isSelected: boolean;
 }

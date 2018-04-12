@@ -15,7 +15,7 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementR
 export class QmListItemComponent implements OnInit {
 
   @Output()
-  change = new EventEmitter();
+  select = new EventEmitter();
 
   constructor(private _element: ElementRef) { }
 
@@ -32,7 +32,7 @@ export class QmListItemComponent implements OnInit {
   }
 
   handleChange($event) {
-    this.change.emit($event);
+    this.select.emit($event);
   }
 }
 

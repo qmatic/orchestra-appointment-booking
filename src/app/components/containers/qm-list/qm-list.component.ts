@@ -18,6 +18,9 @@ export class QmListComponent implements OnInit {
   @Input()
   header: string;
 
+  @Input()
+  placeholder: string;
+
   @Output()
   search: EventEmitter<string> = new EventEmitter<string>();
 

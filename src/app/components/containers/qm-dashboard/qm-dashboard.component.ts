@@ -1,3 +1,4 @@
+import { IBranch } from './../../../../models/IBranch';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { IBranch } from '../../../../models/IBranch';
@@ -21,12 +22,15 @@ export class QmDashboardComponent implements OnInit {
   }
 
   branchSearch(searchText) {
-    console.log(searchText);
     this.branchDispatchers.filter(searchText);
   }
 
   serviceSearch(searchText) {
     // tslint:disable-next-line:no-trailing-whitespace
 
+  }
+
+  handleBranchSelection(branch: IBranch) {
+    branch.isSelected = !branch.isSelected;
   }
 }

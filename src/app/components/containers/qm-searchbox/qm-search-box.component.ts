@@ -3,18 +3,18 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementR
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'qm-select-item',
+  selector: 'qm-search-box',
   // tslint:disable-next-line:use-host-property-decorator
   host: {
-    'class': 'qm-select-item',
+    'class': 'qm-search-box',
     '(focus)': 'handleFocus()',
     '(blur)': 'handleBlur()'
   },
-  templateUrl: './qm-select-item.component.html',
-  styleUrls: ['./qm-select-item.component.scss'],
+  templateUrl: './qm-search-box.component.html',
+  styleUrls: ['./qm-search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QmListSelectItemComponent implements OnInit {
+export class QmSearchBoxComponent implements OnInit {
 
 
   @Output()
