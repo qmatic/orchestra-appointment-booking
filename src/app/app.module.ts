@@ -60,6 +60,7 @@ import { QmInvalidLicenseComponent } from './components/presentational/qm-invali
 import { QmAppComponent } from './components/containers/qm-app/qm-app.component';
 import { QmAppLoaderComponent } from './components/containers/qm-app-loader/qm-app-loader.component';
 import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-page-not-found/qm-app-page-not-found.component';
+import { QmSearchBoxComponent } from "./components/containers/qm-searchbox/qm-search-box.component";
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -97,7 +98,8 @@ const toastrGlobalOptions = {
     QmAppPageNotFoundComponent,
     QmPageHeaderComponent,
     QmMainComponent,
-    QmDashboardComponent
+    QmDashboardComponent,
+    QmSearchBoxComponent
   ],
   imports: [
     BrowserModule,
