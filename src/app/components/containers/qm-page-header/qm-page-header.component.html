@@ -9,10 +9,13 @@
       <span class="sr-only">{{ 'label.home' | translate }}</span>
     </a>
     <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span>
-    <p *ngIf="userIsAdmin$ | async as userIsAdmin" style="color: white;">Am I admin? {{ userIsAdmin }}</p>
   </div>
 
   <div class="qm-header__right">
+  <a href="/" target="_blank" *ngIf="userIsAdmin$ | async as userIsAdmin" class="qm-action-btn qm-action-btn--only-icon qm-header__settings-btn">
+      <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+      <span>{{ 'label.settings' | translate }}</span>
+    </a>
     <a href="/help" target="_blank" class="qm-action-btn qm-action-btn--only-icon qm-header__help-btn">
       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
       <span class="sr-only">{{ 'label.help' | translate }}</span>
