@@ -15,7 +15,7 @@ export class SystemInfoDataService {
 
   getSystemInfo(): Observable<ISystemInfo> {
     return this.http
-      .get<ISystemInfo>(`${calendarEndpoint}settings/systemInformation`)
+      .get<ISystemInfo>(`${calendarEndpoint}/settings/systemInformation`)
       .pipe(catchError(this.handleError()));
   }
 

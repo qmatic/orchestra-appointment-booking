@@ -14,6 +14,7 @@ import {
 
 const STAFF_BOOKING_ROLE = 'Staff Booking';
 const STAFF_BOOKING_ADMIN_ROLE = 'Staff Booking Admin';
+const STAFF_SUPER_ADMIN_ROLE = '*';
 
 @Injectable()
 export class UserRoleDataService {
@@ -25,9 +26,10 @@ export class UserRoleDataService {
       .map((res: {modules: string[]}) => {
           const isStaffUser = res.modules.filter(module => module === STAFF_BOOKING_ROLE).length > 0 ? true : false;
           const isStaffAdminUser = res.modules.filter(module => module === STAFF_BOOKING_ADMIN_ROLE).length > 0 ? true : false;
+          const isSuperAdminUser = res.modules.filter(module => module === STAFF_SUPER_ADMIN_ROLE).length > 0 ? true : false;
           let userRole = NO_ROLE;
           userRole = isStaffUser ? USER_ROLE : userRole;
-          userRole = isStaffAdminUser ? ADMIN_ROLE : userRole;
+          userRole = isStaffAdminUser || isSuperAdminUser ? ADMIN_ROLE : userRole;
           return userRole;
       })
       .pipe(catchError(this.handleError()));
