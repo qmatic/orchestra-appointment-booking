@@ -1,0 +1,88 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-customer-search {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__headline {
+    flex: 1 1 100%;
+  }
+
+  &__layout {
+    display: flex;
+    width: 100%;
+  }
+
+  &__search-container {
+    position: relative;
+    flex: 1 1 auto;
+    margin-right: rem($base-unit);
+    z-index: map-get($map: $z-index, $key: 'customer-search-results');
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($base-unit);
+    }
+  }
+
+  &__action-container {
+    flex: 0 0 auto;
+    display: flex;
+  }
+
+  &__btn {
+    color: $secondary-color;
+    .qm-action-btn__icon {
+      font-size: rem(36px);
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: map-get($map: $z-index, $key: 'backdrop');
+  }
+}
+
+.qm-search {
+  position: relative;
+
+  &__input {
+    width: 100%;
+    border: 1px solid $standard-border-color;
+    box-shadow: 0 0 4px 0 $dark-transparent04;
+    padding: rem(10px 48px 10px 12px);
+    color: $dark-transparent82;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    height: rem(46px);
+
+    @at-root [dir='rtl'] & {
+      padding: rem(10px 12px 10px 48px);
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    right: rem($base-unit / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    color: $dark-transparent42;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: rem($base-unit / 2);
+    }
+
+    &--clear {
+      z-index: 3;
+      .qm-action-btn__icon {
+        font-size: rem(18px);
+      }
+    }
+  }
+}

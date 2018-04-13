@@ -1,0 +1,24 @@
+
+<ul class="qm-appointment-list">
+  <li class="qm-appointment-list__item" *ngFor="let appointment of appointments">
+    <div class="qm-appointment-card">
+      <a href="#" class="qm-appointment-card__content-container">
+        <span class="qm-appointment-card__headline">{{ appointment.start | date:'fullDate':'':userLocale }}</span>
+        <qm-icon-list></qm-icon-list>
+      </a>
+
+      <div class="qm-appointment-card__action-container">
+        <button class="qm-action-btn qm-appointment-card__btn">
+          <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
+          <span class="qm-action-btn__text" title="Delete">Delete</span>
+        </button>
+
+        <button class="qm-action-btn qm-appointment-card__btn">
+          <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
+          <span class="qm-action-btn__text" title="Print">Print</span>
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+

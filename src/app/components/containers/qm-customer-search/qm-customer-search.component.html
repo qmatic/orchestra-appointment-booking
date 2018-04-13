@@ -1,0 +1,38 @@
+<div class="qm-customer-search" dir="{{ userDirection$ | async }}">
+  <h2 class="qm-headline qm-headline--large qm-customer-search__headline">{{ 'label.customerSearch.headline' | translate }}</h2>
+  <div class="qm-customer-search__layout">
+    <div class="qm-customer-search__backdrop" *ngIf="customers.length !== 0" (click)="resetSearch()"></div>
+    <div class="qm-customer-search__search-container">
+      <div class="qm-search">
+        <label for="customerSearch" class="sr-only">{{ 'label.customerSearch.input.search' | translate }}</label>
+        <input id="customerSearch"
+          type="search"
+          class="qm-search__input"
+          placeholder="{{ 'label.customerSearch.input.search' | translate }}"
+          name="q"
+          [ngModel]="searchText"
+          #customerSearch
+          (input)="search(customerSearch.value)" />
+
+        <button *ngIf="customerSearch.value === ''; else clearBtn" class="qm-action-btn qm-action-btn--only-icon qm-search__btn" (click)="search(customerSearch.value)">
+          <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
+          <span class="sr-only">{{ 'button.customerSearch.search' | translate }}</span>
+        </button>
+
+        <ng-template #clearBtn>
+          <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear" (click)="resetSearch()">
+            <i class="qm-action-btn__icon icon-close qm-search__icon" aria-hidden="true"></i>
+            <span class="sr-only">{{ 'button.customerSearch.clear' | translate }}</span>
+          </button>
+        </ng-template>
+      </div>
+      <qm-customer-search-results [customers]="customers" [searchText]="searchText"></qm-customer-search-results>
+    </div>
+    <div class="qm-customer-search__action-container">
+      <button class="qm-action-btn qm-action-btn--only-icon qm-customer-search__btn" aria-haspopup="true" aria-expanded="false">
+        <i class="qm-action-btn__icon icon icon-customer-add" aria-hidden="true"></i>
+        <span class="qm-btn__text sr-only" title="{{ 'button.customerSearch.new.customer' | translate }}">{{ 'button.customerSearch.new.customer' | translate }}</span>
+      </button>
+    </div>
+  </div>
+</div>

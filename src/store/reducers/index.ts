@@ -12,6 +12,8 @@ import * as fromSystemInfo from './system-info.reducer';
 import * as fromUser from './user.reducer';
 import * as fromLicense from './license.reducer';
 import * as fromUserRole from './user-role.reducer';
+import * as fromCustomer from './customer.reducer';
+import * as fromAppointments from './appointment.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
@@ -20,6 +22,8 @@ export interface IAppState {
   user: fromUser.IUserState;
   license:  fromLicense.ILicenseState;
   userRole: fromUserRole.IUserRoleState;
+  customers: fromCustomer.ICustomerState;
+  appointments: fromAppointments.IAppointmentState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -28,6 +32,8 @@ export const reducers: ActionReducerMap<IAppState> = {
   systemInfo: fromSystemInfo.reducer,
   user: fromUser.reducer,
   license: fromLicense.reducer,
-  userRole: fromUserRole.reducer
+  userRole: fromUserRole.reducer,
+  customers: fromCustomer.reducer,
+  appointments: fromAppointments.reducer
   // here is where you put other reducers, when you have them
 };

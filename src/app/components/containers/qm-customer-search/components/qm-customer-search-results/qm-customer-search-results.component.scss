@@ -1,0 +1,54 @@
+@import '../../../../../../styles/base/_component-manifest.scss';
+:host {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: $white;
+  box-shadow: $heavy-box-shadow;
+}
+
+.qm-customer-search-results {
+  max-height: 220px;
+  overflow: auto;
+
+  &__table {
+    width: 100%;
+
+    thead {
+      @include sr-only;
+    }
+    tbody {
+      tr {
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+          background: $dark-transparent04;
+        }
+      }
+      td {
+        font-size: rem(18px);
+        font-weight: $font-weight-light;
+        padding: rem(12px);
+
+        &:first-child {
+          @at-root [dir='rtl'] {
+            text-align: right;
+          }
+        }
+
+        &:last-child {
+          text-align: right;
+          padding-right: rem($standard-padding * 1.5);
+
+          @at-root [dir='rtl'] & {
+            text-align: left;
+            padding-right: rem(12px);
+            padding-left: rem($standard-padding * 1.5);
+          }
+        }
+      }
+    }
+  }
+}

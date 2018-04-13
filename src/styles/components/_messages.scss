@@ -4,4 +4,7 @@
   top: $global-header-height;
   z-index: map-get($z-index, 'toastContainer');
   width: 100%;
+  max-width: 602px;
+  left: 50%;
+  transform: translateX(-50%);
 }

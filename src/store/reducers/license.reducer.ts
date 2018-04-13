@@ -1,5 +1,4 @@
 
-import { IUser } from './../../models/IUser';
 import * as LicenseActions from '../actions';
 
 export interface ILicenseState {

@@ -1,6 +1,7 @@
 
 export const restEndpoint = '/rest/servicepoint';
 export const calendarEndpoint = '/calendar-backend/api/v1';
+export const calendarPublicEndpoint = '/calendar-backend/public/api/v1';
 export const qsystemEndpoint = '/qsystem/rest';
 
 export class DataServiceError<T> {

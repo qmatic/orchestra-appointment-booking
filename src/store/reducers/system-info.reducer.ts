@@ -1,6 +1,5 @@
 import { ISystemInfo } from './../../models/ISystemInfo';
 import * as SystemInfoActions from '../actions';
-import { IUser } from './../../models/IUser';
 
 export interface ISystemInfoState {
   data: ISystemInfo;

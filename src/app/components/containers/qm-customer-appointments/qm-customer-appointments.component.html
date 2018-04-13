@@ -1,0 +1,17 @@
+<div class="qm-customer-appointments">
+  <div class="" *ngIf="appointmentsLoaded; else appointmentFetch">
+    <span class="qm-headline qm-headline--large qm-customer-appointments__headline">Booked appointments</span>
+
+    <p class="qm-customer-appointments__description">The customer has 5 booked appointments</p>
+    <qm-dropdown [text]="'Test'">
+      <qm-customer-appointment-list [appointments]="appointments"></qm-customer-appointment-list>
+    </qm-dropdown>
+  </div>
+  <ng-template #appointmentFetch>
+    <button type="button" class="qm-btn qm-btn--secondary" (click)="fetchAppointments()">
+      <span class="qm-btn__text" title="{{ 'button.customerAppointments.fetchAppointments' | translate }}">
+        {{ 'button.customerAppointments.fetchAppointments' | translate }}
+      </span>
+    </button>
+  </ng-template>
+</div>

@@ -1,6 +1,10 @@
 // Barrel
 export { DataServiceError } from './data.service';
 
+// New way
+export * from './customer';
+export * from './appointment';
+
 // Data services
 export * from './service-data.service';
 export * from './branch-data.service';

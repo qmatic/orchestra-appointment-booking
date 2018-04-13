@@ -1,0 +1,24 @@
+<div class="qm-customer-search-results" *ngIf="customers.length !== 0" dir="{{ userDirection$ | async }}">
+  <table class="qm-customer-search-results__table">
+    <thead>
+      <tr>
+        <th>
+          {{ 'label.customerSearch.results.name' | translate }}
+        </th>
+        <th>
+          {{ 'label.customerSearch.results.email' | translate }}
+        </th>
+        <th>
+          {{ 'label.customerSearch.results.phone' | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers" tabindex="0" (keyup.enter)="selectCustomer(customer)" (click)="selectCustomer(customer)">
+        <td [innerHTML]="customer.name | qmHighlight: searchText"></td>
+        <td [innerHTML]="customer.email | qmHighlight: searchText"></td>
+        <td [innerHTML]="customer.phone | qmHighlight: searchText"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

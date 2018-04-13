@@ -1,4 +1,3 @@
-
 import { IUser } from './../../models/IUser';
 import * as UserActions from '../actions';
 

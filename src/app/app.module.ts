@@ -8,6 +8,7 @@ import { RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 // Toastr
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
@@ -60,7 +61,19 @@ import { QmInvalidLicenseComponent } from './components/presentational/qm-invali
 import { QmAppComponent } from './components/containers/qm-app/qm-app.component';
 import { QmAppLoaderComponent } from './components/containers/qm-app-loader/qm-app-loader.component';
 import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-page-not-found/qm-app-page-not-found.component';
-import { QmSearchBoxComponent } from "./components/containers/qm-searchbox/qm-search-box.component";
+import { QmSearchBoxComponent } from './components/containers/qm-searchbox/qm-search-box.component';
+import { QmCustomerSearchComponent } from './components/containers/qm-customer-search/qm-customer-search.component';
+import { QmCustomerCardComponent } from './components/presentational/qm-customer-card/qm-customer-card.component';
+import {
+  QmCustomerSearchResultsComponent
+} from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
+import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
+import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
+import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
+import {
+  QmCustomerAppointmentListComponent
+} from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
+import { QmIconListComponent } from './components/presentational/qm-icon-list/qm-icon-list.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -99,10 +112,19 @@ const toastrGlobalOptions = {
     QmPageHeaderComponent,
     QmMainComponent,
     QmDashboardComponent,
-    QmSearchBoxComponent
+    QmSearchBoxComponent,
+    QmCustomerSearchComponent,
+    QmCustomerCardComponent,
+    QmCustomerSearchResultsComponent,
+    QmHighlightPipe,
+    QmCustomerAppointmentsComponent,
+    QmDropdownComponent,
+    QmCustomerAppointmentListComponent,
+    QmIconListComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     EffectsModule.forRoot(effects),

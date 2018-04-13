@@ -1,5 +1,5 @@
-import { ILicense } from './../../models/ILicense';
 import { Action } from '@ngrx/store';
+import { ILicense } from './../../models/ILicense';
 
 export const FETCH_LICENSE_INFO = '[License] FETCH_LICENSE_INFO';
 export const FETCH_LICENSE_INFO_SUCCESS = '[License] FETCH_LICENSE_INFO_SUCCESS';

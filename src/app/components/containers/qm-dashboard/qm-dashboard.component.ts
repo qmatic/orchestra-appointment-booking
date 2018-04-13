@@ -1,25 +1,52 @@
-import { IBranch } from './../../../../models/IBranch';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { BranchSelectors, BranchDispatchers } from '../../../../store';
+import { IBranch } from '../../../../models/IBranch';
+import { BranchSelectors, BranchDispatchers, CustomerSelectors, UserSelectors } from '../../../../store';
+import { ICustomer } from '../../../../models/ICustomer';
 
 @Component({
   selector: 'qm-dashboard',
   templateUrl: './qm-dashboard.component.html',
   styleUrls: ['./qm-dashboard.component.scss']
 })
-export class QmDashboardComponent implements OnInit {
-  branches$: Observable<IBranch[]>;
-  services: Array<any>;
+export class QmDashboardComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
+  private branches$: Observable<IBranch[]>;
+  private customers$: Observable<ICustomer[]>;
+  private userDirection$: Observable<string>;
+  private customerSearchText$: Observable<string>;
+  private currentCustomer$: Observable<ICustomer>;
+  private currentCustomer: ICustomer;
+
+  // Dim mock data
+  private services: Array<any>;
+
   constructor(
     private branchSelectors: BranchSelectors,
-    private branchDispatchers: BranchDispatchers
+    private branchDispatchers: BranchDispatchers,
+    private customerSelectors: CustomerSelectors,
+    private userSelectors: UserSelectors
   ) {
+    this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
+    this.customerSearchText$ = this.customerSelectors.getSearchText$;
+    this.customers$ = this.customerSelectors.customers$;
+    this.currentCustomer$ = this.customerSelectors.currentCustomer$;
+
+    // Dim mock data
     this.services = [{name: 'AR/VR Demo'}, {name: 'Car alarm system'}, {name: 'Extended warranty'}];
   }
 
   ngOnInit() {
+    this.subscription =
+        this.currentCustomer$.subscribe(
+                (customer: ICustomer) =>
+                  this.currentCustomer = customer);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   branchSearch(searchText) {
