@@ -14,7 +14,7 @@ export class AppointmentDataService {
 
   getAppointments(publicId: string): Observable<IAppointmentResponse> {
     return this.http
-      .get<IAppointmentResponse>(`${calendarPublicEndpoint}customers/${publicId}/appointments`)
+      .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointments`)
       .pipe(catchError(this.handleError()));
   }
 

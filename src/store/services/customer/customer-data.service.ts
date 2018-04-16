@@ -15,7 +15,7 @@ export class CustomerDataService {
 
   getCustomers(searchText: string): Observable<ICustomerResponse> {
     return this.http
-      .get<ICustomerResponse>(`${calendarEndpoint}customers/searchcustomer?text=${encodeURIComponent(searchText)}`)
+      .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${encodeURIComponent(searchText)}`)
       .pipe(catchError(this.handleError()));
   }
 
