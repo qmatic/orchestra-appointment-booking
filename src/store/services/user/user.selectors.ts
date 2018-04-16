@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
-import { IUserState } from '../reducers/user.reducer';
-import { IUser } from '../../models/IUser';
+import { IAppState } from '../../reducers';
+import { IUserState } from '../../reducers/user.reducer';
+import { IUser } from '../../../models/IUser';
 
 // selectors
 const getUserState = createFeatureSelector<IUserState>('user');

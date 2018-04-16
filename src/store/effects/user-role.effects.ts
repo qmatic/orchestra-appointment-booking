@@ -1,14 +1,13 @@
-import { UserRoleDataService } from './../services/user-role/user-role-data.service';
-import { FetchUserRoleInfoFail } from './../actions/user-role.actions';
-import { FetchUserRoleInfoSuccess } from './../actions/user-role.actions';
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap } from 'rxjs/operators';
-import * as AccountActions from './../actions';
+import { switchMap } from 'rxjs/operators';
 
-const toAction = AccountActions.toAction();
+import * as UserRoleActions from './../actions';
+import { UserRoleDataService } from './../services';
+
+const toAction = UserRoleActions.toAction();
 
 @Injectable()
 export class UserRoleEffects {
@@ -19,13 +18,13 @@ export class UserRoleEffects {
 
     @Effect()
     getUserRoleInfo$: Observable<Action> = this.actions$
-      .ofType(AccountActions.FETCH_USER_ROLE_INFO)
+      .ofType(UserRoleActions.FETCH_USER_ROLE_INFO)
       .pipe(
         switchMap(() =>
           toAction(
             this.userRoleDataService.getUserRoleInfo(),
-            AccountActions.FetchUserRoleInfoSuccess,
-            AccountActions.FetchUserRoleInfoFail
+            UserRoleActions.FetchUserRoleInfoSuccess,
+            UserRoleActions.FetchUserRoleInfoFail
           )
         )
       );

@@ -1,7 +1,7 @@
-import { LicenseInfoSelectors } from './../store/services/license.selectors';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { LicenseInfoSelectors } from './../store/services/license/license.selectors';
 
 @Injectable()
 export class LicenseAuthGuard implements CanActivate {

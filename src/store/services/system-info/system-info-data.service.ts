@@ -4,17 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarEndpoint, DataServiceError } from './data.service';
+import { calendarEndpoint, DataServiceError } from '../data.service';
 
-import { IServiceResponse } from '../../models/IServiceResponse';
+import { ISystemInfo } from '../../../models/ISystemInfo';
+import { ILicenseInfo } from '../../../models/ILicenseInfo';
 
 @Injectable()
-export class ServiceDataService {
+export class SystemInfoDataService {
   constructor(private http: HttpClient) {}
 
-  getServices(): Observable<IServiceResponse> {
+  getSystemInfo(): Observable<ISystemInfo> {
     return this.http
-      .get<IServiceResponse>(`${calendarEndpoint}/services/`)
+      .get<ISystemInfo>(`${calendarEndpoint}/settings/systemInformation`)
       .pipe(catchError(this.handleError()));
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
-import * as actions from '../actions';
+import { IAppState } from '../../reducers';
+import * as actions from '../../actions';
 
 @Injectable()
 export class LicenseDispatchers {

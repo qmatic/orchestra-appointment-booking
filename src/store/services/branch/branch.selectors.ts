@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
-import { IBranchState } from '../reducers/branch.reducer';
+import { IAppState } from '../../reducers';
+import { IBranchState } from '../../reducers/branch.reducer';
 
 // selectors
 const getBranchState = createFeatureSelector<IBranchState>('branches');

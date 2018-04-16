@@ -2,8 +2,19 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { debounceTime, distinctUntilChanged, tap, filter, takeWhile } from 'rxjs/operators';
-import { CustomerDispatchers, CustomerSelectors, UserSelectors } from '../../../../store';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  tap
+} from 'rxjs/operators';
+
+import {
+  CustomerDispatchers,
+  CustomerSelectors,
+  UserSelectors
+} from '../../../../store';
+
 import { ICustomer } from '../../../../models/ICustomer';
 import { ToastService } from '../../../../services/util/toast.service';
 

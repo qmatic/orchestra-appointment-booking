@@ -1,4 +1,3 @@
-import { ILicense } from './../../models/ILicense';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -6,7 +5,8 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 
-import { qsystemEndpoint, DataServiceError } from './data.service';
+import { qsystemEndpoint, DataServiceError } from '../data.service';
+import { ILicense } from './../../../models/ILicense';
 
 const APPOINTMENT_MANAGER_STANDARD_COMPONENT = 'Appointment Manager Standard';
 const APPOINTMENT_MANAGER_PREMIUM_COMPONENT = 'Appointment Manager Premium';

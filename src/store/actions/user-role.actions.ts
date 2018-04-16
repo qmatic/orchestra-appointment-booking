@@ -1,11 +1,9 @@
 import { Action } from '@ngrx/store';
-import { DataAction, DataErrorAction } from './data.actions';
-import { DataServiceError } from '../services';
 
 // Fetching user info
-export const FETCH_USER_ROLE_INFO = '[Account] FETCH_USER_ROLE_INFO';
-export const FETCH_USER_ROLE_FAIL = '[Account] FETCH_USER_ROLE_FAIL';
-export const FETCH_USER_ROLE_SUCCESS = '[Account] FETCH_USER_ROLE_SUCCESS';
+export const FETCH_USER_ROLE_INFO = '[User Role] FETCH_USER_ROLE_INFO';
+export const FETCH_USER_ROLE_FAIL = '[User Role] FETCH_USER_ROLE_FAIL';
+export const FETCH_USER_ROLE_SUCCESS = '[User Role] FETCH_USER_ROLE_SUCCESS';
 
 export class FetchUserRoleInfo implements Action {
   readonly type = FETCH_USER_ROLE_INFO;

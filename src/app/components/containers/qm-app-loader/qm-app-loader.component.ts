@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { LicenseInfoSelectors } from './../../../../store/services/license.selectors';
+
+import { LicenseInfoSelectors } from './../../../../store/services/license/license.selectors';
 
 @Component({
   selector: 'qm-qm-app-loader',

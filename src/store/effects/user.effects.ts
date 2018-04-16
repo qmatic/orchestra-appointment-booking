@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, tap } from 'rxjs/operators';
+
 import * as UserActions from './../actions';
 import { UserDataService } from '../services';
 

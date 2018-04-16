@@ -1,8 +1,8 @@
-import { ILicenseState } from './../reducers/license.reducer';
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
+import { IAppState } from '../../reducers';
+import { ILicenseState } from './../../reducers/license.reducer';
 
 // selectors
 const getLicenseInfoState = createFeatureSelector<ILicenseState>('license');

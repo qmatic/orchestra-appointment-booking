@@ -1,8 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IAppointment } from '../../../../models/IAppointment';
-import { AppointmentSelectors, AppointmentDispatchers, CustomerSelectors } from '../../../../store';
 import { Subscription } from 'rxjs/Subscription';
+
+import {
+  AppointmentSelectors,
+  AppointmentDispatchers,
+  CustomerSelectors
+} from '../../../../store';
+
+import { IAppointment } from '../../../../models/IAppointment';
 import { ICustomer } from '../../../../models/ICustomer';
 
 @Component({

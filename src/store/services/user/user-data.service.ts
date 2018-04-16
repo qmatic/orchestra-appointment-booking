@@ -4,23 +4,23 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarEndpoint, DataServiceError } from './data.service';
+import { DataServiceError, restEndpoint } from '../data.service';
 
-import { IBranchResponse } from '../../models/IBranchResponse';
+import { IUser } from '../../../models/IUser';
 
 @Injectable()
-export class BranchDataService {
+export class UserDataService {
   constructor(private http: HttpClient) {}
 
-  getBranches(): Observable<IBranchResponse> {
+  getUserInfo(): Observable<IUser> {
     return this.http
-      .get<IBranchResponse>(`${calendarEndpoint}/branches/`)
+      .get<IUser>(`${restEndpoint}/user`)
       .pipe(catchError(this.handleError()));
   }
 
   private handleError<T>(requestData?: T) {
     return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
+      const error = new DataServiceError(res.statusText, requestData);
       console.error(error);
       return new ErrorObservable(error);
     };

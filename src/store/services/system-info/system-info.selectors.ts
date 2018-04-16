@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
-import { ISystemInfoState } from '../reducers/system-info.reducer';
-import { ISystemInfo } from '../../models/ISystemInfo';
+import { IAppState } from '../../reducers';
+import { ISystemInfoState } from '../../reducers/system-info.reducer';
+import { ISystemInfo } from '../../../models/ISystemInfo';
 
 // selectors
 const getSystemInfoState = createFeatureSelector<ISystemInfoState>('systemInfo');

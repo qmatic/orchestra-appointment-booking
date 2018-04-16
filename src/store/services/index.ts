@@ -1,29 +1,12 @@
 // Barrel
 export { DataServiceError } from './data.service';
 
-// New way
+// Data services, dispatchers and selectors
 export * from './customer';
 export * from './appointment';
-
-// Data services
-export * from './service-data.service';
-export * from './branch-data.service';
-export * from './user-data.service';
-export * from './system-info-data.service';
-export * from './license-data.service';
-
-// Dispatchers
-export * from './service.dispatchers';
-export * from './branch.dispatchers';
-export * from './user.dispatchers';
-export * from './system-info.dispatchers';
-export * from './license.dispatchers';
-
-// Selectors
-export * from './service.selectors';
-export * from './branch.selectors';
-export * from './user.selectors';
-export * from './system-info.selectors';
-export * from './license.selectors';
-
+export * from './branch';
 export * from './user-role';
+export * from './license';
+export * from './service';
+export * from './system-info';
+export * from './user';

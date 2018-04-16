@@ -1,13 +1,17 @@
-import { ServiceDispatchers } from './../store/services/service.dispatchers';
-import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
-import { BranchDispatchers } from './../store/services/branch.dispatchers';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ToastContainerDirective } from 'ngx-toastr';
 
 import { IBranch } from './../models/IBranch';
-import { IAppState } from '../store/reducers';
-import { UserSelectors, BranchSelectors, SystemInfoDispatchers, UserDispatchers } from '../store';
+import {
+  UserSelectors,
+  BranchSelectors,
+  UserDispatchers,
+  BranchDispatchers,
+  UserRoleDispatchers,
+  SystemInfoDispatchers,
+  ServiceDispatchers
+} from '../store';
 import { ToastService } from '../services/util/toast.service';
 
 @Component({
@@ -44,7 +48,7 @@ export class AppComponent implements OnInit {
   }
 
   branchSearch(searchText) {
-    //this.branchDispatchers.filter(searchText);
+    // this.branchDispatchers.filter(searchText);
   }
 
   serviceSearch(searchText) {

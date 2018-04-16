@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
 import { IUser } from './../../models/IUser';
-import { DataAction, DataErrorAction } from './data.actions';
-import { DataServiceError } from '../services';
 
 // Fetching user info
 export const FETCH_USER_INFO = '[User] FETCH_USER_INFO';

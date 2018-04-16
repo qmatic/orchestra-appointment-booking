@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
-import { IServiceState } from '../reducers/service.reducer';
+import { IAppState } from '../../reducers';
+import { IServiceState } from '../../reducers/service.reducer';
 
 // selectors
 const getServiceState = createFeatureSelector<IServiceState>('services');

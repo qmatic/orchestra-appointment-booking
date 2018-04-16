@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { IAppState } from '../reducers';
+import { IAppState } from '../../reducers';
 
-import * as UserActions from '../actions';
+import * as UserActions from '../../actions';
 
 @Injectable()
 export class UserDispatchers {

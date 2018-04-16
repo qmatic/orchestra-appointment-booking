@@ -1,7 +1,7 @@
 import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
 import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
 import { LicenseAuthGuard } from './../routes/license-auth-guard';
-import { LicenseDispatchers } from './../store/services/license.dispatchers';
+import { LicenseDispatchers } from './../store/services/license/license.dispatchers';
 // Angular
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';

@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
+
 import * as ServiceActions from './../actions';
 import { ServiceDataService } from '../services';
 

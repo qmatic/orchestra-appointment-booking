@@ -1,10 +1,10 @@
-import { IAccount } from './../../../models/IAccount';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
+import { IAccount } from './../../../models/IAccount';
 import { restEndpoint, DataServiceError } from './../data.service';
 import {
   USER_ROLE,

@@ -4,23 +4,23 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { DataServiceError, restEndpoint } from './data.service';
+import { calendarEndpoint, DataServiceError } from '../data.service';
 
-import { IUser } from '../../models/IUser';
+import { IServiceResponse } from '../../../models/IServiceResponse';
 
 @Injectable()
-export class UserDataService {
+export class ServiceDataService {
   constructor(private http: HttpClient) {}
 
-  getUserInfo(): Observable<IUser> {
+  getServices(): Observable<IServiceResponse> {
     return this.http
-      .get<IUser>(`${restEndpoint}/user`)
+      .get<IServiceResponse>(`${calendarEndpoint}/services/`)
       .pipe(catchError(this.handleError()));
   }
 
   private handleError<T>(requestData?: T) {
     return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.statusText, requestData);
+      const error = new DataServiceError(res.error, requestData);
       console.error(error);
       return new ErrorObservable(error);
     };
