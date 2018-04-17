@@ -1,0 +1,100 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-notes-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: rem($standard-margin / 2);
+}
+
+.qm-notes {
+  flex: 1 0 auto;
+  display: flex;
+  width: 100%;
+  align-self: flex-end;
+  align-items: flex-end;
+
+  &__edit-container {
+    width: 100%;
+    display: block;
+  }
+
+  &__presentation-container {
+    width: 100%;
+    align-self: flex-end;
+  }
+
+  &__textarea {
+    display: block;
+    height: 130px;
+    width: 100%;
+    margin-bottom: rem($standard-margin / 2);
+    border: 1px solid $standard-border-color;
+    resize: none;
+    font-weight: $font-weight-light;
+    padding: rem($standard-padding / 2);
+
+    &[disabled] {
+      background: $disabled-background;
+    }
+  }
+
+  &__label {
+    font-size: rem(12px);
+    color: $dark-transparent62;
+    margin-bottom: 0;
+  }
+
+  &__nr-of-character-container {
+    display: flex;
+  }
+
+  &__characters {
+    font-size: rem(12px);
+    color: $dark-transparent62;
+  }
+}
+
+.qm-notes-btn {
+  position: relative;
+  width: 100%;
+  color: $dark-transparent82;
+  background: transparent;
+  border: 0;
+  padding: rem($standard-padding / 2 40px $standard-padding / 2 $standard-padding / 2);
+  border-bottom: 1px solid $dark-transparent42;
+  cursor: pointer;
+  text-align: left;
+  word-wrap: break-word;
+
+  @at-root [dir='rtl'] & {
+    padding: rem($standard-padding / 2 $standard-padding / 2 $standard-padding / 2 40px);
+    text-align: right;
+  }
+
+  &__icon {
+    position: absolute;
+    font-size: rem(24px);
+    top: rem($standard-padding / 2);
+    right: 0;
+    color: $dark-transparent12;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &__text {
+    color: $dark-transparent42;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: $dark-transparent82;
+
+    .qm-notes-btn__icon {
+      color: $dark-transparent82;
+    }
+  }
+}

@@ -1,12 +1,30 @@
 @import '../../../../styles/base/_component-manifest.scss';
 
+:host {
+  display: flex;
+  height: 100%;
+
+}
+
 .qm-customer-card {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  height: 100%;
-  align-content: space-between;
   align-items: flex-end;
+  background: $white;
+  box-shadow: $dashboard-body-box-shadow;
+  border-radius: $standard-border-radius;
+  width: 100%;
+
+  &__content-container {
+    flex: 1 1 auto;
+    padding: rem($standard-padding $standard-padding $standard-padding $standard-padding * 1.5);
+    border-radius: rem($standard-border-radius);
+    cursor: pointer;
+    margin: rem(6px);
+    &:hover,
+    &:focus {
+      background: $dark-transparent04;
+    }
+  }
 
   &__headline {
     flex: 0 0 100%;
@@ -14,7 +32,7 @@
     font-size: rem(28px);
     line-height: rem(32px);
     color: $primary-color;
-    margin-bottom: rem($standard-margin);
+    margin-bottom: rem(12px);
 
     @at-root [dir='rtl'] & {
       text-align: right;
@@ -36,11 +54,16 @@
     }
   }
 
+  &__list-container {
+    display: flex;
+    align-items: flex-end;
+  }
+
   &__list {
     flex: 1 1 auto;
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: rem(0 0 $standard-margin / 2);
   }
 
   &__list-item {
@@ -48,7 +71,7 @@
     align-items: center;
 
     & + & {
-      margin-top: rem($standard-margin);
+      margin-top: rem(12px);
     }
   }
 
@@ -73,10 +96,24 @@
     word-break: break-all;
   }
 
-  &__btn {
+  &__edit-btn {
+    flex: 0 0 auto;
+    font-size: rem(32px);
+    color: $dark-transparent42;
+    border-radius: rem($standard-border-radius);
+    padding: 6px;
+
+    &:hover,
+    &:focus {
+      background: $dark-transparent12;
+      color: $dark-transparent82;
+    }
+  }
+
+  &__btn-container {
     display: inline-flex;
     flex: 0 0 auto;
-    padding: rem($standard-padding / 2 $standard-padding);
+    padding: rem($standard-padding $standard-padding $standard-padding $standard-padding * 2);
   }
 
   &--overview-theme {

@@ -8,3 +8,4 @@ export * from './license.actions';
 export * from './user-role.actions';
 export * from './customer.actions';
 export * from './appointment.actions';
+export * from './booking.actions';

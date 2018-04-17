@@ -1,0 +1,166 @@
+@import '../../../../../../styles/base/_component-manifest.scss';
+
+.qm-appointment-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  &__item {
+    & + & {
+      margin-top: rem($standard-margin / 2);
+    }
+
+    &:last-child {
+      margin-bottom: rem($standard-margin / 2);
+    }
+  }
+}
+
+.qm-appointment-card {
+  box-shadow: $standard-box-shadow;
+  border-radius: $standard-border-radius;
+  color: $dark-transparent82;
+  padding: rem($standard-padding * 1.5 20px $standard-padding / 2);
+
+  &:hover,
+  &:focus {
+    background: $dark-transparent04;
+    text-decoration: none;
+
+    .qm-appointment-card__headline {
+      color: $primary-color;
+    }
+
+    .qm-appointment-card__time-icon {
+      color: $dark-transparent82;
+    }
+
+    .qm-appointment-card__time-text {
+      color: $dark-transparent82;
+    }
+  }
+
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &__headline-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: rem($standard-margin);
+  }
+
+  &__headline {
+    display: inline-block;
+    font-size: rem(21px);
+    line-height: rem(24px);
+    font-weight: $font-weight-regular;
+    color: $dark-transparent42;
+  }
+
+  &__time {
+    display: inline-flex;
+    align-items: center;
+    margin-left: rem($standard-margin);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin);
+    }
+  }
+
+  &__time-icon {
+    display: inline-block;
+    font-size: rem(24px);
+    line-height: rem(24px);
+    color: $dark-transparent42;;
+    margin-right: rem($standard-margin / 2);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 2);
+    }
+  }
+
+  &__time-text {
+    display: inline-block;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    color: $dark-transparent42;
+    word-break: break-all;
+    word-break: break-word;
+  }
+
+  &__content-container {
+    display: block;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      .qm-appointment-card__headline {
+        font-weight: $font-weight-regular;
+      }
+    }
+
+    &:active {
+      .qm-appointment-card__headline {
+        color: $dark-transparent82;
+      }
+    }
+  }
+
+  &__action-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__btn {
+
+    & + & {
+      margin-left: rem($standard-margin * 2);
+
+      @at-root [dir='rtl'] & {
+        margin-left: 0;
+        margin-right: rem($standard-margin * 2);
+      }
+    }
+
+    .qm-action-btn__icon {
+      font-size: rem($base-unit * 2);
+    }
+
+    &:hover,
+    &:focus {
+      color: $tertiary-color;
+    }
+  }
+
+  &__status-container {
+    display: block;
+    margin-top: rem($standard-margin / 2);
+  }
+
+  &__status-label {
+    display: inline-block;
+    font-size: rem(16px);
+    font-weight: $font-weight-light;
+    line-height: rem(24px);
+    color: $dark-transparent42;
+  }
+
+  &__status {
+    display: inline-block;
+    font-size: rem(18px);
+    font-weight: $font-weight-medium;
+    line-height: rem(24px);
+    color: $secondary-color;
+    margin-left: rem($standard-margin / 4);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin / 4);
+    }
+  }
+}

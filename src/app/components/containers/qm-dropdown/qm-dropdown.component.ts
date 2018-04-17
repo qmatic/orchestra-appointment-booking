@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class QmDropdownComponent implements OnInit {
   @Input() text: string;
   @Input() userDirection: string;
-  private isExpanded = false;
+  @Input() isExpanded = false;
 
   constructor() { }
 

@@ -1,17 +1,29 @@
-<div class="qm-customer-appointments">
+<div class="qm-customer-appointments" [ngClass]="{'qm-customer-appointments--full' : appointmentsLoaded}">
   <div class="" *ngIf="appointmentsLoaded; else appointmentFetch">
     <span class="qm-headline qm-headline--large qm-customer-appointments__headline">Booked appointments</span>
-
-    <p class="qm-customer-appointments__description">The customer has 5 booked appointments</p>
-    <qm-dropdown [text]="'Test'">
+    <qm-dropdown [text]="dropdownLabel" [isExpanded]="true" *ngIf="appointments.length > 0; else noAppointments">
       <qm-customer-appointment-list [appointments]="appointments"></qm-customer-appointment-list>
     </qm-dropdown>
+    <ng-template #noAppointments>
+      <span class="qm-customer-appointments__no-appointments">
+        {{ 'label.customerAppointments.no.appointments' | translate }}
+      </span>
+    </ng-template>
   </div>
   <ng-template #appointmentFetch>
-    <button type="button" class="qm-btn qm-btn--secondary" (click)="fetchAppointments()">
-      <span class="qm-btn__text" title="{{ 'button.customerAppointments.fetchAppointments' | translate }}">
-        {{ 'button.customerAppointments.fetchAppointments' | translate }}
-      </span>
-    </button>
+      <button class="qm-fetch-appointments-btn" (click)="fetchAppointments()" *ngIf="!(appointmentsLoading$ | async); else appointmentsLoading">
+        <span class="qm-fetch-appointments-btn__icon-container">
+          <i class="qm-fetch-appointments-btn__icon-background icon-ticket" aria-hidden="true"></i>
+          <i class="qm-fetch-appointments-btn__icon-foreground icon-user-details" aria-hidden="true"></i>
+        </span>
+        <span class="qm-fetch-appointments-btn__text" title="{{ 'button.customerAppointments.view.booked' | translate }}">
+          {{ 'button.customerAppointments.view.booked' | translate }}
+        </span>
+      </button>
+      <ng-template #appointmentsLoading>
+        <div class="qm-loader-container">
+          <div class="qm-loader"></div>
+        </div>
+      </ng-template>
   </ng-template>
 </div>

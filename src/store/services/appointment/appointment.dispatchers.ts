@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';
 import * as AppointmentActions from '../../actions';
+import { IAppointment } from '../../../models/IAppointment';
 
 @Injectable()
 export class AppointmentDispatchers {
@@ -10,6 +11,10 @@ export class AppointmentDispatchers {
 
   fetchAppointments(publicId: string) {
     this.store.dispatch(new AppointmentActions.FetchAppointments(publicId));
+  }
+
+  deleteAppointment(appointment: IAppointment) {
+    this.store.dispatch(new AppointmentActions.DeleteAppointment(appointment));
   }
 
   resetAppointments() {

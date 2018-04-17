@@ -2,17 +2,17 @@
   <div class="qm-dashboard__header">
     <div class="row">
       <div class="col-sm-5">
-        <div class="qm-box qm-full-height" *ngIf="currentCustomer === null; else customerCard">
+        <div class="qm-full-height" *ngIf="currentCustomer === null; else customerCard">
           <qm-customer-search [customers]="customers$ | async" [searchText]="customerSearchText$ | async"></qm-customer-search>
         </div>
         <ng-template #customerCard>
-          <div class="qm-box qm-full-height" >
+          <div class="qm-full-height">
             <qm-customer-card [customer]="currentCustomer"></qm-customer-card>
           </div>
         </ng-template>
       </div>
       <div class="col-sm-5">
-        <div class="qm-box qm-full-height" *ngIf="currentCustomer">
+        <div class="qm-full-height" *ngIf="currentCustomer">
           <qm-customer-appointments></qm-customer-appointments>
         </div>
       </div>
@@ -402,47 +402,7 @@
                 <span class="qm-standard-text-field__error-message">Appointment title cannot be blank</span>
               </label>
             </div>
-
-
-
-            <div class="qm-notes">
-              <div class="qm-notes__edit-container">
-                <div class="qm-notes-layout">
-                  <label class="qm-notes__label" for="notesEdit">Notes</label>
-                  <div class="qm-notes__nr-of-character-container">
-                    <span class="qm-notes__characters js-notes-written-characters">0</span>
-                    <span class="qm-notes__characters js-notes-max-characters">/255</span>
-                  </div>
-                </div>
-                <textarea id="notesEdit" class="qm-notes__textarea" maxlength="255" rows="5"></textarea>
-                <div class="qm-generic-layout qm-generic-layout--align-right">
-
-                  <button class="qm-btn qm-btn--secondary qm-btn--small js-notes-cancel-btn">
-
-                    <span class="qm-btn__text" title="Cancel">Cancel</span>
-                  </button>
-
-
-                  <button class="qm-btn qm-btn--primary qm-btn--small js-notes-save-btn">
-
-                    <span class="qm-btn__text" title="Save">Save</span>
-                  </button>
-
-                </div>
-              </div>
-              <div class="qm-notes__presentation-container">
-                <button class="qm-notes-btn js-notes-btn">
-                  <span class="qm-notes-btn__text">Add notes</span>
-                  <i class="qm-notes-btn__icon icon-edit" aria-hidden="true"></i>
-                </button>
-                <div class="qm-generic-layout qm-generic-layout--align-right">
-                  <div class="qm-notes__nr-of-character-container">
-                    <span class="qm-notes__characters js-notes-written-characters">0</span>
-                    <span class="qm-notes__characters js-notes-max-characters">/255</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <qm-notes></qm-notes>
           </div>
         </div>
       </div>

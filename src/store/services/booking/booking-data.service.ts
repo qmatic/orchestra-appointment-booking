@@ -10,18 +10,18 @@ import { IAppointment } from '../../../models/IAppointment';
 
 
 @Injectable()
-export class AppointmentDataService {
+export class BookingDataService {
   constructor(private http: HttpClient) {}
 
-  getAppointments(publicId: string): Observable<IAppointmentResponse> {
+  reserveAppointment(appointment: IAppointment): Observable<IAppointment> {
     return this.http
-      .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointments`)
+      .get<IAppointment>(`${calendarPublicEndpoint}/customers/${appointment.publicId}/appointments`)
       .pipe(catchError(this.handleError()));
   }
 
-  deleteAppointment(appointment: IAppointment) {
+  saveAppointment(appointment: IAppointment): Observable<IAppointment> {
     return this.http
-      .delete(`${calendarPublicEndpoint}/appointments/${appointment.publicId}`)
+      .get<IAppointment>(`${calendarPublicEndpoint}/customers/${appointment.publicId}/appointments`)
       .pipe(catchError(this.handleError()));
   }
 

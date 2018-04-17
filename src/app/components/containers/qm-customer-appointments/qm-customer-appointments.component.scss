@@ -8,14 +8,22 @@
 .qm-customer-appointments {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
   height: 100%;
-  justify-content: flex-end;
+  background: $white;
+  box-shadow: $dashboard-body-box-shadow;
+  border-radius: $standard-border-radius;
+  padding: rem(0 $standard-padding * 3);
+
+  &--full {
+    width: 100%;
+    padding: rem($standard-padding $standard-padding * 1.75);
+  }
 
   &__headline {
     display: block;
     line-height: rem(28px);
-    margin-bottom: 0;
+    margin-bottom: rem($standard-margin);
     margin-top: rem(12px);
 
     @at-root [dir='rtl'] & {
@@ -23,13 +31,121 @@
     }
   }
 
-  &__description {
-    color: $secondary-color;
-    margin-bottom: rem($standard-margin / 4);
-    text-align: right;
+  &__no-appointments {
+    display: block;
+    font-size: rem(18px);
+    color: $dark-transparent82;
+    text-align: center;
+    font-weight: $font-weight-light;
+    margin-bottom: rem(20px);
+  }
+}
+
+.qm-fetch-appointments-btn {
+  display: inline-block;
+  background: transparent;
+  border: 0;
+  color: $primary-action-button-color;
+  font-weight: $font-weight-light;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+  }
+
+  &__icon-container {
+    position: relative;
+    display: block;
+    width: rem(62px);
+    height: rem(62px);
+    margin: 0 auto 8px;
+  }
+
+  &__icon-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: rem($base-unit * 4);
+    color: $dark-transparent12;
 
     @at-root [dir='rtl'] & {
-      text-align: left;
+      left: auto;
+      right: 0;
     }
+  }
+
+  &__icon-foreground {
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+    font-size: rem($base-unit * 2);
+    color: $dark-transparent82;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &__text {
+    font-size: rem(18px);
+    color: $secondary-color;
+
+    &:after {
+      display: block;
+      content: attr(title);
+      font-weight: $font-weight-medium;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+  }
+}
+
+.qm-loader-container {
+  padding: rem(0 $standard-padding * 2);
+}
+.qm-loader,
+.qm-loader:after {
+  border-radius: 50%;
+  width: 6em;
+  height: 6em;
+}
+.qm-loader {
+  margin: 0 auto;
+  font-size: 10px;
+  position: relative;
+  border-top: 0.8em solid $primary-color;
+  border-right: 0.8em solid $primary-color;
+  border-bottom: 0.8em solid $primary-color;
+  border-left: 0.8em solid $white;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

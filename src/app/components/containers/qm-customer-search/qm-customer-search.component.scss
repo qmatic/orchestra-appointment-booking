@@ -3,6 +3,10 @@
 .qm-customer-search {
   display: flex;
   flex-wrap: wrap;
+  background: $white;
+  box-shadow: $dashboard-body-box-shadow;
+  border-radius: $standard-border-radius;
+  padding: rem($standard-padding * 1.5 $standard-padding * 2);
 
   &__headline {
     flex: 1 1 100%;
@@ -17,7 +21,7 @@
     position: relative;
     flex: 1 1 auto;
     margin-right: rem($base-unit);
-    z-index: map-get($map: $z-index, $key: 'customer-search-results');
+    z-index: map-get($map: $z-index, $key: 'customer-search');
 
     @at-root [dir='rtl'] & {
       margin-right: 0;

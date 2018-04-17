@@ -19,7 +19,7 @@
 
   &__icon {
     display: inline-block;
-    font-size: rem(28px);
+    font-size: rem(24px);
     line-height: rem(24px);
     color: $dark-transparent82;
     margin-right: rem($standard-margin / 2);
@@ -76,64 +76,6 @@
 
     .qm-icon-list-item__text + .qm-icon-list-item__text {
       margin-top: rem($standard-margin);
-    }
-  }
-}
-
-
-.qm-icon-item {
-  display: flex;
-  @at-root [dir='rtl'] & {
-    text-align: right;
-  }
-
-  &__icon {
-    flex: 0 0 auto;
-    font-size: rem(28px);
-    line-height: rem(24px);
-    color: $dark-transparent82;
-    margin-right: rem($standard-margin / 2);
-
-    @at-root [dir='rtl'] & {
-      margin-right: 0;
-      margin-left: rem($standard-margin / 2);
-    }
-  }
-
-  &__text-container {
-    flex: 0 1 auto;
-    overflow: hidden;
-
-    @at-root [dir='rtl'] & {
-      padding-right: 0;
-      margin-right: 0;
-      padding-left: rem($standard-padding);
-      margin-left: rem($standard-margin);
-    }
-  }
-
-  &__text {
-    display: block;
-    font-size: rem(16px);
-    line-height: rem(24px);
-    font-weight: $font-weight-light;
-    color: $dark-transparent62;
-    word-break: break-all;
-    word-break: break-word;
-    text-overflow: ellipsis;
-    max-width: 200px;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-
-
-    & + & {
-      margin-top: rem($standard-margin / 2);
-    }
-
-    &--emphasis {
-      font-weight: $font-weight-regular;
-      color: $dark-transparent82;
     }
   }
 }

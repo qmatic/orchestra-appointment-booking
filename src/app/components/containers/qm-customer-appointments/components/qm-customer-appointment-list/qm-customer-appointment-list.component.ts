@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { IAppointment } from '../../../../../../models/IAppointment';
-import { UserSelectors } from '../../../../../../store';
+import { UserSelectors, AppointmentDispatchers } from '../../../../../../store';
 
 
 @Component({
@@ -18,7 +18,8 @@ export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
   private userLocale: string;
 
   constructor(
-    private userSelectors: UserSelectors
+    private userSelectors: UserSelectors,
+    private appointmentDispatchers: AppointmentDispatchers
   ) {
     this.userLocale$ = this.userSelectors.userLocale$;
   }
@@ -28,6 +29,46 @@ export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
       (userLocale: string) => this.userLocale = userLocale
     );
     this.subscriptions.add(userLocalSubscription);
+  }
+
+  deleteAppointment(appointment: IAppointment): void {
+    this.appointmentDispatchers.deleteAppointment(appointment);
+  }
+
+  getStatusClass(appointment: IAppointment) {
+    switch (appointment.status) {
+      case 20: {
+        return 'created';
+      }
+      default: {
+        return '';
+      }
+    }
+  }
+
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case 0:
+          return 'label.appointment.states.created';
+      case 10:
+          return 'label.appointment.states.reserved';
+      case 20:
+          return 'label.appointment.states.created';
+      case 30:
+          return 'label.appointment.states.arrived';
+      case 40:
+          return 'label.appointment.states.called';
+      case 50:
+          return 'label.appointment.states.completed';
+      case 51:
+          return 'label.appointment.states.noshow';
+      case 52:
+          return 'label.appointment.states.deletedByReset';
+      case 53:
+          return 'label.appointment.states.cancelled';
+      default:
+          return '';
+    }
   }
 
   ngOnDestroy() {

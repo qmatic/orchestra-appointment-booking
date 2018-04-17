@@ -10,3 +10,4 @@ export * from './license';
 export * from './service';
 export * from './system-info';
 export * from './user';
+export * from './booking';

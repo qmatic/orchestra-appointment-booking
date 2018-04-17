@@ -73,7 +73,8 @@ import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-drop
 import {
   QmCustomerAppointmentListComponent
 } from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
-import { QmIconListComponent } from './components/presentational/qm-icon-list/qm-icon-list.component';
+import { QmAppointmentIconListComponent } from './components/presentational/qm-appointment-icon-list/qm-appointment-icon-list.component';
+import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -120,7 +121,8 @@ const toastrGlobalOptions = {
     QmCustomerAppointmentsComponent,
     QmDropdownComponent,
     QmCustomerAppointmentListComponent,
-    QmIconListComponent
+    QmAppointmentIconListComponent,
+    QmNotesComponent
   ],
   imports: [
     BrowserModule,

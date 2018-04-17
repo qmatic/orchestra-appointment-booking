@@ -43,6 +43,28 @@ export function reducer (
         error: action.payload
       };
     }
+    case AppointmentActions.DELETE_APPOINTMENT: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.DELETE_APPOINTMENT_SUCCESS: {
+      return {
+        ...state,
+        appointments: removeAppointment(state, action.payload),
+        loading: false,
+        error: null
+      };
+    }
+    case AppointmentActions.DELETE_APPOINTMENT_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
     case AppointmentActions.RESET_APPOINTMENTS: {
       return {
         ...state,
@@ -56,4 +78,14 @@ export function reducer (
         return state;
     }
   }
+}
+
+function removeAppointment(
+  state: IAppointmentState,
+  appointmentToRemove: IAppointment
+) {
+  return state.appointments.filter(
+    (appointment: IAppointment) =>
+      appointment.publicId !== appointmentToRemove.publicId
+  );
 }

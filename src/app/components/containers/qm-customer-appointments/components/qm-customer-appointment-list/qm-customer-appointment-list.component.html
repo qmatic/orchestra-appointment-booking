@@ -3,19 +3,48 @@
   <li class="qm-appointment-list__item" *ngFor="let appointment of appointments">
     <div class="qm-appointment-card">
       <a href="#" class="qm-appointment-card__content-container">
-        <span class="qm-appointment-card__headline">{{ appointment.start | date:'fullDate':'':userLocale }}</span>
-        <qm-icon-list></qm-icon-list>
+        <span class="qm-appointment-card__headline-container">
+          <span class="qm-appointment-card__headline">
+          {{ appointment.start | date:'EEEE MMMM d, y':'':userLocale }}
+          </span>
+          <span class="qm-appointment-card__time">
+            <i class="qm-appointment-card__time-icon icon-clock" aria-hidden="true"></i>
+            <span class="qm-appointment-card__time-text">
+              {{ appointment.start | date:'hh:mm a':'':userLocale }} - {{ appointment.end | date:'hh:mm a':'':userLocale }}
+            </span>
+          </span>
+        </span>
+        <qm-appointment-icon-list [appointment]="appointment" [userLocale]="userLocale"></qm-appointment-icon-list>
+        <span class="qm-appointment-card__status-container">
+          <span class="qm-appointment-card__status-label">
+            {{ 'label.appointment.status' | translate }}
+          </span>
+          <span class="qm-appointment-card__status" [ngClass]="getStatusClass(appointment)">
+            {{ getStatusLabel(appointment.status) | translate }}
+          </span>
+        </span>
       </a>
 
       <div class="qm-appointment-card__action-container">
-        <button class="qm-action-btn qm-appointment-card__btn">
+        <button class="qm-action-btn qm-action-btn--only-icon qm-appointment-card__btn" (click)="deleteAppointment(appointment)">
           <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-          <span class="qm-action-btn__text" title="Delete">Delete</span>
+          <span class="sr-only" title="{{ 'button.customerAppointments.delete' | translate }}">
+            {{ 'button.customerAppointments.delete' | translate }}
+          </span>
         </button>
 
-        <button class="qm-action-btn qm-appointment-card__btn">
+        <button class="qm-action-btn qm-action-btn qm-appointment-card__btn">
           <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-          <span class="qm-action-btn__text" title="Print">Print</span>
+          <span class="sr-only" title="{{ 'button.customerAppointments.print' | translate }}">
+            {{ 'button.customerAppointments.print' | translate }}
+          </span>
+        </button>
+
+        <button class="qm-action-btn qm-action-btn qm-appointment-card__btn">
+          <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
+          <span class="sr-only" title="{{ 'button.customerAppointments.edit' | translate }}">
+            {{ 'button.customerAppointments.edit' | translate }}
+          </span>
         </button>
       </div>
     </div>

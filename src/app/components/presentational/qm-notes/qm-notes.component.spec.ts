@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QmIconListComponent } from './qm-icon-list.component';
+import { QmNotesComponent } from './qm-notes.component';
 
-describe('QmIconListComponent', () => {
-  let component: QmIconListComponent;
-  let fixture: ComponentFixture<QmIconListComponent>;
+describe('QmNotesComponent', () => {
+  let component: QmNotesComponent;
+  let fixture: ComponentFixture<QmNotesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QmIconListComponent ]
+      declarations: [ QmNotesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QmIconListComponent);
+    fixture = TestBed.createComponent(QmNotesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
