@@ -3,17 +3,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { of } from 'rxjs/observable/of';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { merge } from 'rxjs/observable/merge';
-import 'rxjs/add/operator/take';
+
 import {
   UserSelectors,
   AppointmentMetaSelectors,
   AppointmentMetaDispatchers
 } from '../../../../store';
-import { combineLatest } from 'rxjs/operators';
-
 
 @Component({
   selector: 'qm-notes',
@@ -26,7 +21,6 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   private notesLength$: Observable<number>;
   private userDirection$: Observable<string>;
   private notes$: Observable<string>;
-  private labelObservable: Observable<string>;
 
   private notes: string;
   private notesLength: number;

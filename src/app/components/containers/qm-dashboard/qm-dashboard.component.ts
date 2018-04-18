@@ -16,7 +16,7 @@ import {
   styleUrls: ['./qm-dashboard.component.scss']
 })
 export class QmDashboardComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
+  private subscriptions: Subscription = new Subscription();
   private branches$: Observable<IBranch[]>;
   private userDirection$: Observable<string>;
   private currentCustomer$: Observable<ICustomer>;
@@ -40,14 +40,16 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription =
+    const currentCustomerSubscription =
         this.currentCustomer$.subscribe(
                 (customer: ICustomer) =>
                   this.currentCustomer = customer);
+
+    this.subscriptions.add(currentCustomerSubscription);
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   branchSearch(searchText) {

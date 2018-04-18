@@ -12,7 +12,7 @@
     <textarea
       id="notesEdit"
       class="qm-notes__textarea"
-      maxlength="255"
+      maxlength="{{ notesMaxLength }}"
       rows="5"
       [ngModel]="notes"
       (input)="handleNotesInput(notesInput.value)"
