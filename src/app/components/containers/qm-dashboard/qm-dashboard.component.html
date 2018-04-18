@@ -2,14 +2,12 @@
   <div class="qm-dashboard__header">
     <div class="row">
       <div class="col-sm-5">
-        <div class="qm-full-height" *ngIf="currentCustomer === null; else customerCard">
-          <qm-customer-search [customers]="customers$ | async" [searchText]="customerSearchText$ | async"></qm-customer-search>
-        </div>
-        <ng-template #customerCard>
-          <div class="qm-full-height">
+        <div class="qm-full-height">
+          <qm-customer-search *ngIf="currentCustomer === null; else customerCard"></qm-customer-search>
+          <ng-template #customerCard>
             <qm-customer-card [customer]="currentCustomer"></qm-customer-card>
-          </div>
-        </ng-template>
+          </ng-template>
+        </div>
       </div>
       <div class="col-sm-5">
         <div class="qm-full-height" *ngIf="currentCustomer">

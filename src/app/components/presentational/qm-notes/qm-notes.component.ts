@@ -1,9 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { UserSelectors, BookingDispatchers, BookingSelectors } from '../../../../store';
+import { of } from 'rxjs/observable/of';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { merge } from 'rxjs/observable/merge';
+import 'rxjs/add/operator/take';
+import {
+  UserSelectors,
+  AppointmentMetaSelectors,
+  AppointmentMetaDispatchers
+} from '../../../../store';
+import { combineLatest } from 'rxjs/operators';
 
 
 @Component({
@@ -11,44 +20,76 @@ import { UserSelectors, BookingDispatchers, BookingSelectors } from '../../../..
   templateUrl: './qm-notes.component.html',
   styleUrls: ['./qm-notes.component.scss']
 })
-export class QmNotesComponent implements OnInit {
-  @Input() private notesText: string;
-
+export class QmNotesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private notesInput$: Subject<string> = new Subject<string>();
-  private characterCount$: Observable<number>;
+  private notesLength$: Observable<number>;
   private userDirection$: Observable<string>;
   private notes$: Observable<string>;
-  private characterCount: number;
+  private labelObservable: Observable<string>;
 
+  private notes: string;
+  private notesLength: number;
+  private notesMaxLength = 255;
   private notesInputOpened = false;
+  private buttonPlaceholderText: string;
 
   constructor(
     private userSelectors: UserSelectors,
-    private bookingSelectors: BookingSelectors,
-    private bookingDispatchers: BookingDispatchers
+    private appointmentMetaSelectors: AppointmentMetaSelectors,
+    private appointmentMetaDispatchers: AppointmentMetaDispatchers,
+    private translateService: TranslateService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.characterCount$ = this.bookingSelectors.bookingNotesLength$;
-    this.notes$ = this.bookingSelectors.bookingNotes$;
+    this.notesLength$ = this.appointmentMetaSelectors.notesLength$;
+    this.notes$ = this.appointmentMetaSelectors.notes$;
   }
 
   ngOnInit() {
-    const notesInputSubscription = this.notesInput$.pipe(
-      distinctUntilChanged(),
-    ).subscribe(text => this.handleNotesInput(text));
+    const notesInputSubscription = this.notesInput$.subscribe(
+      (note: string) => this.setNote(note)
+    );
 
-    const characterCountSubscription = this.characterCount$.subscribe(
-      (characterCount: number) =>
-        this.characterCount = characterCount
+    const notesSubscription = this.notes$.subscribe(
+      (notes: string) => this.notes = notes
+    );
+
+    const notesLengthSubscription = this.notesLength$.subscribe(
+      (notesLength: number) =>
+        this.notesLength = notesLength
+    );
+
+    const buttonLabelSunscription = this.translateService.get('label.notes.presentational.placeholder').subscribe(
+      (buttonPlaceholderText: string) =>
+        this.buttonPlaceholderText = buttonPlaceholderText
     );
 
     this.subscriptions.add(notesInputSubscription);
-    this.subscriptions.add(characterCountSubscription);
+    this.subscriptions.add(notesLengthSubscription);
+    this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(buttonLabelSunscription);
   }
 
-  handleNotesInput(text) {
-    this.bookingDispatchers.setBookingNote(text);
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  handleNotesInput(note: string) {
+    this.notesInput$.next(note);
+  }
+
+  setNote(note: string) {
+    this.appointmentMetaDispatchers.setAppointmentNote(note);
+  }
+
+  getButtonText() {
+    return this.notes.trim().length === 0
+            ? this.buttonPlaceholderText
+            : this.notes;
+  }
+
+  hideNotesInput() {
+    this.notesInputOpened = false;
   }
 
   toggleNotesInput() {

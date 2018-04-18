@@ -155,8 +155,12 @@
     font-size: rem(18px);
     font-weight: $font-weight-medium;
     line-height: rem(24px);
-    color: $secondary-color;
+    color: $dark-transparent82;
     margin-left: rem($standard-margin / 4);
+
+    &.success {
+      color: $secondary-color;
+    }
 
     @at-root [dir='rtl'] & {
       margin-left: 0;

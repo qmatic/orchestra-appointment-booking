@@ -26,7 +26,13 @@
           </button>
         </ng-template>
       </div>
-      <qm-customer-search-results [customers]="customers" [searchText]="searchText"></qm-customer-search-results>
+      <!-- Search results -->
+      <qm-customer-search-results
+        [customers]="customers"
+        [searchText]="searchText"
+        [customersLoading]="customersLoading$ | async"
+        [customersLoaded]="customersLoaded$ | async">
+      </qm-customer-search-results>
     </div>
     <div class="qm-customer-search__action-container">
       <button class="qm-action-btn qm-action-btn--only-icon qm-customer-search__btn" aria-haspopup="true" aria-expanded="false">

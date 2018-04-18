@@ -6,6 +6,7 @@ export interface ICustomerState {
   currentCustomer: ICustomer;
   searchText: string;
   loading: boolean;
+  loaded: boolean;
   error: Object;
 }
 
@@ -13,6 +14,7 @@ export const initialState: ICustomerState = {
   customers: [],
   currentCustomer: null,
   searchText: '',
+  loaded: false,
   loading: false,
   error: null
 };
@@ -25,13 +27,16 @@ export function reducer (
     case CustomerActions.UPDATE_CUSTOMER_SEARCH_TEXT: {
       return {
         ...state,
-        searchText: action.payload
+        searchText: action.payload,
+        customers: [],
+        loaded: false
       };
     }
     case CustomerActions.RESET_CUSTOMER_SEARCH_TEXT: {
       return {
         ...state,
-        searchText: ''
+        searchText: '',
+        loaded: false
       };
     }
     case CustomerActions.SELECT_CUSTOMER: {
@@ -50,6 +55,7 @@ export function reducer (
       return {
         ...state,
         loading: true,
+        loaded: false,
         error: null
       };
     }
@@ -60,6 +66,7 @@ export function reducer (
           ...action.payload.customerList
         ],
         loading: false,
+        loaded: true,
         error: null
       };
     }
@@ -67,13 +74,16 @@ export function reducer (
       return {
         ...state,
         loading: false,
+        loaded: false,
         error: action.payload
       };
     }
     case CustomerActions.RESET_CUSTOMERS: {
       return {
         ...state,
-        customers: []
+        customers: [],
+        loading: false,
+        loaded: false
       };
     }
     default: {

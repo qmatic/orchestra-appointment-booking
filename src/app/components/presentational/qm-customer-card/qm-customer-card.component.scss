@@ -23,6 +23,11 @@
     &:hover,
     &:focus {
       background: $dark-transparent04;
+
+      .qm-customer-card__edit-btn {
+        background: $dark-transparent12;
+        color: $dark-transparent82;
+      }
     }
   }
 
@@ -101,13 +106,7 @@
     font-size: rem(32px);
     color: $dark-transparent42;
     border-radius: rem($standard-border-radius);
-    padding: 6px;
-
-    &:hover,
-    &:focus {
-      background: $dark-transparent12;
-      color: $dark-transparent82;
-    }
+    padding: rem(6px);
   }
 
   &__btn-container {

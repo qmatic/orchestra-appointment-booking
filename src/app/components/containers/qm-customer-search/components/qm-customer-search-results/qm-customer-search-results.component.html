@@ -1,5 +1,5 @@
-<div class="qm-customer-search-results" *ngIf="customers.length !== 0" dir="{{ userDirection$ | async }}">
-  <table class="qm-customer-search-results__table">
+<div class="qm-customer-search-results" dir="{{ userDirection$ | async }}">
+  <table class="qm-customer-search-results__table" *ngIf="showResults()">
     <thead>
       <tr>
         <th>
@@ -21,4 +21,8 @@
       </tr>
     </tbody>
   </table>
+  <p class="qm-customer-search-results__no-hits" *ngIf="showNoResults()">No results</p>
+  <div class="qm-loader-container" *ngIf="showLoading()">
+    <qm-loader></qm-loader>
+  </div>
 </div>

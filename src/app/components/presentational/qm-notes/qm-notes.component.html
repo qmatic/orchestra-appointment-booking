@@ -1,28 +1,37 @@
 <div class="qm-notes" dir="{{ userDirection | async }}">
   <div class="qm-notes__edit-container" *ngIf="notesInputOpened; else notesPresentational">
     <div class="qm-notes-layout">
-      <label class="qm-notes__label" for="notesEdit">Notes</label>
+      <label class="qm-notes__label" for="notesEdit">{{ 'label.notes.edit.heading' | translate }}</label>
       <div class="qm-notes__nr-of-character-container">
         <span class="qm-notes__characters js-notes-written-characters">
-          {{ characterCount }}
+          {{ notesLength }}
         </span>
-        <span class="qm-notes__characters js-notes-max-characters">/255</span>
+        <span class="qm-notes__characters js-notes-max-characters">/{{ notesMaxLength }}</span>
       </div>
     </div>
-    <textarea id="notesEdit" class="qm-notes__textarea" maxlength="255" rows="5" [ngModel]="notesText" (input)="handleNotesInput(notesInput.value)" #notesInput></textarea>
+    <textarea
+      id="notesEdit"
+      class="qm-notes__textarea"
+      maxlength="255"
+      rows="5"
+      [ngModel]="notes"
+      (input)="handleNotesInput(notesInput.value)"
+      (blur)="hideNotesInput()"
+      qmAutofocus
+      #notesInput></textarea>
   </div>
   <ng-template #notesPresentational>
     <div class="qm-notes__presentation-container">
       <button class="qm-notes-btn js-notes-btn" (click)="toggleNotesInput()">
-        <span class="qm-notes-btn__text">Add notes</span>
+        <span class="qm-notes-btn__text">{{ getButtonText() }}</span>
         <i class="qm-notes-btn__icon icon-edit" aria-hidden="true"></i>
       </button>
       <div class="qm-generic-layout qm-generic-layout--align-right">
         <div class="qm-notes__nr-of-character-container">
           <span class="qm-notes__characters js-notes-written-characters">
-            {{ characterCount }}
+            {{ notesLength }}
           </span>
-          <span class="qm-notes__characters js-notes-max-characters">/255</span>
+          <span class="qm-notes__characters js-notes-max-characters">/{{ notesMaxLength }}</span>
         </div>
       </div>
     </div>

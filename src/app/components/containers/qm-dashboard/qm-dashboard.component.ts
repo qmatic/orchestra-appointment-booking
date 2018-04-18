@@ -18,9 +18,7 @@ import {
 export class QmDashboardComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private branches$: Observable<IBranch[]>;
-  private customers$: Observable<ICustomer[]>;
   private userDirection$: Observable<string>;
-  private customerSearchText$: Observable<string>;
   private currentCustomer$: Observable<ICustomer>;
   private currentCustomer: ICustomer;
 
@@ -35,8 +33,6 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.branches$ = this.branchSelectors.filteredBranches$;
-    this.customerSearchText$ = this.customerSelectors.getSearchText$;
-    this.customers$ = this.customerSelectors.customers$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
 
     // Dim mock data

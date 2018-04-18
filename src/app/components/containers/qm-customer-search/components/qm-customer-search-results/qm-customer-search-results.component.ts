@@ -11,6 +11,8 @@ import { CustomerDispatchers, UserSelectors } from '../../../../../../store';
 })
 export class QmCustomerSearchResultsComponent implements OnInit {
   @Input() private customers: ICustomer[];
+  @Input() private customersLoading: boolean;
+  @Input() private customersLoaded: boolean;
   @Input() private searchText: string;
   private userDirection$: Observable<string>;
 
@@ -22,6 +24,18 @@ export class QmCustomerSearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  showResults() {
+    return this.customersLoaded && this.customers.length > 0;
+  }
+
+  showNoResults() {
+    return this.customersLoaded && this.customers.length === 0;
+  }
+
+  showLoading() {
+    return !this.customersLoaded && this.customersLoading;
   }
 
   selectCustomer(customer: ICustomer) {

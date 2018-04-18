@@ -15,12 +15,12 @@
           </span>
         </span>
         <qm-appointment-icon-list [appointment]="appointment" [userLocale]="userLocale"></qm-appointment-icon-list>
-        <span class="qm-appointment-card__status-container">
+        <span class="qm-appointment-card__status-container" *ngIf="displayStatus(appointment)">
           <span class="qm-appointment-card__status-label">
             {{ 'label.appointment.status' | translate }}
           </span>
           <span class="qm-appointment-card__status" [ngClass]="getStatusClass(appointment)">
-            {{ getStatusLabel(appointment.status) | translate }}
+            {{ getStatusLabel(appointment) | translate }}
           </span>
         </span>
       </a>

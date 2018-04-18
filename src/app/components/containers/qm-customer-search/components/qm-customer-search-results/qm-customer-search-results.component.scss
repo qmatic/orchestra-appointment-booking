@@ -12,6 +12,14 @@
   max-height: 220px;
   overflow: auto;
 
+  &__no-hits {
+    font-size: rem(18px);
+    font-weight: $font-weight-light;
+    padding: rem(12px);
+    margin: 0;
+    text-align: center;
+  }
+
   &__table {
     width: 100%;
 
@@ -51,4 +59,11 @@
       }
     }
   }
+}
+
+.qm-loader-container {
+  display: flex;
+  align-items: center;
+  padding: rem(0 $standard-padding * 2);
+  height: rem(100px);
 }
