@@ -12,8 +12,8 @@ import {
   NO_ROLE
 } from '../../reducers/user-role.reducer';
 
-const STAFF_BOOKING_ROLE = 'Staff Booking';
-const STAFF_BOOKING_ADMIN_ROLE = 'Staff Booking Admin';
+const STAFF_BOOKING_ROLE = 'staffbooking';
+const STAFF_BOOKING_ADMIN_ROLE = 'staffbookingadmin';
 const STAFF_SUPER_ADMIN_ROLE = '*';
 
 @Injectable()
