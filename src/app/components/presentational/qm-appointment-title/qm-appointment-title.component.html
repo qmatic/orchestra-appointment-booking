@@ -1,0 +1,18 @@
+<div class="qm-standard-text-field qm-standard-text-field--large">
+  <label class="qm-standard-text-field__label">
+    <span class="qm-standard-text-field__top-container">
+      <span class="qm-standard-text-field__text">
+        {{ 'label.appointmentTitle.heading' | translate }}
+      </span>
+    </span>
+    <input
+    type="text"
+    class="qm-input qm-standard-text-field__input"
+    placeholder="{{ 'label.appointmentTitle.input.placeholder' | translate }}"
+    name="title"
+    [ngModel]="(title$ | async)"
+    (input)="updateTitle(appointmentTitleInput.value)"
+    #appointmentTitleInput />
+    <!--<span class="qm-standard-text-field__error-message">Appointment title cannot be blank</span>-->
+  </label>
+</div>

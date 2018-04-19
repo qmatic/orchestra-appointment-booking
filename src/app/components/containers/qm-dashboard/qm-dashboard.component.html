@@ -340,66 +340,8 @@
         <div class="qm-dashboard-col-3">
 
           <div class="qm-booking-information">
-
-            <fieldset class="qm-notify">
-              <legend class="qm-notify__header">
-                <span class="qm-notify__header-text">Notify customer</span>
-              </legend>
-              <ul class="qm-notify__list">
-                <li class="qm-notify__list-item">
-
-                  <div class="qm-standard-radio">
-                    <label class="qm-standard-radio__label">
-                      <input type="radio" class="qm-standard-radio__input" name="notify" />
-                      <span class="qm-standard-radio__selector">
-                        <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-                        <span class="qm-standard-radio__text" title="Notify by mail">Notify by mail</span>
-                      </span>
-                    </label>
-                  </div>
-
-                </li>
-                <li class="qm-notify__list-item">
-
-                  <div class="qm-standard-radio">
-                    <label class="qm-standard-radio__label">
-                      <input type="radio" class="qm-standard-radio__input" name="notify" />
-                      <span class="qm-standard-radio__selector">
-                        <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-                        <span class="qm-standard-radio__text" title="Notify by SMS">Notify by SMS</span>
-                      </span>
-                    </label>
-                  </div>
-
-                </li>
-                <li class="qm-notify__list-item">
-
-                  <div class="qm-standard-radio">
-                    <label class="qm-standard-radio__label">
-                      <input type="radio" class="qm-standard-radio__input" name="notify" />
-                      <span class="qm-standard-radio__selector">
-                        <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-                        <span class="qm-standard-radio__text" title="Notify by both mail and SMS">Notify by both mail and SMS</span>
-                      </span>
-                    </label>
-                  </div>
-
-                </li>
-              </ul>
-            </fieldset>
-
-
-            <div class="qm-standard-text-field qm-standard-text-field--large">
-              <label class="qm-standard-text-field__label">
-                <span class="qm-standard-text-field__top-container">
-                  <span class="qm-standard-text-field__text">Title</span>
-
-                </span>
-                <input type="text" class="qm-input qm-standard-text-field__input" placeholder="Write a title for the visit" name="title"
-                />
-                <span class="qm-standard-text-field__error-message">Appointment title cannot be blank</span>
-              </label>
-            </div>
+            <qm-notify></qm-notify>
+            <qm-appointment-title></qm-appointment-title>
             <qm-notes></qm-notes>
           </div>
         </div>

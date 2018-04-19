@@ -19,4 +19,22 @@ export class AppointmentMetaDispatchers {
   setAppointmentNote(note: string) {
     this.store.dispatch(new AppointmentMetaActions.SetAppointmentNote(note));
   }
+
+  resetAppointmentNotificationType() {
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNotificationType);
+  }
+
+  resetAppointmentTitle() {
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentTitle);
+  }
+
+  resetAppointmentNote() {
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNote);
+  }
+
+  resetAllAppointmentMeta() {
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNotificationType);
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentTitle);
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNote);
+  }
 }

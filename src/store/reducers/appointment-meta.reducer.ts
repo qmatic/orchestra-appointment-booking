@@ -35,6 +35,24 @@ export function reducer (
         notes: action.payload
       };
     }
+    case AppointmentMetaActions.RESET_APPOINTMENT_NOTIFICATION_TYPE: {
+      return {
+        ...state,
+        notificationType: ''
+      };
+    }
+    case AppointmentMetaActions.RESET_APPOINTMENT_TITLE: {
+      return {
+        ...state,
+        title: ''
+      };
+    }
+    case AppointmentMetaActions.RESET_APPOINTMENT_NOTE: {
+      return {
+        ...state,
+        notes: ''
+      };
+    }
     default: {
         return state;
     }

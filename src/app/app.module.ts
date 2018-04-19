@@ -77,6 +77,8 @@ import { QmAppointmentIconListComponent } from './components/presentational/qm-a
 import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 import { QmLoaderComponent } from './components/presentational/qm-loader/qm-loader.component';
 import { QmAutofocusDirective } from './directives/qm-autofocus.directive';
+import { QmAppointmentTitleComponent } from './components/presentational/qm-appointment-title/qm-appointment-title.component';
+import { QmNotifyComponent } from './components/presentational/qm-notify/qm-notify.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -90,7 +92,7 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 
 export const metaReducers: MetaReducer<any>[] = environment.production
   ? []
-  : []; // [debug];
+  : [debug];
 
 // Global options for Toastr
 const toastrGlobalOptions = {
@@ -126,7 +128,9 @@ const toastrGlobalOptions = {
     QmAppointmentIconListComponent,
     QmNotesComponent,
     QmLoaderComponent,
-    QmAutofocusDirective
+    QmAutofocusDirective,
+    QmAppointmentTitleComponent,
+    QmNotifyComponent
   ],
   imports: [
     BrowserModule,

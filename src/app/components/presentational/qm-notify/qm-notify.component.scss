@@ -1,0 +1,31 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-notify {
+  margin-bottom: rem(20px);
+
+  &__header {
+    padding: rem($standard-padding / 2 0);
+    margin-bottom: 0;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__header-text {
+    display: block;
+    color: $dark-transparent82;
+    font-size: rem(18px);
+    line-height: rem(24px);
+  }
+
+  &__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__list-item {
+    width: 100%;
+  }
+}
