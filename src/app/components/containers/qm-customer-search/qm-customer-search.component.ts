@@ -60,7 +60,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
 
     const customersLoadedSubscription = this.customersLoaded$.subscribe(
       (customersLoaded: boolean) => this.customersLoaded = customersLoaded
-    )
+    );
 
     const customerSubscription = this.customers$.subscribe(
       (customers: ICustomer[]) => this.customers = customers

@@ -47,7 +47,7 @@ export class QmCreateCustomerModalComponent implements OnInit {
       name: formModel.firstName as string + ' ' + formModel.lastName as string,
       email: formModel.email as string,
       phone: formModel.phone as string
-    }
+    };
 
     return customerToSave;
   }
