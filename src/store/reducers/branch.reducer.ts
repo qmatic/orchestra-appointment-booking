@@ -33,6 +33,12 @@ export function reducer (
         error: null
       };
     }
+    case BranchActions.SELECT_BRANCH: {
+      return {
+        ...state,
+        selectedBranch: action.payload
+      };
+    }
     case BranchActions.FETCH_BRANCHES_SUCCESS: {
       return {
         ...state,
@@ -43,6 +49,7 @@ export function reducer (
         error: null
       };
     }
+
     case BranchActions.FETCH_BRANCHES_FAIL: {
       return {
         ...state,

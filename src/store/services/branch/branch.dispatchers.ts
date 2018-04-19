@@ -1,3 +1,4 @@
+import { IBranch } from './../../../models/IBranch';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -14,5 +15,9 @@ export class BranchDispatchers {
 
   filter(text: string) {
     this.store.dispatch(new BranchActions.FilterBranchList(text));
+  }
+
+  select(branch: IBranch) {
+    this.store.dispatch(new BranchActions.SelectBranch([branch]));
   }
 }

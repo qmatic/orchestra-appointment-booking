@@ -12,15 +12,12 @@ const getAllBranches = createSelector(
   (state: IBranchState) => state.branches
 );
 
-const getSelectedBranch = createSelector(
-  getBranchState,
-  (state: IBranchState) => state.selectedBranch
-);
-
 const getFilteredBranches = createSelector(getBranchState, (state: IBranchState) => {
   return state.branches.filter(x => !state.searchText || x.name
     && x.name.toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1);
 });
+
+const getSelectedBranch = createSelector(getBranchState, (state: IBranchState) => state.selectedBranch);
 
 @Injectable()
 export class BranchSelectors {
