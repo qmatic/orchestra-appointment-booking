@@ -8,7 +8,10 @@ import { RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Ng Bootstrap, used for modals
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Toastr
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
@@ -29,10 +32,10 @@ import { effects } from '../store/effects';
 // Routes
 import { appRoutes } from './../routes/app-routes';
 
-
 // Services
 import { SPService } from './../services/rest/sp.service';
 import { ToastService } from './../services/util/toast.service';
+import { ModalService } from './../services/util/modal.service';
 import { storeServices, BranchDispatchers, ServiceDispatchers } from '../store';
 
 // Components
@@ -56,7 +59,6 @@ import { environment } from '../environments/environment';
 import { UserDispatchers, SystemInfoDispatchers } from '../store';
 import { FetchSystemInfo } from './../store/actions/system-info.actions';
 import { FetchUserInfo } from '../store/actions/user.actions';
-import { ReactiveFormsModule } from '@angular/forms';
 import { QmInvalidLicenseComponent } from './components/presentational/qm-invalid-license/qm-invalid-license.component';
 import { QmAppComponent } from './components/containers/qm-app/qm-app.component';
 import { QmAppLoaderComponent } from './components/containers/qm-app-loader/qm-app-loader.component';
@@ -79,6 +81,7 @@ import { QmLoaderComponent } from './components/presentational/qm-loader/qm-load
 import { QmAutofocusDirective } from './directives/qm-autofocus.directive';
 import { QmAppointmentTitleComponent } from './components/presentational/qm-appointment-title/qm-appointment-title.component';
 import { QmNotifyComponent } from './components/presentational/qm-notify/qm-notify.component';
+import { QmCreateCustomerModalComponent } from './components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -130,7 +133,8 @@ const toastrGlobalOptions = {
     QmLoaderComponent,
     QmAutofocusDirective,
     QmAppointmentTitleComponent,
-    QmNotifyComponent
+    QmNotifyComponent,
+    QmCreateCustomerModalComponent
   ],
   imports: [
     BrowserModule,
@@ -140,6 +144,7 @@ const toastrGlobalOptions = {
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers }),
     ReactiveFormsModule,
+    NgbModule.forRoot(),
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
     StoreDevtoolsModule.instrument({
@@ -157,7 +162,8 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [SPService, ToastService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
+  entryComponents: [QmCreateCustomerModalComponent],
+  providers: [SPService, ToastService, ModalService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
   bootstrap: [AppComponent]
 })
 export class AppModule {

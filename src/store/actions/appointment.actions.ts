@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { IAppointmentResponse } from '../../models/IAppointmentResponse';
 import { IAppointment } from '../../models/IAppointment';
 
-// Branch list actions
+// Appointment actions
 export const FETCH_APPOINTMENTS = '[Appointment] FETCH_APPOINTMENTS';
 export const FETCH_APPOINTMENTS_FAIL = '[Appointment] FETCH_APPOINTMENTS_FAIL';
 export const FETCH_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_APPOINTMENTS_SUCCESS';

@@ -21,6 +21,10 @@ export class CustomerDispatchers {
     this.store.dispatch(new CustomerActions.SelectCustomer(customer));
   }
 
+  createCustomer(customer: ICustomer) {
+    this.store.dispatch(new CustomerActions.CreateCustomer(customer));
+  }
+
   resetCurrentCustomer() {
     this.store.dispatch(new CustomerActions.ResetCurrentCustomer);
   }

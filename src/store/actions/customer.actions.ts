@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { ICustomerResponse } from '../../models/ICustomerResponse';
 import { ICustomer } from '../../models/ICustomer';
 
-// Customer search actions
+// Customer actions
 export const UPDATE_CUSTOMER_SEARCH_TEXT = '[Customer] UPDATE_CUSTOMER_SEARCH_TEXT';
 export const RESET_CUSTOMER_SEARCH_TEXT = '[Customer] RESET_CUSTOMER_SEARCH_TEXT';
 export const SELECT_CUSTOMER = '[Customer] SELECT_CUSTOMER';
@@ -11,6 +11,9 @@ export const FETCH_CUSTOMERS = '[Customer] FETCH_CUSTOMERS';
 export const FETCH_CUSTOMERS_FAIL = '[Customer] FETCH_CUSTOMERS_FAIL';
 export const FETCH_CUSTOMERS_SUCCESS = '[Customer] FETCH_CUSTOMERS_SUCCESS';
 export const RESET_CUSTOMERS = '[Customer] RESET_CUSTOMERS';
+export const CREATE_CUSTOMER = '[Customer] CREATE_CUSTOMER';
+export const CREATE_CUSTOMER_FAIL = '[Customer] CREATE_CUSTOMER_FAIL';
+export const CREATE_CUSTOMER_SUCCESS = '[Customer] CREATE_CUSTOMER_SUCCESS';
 
 export class UpdateCustomerSearchText implements Action {
   readonly type = UPDATE_CUSTOMER_SEARCH_TEXT;
@@ -49,6 +52,22 @@ export class ResetCustomers implements Action {
   readonly type = RESET_CUSTOMERS;
 }
 
+export class CreateCustomer implements Action {
+  readonly type = CREATE_CUSTOMER;
+  constructor(public payload: ICustomer) {}
+}
+
+export class CreateCustomerFail implements Action {
+  readonly type = CREATE_CUSTOMER_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class CreateCustomerSuccess implements Action {
+  readonly type = CREATE_CUSTOMER_SUCCESS;
+  constructor(public payload: ICustomer) {}
+}
+
+
 // Action types
 export type AllCustomerActions = UpdateCustomerSearchText |
                                   ResetCustomerSearchText |
@@ -57,4 +76,7 @@ export type AllCustomerActions = UpdateCustomerSearchText |
                                   FetchCustomers |
                                   FetchCustomersFail |
                                   FetchCustomersSuccess |
-                                  ResetCustomers;
+                                  ResetCustomers |
+                                  CreateCustomer |
+                                  CreateCustomerFail |
+                                  CreateCustomerSuccess;

@@ -1,17 +1,9 @@
 .qm-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: $standard-padding;
-  z-index: map-get($z-index, "modal");
 
   &__box-container {
     padding: rem(34px 24px);
     margin: rem(0 $standard-margin);
     background: $white;
-    border-radius: $standard-border-radius;
-    box-shadow: $standard-box-shadow;
   }
 
   &__header {
@@ -162,4 +154,3 @@
     }
   }
 }
-

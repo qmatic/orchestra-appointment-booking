@@ -1,0 +1,102 @@
+<div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md">
+    <form class="qm-modal__box-container" [formGroup]="createUserForm">
+        <div class="qm-modal__header">
+            <span class="qm-modal__headline">Add customer</span>
+            <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-modal__close-btn" (click)="activeModal.close()">
+              <i class="qm-action-btn__icon icon-close" aria-hidden="true"></i>
+              <span class="sr-only">Close</span>
+            </button>
+        </div>
+        <div class="qm-modal__body">
+            <div class="qm-modal-row">
+                <div class="qm-modal-col-6">
+                  <div class="qm-standard-text-field">
+                    <label class="qm-standard-text-field__label">
+                      <span class="qm-standard-text-field__top-container">
+                        <span class="qm-standard-text-field__text">First name</span>
+                        <span class="qm-standard-text-field__required">required</span>
+                      </span>
+                      <input type="text"
+                              class="qm-input qm-standard-text-field__input"
+                              autocomplete="given-name"
+                              placeholder=""
+                              name="firstName"
+                              required
+                              autoFocus
+                              formControlName="firstName" />
+                      <span class="qm-standard-text-field__error-message">Only letters are allowed</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="qm-modal-col-6">
+                  <div class="qm-standard-text-field">
+                    <label class="qm-standard-text-field__label">
+                      <span class="qm-standard-text-field__top-container">
+                        <span class="qm-standard-text-field__text">Last name</span>
+                        <span class="qm-standard-text-field__required">required</span>
+                      </span>
+                      <input type="text"
+                              class="qm-input qm-standard-text-field__input"
+                              autocomplete="family-name"
+                              placeholder=""
+                              name="lastName"
+                              required
+                              formControlName="lastName" />
+                      <span class="qm-standard-text-field__error-message">Only letters are allowed</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="qm-modal-col-12">
+                  <div class="qm-standard-text-field">
+                    <label class="qm-standard-text-field__label">
+                      <span class="qm-standard-text-field__top-container">
+                        <span class="qm-standard-text-field__text">Email</span>
+                        <span class="qm-standard-text-field__required">required</span>
+                      </span>
+                      <input type="email"
+                              class="qm-input qm-standard-text-field__input"
+                              autocomplete="email"
+                              placeholder=""
+                              name="email"
+                              required
+                              formControlName="email" />
+                      <span class="qm-standard-text-field__error-message">Not a valid email</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="qm-modal-col-6">
+                  <div class="qm-standard-text-field">
+                    <label class="qm-standard-text-field__label">
+                      <span class="qm-standard-text-field__top-container">
+                        <span class="qm-standard-text-field__text">Phone number</span>
+                        <span class="qm-standard-text-field__required">required</span>
+                      </span>
+                      <input type="tel"
+                              class="qm-input qm-standard-text-field__input"
+                              autocomplete="tel"
+                              placeholder=""
+                              name="email"
+                              required
+                              formControlName="phone" />
+                      <span class="qm-standard-text-field__error-message">Not a valid phone number</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="qm-modal-col-12">
+                    <span class="qm-modal__sub-header">Date of birth</span>
+                    Dob
+                </div>
+            </div>
+        </div>
+        <div class="qm-modal__footer">
+            <div class="qm-generic-layout qm-generic-layout--align-right">
+              <button type="button" class="qm-btn qm-btn--secondary" (click)="activeModal.close()">
+                <span class="qm-btn__text" title="Cancel">Cancel</span>
+              </button>
+              <button type="button" class="qm-btn qm-btn--primary" [disabled]="!createUserForm.valid" (click)="saveCustomer()">
+                <span class="qm-btn__text" title="Save & Add">Save & Add</span>
+              </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,9 +1,9 @@
 export interface ICustomer {
-  id: number;
-  publicId: string;
+  id?: number;
+  publicId?: string;
   firstName: string;
   lastName: string;
   name: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
 }

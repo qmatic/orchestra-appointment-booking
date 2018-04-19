@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { calendarEndpoint, DataServiceError } from '../data.service';
 import { ICustomerResponse } from '../../../models/ICustomerResponse';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
+import { ICustomer } from '../../../models/ICustomer';
 
 
 @Injectable()
@@ -16,6 +17,12 @@ export class CustomerDataService {
   getCustomers(searchText: string): Observable<ICustomerResponse> {
     return this.http
       .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${encodeURIComponent(searchText)}`)
+      .pipe(catchError(this.handleError()));
+  }
+
+  createCustomer(customer: ICustomer): Observable<ICustomer> {
+    return this.http
+      .post<ICustomer>(`${calendarEndpoint}/customers`, customer)
       .pipe(catchError(this.handleError()));
   }
 

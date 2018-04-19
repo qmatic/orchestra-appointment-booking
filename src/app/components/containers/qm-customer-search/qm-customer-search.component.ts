@@ -17,6 +17,7 @@ import {
 
 import { ICustomer } from '../../../../models/ICustomer';
 import { ToastService } from '../../../../services/util/toast.service';
+import { ModalService } from '../../../../services/util/modal.service';
 
 @Component({
   selector: 'qm-customer-search',
@@ -34,11 +35,13 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   private CHARACTER_THRESHOLD = 2;
   private customers: ICustomer[];
   private searchText: string;
+  private customersLoaded: boolean;
 
   constructor(
     private userSelectors: UserSelectors,
     private customerDispatchers: CustomerDispatchers,
-    private customersSelectors: CustomerSelectors
+    private customersSelectors: CustomerSelectors,
+    private modalService: ModalService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
@@ -55,6 +58,10 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
       filter(text => text.length > this.CHARACTER_THRESHOLD),
     ).subscribe((searchText: string) => this.handleCustomerSearch(searchText));
 
+    const customersLoadedSubscription = this.customersLoaded$.subscribe(
+      (customersLoaded: boolean) => this.customersLoaded = customersLoaded
+    )
+
     const customerSubscription = this.customers$.subscribe(
       (customers: ICustomer[]) => this.customers = customers
     );
@@ -65,6 +72,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
 
     this.subscriptions.add(searchInputSubscription);
     this.subscriptions.add(customerSubscription);
+    this.subscriptions.add(customersLoadedSubscription);
     this.subscriptions.add(searchTextSubscription);
   }
 
@@ -77,8 +85,16 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
     this.subscriptions.unsubscribe();
   }
 
+  showBackdrop() {
+    return this.customersLoaded;
+  }
+
   search (text: string) {
     this.searchInput$.next(text);
+  }
+
+  openCreateCustomer() {
+    this.modalService.openCreateCustomerModal();
   }
 
   handleCustomerSearch(text: string) {

@@ -14,8 +14,8 @@
     "deploy-war-prod": "npm run ng-config-prod && ng build --prod && gulp build:war:deploy",
     "deploy-lang": "gulp deploy:lang",
     "deploy-artifactory": "npm run ng-config-prod && ng build --prod && gulp build:artifactory:deploy",
-    "ng-config-dev":"node build-configuration/build-config.js dev",
-    "ng-config-prod":"node build-configuration/build-config.js prod"
+    "ng-config-dev": "node build-configuration/build-config.js dev",
+    "ng-config-prod": "node build-configuration/build-config.js prod"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +28,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.1.2",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^5.2.0",
     "@ngrx/store": "^5.2.0",
