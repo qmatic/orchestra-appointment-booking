@@ -16,7 +16,7 @@ import {
   templateUrl: './qm-dashboard.component.html',
   styleUrls: ['./qm-dashboard.component.scss']
 })
-export class QmDashboardComponent implements OnInit {
+export class QmDashboardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private branches$: Observable<IBranch[]>;
   selectedBranches$: Observable<IBranch[]>;
