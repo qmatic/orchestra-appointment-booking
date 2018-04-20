@@ -82,6 +82,7 @@ import { QmAutofocusDirective } from './directives/qm-autofocus.directive';
 import { QmAppointmentTitleComponent } from './components/presentational/qm-appointment-title/qm-appointment-title.component';
 import { QmNotifyComponent } from './components/presentational/qm-notify/qm-notify.component';
 import { QmCreateCustomerModalComponent } from './components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
+import { QmSettingsAdminComponent } from './components/presentational/qm-settings-admin/qm-settings-admin.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -134,7 +135,8 @@ const toastrGlobalOptions = {
     QmAutofocusDirective,
     QmAppointmentTitleComponent,
     QmNotifyComponent,
-    QmCreateCustomerModalComponent
+    QmCreateCustomerModalComponent,
+    QmSettingsAdminComponent
   ],
   imports: [
     BrowserModule,

@@ -30,7 +30,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() { }
   ngOnDestroy() {
-    this.logoutSubscription.unsubscribe();
+    // this.logoutSubscription.unsubscribe();
   }
 
   logout(event: Event) {

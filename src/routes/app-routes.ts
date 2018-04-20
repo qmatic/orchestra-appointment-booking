@@ -1,3 +1,4 @@
+import { QmSettingsAdminComponent } from './../app/components/presentational/qm-settings-admin/qm-settings-admin.component';
 import { QmAppPageNotFoundComponent } from './../app/components/presentational/qm-app-page-not-found/qm-app-page-not-found.component';
 import { QmAppLoaderComponent } from './../app/components/containers/qm-app-loader/qm-app-loader.component';
 import { LicenseAuthGuard } from './license-auth-guard';
@@ -13,6 +14,7 @@ export const appRoutes: Routes = [
       { path: 'loading', component: QmAppLoaderComponent },
       { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard] },
       { path: 'invalid-license', component: QmInvalidLicenseComponent },
+      { path: 'settings-admin', component: QmSettingsAdminComponent  },
       { path: '**', component: QmAppPageNotFoundComponent }
     ]
   }

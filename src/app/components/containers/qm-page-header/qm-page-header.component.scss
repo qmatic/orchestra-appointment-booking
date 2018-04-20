@@ -103,6 +103,11 @@
     color: $light-transparent75;
     margin: rem(0 $standard-margin / 2);
   }
+
+  &__settings-admin-active {
+    display: none;
+    visibility: hidden;
+  }
 }
 
 @media screen and (min-width: #{map-get($grid-breakpoints, 'lg')}) {
