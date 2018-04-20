@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  propertiesUrl: '../assets/i18n'
+  propertiesUrl: 'assets/i18n'
 };

@@ -12,3 +12,4 @@ export * from './system-info';
 export * from './user';
 export * from './appointment-meta';
 export * from './booking';
+export * from './settings-admin';

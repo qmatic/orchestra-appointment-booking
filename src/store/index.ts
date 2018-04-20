@@ -32,7 +32,10 @@ import {
   LicenseInfoSelectors,
   UserRoleDataService,
   UserRoleDispatchers,
-  UserRoleSelectors
+  UserRoleSelectors,
+  SettingsAdminDataService,
+  SettingsAdminDispatchers,
+  SettingsAdminSelectors
 } from './services';
 
 export const storeServices = [
@@ -64,5 +67,8 @@ export const storeServices = [
   LicenseInfoSelectors,
   UserRoleDataService,
   UserRoleDispatchers,
-  UserRoleSelectors
+  UserRoleSelectors,
+  SettingsAdminDataService,
+  SettingsAdminDispatchers,
+  SettingsAdminSelectors
 ];

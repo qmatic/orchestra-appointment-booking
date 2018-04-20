@@ -1,3 +1,4 @@
+import { SettingsAdminEffects } from './settings-admin.effects';
 import { UserRoleEffects } from './user-role.effects';
 import { ServiceEffects } from './service.effects';
 import { BranchEffects } from './branch.effects';
@@ -15,7 +16,8 @@ export const effects: any[] = [
   UserEffects,
   SystemInfoEffects,
   LicenseInfoEffects,
-  UserRoleEffects
+  UserRoleEffects,
+  SettingsAdminEffects
 ];
 
 export * from './service.effects';
@@ -26,3 +28,4 @@ export * from './license.effects';
 export * from './user-role.effects';
 export * from './customer.effects';
 export * from './appointment.effects';
+export * from './settings-admin.effects';
