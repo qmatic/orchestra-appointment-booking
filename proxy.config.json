@@ -10,6 +10,13 @@
     "/qsystem/rest/*": {
       "target": "http://localhost:8080",
       "secure": false
+    },
+    "/bundle/*":{
+      "target": "http://localhost:4200",
+      "secure": false,
+      "pathRewrite": {
+        "^/bundle": "/assets/i18n"
+      }
     }
 }
   
