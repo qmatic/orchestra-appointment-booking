@@ -6,10 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./qm-main.component.scss']
 })
 export class QmMainComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
   }
-
 }

@@ -6,7 +6,7 @@ import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../st
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
-  selector: 'qm-qm-settings-admin',
+  selector: 'qm-settings-admin',
   templateUrl: './qm-settings-admin.component.html',
   styleUrls: ['./qm-settings-admin.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default

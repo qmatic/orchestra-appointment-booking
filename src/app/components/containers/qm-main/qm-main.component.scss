@@ -8,6 +8,11 @@
   background: $dark-background-gradient;
 }
 
+:host(.qm-main--scrollable) {
+  height: auto;
+  min-height: $global-main-height;
+}
+
 .qm-main {
   display: flex;
   width: 100%;
