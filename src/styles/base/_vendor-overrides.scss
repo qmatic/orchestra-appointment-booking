@@ -44,3 +44,28 @@
 .ng-select .ng-arrow-wrapper {
   width: 28px;
 }
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  font-weight: $font-weight-light;
+  color: $dark-transparent62;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: $dark-transparent04;
+}
+
+.ng-select .ng-value-label {
+  font-weight: $font-weight-light;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+  background: $list-item-hover-color;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label {
+  font-weight: $font-weight-normal;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  font-weight: $font-weight-light;
+}

@@ -109,7 +109,7 @@ export class QmUpdateCustomerModalComponent implements OnInit, OnDestroy {
       email: [ this.currentCustomer.email, [Validators.required, Validators.email]],
       phone: [ this.currentCustomer.phone, [Validators.required, Validators.pattern(/[0-9\-\+\s\(\)\.]/)]],
       dateOfBirth: this.fb.group({
-        month: date.month ? date.month : '',
+        month: date.month ? date.month : null,
         day: [date.day ? date.day : '', [Validators.max(31), Validators.minLength(2), Validators.maxLength(2)]],
         year: [date.year ? date.year : '', [Validators.minLength(4), Validators.maxLength(4)]]
       })
