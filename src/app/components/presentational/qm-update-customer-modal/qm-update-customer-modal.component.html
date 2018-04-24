@@ -119,7 +119,7 @@
                 <div class="qm-dob__month">
                 <label class="qm-standard-number-field__label">
                   <span class="qm-standard-number-field__top-container">
-                    <span class="qm-standard-number-field__text">Month</span>
+                    <span class="qm-standard-number-field__text">{{ 'field.updateCustomerForm.month' | translate }}</span>
                   </span>
                   <ng-select #monthSelect [items]="months"
                     [selectOnTab]="true"
@@ -135,7 +135,7 @@
                   <div class="qm-standard-number-field qm-standard-number-field--day">
                     <label class="qm-standard-number-field__label">
                       <span class="qm-standard-number-field__top-container">
-                        <span class="qm-standard-number-field__text">Day (DD)</span>
+                        <span class="qm-standard-number-field__text">{{ 'field.updateCustomerForm.day' | translate }}</span>
                       </span>
                       <input formControlName="day" type="number" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" />
                     </label>
@@ -145,13 +145,13 @@
                   <div class="qm-standard-number-field qm-standard-number-field--year">
                     <label class="qm-standard-number-field__label">
                       <span class="qm-standard-number-field__top-container">
-                        <span class="qm-standard-number-field__text">Year (YYYY)</span>
+                        <span class="qm-standard-number-field__text">{{ 'field.updateCustomerForm.year' | translate }}</span>
                       </span>
                       <input formControlName="year" type="number" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" />
                     </label>
                   </div>
                 </div>
-                <div class="qm-dob__error-message">Please select a date</div>
+                <div class="qm-dob__error-message">{{ 'error.form.dob.invalid' | translate }}</div>
               </div>
             </div>
           </div>
