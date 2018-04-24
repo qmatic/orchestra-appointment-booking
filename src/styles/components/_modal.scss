@@ -1,14 +1,13 @@
 .qm-modal {
 
   &__box-container {
-    padding: rem(34px 24px);
+    padding: rem(34px $standard-padding);
     margin: rem(0 $standard-margin);
     background: $white;
   }
 
   &__header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: rem(40px);
   }
@@ -21,18 +20,18 @@
     font-size: rem(28px);
     line-height: rem(32px);
     font-weight: $font-weight-light;
+    margin-left: rem($standard-margin / 2);
+
+    @at-root [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: rem($standard-margin / 2);
+    }
   }
 
   &__close-btn {
     .qm-action-btn__icon {
-      color: $dark-transparent42;
-    }
-
-    &:hover,
-    &:focus {
-      .qm-action-btn__icon {
-        color: $dark-transparent82;
-      }
+      font-size: rem(24px);
+      color: $dark-transparent82;
     }
   }
 

@@ -1,11 +1,11 @@
 <div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" dir="userDirection | async">
-    <form class="qm-modal__box-container" [formGroup]="createCustomerForm" (ngSubmit)="onSubmit()">
+    <form class="qm-modal__box-container" [formGroup]="updateCustomerForm" (ngSubmit)="onSubmit()">
         <div class="qm-modal__header">
           <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-modal__close-btn" (click)="activeModal.close()">
             <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
             <span class="sr-only">{{ 'label.modal.close' | translate }}</span>
           </button>
-          <span class="qm-modal__headline">{{ 'label.createCustomerForm.heading' | translate }}</span>
+          <span class="qm-modal__headline">{{ 'label.updateCustomerForm.heading' | translate }}</span>
         </div>
         <div class="qm-modal__body">
           <div class="qm-modal-row">
@@ -13,7 +13,7 @@
               <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': firstName.invalid && (firstName.dirty || firstName.touched)}">
                 <label class="qm-standard-text-field__label">
                   <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.firstName' | translate }}</span>
+                    <span class="qm-standard-text-field__text">{{ 'field.updateCustomerForm.firstName' | translate }}</span>
                     <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
                   </span>
                   <input type="text"
@@ -39,7 +39,7 @@
               <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': lastName.invalid && (lastName.dirty || lastName.touched)}">
                 <label class="qm-standard-text-field__label">
                   <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.lastName' | translate }}</span>
+                    <span class="qm-standard-text-field__text">{{ 'field.updateCustomerForm.lastName' | translate }}</span>
                     <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
                   </span>
                   <input type="text"
@@ -63,7 +63,7 @@
               <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': email.invalid && (email.dirty || email.touched)}">
                 <label class="qm-standard-text-field__label">
                   <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.email' | translate }}</span>
+                    <span class="qm-standard-text-field__text">{{ 'field.updateCustomerForm.email' | translate }}</span>
                     <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
                   </span>
                   <input type="email"
@@ -90,7 +90,7 @@
               <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': phone.invalid && (phone.dirty || phone.touched)}">
                 <label class="qm-standard-text-field__label">
                   <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.phone' | translate }}</span>
+                    <span class="qm-standard-text-field__text">{{ 'field.updateCustomerForm.phone' | translate }}</span>
                     <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
                   </span>
                   <input type="tel"
@@ -114,7 +114,7 @@
               </div>
             </div>
             <div class="qm-modal-col-12">
-              <span class="qm-modal__sub-header">{{ 'label.createCustomerForm.dob' | translate }}</span>
+              <span class="qm-modal__sub-header">{{ 'label.updateCustomerForm.dob' | translate }}</span>
               <div class="qm-dob" formArrayName="dateOfBirth">
                 <div class="qm-dob__month">
                 <label class="qm-standard-number-field__label">
@@ -124,7 +124,6 @@
                   <ng-select #monthSelect [items]="months"
                     [selectOnTab]="true"
                     [clearable]="false"
-                    [markFirst]="true"
                     notFoundText="{{ 'label.no.items.found' | translate }}"
                     bindValue="value"
                     placeholder="Select month"
@@ -160,13 +159,13 @@
         <div class="qm-modal__footer">
           <div class="qm-generic-layout qm-generic-layout--align-right">
             <button type="button" class="qm-btn qm-btn--secondary" (click)="activeModal.close()">
-              <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
-                {{ 'button.createCustomerForm.cancel' | translate }}
+              <span class="qm-btn__text" title="{{ 'button.updateCustomerForm.cancel' | translate }}">
+                {{ 'button.updateCustomerForm.cancel' | translate }}
               </span>
             </button>
-            <button class="qm-btn qm-btn--primary" [disabled]="!createCustomerForm.valid">
-              <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
-                {{ 'button.createCustomerForm.save' | translate }}
+            <button class="qm-btn qm-btn--primary" [disabled]="!updateCustomerForm.valid">
+              <span class="qm-btn__text" title="{{ 'button.updateCustomerForm.save' | translate }}">
+                {{ 'button.updateCustomerForm.save' | translate }}
               </span>
             </button>
           </div>

@@ -26,6 +26,12 @@ export class CustomerDataService {
       .pipe(catchError(this.handleError()));
   }
 
+  updateCustomer(customer: ICustomer): Observable<ICustomer> {
+    return this.http
+      .put<ICustomer>(`${calendarEndpoint}/customers/${customer.id}`, customer)
+      .pipe(catchError(this.handleError()));
+  }
+
   private handleError<T>(requestData?: T) {
     return (res: HttpErrorResponse) => {
       const error = new DataServiceError(res.error, requestData);

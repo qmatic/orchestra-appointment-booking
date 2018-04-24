@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -15,7 +16,8 @@ export class CustomerEffects {
     constructor(
       private actions$: Actions,
       private customerDataService: CustomerDataService,
-      private toastService: ToastService
+      private toastService: ToastService,
+      private translateService: TranslateService
     ) {}
 
     @Effect()
@@ -51,10 +53,39 @@ export class CustomerEffects {
       .ofType(CustomerActions.CREATE_CUSTOMER_SUCCESS)
       .pipe(
         tap((action: CustomerActions.CreateCustomerSuccess) =>
-          this.toastService.successToast('Successfully created customer ' + action.payload.name)
+          this.translateService.get('label.customer.created').subscribe(
+            (label: string) => this.toastService.successToast(label + ' ' + action.payload.name)
+          ).unsubscribe()
         ),
         switchMap((action: CustomerActions.CreateCustomerSuccess) =>
             [new CustomerActions.SelectCustomer(action.payload)]
         )
       );
+
+    @Effect()
+    updateCustomer$: Observable<Action> = this.actions$
+      .ofType(CustomerActions.UPDATE_CUSTOMER)
+      .pipe(
+        switchMap((action: CustomerActions.UpdateCustomer) => {
+            return toAction(
+              this.customerDataService.updateCustomer(action.payload),
+              CustomerActions.UpdateCustomerSuccess,
+              CustomerActions.UpdateCustomerFail
+            );
+          }
+        )
+      );
+
+    @Effect()
+    selectCustomerAfterUpdate$: Observable<Action> = this.actions$
+      .ofType(CustomerActions.UPDATE_CUSTOMER_SUCCESS)
+      .pipe(
+        tap((action: CustomerActions.UpdateCustomerSuccess) =>
+          this.toastService.successToast('Successfully updated customer ' + action.payload.name)
+        ),
+        switchMap((action: CustomerActions.UpdateCustomerSuccess) =>
+            [new CustomerActions.SelectCustomer(action.payload)]
+        )
+      );
+
 }

@@ -1,6 +1,46 @@
+@import './_component-manifest.scss';
+
 // Bootstrap overrides
 .modal-content {
   border: 0;
   border-radius: $standard-border-radius;
   box-shadow: $standard-box-shadow;
+}
+
+// Combobox dropdown
+// Opened
+.ng-select-single.ng-select.ng-select-opened>.ng-select-container .ng-arrow {
+  border: 0;
+  top: 2px;
+  width: rem(24px);
+  height: rem(24px);
+  &:before {
+    content: "\e905";
+    font-size: rem($base-unit * 1.4);
+  }
+}
+// Closed
+.ng-select.ng-select-single .ng-arrow-wrapper .ng-arrow {
+  border: 0;
+  width: rem(24px);
+  height: rem(24px);
+  top: 2px;
+  &:before {
+    content: "\e902";
+    @include icomoon-styles;
+    font-size: rem($base-unit * 1.4);
+  }
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: rem(42px);
+  border-color: $standard-border-color;
+}
+
+.ng-select .ng-select-container {
+  border-radius: 0;
+}
+
+.ng-select .ng-arrow-wrapper {
+  width: 28px;
 }

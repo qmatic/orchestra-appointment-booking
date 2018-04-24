@@ -10,6 +10,7 @@ import {
 } from '../../../../store';
 import { ToastService } from '../../../../services/util/toast.service';
 import { ICustomer } from '../../../../models/ICustomer';
+import { ModalService } from '../../../../services/util/modal.service';
 
 @Component({
   selector: 'qm-customer-card',
@@ -26,7 +27,8 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
     private customerDispatchers: CustomerDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
@@ -47,5 +49,9 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
     this.toastService.successToast(this.toastMessage);
     this.customerDispatchers.resetCurrentCustomer();
     this.appointmentDispatchers.resetAppointments();
+  }
+
+  updateCustomer() {
+    this.modalService.openUpdateCustomerModal();
   }
 }

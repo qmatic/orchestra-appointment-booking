@@ -1,8 +1,8 @@
 
 <section class="qm-customer-card">
-  <div class="qm-customer-card__content-container" tabindex="0">
+  <div class="qm-customer-card__content-container" tabindex="0" (click)="updateCustomer()">
     <h1 class="qm-customer-card__headline">
-        <a href="#" class="qm-customer-card__name">{{ customer.name }}</a>
+        <span href="#" class="qm-customer-card__name">{{ customer.name }}</span>
     </h1>
     <div class="qm-customer-card__list-container">
       <ul class="qm-customer-card__list">

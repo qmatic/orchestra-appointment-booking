@@ -14,6 +14,10 @@ export const RESET_CUSTOMERS = '[Customer] RESET_CUSTOMERS';
 export const CREATE_CUSTOMER = '[Customer] CREATE_CUSTOMER';
 export const CREATE_CUSTOMER_FAIL = '[Customer] CREATE_CUSTOMER_FAIL';
 export const CREATE_CUSTOMER_SUCCESS = '[Customer] CREATE_CUSTOMER_SUCCESS';
+export const UPDATE_CUSTOMER = '[Customer] UPDATE_CUSTOMER';
+export const UPDATE_CUSTOMER_FAIL = '[Customer] UPDATE_CUSTOMER_FAIL';
+export const UPDATE_CUSTOMER_SUCCESS = '[Customer] UPDATE_CUSTOMER_SUCCESS';
+
 
 export class UpdateCustomerSearchText implements Action {
   readonly type = UPDATE_CUSTOMER_SEARCH_TEXT;
@@ -67,6 +71,21 @@ export class CreateCustomerSuccess implements Action {
   constructor(public payload: ICustomer) {}
 }
 
+export class UpdateCustomer implements Action {
+  readonly type = UPDATE_CUSTOMER;
+  constructor(public payload: ICustomer) {}
+}
+
+export class UpdateCustomerFail implements Action {
+  readonly type = UPDATE_CUSTOMER_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class UpdateCustomerSuccess implements Action {
+  readonly type = UPDATE_CUSTOMER_SUCCESS;
+  constructor(public payload: ICustomer) {}
+}
+
 
 // Action types
 export type AllCustomerActions = UpdateCustomerSearchText |
@@ -79,4 +98,7 @@ export type AllCustomerActions = UpdateCustomerSearchText |
                                   ResetCustomers |
                                   CreateCustomer |
                                   CreateCustomerFail |
-                                  CreateCustomerSuccess;
+                                  CreateCustomerSuccess |
+                                  UpdateCustomer |
+                                  UpdateCustomerFail |
+                                  UpdateCustomerSuccess;

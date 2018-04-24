@@ -43,8 +43,8 @@
     font-size: rem(12px);
     line-height: rem(16px);
     color: $primary-color;
-    margin-top: rem(3px);
     min-height: rem(16px);
+    min-width: 1px;
   }
 
   // Modifiers
@@ -68,7 +68,6 @@
   &--error {
     .qm-standard-text-field__input {
       border: 2px solid $primary-color;
-      padding: rem(7px 12px);
     }
 
     .qm-standard-text-field__error-message {

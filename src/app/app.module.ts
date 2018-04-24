@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Ng Bootstrap, used for modals
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// Ng Select
+import { NgSelectModule } from '@ng-select/ng-select';
+
 // Toastr
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
@@ -83,6 +86,7 @@ import { QmAppointmentTitleComponent } from './components/presentational/qm-appo
 import { QmNotifyComponent } from './components/presentational/qm-notify/qm-notify.component';
 import { QmCreateCustomerModalComponent } from './components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
 import { QmSettingsAdminComponent } from './components/presentational/qm-settings-admin/qm-settings-admin.component';
+import { QmUpdateCustomerModalComponent } from './components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -136,7 +140,8 @@ const toastrGlobalOptions = {
     QmAppointmentTitleComponent,
     QmNotifyComponent,
     QmCreateCustomerModalComponent,
-    QmSettingsAdminComponent
+    QmSettingsAdminComponent,
+    QmUpdateCustomerModalComponent
   ],
   imports: [
     BrowserModule,
@@ -146,6 +151,7 @@ const toastrGlobalOptions = {
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers }),
     ReactiveFormsModule,
+    NgSelectModule,
     NgbModule.forRoot(),
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
@@ -164,7 +170,7 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  entryComponents: [QmCreateCustomerModalComponent],
+  entryComponents: [QmCreateCustomerModalComponent, QmUpdateCustomerModalComponent],
   providers: [SPService, ToastService, ModalService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
   bootstrap: [AppComponent]
 })
