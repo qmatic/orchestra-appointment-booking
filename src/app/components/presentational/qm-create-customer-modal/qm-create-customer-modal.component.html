@@ -124,10 +124,9 @@
                   <ng-select #monthSelect [items]="months"
                     [selectOnTab]="true"
                     [clearable]="false"
-                    [markFirst]="true"
                     notFoundText="{{ 'label.no.items.found' | translate }}"
                     bindValue="value"
-                    placeholder="Select month"
+                    placeholder="{{ 'field.createCustomerForm.month' | translate }}"
                     formControlName="month">
                   </ng-select>
                 </label>
