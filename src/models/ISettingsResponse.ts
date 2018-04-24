@@ -1,3 +1,5 @@
+import { Setting, SettingCategoryEnum } from './Setting';
+
 export interface ISettingsResponse {
-    settingsList: Map<string, any>;
+    settingsList: Setting[];
 }

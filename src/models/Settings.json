@@ -1,0 +1,104 @@
+[
+    {
+        "name": "General",
+        "settings": [
+            {
+                "name": "AutoClosetime",
+                "defaultValue": 1800,
+                "value": 1800,
+                "outputType": "Text"
+            },
+            {
+                "name": "AllowCreateNewCustomer",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "AllowMultiService",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "MaxCustomers",
+                "defaultValue": 10,
+                "value": 10,
+                "outputType": "Text"
+            },
+            {
+                "name": "TimeFormat",
+                "defaultValue": "24",
+                "value": "AMPM",
+                "outputType": "Time"
+            },
+            {
+                "name": "ShowResource",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            }
+        ]
+    },
+
+    {
+        "name": "Notification",
+        "settings": [
+            {
+                "name": "IncludeSms",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option SMS",
+                "outputType": "Text"                
+            },
+            {
+                "name": "IncludeEmail",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option Email",
+                "outputType": "Boolean"   
+            },
+            {
+                "name": "IncludeEmailAndSms",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option BothEmail and SMS",
+                "outputType": "Boolean"
+            },
+            {
+                "name": "NoNotification",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option No notification",
+                "outputType": "Boolean"
+            },
+            {
+                "name": "OptionPreselect",
+                "defaultValue": "Select an option",
+                "value": "",
+                "displayText": "Option preselected as default",
+                "outputType": "Boolean"
+            }
+        ]
+    },
+
+    {
+        "name": "Titles",
+        "settings": [
+            {
+                "name": "Title",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option SMS",
+                "outputType": "Boolean"                
+            },
+            {
+                "name": "Notes",
+                "defaultValue": true,
+                "value": true,
+                "displayText": "Include option Email",
+                "outputType": "Boolean"   
+            }
+        ]
+    }
+]

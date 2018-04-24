@@ -16,7 +16,7 @@ export class SettingsAdminEffects {
     ) {}
 
     @Effect()
-    getBranches$: Observable<Action> = this.actions$
+    getSettings$: Observable<Action> = this.actions$
       .ofType(SettingsAdminActions.FETCH_SETTINGS)
       .pipe(
         switchMap(() =>

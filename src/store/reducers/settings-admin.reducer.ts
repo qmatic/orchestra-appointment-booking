@@ -1,16 +1,19 @@
 import { FETCH_SETTINGS } from './../actions/settings-admin.actions';
 import { ISettingsAdminState } from './settings-admin.reducer';
 import * as SettingsAdminActions from '../actions';
+import { Setting, SettingCategoryEnum } from '../../models/Setting';
 
 export interface ISettingsAdminState {
-  settings: Map<string, any>;
+  settings: Setting[];
+  settingsByCategory: SettingCategoryEnum[];
   loading: boolean;
   loaded: boolean;
   error: Object;
 }
 
 export const initialState: ISettingsAdminState = {
-  settings: new Map<string, any>(),
+  settings: [],
+  settingsByCategory: [],
   loading: false,
   loaded: false,
   error: null

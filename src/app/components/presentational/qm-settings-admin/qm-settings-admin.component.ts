@@ -1,23 +1,38 @@
+import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'qm-qm-settings-admin',
   templateUrl: './qm-settings-admin.component.html',
-  styleUrls: ['./qm-settings-admin.component.scss']
+  styleUrls: ['./qm-settings-admin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class QmSettingsAdminComponent implements OnInit {
+export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
   userDirection$: Observable<string>;
-  settings$: Observable<Map<string, any>>;
+  settingsByCategory$: Observable<SettingCategory[]>;
+  settingsByCategory: SettingCategory[];
+  settings$: Observable<Setting[]>;
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers) {
-    this.userDirection$ = this.userSelectors.userDirection$;
+      this.settingsAdminDispatchers.fetchSettings();
+      this.userDirection$ = this.userSelectors.userDirection$;
+      this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
+      this.settings$ = this.settingsAdminSelectors.settings$;
    }
 
   ngOnInit() {
-    this.settings$ = this.settingsAdminSelectors.settings$;
-    this.settingsAdminDispatchers.fetchSettings();
+
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  toArray(map) {
+    return Array.from(map.values());
   }
 }

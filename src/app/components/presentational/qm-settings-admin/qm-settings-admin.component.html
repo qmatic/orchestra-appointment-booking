@@ -1,7 +1,24 @@
 <div class="qm-app" dir="{{ userDirection$ | async }}">
   <qm-page-header></qm-page-header>
   <qm-main>
-    
+
+    <div class="qm-settings-admin">
+      <ul *ngFor="let sc of settingsByCategory$ | async">
+        {{ 'label.settings.category.' + sc.name.toLowerCase() | translate}}
+        <hr/>
+        <ul *ngFor="let s of toArray(sc.settings)" [ngSwitch]="s.outputType">
+          <li *ngSwitchCase="'Text'">
+            {{ 'label.settings.' + s.name.toLowerCase() | translate}}
+            <input type="text" name="{{s.name}}" [value]="s.value" />
+          </li>
+
+          <li *ngSwitchCase="'Boolean'">
+            {{ 'label.settings.' + s.name.toLowerCase() | translate}}
+            <input class="" type="checkbox" name="{{s.name}}" [checked]="s.value" (change)="handleChange($event)" />
+          </li>
+        </ul>
+      </ul>
+    </div>
   </qm-main>
   <qm-page-footer></qm-page-footer>
 </div>
