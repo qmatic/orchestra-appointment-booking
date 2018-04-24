@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// A11y
+import {A11yModule} from '@angular/cdk/a11y';
+
 // Ng Bootstrap, used for modals
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -152,6 +155,7 @@ const toastrGlobalOptions = {
     StoreModule.forRoot(reducers, { metaReducers }),
     ReactiveFormsModule,
     NgSelectModule,
+    A11yModule,
     NgbModule.forRoot(),
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
