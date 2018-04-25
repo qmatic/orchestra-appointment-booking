@@ -1,3 +1,4 @@
+import { UpdateSettings } from './../actions/settings-admin.actions';
 import { SettingsAdminDataService } from './../services/settings-admin/settings-admin-data.service';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
@@ -24,6 +25,19 @@ export class SettingsAdminEffects {
             this.settingsAdminDataService.getSettings(),
             SettingsAdminActions.FetchSettingsSuccess,
             SettingsAdminActions.FetchSettingsFail
+          )
+        )
+      );
+
+      @Effect()
+      updateSettings$: Observable<Action> = this.actions$
+      .ofType(SettingsAdminActions.UPDATE_SETTINGS)
+      .pipe(
+        switchMap((action: UpdateSettings) =>
+          toAction(
+            this.settingsAdminDataService.updateSettings(action.payload),
+            null,
+            null
           )
         )
       );

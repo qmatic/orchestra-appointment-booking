@@ -1,7 +1,6 @@
 <div class="qm-app" dir="{{ userDirection$ | async }}">
   <qm-page-header></qm-page-header>
   <qm-main class="qm-main--scrollable">
-
     <div class="qm-settings-admin">
       <div class="qm-settings-admin__inner-container">
         <div class="qm-settings-admin__header">
@@ -58,7 +57,7 @@
             <i class="qm-settings-admin__changes-icon icon-info" aria-hidden="true"></i>
             <p class="qm-settings-admin__footer-information">
               Changes made will be effective the next time a user log out and login again.
-              Itâ€™s recommended that changes are done during non office hours.
+              It’s recommended that changes are done during non office hours.
             </p>
           </div>
         </div>
@@ -71,6 +70,9 @@
         <button class="qm-btn qm-btn--primary">
           <span class="qm-btn__text" title="Confirm">Confirm</span>
         </button>
+      </div>
+      <div class="qm-button-wrapper">
+          <qm-button btnClassName="qm-btn--primary" text="Confirm" (handleClick)="saveSettings()"></qm-button>
       </div>
     </div>
   </qm-main>

@@ -21,16 +21,15 @@ export class SettingsBuilder {
         return this;
     }
 
-    patchSettingsArray(settings: Setting[]): SettingsBuilder {
-        if (settings && settings.length > 0) {
+    patchSettingsArray(settingsJson: string): SettingsBuilder {
+        if (settingsJson && settingsJson.length > 0) {
+            const settings  = JSON.parse(settingsJson);
             settings.forEach(s => {
                 const targetSetting = this._defaultSettings.get(s.name);
                 if (targetSetting) {
                     targetSetting.value = s.value;
                     this._defaultSettings.set(s.name, targetSetting);
                 } else {
-                    console.log(this._defaultSettings);
-
                     this._defaultSettings.forEach((ds: Setting) => {
                         if (ds.children && ds.children.has(s.name) ) {
                             const childSetting = ds.children.get(s.name);

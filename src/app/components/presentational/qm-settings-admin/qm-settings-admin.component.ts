@@ -35,4 +35,14 @@ export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
   toArray(map) {
     return Array.from(map.values());
   }
+
+  saveSettings() {
+    console.log('settings update');
+    this.settings$.subscribe((settings) => {
+      this.settingsAdminDispatchers.updateSettings( {
+        settingsList: settings
+      });
+    });
+
+  }
 }

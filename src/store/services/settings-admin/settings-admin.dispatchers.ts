@@ -1,3 +1,4 @@
+import { ISettingsUpdateRequest } from './../../../models/ISettingsResponse';
 import { IBranch } from './../../../models/IBranch';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,5 +12,9 @@ export class SettingsAdminDispatchers {
 
   fetchSettings() {
     this.store.dispatch(new SettingsAdminActions.FetchSettings);
+  }
+
+  updateSettings(updateRequest: ISettingsUpdateRequest) {
+    this.store.dispatch(new SettingsAdminActions.UpdateSettings(updateRequest));
   }
 }
