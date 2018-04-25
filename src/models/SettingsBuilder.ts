@@ -21,7 +21,7 @@ export class SettingsBuilder {
         return this;
     }
 
-    patchSettingsArray(settingsJson: string): SettingsBuilder {
+    merge(settingsJson: string): SettingsBuilder {
         if (settingsJson && settingsJson.length > 0) {
             const parsedSettings  = JSON.parse(settingsJson);
 
@@ -49,7 +49,7 @@ export class SettingsBuilder {
         return this._defaultSettings;
     }
 
-    toSettingsArray(): Setting[] {
+    toArray(): Setting[] {
         return Array.from(this._defaultSettings.values());
     }
 }

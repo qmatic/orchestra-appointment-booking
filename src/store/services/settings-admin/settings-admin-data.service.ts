@@ -24,8 +24,8 @@ export class SettingsAdminDataService {
     return this.http
       .get<{name, value}>(`${restEndpoint}/variables/${this.ADMIN_VAR_NAME}`).map((setting) => {
         outputSettings.settingsList = settingsBuilder
-                                      .patchSettingsArray(setting.value)
-                                      .toSettingsArray();
+                                      .merge(setting.value)
+                                      .toArray();
         return outputSettings;
       })
 

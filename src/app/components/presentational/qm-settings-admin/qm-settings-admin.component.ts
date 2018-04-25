@@ -1,9 +1,11 @@
+import { ToastContainerDirective } from 'ngx-toastr';
+import { ToastService } from './../../../../services/util/toast.service';
 import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
@@ -13,15 +15,16 @@ import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
   styleUrls: ['./qm-settings-admin.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
+export class QmSettingsAdminComponent implements OnInit {
   userDirection$: Observable<string>;
   settingsByCategory$: Observable<SettingCategory[]>;
   settings$: Observable<Setting[]>;
   settingsByCategory: SettingCategory[];
   settingsEditForm: FormGroup;
+  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
-    private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder) {
+    private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService) {
       this.userDirection$ = this.userSelectors.userDirection$;
       this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
       this.settings$ = this.settingsAdminSelectors.settings$;
@@ -44,11 +47,7 @@ export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-
+    this.toastService.setToastContainer(this.toastContainer);
   }
 
   toArray(map) {

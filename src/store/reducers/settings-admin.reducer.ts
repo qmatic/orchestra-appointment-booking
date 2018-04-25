@@ -13,7 +13,7 @@ export interface ISettingsAdminState {
 }
 
 export const initialState: ISettingsAdminState = {
-  settings: new SettingsBuilder().buildDefaultSettings().toSettingsArray(),
+  settings: new SettingsBuilder().buildDefaultSettings().toArray(),
   settingsByCategory: [],
   loading: false,
   loaded: false,
