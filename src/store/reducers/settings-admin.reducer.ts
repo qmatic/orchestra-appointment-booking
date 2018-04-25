@@ -2,6 +2,7 @@ import { FETCH_SETTINGS } from './../actions/settings-admin.actions';
 import { ISettingsAdminState } from './settings-admin.reducer';
 import * as SettingsAdminActions from '../actions';
 import { Setting, SettingCategoryEnum } from '../../models/Setting';
+import { SettingsBuilder } from '../../models/SettingsBuilder';
 
 export interface ISettingsAdminState {
   settings: Setting[];
@@ -12,7 +13,7 @@ export interface ISettingsAdminState {
 }
 
 export const initialState: ISettingsAdminState = {
-  settings: [],
+  settings: new SettingsBuilder().buildDefaultSettings().toSettingsArray(),
   settingsByCategory: [],
   loading: false,
   loaded: false,

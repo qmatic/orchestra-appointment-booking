@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 export const FETCH_SETTINGS = '[Settings] FETCH_SETTINGS';
 export const FETCH_SETTINGS_FAIL = '[Settings] FETCH_SETTINGS_FAIL';
 export const FETCH_SETTINGS_SUCCESS = '[Settings] FETCH_SETTINGS_SUCCESS';
-export const UPDATE_SETTINGS = '[Settings] UPDATE_SETTINGS';
+export const SAVE_SETTINGS = '[Settings] SAVE_SETTINGS';
 
 export class FetchSettings implements Action {
   readonly type = FETCH_SETTINGS;
@@ -23,8 +23,8 @@ export class FetchSettingsSuccess implements Action {
 }
 
 
-export class UpdateSettings implements Action {
-  readonly type = UPDATE_SETTINGS;
+export class SaveSettings implements Action {
+  readonly type = SAVE_SETTINGS;
   constructor(public payload: ISettingsUpdateRequest) {}
 }
-export type AllSettingsActions = UpdateSettings | FetchSettingsSuccess | FetchSettings | FetchSettingsFail;
+export type AllSettingsActions = SaveSettings | FetchSettingsSuccess | FetchSettings | FetchSettingsFail;

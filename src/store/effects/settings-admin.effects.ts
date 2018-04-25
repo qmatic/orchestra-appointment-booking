@@ -1,4 +1,4 @@
-import { UpdateSettings } from './../actions/settings-admin.actions';
+import { SaveSettings } from './../actions/settings-admin.actions';
 import { SettingsAdminDataService } from './../services/settings-admin/settings-admin-data.service';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
@@ -30,10 +30,10 @@ export class SettingsAdminEffects {
       );
 
       @Effect()
-      updateSettings$: Observable<Action> = this.actions$
-      .ofType(SettingsAdminActions.UPDATE_SETTINGS)
+      saveSettings$: Observable<Action> = this.actions$
+      .ofType(SettingsAdminActions.SAVE_SETTINGS)
       .pipe(
-        switchMap((action: UpdateSettings) =>
+        switchMap((action: SaveSettings) =>
           toAction(
             this.settingsAdminDataService.updateSettings(action.payload),
             null,

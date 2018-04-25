@@ -14,7 +14,7 @@ export class SettingsAdminDispatchers {
     this.store.dispatch(new SettingsAdminActions.FetchSettings);
   }
 
-  updateSettings(updateRequest: ISettingsUpdateRequest) {
-    this.store.dispatch(new SettingsAdminActions.UpdateSettings(updateRequest));
+  saveSettings(updateRequest: ISettingsUpdateRequest) {
+    this.store.dispatch(new SettingsAdminActions.SaveSettings(updateRequest));
   }
 }

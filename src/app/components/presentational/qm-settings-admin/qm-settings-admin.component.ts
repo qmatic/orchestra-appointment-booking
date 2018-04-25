@@ -59,6 +59,6 @@ export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
     const settingsUpdateRequest: ISettingsUpdateRequest = {
       settingsList : this.settingsEditForm.value
     };
-    this.settingsAdminDispatchers.updateSettings(settingsUpdateRequest);
+    this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
   }
 }
