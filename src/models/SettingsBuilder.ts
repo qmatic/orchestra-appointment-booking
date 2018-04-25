@@ -23,22 +23,23 @@ export class SettingsBuilder {
 
     patchSettingsArray(settingsJson: string): SettingsBuilder {
         if (settingsJson && settingsJson.length > 0) {
-            const settings  = JSON.parse(settingsJson);
-            settings.forEach(s => {
-                const targetSetting = this._defaultSettings.get(s.name);
+            const parsedSettings  = JSON.parse(settingsJson);
+
+            for (const [name, value] of Object.entries(parsedSettings)) {
+                const targetSetting = this._defaultSettings.get(name);
                 if (targetSetting) {
-                    targetSetting.value = s.value;
-                    this._defaultSettings.set(s.name, targetSetting);
+                    targetSetting.value = value;
+                    this._defaultSettings.set(name, targetSetting);
                 } else {
                     this._defaultSettings.forEach((ds: Setting) => {
-                        if (ds.children && ds.children.has(s.name) ) {
-                            const childSetting = ds.children.get(s.name);
-                            childSetting.value = s.value;
-                            ds.children.set(s.name, childSetting);
+                        if (ds.children && ds.children.has(name) ) {
+                            const childSetting = ds.children.get(name);
+                            childSetting.value = value;
+                            ds.children.set(name, childSetting);
                         }
                     });
                 }
-            });
+              }
         }
 
         return this;

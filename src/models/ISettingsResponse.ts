@@ -5,5 +5,5 @@ export interface ISettingsResponse {
 }
 
 export interface ISettingsUpdateRequest {
-    settingsList: Setting[];
+    settingsList: any;
 }

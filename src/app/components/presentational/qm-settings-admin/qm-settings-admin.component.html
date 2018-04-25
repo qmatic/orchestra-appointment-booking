@@ -24,7 +24,7 @@
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
                   <div class="qm-option__selection-container">
-                    <input id="{{ s.name }}" class="qm-option__input-box" type="text" name="{{s.name}}" [value]="s.value" />
+                    <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}" [value]="s.value" />
 
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
@@ -38,7 +38,7 @@
                       {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                     </span>
                     <div class="qm-option__selection-container">
-                      <input id="{{ s.name }}" class="qm-option__checkbox" type="checkbox" name="{{s.name}}" [checked]="s.value" (change)="handleChange($event)" />
+                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" class="qm-option__checkbox" type="checkbox" name="{{s.name}}" [checked]="s.value" />
                       <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
                     </div>
                   </label>
@@ -67,8 +67,8 @@
         <button type="button" class="qm-btn qm-btn--secondary">
           <span class="qm-btn__text" title="Cancel">Cancel</span>
         </button>
-        <button class="qm-btn qm-btn--primary">
-          <span class="qm-btn__text" title="Confirm" (handleClick)="saveSettings()">Confirm</span>
+        <button class="qm-btn qm-btn--primary" (click)="saveSettings()">
+          <span class="qm-btn__text" title="Confirm" >Confirm</span>
         </button>
       </div>
     </div>

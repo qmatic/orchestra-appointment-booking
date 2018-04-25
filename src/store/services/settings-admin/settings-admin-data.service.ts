@@ -14,7 +14,7 @@ import { SettingsBuilder } from '../../../models/SettingsBuilder';
 export class SettingsAdminDataService {
   constructor(private http: HttpClient) {}
 
-  private readonly ADMIN_VAR_NAME = 'ADMIN_SETTINGS';
+  private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings';
 
   getSettings(): Observable<ISettingsResponse> {
     const outputSettings: ISettingsResponse = { settingsList: []};
@@ -22,16 +22,13 @@ export class SettingsAdminDataService {
     .buildDefaultSettings();
 
     return this.http
-      .get<string>(`${restEndpoint}/variables/${this.ADMIN_VAR_NAME}`).map((vars) => {
+      .get<{name, value}>(`${restEndpoint}/variables/${this.ADMIN_VAR_NAME}`).map((setting) => {
         outputSettings.settingsList = settingsBuilder
-                                      .patchSettingsArray(vars)
+                                      .patchSettingsArray(setting.value)
                                       .toSettingsArray();
         return outputSettings;
       })
-      .pipe(() => {
-        outputSettings.settingsList = settingsBuilder.toSettingsArray();
-        return of(outputSettings);
-      })
+
       .pipe(catchError(this.handleError()));
   }
 
