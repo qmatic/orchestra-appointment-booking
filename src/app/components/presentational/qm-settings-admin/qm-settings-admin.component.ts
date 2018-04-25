@@ -15,13 +15,11 @@ export class QmSettingsAdminComponent implements OnInit, AfterViewInit {
   userDirection$: Observable<string>;
   settingsByCategory$: Observable<SettingCategory[]>;
   settingsByCategory: SettingCategory[];
-  settings$: Observable<Setting[]>;
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers) {
       this.settingsAdminDispatchers.fetchSettings();
       this.userDirection$ = this.userSelectors.userDirection$;
       this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
-      this.settings$ = this.settingsAdminSelectors.settings$;
    }
 
   ngOnInit() {
