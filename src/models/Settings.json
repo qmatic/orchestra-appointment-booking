@@ -48,35 +48,35 @@
                 "name": "IncludeSms",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option SMS",
-                "outputType": "Text"                
+                
+                "outputType": "Boolean"                
             },
             {
                 "name": "IncludeEmail",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option Email",
+                
                 "outputType": "Boolean"   
             },
             {
                 "name": "IncludeEmailAndSms",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option BothEmail and SMS",
+                
                 "outputType": "Boolean"
             },
             {
                 "name": "NoNotification",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option No notification",
+                
                 "outputType": "Boolean"
             },
             {
                 "name": "OptionPreselect",
                 "defaultValue": "Select an option",
                 "value": "",
-                "displayText": "Option preselected as default",
+                
                 "outputType": "Boolean"
             }
         ]
@@ -89,15 +89,75 @@
                 "name": "Title",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option SMS",
+                
                 "outputType": "Boolean"                
             },
             {
                 "name": "Notes",
                 "defaultValue": true,
                 "value": true,
-                "displayText": "Include option Email",
+                
                 "outputType": "Boolean"   
+            }
+        ]
+    },
+
+    {
+        "name": "CustomerInputFields",
+        "settings": [
+            {
+                "name": "IncludePhone",
+                "value": true,                
+                "outputType": "Boolean",                
+                "children" : [
+                     {
+                        "name": "PhoneRequired",
+                        "value": true,                
+                        "outputType": "Boolean"   
+                    },
+                    {
+                        "name": "DefaultCountry",
+                        "value": true,                
+                        "outputType": "Text"   
+                    },
+                    {
+                        "name": "MaxDigits",
+                        "value": true,                
+                        "outputType": "Text"   
+                    },
+                    {
+                        "name": "MinDigits",
+                        "value": true,                
+                        "outputType": "Text"   
+                    }
+                ]
+            },
+
+            {
+                "name": "IncludeEmail",
+                "value": true,                
+                "outputType": "Boolean",                
+                "children" : [
+                     {
+                        "name": "EmailRequired",
+                        "value": true,                
+                        "outputType": "Boolean"   
+                    }
+                ]
+            },
+
+            
+            {
+                "name": "IncludeDateofBirth",
+                "value": true,                
+                "outputType": "Boolean",                
+                "children" : [
+                     {
+                        "name": "DateofBirthRequired",
+                        "value": true,                
+                        "outputType": "Boolean"   
+                    }
+                ]
             }
         ]
     }
