@@ -3,6 +3,9 @@ import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';
 import { IServiceState } from '../../reducers/service.reducer';
+import { IService } from '../../../models/IService';
+import { IServiceGroup } from '../../../models/IServiceGroup';
+import { IServiceGroupList } from '../../../models/IServiceGroupList';
 
 // selectors
 const getServiceState = createFeatureSelector<IServiceState>('services');
@@ -12,15 +15,88 @@ const getAllServices = createSelector(
   (state: IServiceState) => state.services
 );
 
-const getSelectedServices = createSelector(
+export const getSelectedServices = createSelector(
   getServiceState,
   (state: IServiceState) => state.selectedServices
 );
 
-const getFilteredServices = createSelector(
+export const getServiceGroups = createSelector(
   getServiceState,
-  (state: IServiceState) => state.filteredServices
+  (state: IServiceState) => state.serviceGroups
 );
+
+const getVisibleServices = createSelector(
+  getServiceState,
+  (state: IServiceState) => {
+    const hasSelectedServices = state.selectedServices.length > 0;
+    const serviceGroupsLoaded = state.serviceGroups.length > 0;
+
+    if (hasSelectedServices && serviceGroupsLoaded) {
+      const visibleServicesPublicIds = extractBookableServices(state.selectedServices, state.serviceGroups);
+      return state.searchText === ''
+                ? state.services.filter(
+                    (service: IService) => visibleServicesPublicIds.includes(service.publicId)
+                  )
+                : state.services.filter(
+                  (service: IService) => visibleServicesPublicIds.includes(service.publicId)
+                    && service.name.toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1
+                );
+    } else {
+      return getFilteredServices(state);
+    }
+  }
+);
+
+const getServicesSearchText = createSelector(
+  getServiceState,
+  (state: IServiceState) => state.searchText
+);
+
+function getFilteredServices(state): IService[] {
+  return state.searchText === ''
+  ? state.services
+  : state.services.filter(
+      (service: IService) => service.name.toLowerCase()
+                    .indexOf(state.searchText.toLowerCase()) !== -1
+    );
+}
+
+
+function extractBookableServices(
+  selectedServices: IService[],
+  serviceGroups: IServiceGroup[]
+) {
+  const tmp = [];
+  serviceGroups.forEach(
+    (serviceGroup: IServiceGroup) => {
+      serviceGroup.serviceGroups.forEach(
+        (serviceGroupList: IServiceGroupList) => {
+          serviceGroupList.services.forEach(
+            (service: IService) => {
+              selectedServices.forEach(
+                (selectedService: IService) => {
+                  if (service.publicId === selectedService.publicId) {
+                    const selectableServices = serviceGroupList.services.reduce(
+                      (acc: any, curr: IService) => {
+                        const hasPublicId = acc.indexOf(curr.publicId);
+                        if (hasPublicId === -1) {
+                          acc.push(curr.publicId);
+                        }
+                        return acc;
+                      }, []);
+
+                    tmp.push(...selectableServices);
+                  }
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  );
+  return tmp;
+}
 
 @Injectable()
 export class ServiceSelectors {
@@ -28,5 +104,6 @@ export class ServiceSelectors {
   // selectors$
   services$ = this.store.select(getAllServices);
   selectedServices$ = this.store.select(getSelectedServices);
-  filteredServices$ = this.store.select(getFilteredServices);
+  visibleServices$ = this.store.select(getVisibleServices);
+  searchText$ = this.store.select(getServicesSearchText);
 }

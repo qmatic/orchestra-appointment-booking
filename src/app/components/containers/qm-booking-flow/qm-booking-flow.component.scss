@@ -1,3 +1,9 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  height: calc(100% - 48px);
+}
+
 .qm-booking-flow {
   flex: 1 1 auto;
   overflow: hidden;
@@ -11,12 +17,16 @@
   &__col {
     height: 100%;
 
-    &--time-col {
-      flex: 0 0 140px;
+    &--customer-col {
+      flex: 0 0 100px;
     }
 
     &--date-col {
-      flex: 0 1 $booking-list-width;
+      flex: 0 1 260px;
+    }
+
+    &--time-col {
+      flex: 0 0 140px;
     }
   }
 }

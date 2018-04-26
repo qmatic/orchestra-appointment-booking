@@ -11,3 +11,4 @@ export * from './appointment.actions';
 export * from './appointment-meta.actions';
 export * from './booking.actions';
 export * from './settings-admin.actions';
+export * from './number-of-customers.actions';

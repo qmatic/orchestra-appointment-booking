@@ -13,11 +13,15 @@ export class BranchDispatchers {
     this.store.dispatch(new BranchActions.FetchBranches);
   }
 
-  filter(text: string) {
-    this.store.dispatch(new BranchActions.FilterBranchList(text));
+  filterBranches(searchText: string) {
+    this.store.dispatch(new BranchActions.FilterBranches(searchText));
   }
 
-  select(branch: IBranch) {
-    this.store.dispatch(new BranchActions.SelectBranch([branch]));
+  selectBranch(branch: IBranch) {
+    this.store.dispatch(new BranchActions.SelectBranch(branch));
+  }
+
+  deselectBranch(branch: IBranch) {
+    this.store.dispatch(new BranchActions.DeselectBranch(branch));
   }
 }

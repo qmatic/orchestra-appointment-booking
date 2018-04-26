@@ -1,0 +1,120 @@
+@import "../../../../styles/base/component-manifest";
+
+.qm-selector-item {
+
+    &__label {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    &__input {
+      @include sr-only;
+      &:focus {
+        & ~ .qm-selector-item__selector {
+          background: $list-item-hover-color;
+        }
+      }
+
+      &:checked {
+        & ~ .qm-selector-item__selector {
+          background: $list-item-selected-color;
+          font-weight: $font-weight-regular;
+
+          .qm-selector-item__selector-icon {
+            color: $secondary-color;
+
+            &:before {
+              content: "\e95e";
+
+              @at-root [dir='rtl'] & {
+                content: "\e960";
+              }
+            }
+          }
+        }
+
+        &[disabled] {
+          & ~ .qm-selector-item__selector {
+            background: $list-item-hover-color;
+
+            &:hover,
+            &:focus {
+              background: $list-item-hover-color;
+            }
+
+            .qm-selector-item__selector-icon {
+              color: $dark-transparent12;
+            }
+          }
+        }
+      }
+
+      &[disabled] {
+        & ~ .qm-selector-item__selector {
+          cursor: auto;
+
+          &:hover,
+          &:focus {
+            background: transparent;
+          }
+        }
+      }
+
+      &[type="checkbox"] ~ .qm-selector-item__selector {
+        padding: rem($list-item-padding $base-unit * 3 $list-item-padding 20px);
+
+        @at-root [dir='rtl'] & {
+          padding: rem($list-item-padding 20px $list-item-padding $base-unit * 3);
+        }
+      }
+    }
+
+    &__selector {
+      cursor: pointer;
+      display: block;
+      position: relative;
+      padding: rem($list-item-padding 20px $list-item-padding);
+      border: 1px solid transparent;
+      font-weight: $font-weight-light;
+
+      &:hover {
+        background: $list-item-hover-color;
+      }
+    }
+
+    &__selector-text {
+      display: block;
+      user-select: none;
+      word-break: break-all; // IE fallback
+      word-break: break-word;
+
+      @at-root [dir='rtl'] & {
+        text-align: right;
+      }
+    }
+
+    &__selector-icon {
+      font-size: rem(24px);
+      color: $dark-transparent12;
+      position: absolute;
+      right: rem($base-unit);
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:before {
+        content: "\e961";
+        @include icomoon-styles;
+      }
+
+      @at-root [dir='rtl'] & {
+        right: auto;
+        left: rem($base-unit);
+      }
+    }
+
+    &--centered {
+      .qm-selector-item__selector-text {
+        text-align: center;
+      }
+    }
+  }

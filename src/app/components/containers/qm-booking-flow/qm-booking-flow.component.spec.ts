@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QmListSelectItemComponent } from './qm-select-item.component';
+import { QmBookingFlowComponent } from './qm-booking-flow.component';
 
-describe('QmListItemComponent', () => {
-  let component: QmListSelectItemComponent;
-  let fixture: ComponentFixture<QmListSelectItemComponent>;
+describe('QmBookingFlowComponent', () => {
+  let component: QmBookingFlowComponent;
+  let fixture: ComponentFixture<QmBookingFlowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QmListSelectItemComponent ]
+      declarations: [ QmBookingFlowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QmListSelectItemComponent);
+    fixture = TestBed.createComponent(QmBookingFlowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

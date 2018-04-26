@@ -1,8 +1,5 @@
-import { ISettingsAdminState } from './settings-admin.reducer';
 import {
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector
 } from '@ngrx/store';
 
 import { Store } from '@ngrx/store';
@@ -18,6 +15,7 @@ import * as fromAppointments from './appointment.reducer';
 import * as fromAppointmentMeta from './appointment-meta.reducer';
 import * as fromBooking from './booking.reducer';
 import * as fromSettingsAdmin from './settings-admin.reducer';
+import * as fromNumberOfCustomers from './number-of-customers.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
@@ -30,7 +28,8 @@ export interface IAppState {
   appointments: fromAppointments.IAppointmentState;
   appointmentMeta: fromAppointmentMeta.IAppointmentMetaState;
   booking: fromBooking.IBookingState;
-  settings: ISettingsAdminState;
+  settings: fromSettingsAdmin.ISettingsAdminState;
+  numberOfCustomers: fromNumberOfCustomers.INumberOfCustomersState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -44,7 +43,8 @@ export const reducers: ActionReducerMap<IAppState> = {
   appointments: fromAppointments.reducer,
   appointmentMeta: fromAppointmentMeta.reducer,
   booking: fromBooking.reducer,
-  settings: fromSettingsAdmin.reducer
+  settings: fromSettingsAdmin.reducer,
+  numberOfCustomers: fromNumberOfCustomers.reducer
   // here is where you put other reducers, when you have them
 };
 

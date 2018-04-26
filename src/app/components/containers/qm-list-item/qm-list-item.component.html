@@ -1,11 +1,15 @@
-<li class="qm-selector-item">
+<li class="qm-selector-item" [ngClass]="{'qm-selector-item--centered': centerText}">
     <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input"        
-        type="radio" name="somename" (change) = "handleChange($event)" />
+        <input class="qm-selector-item__input"
+          type="{{ inputType }}"
+          name="{{ name }}"
+          [checked]="isSelected"
+          (click)="handleClick($event)" />
         <span class="qm-selector-item__selector">
             <span class="qm-selector-item__selector-text">
                 <ng-content></ng-content>
             </span>
+            <i *ngIf="inputType === 'checkbox'" class="qm-selector-item__selector-icon" aria-hidden="true"></i>
         </span>
     </label>
 </li>

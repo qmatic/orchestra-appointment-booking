@@ -7,11 +7,9 @@ export const FETCH_BRANCHES = '[Branch] FETCH_BRANCHES';
 export const FETCH_BRANCHES_FAIL = '[Branch] FETCH_BRANCHES_FAIL';
 export const FETCH_BRANCHES_SUCCESS = '[Branch] FETCH_BRANCHES_SUCCESS';
 export const SELECT_BRANCH = '[Branch] SELECT_BRANCH';
+export const DESELECT_BRANCH = '[Branch] DESELECT_BRANCH';
 
-export const FILTER_BRANCH_LIST = '[Branch] FILTER_BRANCH_LIST';
-export const FETCH_APPLIED_BRANCH_LIST = '[Branch] FETCH_APPLIED_BRANCH_LIST';
-export const FETCH_APPLIED_BRANCH_LIST_FAIL = '[Branch] FETCH_APPLIED_BRANCH_LIST_FAIL';
-export const FETCH_APPLIED_BRANCH_LIST_SUCCESS = '[Branch] FETCH_APPLIED_BRANCH_LIST_SUCCESS';
+export const FILTER_BRANCHES = '[Branch] FILTER_BRANCHES';
 
 export class FetchBranches implements Action {
   readonly type = FETCH_BRANCHES;
@@ -29,31 +27,23 @@ export class FetchBranchesSuccess implements Action {
 
 export class SelectBranch implements Action {
   readonly type = SELECT_BRANCH;
-  constructor(public payload: IBranch[]) {}
+  constructor(public payload: IBranch) {}
 }
 
-export class FilterBranchList implements Action {
-  readonly type = FILTER_BRANCH_LIST;
+export class DeselectBranch implements Action {
+  readonly type = DESELECT_BRANCH;
+  constructor(public payload: IBranch) {}
+}
+
+export class FilterBranches implements Action {
+  readonly type = FILTER_BRANCHES;
   constructor(public payload: string) {}
 }
 
-export class FetchAppliedBranchList implements Action {
-  readonly type = FETCH_APPLIED_BRANCH_LIST;
-  constructor(public payload: Object) {}
-}
-
-export class FetchAppliedBranchListFail implements Action {
-  readonly type = FETCH_APPLIED_BRANCH_LIST_FAIL;
-  constructor(public payload: Object) {}
-}
-
-export class FetchAppliedBranchListSuccess implements Action {
-  readonly type = FETCH_APPLIED_BRANCH_LIST_SUCCESS;
-  constructor(public payload: IBranch[]) {}
-}
 
 export type AllBranchActions = FetchBranches |
                                 FetchBranchesFail |
                                 FetchBranchesSuccess |
-                                FilterBranchList |
-                                FetchAppliedBranchList | SelectBranch;
+                                FilterBranches |
+                                SelectBranch |
+                                DeselectBranch;

@@ -4,7 +4,6 @@ import * as BranchActions from '../actions';
 export interface IBranchState {
   branches: IBranch[];
   selectedBranch: IBranch[];
-  filteredBranches: IBranch[];
   searchText: string;
   loading: boolean;
   loaded: boolean;
@@ -14,7 +13,6 @@ export interface IBranchState {
 export const initialState: IBranchState = {
   branches: [],
   selectedBranch: [],
-  filteredBranches: [],
   searchText: '',
   loading: false,
   loaded: false,
@@ -33,17 +31,10 @@ export function reducer (
         error: null
       };
     }
-    case BranchActions.SELECT_BRANCH: {
-      return {
-        ...state,
-        selectedBranch: action.payload
-      };
-    }
     case BranchActions.FETCH_BRANCHES_SUCCESS: {
       return {
         ...state,
-        branches: action.payload.branchList
-        ,
+        branches: action.payload.branchList,
         loading: false,
         loaded: true,
         error: null
@@ -57,11 +48,25 @@ export function reducer (
         error: action.payload
       };
     }
-    case BranchActions.FILTER_BRANCH_LIST: {
-
+    case BranchActions.SELECT_BRANCH: {
       return {
         ...state,
-        searchText:  action.payload
+        selectedBranch: [action.payload]
+      };
+    }
+    case BranchActions.DESELECT_BRANCH: {
+      return {
+        ...state,
+        selectedBranch: state.selectedBranch.filter(
+          (branch: IBranch) =>
+            branch.publicId !== action.payload.publicId
+        )
+      };
+    }
+    case BranchActions.FILTER_BRANCHES: {
+      return {
+        ...state,
+        searchText: action.payload
       };
     }
     default: {

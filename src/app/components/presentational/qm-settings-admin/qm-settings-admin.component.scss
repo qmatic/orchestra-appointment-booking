@@ -200,9 +200,10 @@
   &__input-box {
     width: rem(72px);
     padding: rem($standard-padding / 2 12px);
-    text-align: right;
+    line-height: 1;
     color: $dark-transparent62;
     border: 1px solid $standard-border-color;
+    text-align: right;
 
     @at-root [dir='rtl'] & {
       text-align: left;

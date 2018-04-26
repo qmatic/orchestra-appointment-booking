@@ -1,10 +1,11 @@
 import { IService } from '../../models/IService';
 import * as ServiceActions from '../actions';
+import { IServiceGroup } from '../../models/IServiceGroup';
 
 export interface IServiceState {
   services: IService[];
+  serviceGroups: IServiceGroup[];
   selectedServices: IService[];
-  filteredServices: IService[];
   searchText: string;
   loading: boolean;
   loaded: boolean;
@@ -13,8 +14,8 @@ export interface IServiceState {
 
 export const initialState: IServiceState = {
   services: [],
+  serviceGroups: [],
   selectedServices: [],
-  filteredServices: [],
   searchText: '',
   loading: false,
   loaded: false,
@@ -36,8 +37,7 @@ export function reducer (
     case ServiceActions.FETCH_SERVICES_SUCCESS: {
       return {
         ...state,
-        services: action.payload.serviceList
-        ,
+        services: action.payload.serviceList,
         loading: false,
         loaded: true,
         error: null
@@ -50,8 +50,62 @@ export function reducer (
         error: action.payload
       };
     }
+    case ServiceActions.FETCH_SERVICE_GROUPS: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case ServiceActions.FETCH_SERVICE_GROUPS_SUCCESS: {
+      return {
+        ...state,
+        serviceGroups: action.payload,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case ServiceActions.FETCH_SERVICE_GROUPS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case ServiceActions.SELECT_SERVICE: {
+      return {
+        ...state,
+        selectedServices: [
+          ...state.selectedServices,
+          action.payload
+        ]
+      };
+    }
+    case ServiceActions.DESELECT_SERVICE: {
+      return {
+        ...state,
+        selectedServices: state.selectedServices.filter(
+          (service: IService) =>
+            service.publicId !== action.payload.publicId
+        )
+      };
+    }
+    case ServiceActions.FILTER_SERVICES: {
+      return {
+        ...state,
+        searchText: action.payload
+      };
+    }
+    case ServiceActions.RESET_FILTER_SERVICES: {
+      return {
+        ...state,
+        searchText: ''
+      };
+    }
     default: {
         return state;
     }
   }
 }
+

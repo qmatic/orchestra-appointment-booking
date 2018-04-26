@@ -1,38 +1,44 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  Input
+} from '@angular/core';
 
 
 @Component({
   selector: 'qm-list-item',
-  host: {
-    'class': 'qm-list-item',
-    '(focus)': 'handleFocus()',
-    '(blur)': 'handleBlur()'
-  },
   templateUrl: './qm-list-item.component.html',
   styleUrls: ['./qm-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QmListItemComponent implements OnInit {
+  @Input()
+  isSelected = false;
+
+  @Input()
+  centerText = false;
+
+  @Input()
+  inputType: string;
+
+  @Input()
+  name: string;
 
   @Output()
-  select = new EventEmitter();
+  optionClicked = new EventEmitter();
 
-  constructor(private _element: ElementRef) { }
+  constructor() { }
 
   ngOnInit() {
 
   }
 
-  handleFocus() {
-    this._element.nativeElement.classList.add('qm-list-item-focus');
-  }
-
-  handleBlur() {
-    this._element.nativeElement.classList.remove('qm-list-item-focus');
-  }
-
-  handleChange($event) {
-    this.select.emit($event);
+  handleClick($event) {
+    console.log('rybbd');
+    this.optionClicked.emit($event);
   }
 }
 

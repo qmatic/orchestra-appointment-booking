@@ -54,7 +54,6 @@ import { QmActionButtonComponent } from './components/presentational/qm-action-b
 import { QmPageHeaderComponent } from './components/containers/qm-page-header/qm-page-header.component';
 import { QmListComponent } from './components/containers/qm-list/qm-list.component';
 import { QmListItemComponent } from './components/containers/qm-list-item/qm-list-item.component';
-import { QmListSelectItemComponent } from './components/containers/qm-select-item/qm-select-item.component';
 import { QmMainComponent } from './components/containers/qm-main/qm-main.component';
 import { QmDashboardComponent } from './components/containers/qm-dashboard/qm-dashboard.component';
 
@@ -90,6 +89,7 @@ import { QmNotifyComponent } from './components/presentational/qm-notify/qm-noti
 import { QmCreateCustomerModalComponent } from './components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
 import { QmSettingsAdminComponent } from './components/presentational/qm-settings-admin/qm-settings-admin.component';
 import { QmUpdateCustomerModalComponent } from './components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
+import { QmBookingFlowComponent } from './components/containers/qm-booking-flow/qm-booking-flow.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -118,7 +118,6 @@ const toastrGlobalOptions = {
     QmPageFooterComponent,
     QmListComponent,
     QmListItemComponent,
-    QmListSelectItemComponent,
     QmButtonComponent,
     QmActionButtonComponent,
     QmInvalidLicenseComponent,
@@ -144,7 +143,8 @@ const toastrGlobalOptions = {
     QmNotifyComponent,
     QmCreateCustomerModalComponent,
     QmSettingsAdminComponent,
-    QmUpdateCustomerModalComponent
+    QmUpdateCustomerModalComponent,
+    QmBookingFlowComponent
   ],
   imports: [
     BrowserModule,

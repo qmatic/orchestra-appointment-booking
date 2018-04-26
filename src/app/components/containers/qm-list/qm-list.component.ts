@@ -1,19 +1,22 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  OnDestroy
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
-import { BranchDispatchers } from '../../../../store';
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'qm-list',
   templateUrl: './qm-list.component.html',
   styleUrls: ['./qm-list.component.scss']
 })
-export class QmListComponent implements OnInit {
-
-  constructor(
-    private branchDispatchers: BranchDispatchers
-  ) {}
+export class QmListComponent implements OnInit, OnDestroy {
+  @Input()
+  searchable = true;
 
   @Input()
   header: string;
@@ -24,18 +27,28 @@ export class QmListComponent implements OnInit {
   @Input()
   subheader: string;
 
+  @Input()
+  searchText: string;
+
   @Output()
   search: EventEmitter<string> = new EventEmitter<string>();
 
-  searchText = '';
-  searchInputControl = new FormControl();
-  description = 'This is the description';
+  private subscriptions: Subscription = new Subscription();
+  private searchInputControl = new FormControl();
+  constructor() {}
 
   ngOnInit() {
-    this.searchInputControl.valueChanges
-      .debounceTime(500)
-      .subscribe((text: string) => {
-        this.search.emit(text);
-      });
+    const searchInputSubscription =
+      this.searchInputControl.valueChanges.subscribe(
+        (text: string) => {
+          this.search.emit(text);
+        }
+      );
+
+    this.subscriptions.add(searchInputSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }
