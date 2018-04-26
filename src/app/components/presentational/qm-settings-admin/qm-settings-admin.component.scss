@@ -157,6 +157,13 @@
   justify-content: space-between;
   align-items: center;
 
+  &__error {
+    position: absolute;
+    color: $qmatic-bordeaux;
+    font-size: rem(12px);
+    top: rem(28px);
+  }
+
   &--checkbox {
     .qm-option__label {
       width: 100%;
@@ -166,8 +173,6 @@
       margin-bottom: 0;
     }
   }
-
-
 
   &__selector-label {
     font-size: rem(18px);

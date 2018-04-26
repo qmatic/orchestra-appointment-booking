@@ -9,7 +9,6 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
-import { Validators } from '@angular/forms/src/validators';
 
 @Component({
   selector: 'qm-settings-admin',

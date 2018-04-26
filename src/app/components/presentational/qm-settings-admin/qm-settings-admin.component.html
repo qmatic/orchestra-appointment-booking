@@ -22,6 +22,7 @@
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
+                  <span class="qm-option__error qm-option__error--pattern" *ngIf="settingsEditForm?.controls[s.name]?.errors?.pattern">{{'error.settings.number.required' | translate}}</span>
                   <div class="qm-option__selection-container">
                     <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
                       [value]="s.value" />
