@@ -57,7 +57,7 @@
                       {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                     </span>
                     <div class="qm-option__selection-container">
-                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" class="qm-option__checkbox" type="checkbox" name="{{s.name}}"
+                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" (change)="handleSettingSelect(s)" class="qm-option__checkbox" type="checkbox" name="{{s.name}}"
                         [checked]="s.value" />
                       <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
                     </div>

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AbstractControl } from '@angular/forms/src/model';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -60,6 +61,27 @@ export class QmSettingsAdminComponent implements OnInit {
       return [];
     }
     return Array.from(map.values());
+  }
+
+  handleSettingSelect(settingObj: Setting) {
+    const control: AbstractControl = this.settingsEditForm.get(settingObj.name);
+
+        this.settings$.subscribe((settings) => {
+          const foundSetting = settings.find((x) => x.name === settingObj.name);
+          if (foundSetting.children.size > 0) {
+            foundSetting.children.forEach((childSetting) => {
+              const childControl = this.settingsEditForm.get(childSetting.name);
+              if (control.value === false) {
+                childControl.disable();
+                childControl.setValue(null);
+              } else {
+                childControl.enable();
+              }
+
+            });
+          }
+        }
+      ).unsubscribe();
   }
 
   saveSettings() {

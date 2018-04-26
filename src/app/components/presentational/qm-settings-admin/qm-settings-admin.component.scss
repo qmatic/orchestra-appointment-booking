@@ -76,6 +76,11 @@
 
     button:hover &__tooltip {
       display: block;
+      text-align: left;
+    }
+
+    input[disabled] {
+      background-color: $light-gray;
     }
   
     &__tooltip {
@@ -88,6 +93,7 @@
       color: $dark-transparent82;
       display: none;
       top: rem(4px);
+      text-align: left;
 
       &--only-input {
         top: rem(10px);
