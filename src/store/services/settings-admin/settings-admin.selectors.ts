@@ -20,10 +20,13 @@ const getSettingsByCategory = createSelector(getSettingsAdminState, (state: ISet
     if (!settingsByCategory.has(s.category.name)) {
       settingsByCategory.set(s.category.name, s.category);
     }
+
     const foundCat = settingsByCategory.get(s.category.name);
     foundCat.settings.set(s.name, s);
     settingsByCategory.set(s.category.name, foundCat);
   });
+
+  console.log(settingsByCategory.values());
 
   return Array.from(settingsByCategory.values());
 });

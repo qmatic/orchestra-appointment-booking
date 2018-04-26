@@ -25,38 +25,46 @@ export class QmSettingsAdminComponent implements OnInit {
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService) {
-      this.userDirection$ = this.userSelectors.userDirection$;
-      this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
-      this.settings$ = this.settingsAdminSelectors.settings$;
-      this.setEditForm();
-      this.settingsAdminDispatchers.fetchSettings();
-   }
+    this.userDirection$ = this.userSelectors.userDirection$;
+    this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
+    this.settings$ = this.settingsAdminSelectors.settings$;
+    this.setEditForm();
+    this.settingsAdminDispatchers.fetchSettings();
+  }
 
-
-   setEditForm() {
+  setEditForm() {
     this.settings$.subscribe((settings) => {
       const ctrlConfig = {};
       if (settings && settings.length) {
         settings.forEach((set: Setting) => {
           ctrlConfig[set.name] = [set.value];
+
+          if (set.children) {
+            set.children.forEach((child: Setting) => {
+              ctrlConfig[child.name] = [child.value];
+            });
+          }
         });
 
         this.settingsEditForm = this.formBuilder.group(ctrlConfig);
       }
     });
-   }
+  }
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
   }
 
   toArray(map) {
+    if (!map) {
+      return [];
+    }
     return Array.from(map.values());
   }
 
   saveSettings() {
     const settingsUpdateRequest: ISettingsUpdateRequest = {
-      settingsList : this.settingsEditForm.value
+      settingsList: this.settingsEditForm.value
     };
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
   }

@@ -106,40 +106,40 @@
         "name": "CustomerInputFields",
         "settings": [
             {
-                "name": "IncludePhone",
+                "name": "CustomerIncludePhone",
                 "value": true,                
                 "outputType": "Boolean",                
                 "children" : [
                      {
-                        "name": "PhoneRequired",
-                        "value": true,                
+                        "name": "CustomerPhoneRequired",
+                        "value": "",                
                         "outputType": "Boolean"   
                     },
                     {
-                        "name": "DefaultCountry",
-                        "value": true,                
+                        "name": "CustomerPhoneDefaultCountry",
+                        "value": "",                
                         "outputType": "Text"   
                     },
                     {
-                        "name": "MaxDigits",
-                        "value": true,                
+                        "name": "CustomerPhoneMaxDigits",
+                        "value": "",                
                         "outputType": "Text"   
                     },
                     {
-                        "name": "MinDigits",
-                        "value": true,                
+                        "name": "CustomerPhoneMinDigits",
+                        "value": "",                
                         "outputType": "Text"   
                     }
                 ]
             },
 
             {
-                "name": "IncludeEmail",
+                "name": "CustomerIncludeEmail",
                 "value": true,                
                 "outputType": "Boolean",                
                 "children" : [
                      {
-                        "name": "EmailRequired",
+                        "name": "CustomerIncludeEmailRequired",
                         "value": true,                
                         "outputType": "Boolean"   
                     }
@@ -148,12 +148,12 @@
 
             
             {
-                "name": "IncludeDateofBirth",
+                "name": "CustomerIncludeDateofBirth",
                 "value": true,                
                 "outputType": "Boolean",                
                 "children" : [
                      {
-                        "name": "DateofBirthRequired",
+                        "name": "CustomerIncludeDateofBirthRequired",
                         "value": true,                
                         "outputType": "Boolean"   
                     }
@@ -161,4 +161,6 @@
             }
         ]
     }
+
+    
 ]

@@ -6,8 +6,7 @@
         <div class="qm-settings-admin__header">
           <h1 class="qm-settings-admin__headline">Settings Appointment booking module</h1>
           <p class="qm-settings-admin__description">
-            By adjusting parameters and selecting what features to include
-            you can customize how you would like your Staff booking module
+            By adjusting parameters and selecting what features to include you can customize how you would like your Staff booking module
             to work.
           </p>
         </div>
@@ -24,7 +23,8 @@
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
                   <div class="qm-option__selection-container">
-                    <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}" [value]="s.value" />
+                    <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
+                      [value]="s.value" />
 
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
@@ -33,15 +33,19 @@
                   </div>
                 </div>
 
+
+
                 <div class="qm-option qm-option--input" *ngSwitchCase="'Time'">
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
                   <div class="qm-option__selection-container">
-                    <input id="AMPM" class="qm-option__radio" type="radio" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}" [value]="AMPM" [checked]="s.value === 'AMPM'" />
-                    <input id="24" class="qm-option__radio" type="radio" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}" [value]="24" [checked]="s.value === '24'" />
+                    <input id="AMPM" class="qm-option__radio" type="radio" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
+                      [value]="AMPM" [checked]="s.value === 'AMPM'" />
+                    <input id="24" class="qm-option__radio" type="radio" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
+                      [value]="24" [checked]="s.value === '24'" />
 
-                    <button type="button"  class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                    <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
                       <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
                     </button>
@@ -53,7 +57,8 @@
                       {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                     </span>
                     <div class="qm-option__selection-container">
-                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" class="qm-option__checkbox" type="checkbox" name="{{s.name}}" [checked]="s.value" />
+                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" class="qm-option__checkbox" type="checkbox" name="{{s.name}}"
+                        [checked]="s.value" />
                       <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
                     </div>
                   </label>
@@ -62,6 +67,42 @@
                     <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
                   </button>
                 </div>
+
+                <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child">
+                  <li class="qm-settings-admin__option-list-item" *ngFor="let c of toArray(s.children)" [ngSwitch]="c.outputType">
+                    <div class="qm-option qm-option--input" *ngSwitchCase="'Text'">
+                      <label class="qm-option__label" for="{{ c.name }}">
+                        {{ 'label.settings.' + c.name.toLowerCase() | translate}}
+                      </label>
+                      <div class="qm-option__selection-container">
+                        <input id="{{ c.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[c.name]" name="{{c.name}}"
+                          [value]="c.value" />
+
+                        <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                          <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                          <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="qm-option qm-option--checkbox" *ngSwitchCase="'Boolean'">
+                      <label class="qm-option__label" for="{{ c.name }}">
+                        <span class="qm-option__selector-label">
+                          {{ 'label.settings.' + c.name.toLowerCase() | translate}}
+                        </span>
+                        <div class="qm-option__selection-container">
+                          <input id="{{ c.name }}" [formControl]="settingsEditForm.controls[c.name]" class="qm-option__checkbox" type="checkbox" name="{{c.name}}"
+                            [checked]="c.value" />
+                          <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
+                        </div>
+                      </label>
+                      <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                        <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                        <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -71,8 +112,8 @@
           <div class="qm-settings-admin__footer-information-container">
             <i class="qm-settings-admin__changes-icon icon-info" aria-hidden="true"></i>
             <p class="qm-settings-admin__footer-information">
-              Changes made will be effective the next time a user log out and login again.
-              Its recommended that changes are done during non office hours.
+              Changes made will be effective the next time a user log out and login again. Its recommended that changes are done during
+              non office hours.
             </p>
           </div>
         </div>
@@ -83,7 +124,7 @@
           <span class="qm-btn__text" title="Cancel">Cancel</span>
         </button>
         <button class="qm-btn qm-btn--primary" (click)="saveSettings()">
-          <span class="qm-btn__text" title="Confirm" >Confirm</span>
+          <span class="qm-btn__text" title="Confirm">Confirm</span>
         </button>
       </div>
     </div>

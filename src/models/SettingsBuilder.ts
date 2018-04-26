@@ -11,8 +11,16 @@ export class SettingsBuilder {
     buildDefaultSettings(): SettingsBuilder {
         if (settingsConfig && settingsConfig.length > 0) {
             settingsConfig.forEach(cat => {
-                cat.settings.forEach((setting: Setting) => {
+                cat.settings.forEach((setting: any) => {
                     setting.category = new SettingCategory(cat.name, cat.displayText);
+                    if (setting.children) {
+                        const childArray = setting.children;
+                        setting.children = new Map<string, Setting>();
+
+                        childArray.forEach(element => {
+                            setting.children.set(element.name, element);
+                        });
+                    }
                     this._defaultSettings.set(setting.name, setting);
                 });
             });
