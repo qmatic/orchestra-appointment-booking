@@ -70,7 +70,7 @@ export function reducer (
       };
     }
     default: {
-        return state;
+      return state;
     }
   }
 }

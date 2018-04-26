@@ -22,8 +22,14 @@ export function reducer (
         numberOfCustomers: action.payload
       };
     }
+    case NumberOfCustomersActions.RESET_NUMBER_OF_CUSTOMERS: {
+      return {
+        ...state,
+        numberOfCustomers: null
+      };
+    }
     default: {
-        return state;
+      return state;
     }
   }
 }
