@@ -6,7 +6,11 @@
                 "name": "AutoClosetime",
                 "defaultValue": 1800,
                 "value": 1800,
-                "outputType": "Text"
+                "outputType": "Text",
+                "validators": {
+                    "required" : true,
+                    "pattern": "^[0-9]+$"
+                }
             },
             {
                 "name": "AllowCreateNewCustomer",
@@ -24,7 +28,11 @@
                 "name": "MaxCustomers",
                 "defaultValue": 10,
                 "value": 10,
-                "outputType": "Text"
+                "outputType": "Text",
+                "validators": {
+                    "required" : true,
+                    "pattern": "^[0-9]+$"
+                }
             },
             {
                 "name": "TimeFormat",

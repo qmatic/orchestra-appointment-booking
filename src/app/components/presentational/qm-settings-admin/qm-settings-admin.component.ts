@@ -1,7 +1,7 @@
 import { ToastContainerDirective } from 'ngx-toastr';
 import { ToastService } from './../../../../services/util/toast.service';
 import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +9,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
+import { Validators } from '@angular/forms/src/validators';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -38,7 +39,7 @@ export class QmSettingsAdminComponent implements OnInit {
       const ctrlConfig = {};
       if (settings && settings.length) {
         settings.forEach((set: Setting) => {
-          ctrlConfig[set.name] = [set.value];
+          ctrlConfig[set.name] = [set.value, this.getValidators(set.validators)];
 
           if (set.children) {
             set.children.forEach((child: Setting) => {
@@ -48,8 +49,28 @@ export class QmSettingsAdminComponent implements OnInit {
         });
 
         this.settingsEditForm = this.formBuilder.group(ctrlConfig);
+
+        settings.forEach((set) => {
+          this.handleSettingSelect(set);
+        });
       }
     });
+  }
+
+  getValidators(validators) {
+    const validationArray = [];
+
+    for (const key in validators) {
+      if (validators.hasOwnProperty(key)) {
+        if ( key === 'required' && validators[key]) {
+          validationArray.push(Validators.required);
+        } else if (key === 'pattern') {
+          validationArray.push(Validators.pattern(validators[key]));
+        }
+      }
+    }
+
+    return validationArray;
   }
 
   ngOnInit() {
@@ -68,7 +89,7 @@ export class QmSettingsAdminComponent implements OnInit {
 
         this.settings$.subscribe((settings) => {
           const foundSetting = settings.find((x) => x.name === settingObj.name);
-          if (foundSetting.children.size > 0) {
+          if (foundSetting.children && foundSetting.children.size > 0) {
             foundSetting.children.forEach((childSetting) => {
               const childControl = this.settingsEditForm.get(childSetting.name);
               if (control.value === false) {
@@ -89,5 +110,9 @@ export class QmSettingsAdminComponent implements OnInit {
       settingsList: this.settingsEditForm.value
     };
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
+  }
+
+  cancelEdit() {
+    this.setEditForm();
   }
 }

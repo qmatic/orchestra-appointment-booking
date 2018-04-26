@@ -7,11 +7,13 @@ export class Setting {
     children: Map<string, Setting>;
     category: SettingCategory;
     tooltip: string;
-    constructor(settingName: string , value: any, category: SettingCategory, outputType: SettingOutputType) {
+    validators: any;
+    constructor(settingName: string , value: any, category: SettingCategory, outputType: SettingOutputType, validators: any = {}) {
         this.name  = settingName;
         this.value  = value;
         this.category = category;
         this.outputType = outputType;
+        this.validators = validators;
     }
     toString(): string {
         return this.name;

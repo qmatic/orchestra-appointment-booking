@@ -25,16 +25,12 @@
                   <div class="qm-option__selection-container">
                     <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
                       [value]="s.value" />
-
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
                       <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
                     </button>
                   </div>
                 </div>
-
-
-
                 <div class="qm-option qm-option--input" *ngSwitchCase="'Time'">
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
@@ -44,7 +40,6 @@
                       [value]="AMPM" [checked]="s.value === 'AMPM'" />
                     <input id="24" class="qm-option__radio" type="radio" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
                       [value]="24" [checked]="s.value === '24'" />
-
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
                       <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
@@ -118,10 +113,9 @@
           </div>
         </div>
       </div>
-
       <div class="qm-settings-admin__action-container">
         <button type="button" class="qm-btn qm-btn--secondary">
-          <span class="qm-btn__text" title="Cancel">Cancel</span>
+          <span class="qm-btn__text" (click)="cancelEdit()" title="Cancel">Cancel</span>
         </button>
         <button class="qm-btn qm-btn--primary" (click)="saveSettings()">
           <span class="qm-btn__text" title="Confirm">Confirm</span>
@@ -131,5 +125,4 @@
   </qm-main>
   <qm-page-footer></qm-page-footer>
 </div>
-
 <div class="qm-messages" toastContainer dir="{{ userDirection$ | async }}"></div>

@@ -146,8 +146,9 @@
     justify-content: flex-end;
     padding: rem(0 $standard-padding * 2 $standard-padding * 2);
   }
-}
 
+  
+}
 
 .qm-option {
   max-width: rem(390px);
@@ -200,6 +201,10 @@
 
     @at-root [dir='rtl'] & {
       text-align: left;
+    }
+
+    &.ng-invalid {
+      border: 2px solid $errorinput-border;
     }
   }
 
