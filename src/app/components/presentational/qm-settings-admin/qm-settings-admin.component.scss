@@ -63,9 +63,31 @@
   }
 
   &__option-list-item {
+    position: relative;
     & + & {
       margin-top: rem($standard-margin * 1.5)
     }
+
+    button:hover &__tooltip {
+      display: block;
+    }
+  
+    &__tooltip {
+      position: absolute;
+      bottom:rem(10px);
+      left: rem(395px);
+      font-size: rem(16px);
+      line-height: rem(22px);
+      font-weight: $font-weight-light;
+      color: $dark-transparent82;
+      display: none;
+      top: rem(4px);
+
+      &--only-input {
+        top: rem(10px);
+      }
+    }
+   
   }
 
   &__section-headline {
@@ -131,6 +153,8 @@
       margin-bottom: 0;
     }
   }
+
+
 
   &__selector-label {
     font-size: rem(18px);

@@ -6,6 +6,7 @@ export class Setting {
     outputType: SettingOutputType;
     children: Map<string, Setting>;
     category: SettingCategory;
+    tooltip: string;
     constructor(settingName: string , value: any, category: SettingCategory, outputType: SettingOutputType) {
         this.name  = settingName;
         this.value  = value;
