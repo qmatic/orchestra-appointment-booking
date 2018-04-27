@@ -71,14 +71,13 @@
   }
 
   &__option-list-item {
-    position: relative;
+
     & + & {
       margin-top: rem($standard-margin * 1.5)
     }
 
     button:hover &__tooltip {
       display: block;
-      text-align: left;
     }
 
     input[disabled] {
@@ -86,19 +85,22 @@
     }
 
     &__tooltip {
+      display: none;
       position: absolute;
-      bottom:rem(10px);
-      left: rem(395px);
+      text-align: left;
+      top: 50%;
+      right: rem(-$base-unit);
       font-size: rem(16px);
       line-height: rem(22px);
       font-weight: $font-weight-light;
       color: $dark-transparent82;
-      display: none;
-      top: rem(4px);
-      text-align: left;
+      transform: translate(100%, -50%);
 
-      &--only-input {
-        top: rem(10px);
+      @at-root [dir='rtl'] & {
+        right: auto;
+        left: rem(-$base-unit);
+        transform: translate(-100%, -50%);
+        text-align: right;
       }
     }
 
@@ -151,6 +153,7 @@
 }
 
 .qm-option {
+  position: relative;
   max-width: rem(390px);
   width: 100%;
   display: flex;
@@ -316,7 +319,9 @@
   }
 
   &__toggle-label {
+    display: inline-flex;
     flex: 0 0 auto;
+    margin-bottom: 0;
 
     & + & {
       .qm-option__toggle-box {
