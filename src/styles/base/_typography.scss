@@ -6,3 +6,7 @@ body {
   font-family: $font-family !important;
   -webkit-font-smoothing: antialiased;
 }
+
+b {
+  font-weight: $font-weight-medium;
+}

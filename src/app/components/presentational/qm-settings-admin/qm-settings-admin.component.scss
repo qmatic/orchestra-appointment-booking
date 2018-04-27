@@ -1,14 +1,5 @@
 @import '../../../../styles/base/_component-manifest.scss';
-// .qm-settings-admin {
-//     margin: rem($base-unit $base-unit * 4);
-//     background-color: $white;
-//     display: flex;
-//     flex-wrap: nowrap;
-//     width: 100%;
-//     height: 100%;
-//     flex-direction: column;
-//     border-radius: rem($standard-border-radius $standard-border-radius 0 0);
-// }
+
 .qm-settings-admin {
   margin: rem($standard-margin * 2 auto);
   background: $white;
@@ -223,14 +214,6 @@
   &__selection-container {
     display: flex;
     align-items: center;
-    // &--select-list {
-    //   width: 256px;
-    //   margin-left: 270px;
-    //   position: absolute;
-    //   .ng-select {
-    //     min-width: 200px;
-    //   }
-    // }
   }
 
   &__input-box {
