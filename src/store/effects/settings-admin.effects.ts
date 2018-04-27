@@ -68,7 +68,7 @@ export class SettingsAdminEffects {
           .pipe(
             tap((action: SettingsAdminActions.SaveSettingsSuccess) =>
               this.translateService.get('message.settings.save.fail').subscribe(
-                (label: string) => this.toastService.successToast(label)
+                (label: string) => this.toastService.errorToast(label)
               ).unsubscribe()
             ),
             switchMap((action: SettingsAdminActions.SaveSettingsSuccess) =>
