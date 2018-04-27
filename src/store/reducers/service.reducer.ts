@@ -76,10 +76,7 @@ export function reducer (
     case ServiceActions.SELECT_SERVICE: {
       return {
         ...state,
-        selectedServices: [
-          ...state.selectedServices,
-          action.payload
-        ]
+        selectedServices: [action.payload]
       };
     }
     case ServiceActions.DESELECT_SERVICE: {
@@ -89,6 +86,15 @@ export function reducer (
           (service: IService) =>
             service.publicId !== action.payload.publicId
         )
+      };
+    }
+    case ServiceActions.SELECT_MULTI_SERVICE: {
+      return {
+        ...state,
+        selectedServices: [
+          ...state.selectedServices,
+          action.payload
+        ]
       };
     }
     case ServiceActions.FILTER_SERVICES: {

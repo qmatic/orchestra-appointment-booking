@@ -32,10 +32,29 @@ const getSettingsByCategory = createSelector(getSettingsAdminState, (state: ISet
 });
 
 
+const getSettingsAsMap = createSelector(
+  getSettingsAdminState,
+  (state: ISettingsAdminState) => {
+    const settingsList = state.settings;
+
+    const settings = settingsList.reduce(
+      (allSettings: { [name: string]: Setting }, setting: Setting) => {
+        return {
+          ...allSettings,
+          [setting.name]: setting,
+        };
+      },
+      {}
+    );
+    return settings;
+  }
+);
+
 @Injectable()
 export class SettingsAdminSelectors {
   constructor(private store: Store<IAppState>) {}
   // selectors$
   settings$ = this.store.select(getAllSettings);
   settingsByCategory$ = this.store.select(getSettingsByCategory);
+  settingsAsMap$ = this.store.select(getSettingsAsMap);
 }

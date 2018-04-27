@@ -2,7 +2,7 @@
   <div class="row qm-booking-flow__row">
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="servicesSearchText$ | async" [placeholder]="'Search Services'" [header]="'Services'" (search)="filterServices($event)">
-        <qm-list-item [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="'checkbox'" *ngFor="let service of services$ | async" (optionClicked)="handleServiceSelection(service)">
+        <qm-list-item [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services$ | async" (optionClicked)="handleServiceSelection(service)">
           {{service.name}}
         </qm-list-item>
       </qm-list>

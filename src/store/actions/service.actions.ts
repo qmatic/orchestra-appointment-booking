@@ -14,6 +14,7 @@ export const FETCH_SERVICE_GROUPS_SUCCESS = '[Service] FETCH_SERVICE_GROUPS_SUCC
 
 export const SELECT_SERVICE = '[Service] SELECT_SERVICE';
 export const DESELECT_SERVICE = '[Service] DESELECT_SERVICE';
+export const SELECT_MULTI_SERVICE = '[Service] SELECT_MULTI_SERVICE';
 export const FILTER_SERVICES = '[Service] FILTER_SERVICES';
 export const RESET_FILTER_SERVICES = '[Service] RESET_FILTER_SERVICES';
 
@@ -57,6 +58,11 @@ export class DeselectService implements Action {
   constructor(public payload: IService) {}
 }
 
+export class SelectMultiService implements Action {
+  readonly type = SELECT_MULTI_SERVICE;
+  constructor(public payload: IService) {}
+}
+
 export class FilterServices implements Action {
   readonly type = FILTER_SERVICES;
   constructor(public payload: string) {}
@@ -75,5 +81,6 @@ export type AllServiceActions = FetchServices |
                                 FetchServiceGroupsSuccess |
                                 SelectService |
                                 DeselectService |
+                                SelectMultiService |
                                 FilterServices |
                                 ResetFilterServices;

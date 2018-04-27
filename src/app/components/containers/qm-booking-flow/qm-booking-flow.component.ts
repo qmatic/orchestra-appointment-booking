@@ -4,10 +4,12 @@ import {
   ServiceSelectors,
   ServiceDispatchers,
   BranchSelectors,
-  BranchDispatchers } from '../../../../store';
+  BranchDispatchers,
+  SettingsAdminSelectors} from '../../../../store';
 import { IBranch } from '../../../../models/IBranch';
 import { IService } from '../../../../models/IService';
 import { Subscription } from 'rxjs/Subscription';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-booking-flow',
@@ -22,16 +24,19 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private services$: Observable<IService[]>;
   private servicesSearchText$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
   private branches: IBranch[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
+  private settingsMap: { [name: string ]: Setting };
 
   constructor(
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers,
     private serviceSelectors: ServiceSelectors,
     private serviceDispatchers: ServiceDispatchers,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;
@@ -39,6 +44,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.services$ = this.serviceSelectors.visibleServices$;
     this.servicesSearchText$ = this.serviceSelectors.searchText$;
     this.selectedServices$ = this.serviceSelectors.selectedServices$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
@@ -54,17 +60,34 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (selectedBranches: IBranch[]) => this.selectedBranches = selectedBranches
     );
 
+    const settingsSubscription = this.settingsMap$.subscribe(
+      (settingsMap: { [name: string]: Setting }) => this.settingsMap = settingsMap
+    );
+
     this.subscriptions.add(branchSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedBranchesSubscription);
+    this.subscriptions.add(settingsSubscription);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
+  getInputTypeForServices(): string {
+    const multiServicesEnabled = this.settingsMap.AllowMultiService.value;
+    console.log('multiServiceEnabled: ', multiServicesEnabled);
+    console.log('typof', typeof multiServicesEnabled);
+    if (multiServicesEnabled) {
+      return 'checkbox';
+    } else {
+      return 'radio';
+    }
+  }
+
   filterBranches(searchText: string) {
     this.branchDispatchers.filterBranches(searchText);
+    console.log('this is the settingsMap: ', this.settingsMap);
   }
 
   handleBranchSelection(branch: IBranch) {
@@ -87,7 +110,11 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     if (isSelected) {
       this.serviceDispatchers.deselectService(service);
     } else {
-      this.serviceDispatchers.selectService(service);
+      const multiServicesEnabled = this.settingsMap.AllowMultiService.value;
+
+      multiServicesEnabled
+        ? this.serviceDispatchers.selectMultiService(service)
+        : this.serviceDispatchers.selectService(service);
     }
 
     this.updateServiceGroups();
