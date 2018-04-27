@@ -90,6 +90,7 @@ import { QmCreateCustomerModalComponent } from './components/presentational/qm-c
 import { QmSettingsAdminComponent } from './components/presentational/qm-settings-admin/qm-settings-admin.component';
 import { QmUpdateCustomerModalComponent } from './components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
 import { QmBookingFlowComponent } from './components/containers/qm-booking-flow/qm-booking-flow.component';
+import { HtmlDecodePipe } from './components/presentational/qm-settings-admin/html-decode.pipe';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -145,6 +146,7 @@ const toastrGlobalOptions = {
     QmSettingsAdminComponent,
     QmUpdateCustomerModalComponent,
     QmBookingFlowComponent
+    HtmlDecodePipe
   ],
   imports: [
     BrowserModule,
