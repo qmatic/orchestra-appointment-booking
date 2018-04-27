@@ -37,7 +37,6 @@ export class QmListItemComponent implements OnInit {
   }
 
   handleClick($event) {
-    console.log('rybbd');
     this.optionClicked.emit($event);
   }
 }

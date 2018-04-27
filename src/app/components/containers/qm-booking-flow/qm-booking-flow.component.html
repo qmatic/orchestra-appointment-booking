@@ -3,21 +3,21 @@
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="servicesSearchText$ | async" [placeholder]="'Search Services'" [header]="'Services'" (search)="filterServices($event)">
         <qm-list-item [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services$ | async" (optionClicked)="handleServiceSelection(service)">
-          {{service.name}}
+          {{ service.name }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col">
       <qm-list [searchable]="false" [header]="'Customers'">
-        <qm-list-item [name]="'customer'" [inputType]="'radio'" [centerText]="true" *ngFor="let b of services$ | async" (optionClicked)="handleServiceSelection(b)">
-          {{b.name}}
+        <qm-list-item [name]="'customer'" [isSelected]="isNumberOfCustomerSelected(number)" [inputType]="'radio'" [centerText]="true" *ngFor="let number of getSelectableAmountOfCustomers()" (optionClicked)="handleNumberOfCustomersSelection(number)">
+          {{ number }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="branchesSearchText$ | async" [placeholder]="'Search Branches'" [header]="'Branches'" (search)="filterBranches($event)">
         <qm-list-item [name]="'branch'" [isSelected]="isBranchSelected(branch)" [inputType]="'radio'" *ngFor="let branch of branches" (optionClicked)="handleBranchSelection(branch)">
-          {{branch.name}}
+          {{ branch.name }}
         </qm-list-item>
       </qm-list>
     </div>

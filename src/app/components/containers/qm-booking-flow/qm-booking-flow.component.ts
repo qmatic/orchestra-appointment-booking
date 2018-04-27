@@ -10,6 +10,8 @@ import { IBranch } from '../../../../models/IBranch';
 import { IService } from '../../../../models/IService';
 import { Subscription } from 'rxjs/Subscription';
 import { Setting } from '../../../../models/Setting';
+import { NumberOfCustomersSelectors } from '../../../../store/services/number-of-customers/number-of-customers.selectors';
+import { NumberOfCustomersDispatchers } from '../../../../store/services/number-of-customers/number-of-customers.dispatchers';
 
 @Component({
   selector: 'qm-booking-flow',
@@ -25,18 +27,22 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private servicesSearchText$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private numberOfCustomers$: Observable<number>;
 
   private branches: IBranch[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
   private settingsMap: { [name: string ]: Setting };
+  private numberOfCustomers: number;
 
   constructor(
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers,
     private serviceSelectors: ServiceSelectors,
     private serviceDispatchers: ServiceDispatchers,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private numberOfCustomersSelectors: NumberOfCustomersSelectors,
+    private numberOfCustomersDispatchers: NumberOfCustomersDispatchers
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;
@@ -45,6 +51,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.servicesSearchText$ = this.serviceSelectors.searchText$;
     this.selectedServices$ = this.serviceSelectors.selectedServices$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.numberOfCustomers$ = this.numberOfCustomersSelectors.numberOfCustomers$;
   }
 
   ngOnInit() {
@@ -64,10 +71,15 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (settingsMap: { [name: string]: Setting }) => this.settingsMap = settingsMap
     );
 
+    const numberOfCustomersSubscription = this.numberOfCustomers$.subscribe(
+      (selectedNumberOfCustomers: number) => this.numberOfCustomers = selectedNumberOfCustomers
+    );
+
     this.subscriptions.add(branchSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedBranchesSubscription);
     this.subscriptions.add(settingsSubscription);
+    this.subscriptions.add(numberOfCustomersSubscription);
   }
 
   ngOnDestroy() {
@@ -76,8 +88,6 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
   getInputTypeForServices(): string {
     const multiServicesEnabled = this.settingsMap.AllowMultiService.value;
-    console.log('multiServiceEnabled: ', multiServicesEnabled);
-    console.log('typof', typeof multiServicesEnabled);
     if (multiServicesEnabled) {
       return 'checkbox';
     } else {
@@ -87,7 +97,6 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
   filterBranches(searchText: string) {
     this.branchDispatchers.filterBranches(searchText);
-    console.log('this is the settingsMap: ', this.settingsMap);
   }
 
   handleBranchSelection(branch: IBranch) {
@@ -120,6 +129,29 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.updateServiceGroups();
   }
 
+  getSelectableAmountOfCustomers() {
+    const shouldSetToOne = this.shouldSetNumberOfCustomersToOne();
+    if (shouldSetToOne) {
+      return this.createNumberOfCustomersArray(1);
+    } else {
+      const maxNumberOfCustomers = this.settingsMap.MaxCustomers.value;
+      return this.createNumberOfCustomersArray(maxNumberOfCustomers);
+    }
+  }
+
+  createNumberOfCustomersArray(maxNumberOfCustomers: number): Array<number> {
+    return Array.from({length: maxNumberOfCustomers}, (v, k) => k + 1);
+  }
+
+  handleNumberOfCustomersSelection(numberOfCustomers: number) {
+    const isSelected = this.isNumberOfCustomerSelected(numberOfCustomers);
+
+    isSelected
+      ? this.numberOfCustomersDispatchers.resetNumberOfCustomers()
+      : this.numberOfCustomersDispatchers.setNumberOfCustomers(numberOfCustomers);
+
+  }
+
   updateServiceGroups() {
     const queryString = this.getServicesQueryString();
     this.serviceDispatchers.fetchServiceGroups(queryString);
@@ -127,9 +159,24 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
   getServicesQueryString(): string {
     return this.selectedServices.reduce(
-      (acc, service: IService) => {
-        return acc + `;servicePublicId=${service.publicId}`;
+      (queryString, service: IService) => {
+        return queryString + `;servicePublicId=${service.publicId}`;
       }, '');
+  }
+
+  shouldSetNumberOfCustomersToOne() {
+    return this.selectedServices.reduce(
+      (shouldSetToOne: boolean, selectedService: IService) => {
+        return !shouldSetToOne
+                ? selectedService.additionalCustomerDuration === 0
+                : true;
+      },
+      false
+    );
+  }
+
+  isNumberOfCustomerSelected(numberOfCustomers: number) {
+    return this.numberOfCustomers === numberOfCustomers;
   }
 
   isServiceSelected(service: IService): boolean {

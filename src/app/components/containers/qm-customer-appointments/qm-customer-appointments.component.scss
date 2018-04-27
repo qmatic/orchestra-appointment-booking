@@ -80,14 +80,14 @@
 
   &__icon-foreground {
     position: absolute;
-    bottom: -4px;
-    right: 0;
-    font-size: rem($base-unit * 2);
+    bottom: -12px;
+    right: -12px;
+    font-size: rem($base-unit * 3);
     color: $dark-transparent82;
 
     @at-root [dir='rtl'] & {
       right: auto;
-      left: 0;
+      left: -12px;
     }
   }
 

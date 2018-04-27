@@ -13,8 +13,8 @@
   <ng-template #appointmentFetch>
       <button class="qm-fetch-appointments-btn" (click)="fetchAppointments()" *ngIf="!(appointmentsLoading$ | async); else appointmentsLoading">
         <span class="qm-fetch-appointments-btn__icon-container">
-          <i class="qm-fetch-appointments-btn__icon-background icon-ticket" aria-hidden="true"></i>
-          <i class="qm-fetch-appointments-btn__icon-foreground icon-user-details" aria-hidden="true"></i>
+          <i class="qm-fetch-appointments-btn__icon-background icon-calendar" aria-hidden="true"></i>
+          <i class="qm-fetch-appointments-btn__icon-foreground icon-view" aria-hidden="true"></i>
         </span>
         <span class="qm-fetch-appointments-btn__text" title="{{ 'button.customerAppointments.view.booked' | translate }}">
           {{ 'button.customerAppointments.view.booked' | translate }}

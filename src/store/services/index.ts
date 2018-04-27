@@ -13,3 +13,4 @@ export * from './user';
 export * from './appointment-meta';
 export * from './booking';
 export * from './settings-admin';
+export * from './number-of-customers';
