@@ -7,6 +7,7 @@ import {
 import {
   QmUpdateCustomerModalComponent
 } from '../../app/components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
+import { QmGenericModalComponent } from '../../app/components/presentational/qm-generic-modal/qm-generic-modal.component';
 
 @Injectable()
 export class ModalService {
@@ -19,5 +20,9 @@ export class ModalService {
 
   openUpdateCustomerModal() {
     this.modalService.open(QmUpdateCustomerModalComponent, { centered: true });
+  }
+
+  openNavigateBackConfirmModal() {
+    this.modalService.open(QmGenericModalComponent, { centered: true });
   }
 }

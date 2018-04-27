@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { ToastService } from './../../../../services/util/toast.service';
 import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
@@ -10,6 +11,7 @@ import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../st
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
 import { TranslateService } from '@ngx-translate/core';
+import { ModalService } from '../../../../services/util/modal.service';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -27,7 +29,8 @@ export class QmSettingsAdminComponent implements OnInit {
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService, private modalService: ModalService,
+    private router: Router) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
@@ -82,6 +85,14 @@ export class QmSettingsAdminComponent implements OnInit {
     }
 
     return validationArray;
+  }
+
+  clickBackToAppointmentClick($event) {
+    if (this.settingsEditForm.dirty) {
+      this.modalService.openNavigateBackConfirmModal();
+    }  else {
+      this.router.navigateByUrl('/app');
+    }
   }
 
   ngOnInit() {

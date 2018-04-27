@@ -8,7 +8,6 @@ export class LicenseAuthGuard implements CanActivate {
   constructor(private licenseStatusSelector: LicenseInfoSelectors, private router: Router) {}
   canActivate(): Observable<boolean> {
     return this.licenseStatusSelector.getLicenseInfo$.map(licenseState => {
-      console.log(licenseState + '$$$$$$');
       if (licenseState.loaded) {
          if (licenseState.status) {
             return true;

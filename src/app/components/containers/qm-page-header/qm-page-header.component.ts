@@ -1,5 +1,5 @@
 import { UserRoleSelectors } from './../../../../store/services/user-role/user-role.selectors';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
@@ -18,6 +18,9 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
   logoutSubscription: Subscription;
+
+  @Output()
+  clickBackToAppointmentClick: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private userSelectors: UserSelectors,
@@ -40,5 +43,11 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     this.spService.logout().subscribe(() => {
       window.location.href = '/logout.jsp';
     });
+  }
+
+  navigateBackToAppointment($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.clickBackToAppointmentClick.emit($event);
   }
 }

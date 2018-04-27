@@ -91,6 +91,7 @@ import { QmSettingsAdminComponent } from './components/presentational/qm-setting
 import { QmUpdateCustomerModalComponent } from './components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
 import { QmBookingFlowComponent } from './components/containers/qm-booking-flow/qm-booking-flow.component';
 import { HtmlDecodePipe } from './components/presentational/qm-settings-admin/html-decode.pipe';
+import { QmGenericModalComponent } from './components/presentational/qm-generic-modal/qm-generic-modal.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -146,7 +147,8 @@ const toastrGlobalOptions = {
     QmSettingsAdminComponent,
     QmUpdateCustomerModalComponent,
     QmBookingFlowComponent,
-    HtmlDecodePipe
+    HtmlDecodePipe,
+    QmGenericModalComponent
   ],
   imports: [
     BrowserModule,
@@ -176,7 +178,7 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  entryComponents: [QmCreateCustomerModalComponent, QmUpdateCustomerModalComponent],
+  entryComponents: [QmCreateCustomerModalComponent, QmUpdateCustomerModalComponent, QmGenericModalComponent],
   providers: [SPService, ToastService, ModalService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
   bootstrap: [AppComponent]
 })
