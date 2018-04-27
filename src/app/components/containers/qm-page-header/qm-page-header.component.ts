@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   constructor(
     private userSelectors: UserSelectors,
     private userRoleSelectors: UserRoleSelectors,
-    private spService: SPService
+    private spService: SPService,
+    private route: ActivatedRoute
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;

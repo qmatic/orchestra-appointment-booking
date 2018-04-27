@@ -51,12 +51,16 @@
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
-                  <div class="qm-option__selection-container">
-                    <select class="form-control" [formControl]="settingsEditForm.controls[s.name]">
+                  <div class="qm-option__selection-container qm-option__selection-container--select-list">
+                    <!--select class="form-control qm-option__selection-container_selectlist" [formControl]="settingsEditForm.controls[s.name]">
                       <option *ngFor="let preselect of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="preselect">
                         {{'label.settings.preselect.' + preselect.toLowerCase() | translate}}
                       </option>
-                    </select>
+                    </select-->
+
+                    <ng-select  [clearable]="false" [formControl]="settingsEditForm.controls[s.name]">
+                      <ng-option *ngFor="let pre of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="pre">{{'label.settings.preselect.' + pre.toLowerCase() | translate}}</ng-option>
+                    </ng-select>
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
                       <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
@@ -65,13 +69,13 @@
                 </div>
                 <div class="qm-option qm-option--checkbox" *ngSwitchCase="'Boolean'">
                   <label class="qm-option__label" for="{{ s.name }}">
-                    
+
                     <span class="qm-option__selector-label" [innerHtml]="'label.settings.' + s.name.toLowerCase() | translate | htmlDecode">
-                      
+
                     </span>
                     <div class="qm-option__selection-container">
-                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" (change)="handleSettingSelect(s)" class="qm-option__checkbox" type="checkbox" name="{{s.name}}"
-                        [checked]="s.value" />
+                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" (change)="handleSettingSelect(s)" class="qm-option__checkbox"
+                        type="checkbox" name="{{s.name}}" [checked]="s.value" />
                       <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
                     </div>
                   </label>
@@ -136,7 +140,7 @@
           <span class="qm-btn__text" (click)="cancelEdit()" title="Cancel">Cancel</span>
         </button>
         <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid">
-          <span class="qm-btn__text"  title="Confirm">Confirm</span>
+          <span class="qm-btn__text" title="Confirm">Confirm</span>
         </button>
       </div>
     </div>

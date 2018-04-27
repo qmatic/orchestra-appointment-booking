@@ -145,7 +145,7 @@ const toastrGlobalOptions = {
     QmCreateCustomerModalComponent,
     QmSettingsAdminComponent,
     QmUpdateCustomerModalComponent,
-    QmBookingFlowComponent
+    QmBookingFlowComponent,
     HtmlDecodePipe
   ],
   imports: [

@@ -202,6 +202,14 @@
   &__selection-container {
     display: flex;
     align-items: center;
+    &--select-list {
+      width: 256px;
+      margin-left: 270px;
+      position: absolute;
+      .ng-select {
+        min-width: 200px;
+      }
+    }
   }
 
   &__input-box {

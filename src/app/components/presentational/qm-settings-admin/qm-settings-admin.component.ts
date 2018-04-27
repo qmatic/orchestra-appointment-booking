@@ -9,6 +9,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -25,13 +26,24 @@ export class QmSettingsAdminComponent implements OnInit {
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
-    private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService) {
+    private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
+    private translateService: TranslateService) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
     this.setEditForm();
     this.settingsAdminDispatchers.fetchSettings();
   }
+
+  private preselectOptionKeys: string[] = [
+    'label.settings.preselect.nooption',
+    'label.settings.preselect.sms',
+    'label.settings.preselect.email',
+    'label.settings.preselect.emailandsms',
+    'label.settings.preselect.nonotification'
+  ];
+
+  preselectOptions: string[] = [];
 
   setEditForm() {
     this.settings$.subscribe((settings) => {
@@ -61,7 +73,7 @@ export class QmSettingsAdminComponent implements OnInit {
 
     for (const key in validators) {
       if (validators.hasOwnProperty(key)) {
-        if ( key === 'required' && validators[key]) {
+        if (key === 'required' && validators[key]) {
           validationArray.push(Validators.required);
         } else if (key === 'pattern') {
           validationArray.push(Validators.pattern(validators[key]));
@@ -74,6 +86,12 @@ export class QmSettingsAdminComponent implements OnInit {
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
+
+    const translateSubscription = this.translateService.get(this.preselectOptionKeys).subscribe(
+      (preselectOptions: string[]) => {
+       this.preselectOptions = preselectOptions;
+      }
+    );
   }
 
   toArray(map) {
@@ -86,22 +104,22 @@ export class QmSettingsAdminComponent implements OnInit {
   handleSettingSelect(settingObj: Setting) {
     const control: AbstractControl = this.settingsEditForm.get(settingObj.name);
 
-        this.settings$.subscribe((settings) => {
-          const foundSetting = settings.find((x) => x.name === settingObj.name);
-          if (foundSetting.children && foundSetting.children.size > 0) {
-            foundSetting.children.forEach((childSetting) => {
-              const childControl = this.settingsEditForm.get(childSetting.name);
-              if (control.value === false) {
-                childControl.disable();
-                childControl.setValue(null);
-              } else {
-                childControl.enable();
-              }
-
-            });
+    this.settings$.subscribe((settings) => {
+      const foundSetting = settings.find((x) => x.name === settingObj.name);
+      if (foundSetting.children && foundSetting.children.size > 0) {
+        foundSetting.children.forEach((childSetting) => {
+          const childControl = this.settingsEditForm.get(childSetting.name);
+          if (control.value === false) {
+            childControl.disable();
+            childControl.setValue(null);
+          } else {
+            childControl.enable();
           }
-        }
-      ).unsubscribe();
+
+        });
+      }
+    }
+    ).unsubscribe();
   }
 
   saveSettings() {
