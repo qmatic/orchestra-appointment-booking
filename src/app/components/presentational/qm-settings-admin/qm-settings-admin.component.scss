@@ -10,9 +10,6 @@
 //     border-radius: rem($standard-border-radius $standard-border-radius 0 0);
 // }
 .qm-settings-admin {
-  b {
-    font-weight: $font-weight-bold;
-  }
   margin: rem($standard-margin * 2 auto);
   background: $white;
   max-width: 1200px;
@@ -38,6 +35,10 @@
     color: $dark-transparent82;
     font-weight: $font-weight-light;
     margin-bottom: rem($standard-margin * 1.5);
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
   }
 
   &__description {
@@ -46,6 +47,10 @@
     color: $dark-transparent82;
     max-width: rem(814px);
     width: 100%;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
   }
 
   &__divider {
@@ -62,10 +67,17 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+
     &--child {
-      padding-top: $standard-padding;
+      padding-top: rem($standard-padding);
+
       label {
-        padding-left: $standard-padding;
+        padding-left: rem($standard-padding);
+
+        @at-root [dir='rtl'] & {
+          padding-left: 0;
+          padding-right: rem($standard-padding);
+        }
       }
     }
   }
@@ -112,6 +124,10 @@
     font-weight: $font-weight-medium;
     color: $dark-transparent62;
     margin-bottom: rem($standard-margin);
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
   }
 
   &__footer-information-container {
@@ -142,6 +158,7 @@
     @at-root [dir='rtl'] & {
       margin-left: 0;
       margin-right: rem(12px);
+      text-align: right;
     }
   }
 
@@ -174,11 +191,14 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0;
+    }
+  }
 
+  &--select {
+    max-width: rem(500px);
 
-      b {
-        font-weight: $font-weight-bold;
-      }
+    .ng-select {
+      min-width: rem(190px);
     }
   }
 
@@ -198,21 +218,19 @@
     color: $dark-transparent82;
     user-select: none;
     cursor: pointer;
-
   }
-
 
   &__selection-container {
     display: flex;
     align-items: center;
-    &--select-list {
-      width: 256px;
-      margin-left: 270px;
-      position: absolute;
-      .ng-select {
-        min-width: 200px;
-      }
-    }
+    // &--select-list {
+    //   width: 256px;
+    //   margin-left: 270px;
+    //   position: absolute;
+    //   .ng-select {
+    //     min-width: 200px;
+    //   }
+    // }
   }
 
   &__input-box {

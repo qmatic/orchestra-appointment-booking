@@ -68,4 +68,34 @@
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   font-weight: $font-weight-light;
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+}
+
+.ng-dropdown-panel {
+  @at-root [dir='rtl'] & {
+    left: 0;
+  }
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  @at-root [dir='rtl'] & {
+    padding-right: 10px;
+    padding-left: 50px;
+  }
+}
+
+.ng-select .ng-select-container .ng-value-container {
+  @at-root [dir='rtl'] & {
+    padding-right: 10px;
+    padding-left: 0;
+  }
+}
+
+.ng-select .ng-arrow-wrapper {
+  @at-root [dir='rtl'] & {
+    padding-left: 5px;
+    padding-right: 0;
+  }
 }

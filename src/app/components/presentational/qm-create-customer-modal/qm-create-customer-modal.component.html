@@ -1,4 +1,4 @@
-<div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" dir="userDirection | async" cdkTrapFocus>
+<div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" [dir]="userDirection$ | async" cdkTrapFocus>
     <form class="qm-modal__box-container" [formGroup]="createCustomerForm" (ngSubmit)="onSubmit()">
         <div class="qm-modal__header">
           <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-modal__close-btn" (click)="activeModal.close()">

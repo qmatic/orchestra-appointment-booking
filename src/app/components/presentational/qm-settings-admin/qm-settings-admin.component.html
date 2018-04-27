@@ -18,7 +18,7 @@
             <hr class="qm-settings-admin__divider" />
             <ul class="qm-settings-admin__option-list">
               <li class="qm-settings-admin__option-list-item" *ngFor="let s of toArray(sc.settings)" [ngSwitch]="s.outputType">
-                <div class="qm-option qm-option--input" *ngSwitchCase="'Text'">
+                <div class="qm-option" *ngSwitchCase="'Text'">
                   <label class="qm-option__label" for="{{ s.name }}" [innerHtml]="'label.settings.' + s.name.toLowerCase() | translate | htmlDecode">
                   </label>
                   <span class="qm-option__error qm-option__error--pattern" *ngIf="settingsEditForm?.controls[s.name]?.errors?.pattern">{{'error.settings.number.required' | translate}}</span>
@@ -27,11 +27,11 @@
                       [value]="s.value" />
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
-                      <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
+                      <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
                     </button>
                   </div>
                 </div>
-                <div class="qm-option qm-option--input" *ngSwitchCase="'Time'">
+                <div class="qm-option" *ngSwitchCase="'Time'">
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
@@ -59,18 +59,18 @@
                   </div>
                 </div>
 
-                <div class="qm-option qm-option--input" *ngSwitchCase="'Select'">
+                <div class="qm-option qm-option--select" *ngSwitchCase="'Select'">
                   <label class="qm-option__label" for="{{ s.name }}">
                     {{ 'label.settings.' + s.name.toLowerCase() | translate}}
                   </label>
-                  <div class="qm-option__selection-container qm-option__selection-container--select-list">
+                  <div class="qm-option__selection-container qm-option__selection-container">
                     <!--select class="form-control qm-option__selection-container_selectlist" [formControl]="settingsEditForm.controls[s.name]">
                       <option *ngFor="let preselect of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="preselect">
                         {{'label.settings.preselect.' + preselect.toLowerCase() | translate}}
                       </option>
                     </select-->
 
-                    <ng-select  [clearable]="false" [formControl]="settingsEditForm.controls[s.name]">
+                    <ng-select [clearable]="false" [formControl]="settingsEditForm.controls[s.name]">
                       <ng-option *ngFor="let pre of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="pre">{{'label.settings.preselect.' + pre.toLowerCase() | translate}}</ng-option>
                     </ng-select>
                     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
@@ -99,7 +99,7 @@
 
                 <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child">
                   <li class="qm-settings-admin__option-list-item" *ngFor="let c of toArray(s.children)" [ngSwitch]="c.outputType">
-                    <div class="qm-option qm-option--input" *ngSwitchCase="'Text'">
+                    <div class="qm-option" *ngSwitchCase="'Text'">
                       <label class="qm-option__label" for="{{ c.name }}">
                         {{ 'label.settings.' + c.name.toLowerCase() | translate}}
                       </label>
@@ -109,7 +109,7 @@
 
                         <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
                           <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
-                          <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
+                          <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
                         </button>
                       </div>
                     </div>
