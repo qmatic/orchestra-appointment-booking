@@ -12,19 +12,7 @@ import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output } fro
 export class SettingsCheckboxComponent implements OnInit {
 
   @Input()
-  settingLabel: string;
-
-  @Input()
-  settingName: string;
-
-  @Input()
-  settingValue: boolean;
-
-  @Input()
   settingControl: FormControl;
-
-  @Input()
-  settingGroup: FormGroup;
 
   @Input()
   setting: Setting;
