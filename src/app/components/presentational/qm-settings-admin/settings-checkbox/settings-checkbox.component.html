@@ -1,0 +1,13 @@
+  <label class="qm-option__label" for="{{ setting.name}}">
+    <span class="qm-option__selector-label" [innerHtml]="'label.settings.' + setting.name.toLowerCase() | translate | htmlDecode">
+    </span>
+    <div class="qm-option__selection-container" >
+      <input id="{{ setting.name }}" (change)="handleSelect()"  [formControl]="settingControl" class="qm-option__checkbox" type="checkbox" name="{{ setting.name }}"
+        [checked]="setting.value" />
+      <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
+    </div>
+  </label>
+  <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+    <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+    <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + setting.name.toLowerCase() | translate}}</span>
+  </button> 

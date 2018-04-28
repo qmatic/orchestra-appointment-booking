@@ -92,6 +92,10 @@ import { QmUpdateCustomerModalComponent } from './components/presentational/qm-u
 import { QmBookingFlowComponent } from './components/containers/qm-booking-flow/qm-booking-flow.component';
 import { HtmlDecodePipe } from './components/presentational/qm-settings-admin/html-decode.pipe';
 import { QmGenericModalComponent } from './components/presentational/qm-generic-modal/qm-generic-modal.component';
+import { SettingsCheckboxComponent } from './components/presentational/qm-settings-admin/settings-checkbox/settings-checkbox.component';
+import { SettingsTextboxComponent } from './components/presentational/qm-settings-admin/settings-textbox/settings-textbox.component';
+import { SettingsListboxComponent } from './components/presentational/qm-settings-admin/settings-listbox/settings-listbox.component';
+import { SettingsTimeformatComponent } from './components/presentational/qm-settings-admin/settings-timeformat/settings-timeformat.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -148,7 +152,11 @@ const toastrGlobalOptions = {
     QmUpdateCustomerModalComponent,
     QmBookingFlowComponent,
     HtmlDecodePipe,
-    QmGenericModalComponent
+    QmGenericModalComponent,
+    SettingsCheckboxComponent,
+    SettingsTextboxComponent,
+    SettingsListboxComponent,
+    SettingsTimeformatComponent
   ],
   imports: [
     BrowserModule,

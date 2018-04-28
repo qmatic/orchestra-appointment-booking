@@ -1,0 +1,138 @@
+<div class="qm-app" dir="{{ userDirection$ | async }}">
+  <qm-page-header (clickBackToAppointmentClick)="clickBackToAppointmentClick()"></qm-page-header>
+  <qm-main class="qm-main--scrollable">
+    <div class="qm-settings-admin">
+      <div class="qm-settings-admin__inner-container">
+        <div class="qm-settings-admin__header">
+          <h1 class="qm-settings-admin__headline">Settings Appointment booking module</h1>
+          <p class="qm-settings-admin__description">
+            By adjusting parameters and selecting what features to include you can customize how you would like your Staff booking module
+            to work.
+          </p>
+        </div>
+        <div class="qm-settings-admin__body">
+          <div class="qm-settings-admin__section" *ngFor="let sc of settingsByCategory$ | async">
+            <h2 class="qm-settings-admin__section-headline">
+              {{ 'label.settings.category.' + sc.name.toLowerCase() | translate}}
+            </h2>
+            <hr class="qm-settings-admin__divider" />
+            <ul class="qm-settings-admin__option-list">
+              <li class="qm-settings-admin__option-list-item" *ngFor="let s of toArray(sc.settings)" [ngSwitch]="s.outputType">
+                <div class="qm-option qm-option--input" *ngSwitchCase="'Text'">
+                  <label class="qm-option__label" for="{{ s.name }}" bhjj>
+                  </label>
+                  <span class="qm-option__error qm-option__error--pattern" *ngIf="settingsEditForm?.controls[s.name]?.errors?.pattern">{{'error.settings.number.required' | translate}}</span>
+                  <div class="qm-option__selection-container">
+                    <input id="{{ s.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[s.name]" name="{{s.name}}"
+                      [value]="s.value" />
+                    <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                      <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                      <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
+                    </button>
+                  </div>
+                </div>
+                <ng-container class="qm-option qm-option--input" *ngSwitchCase="'Time'">
+                  
+                </ng-container>
+
+                <div class="qm-option qm-option--input" *ngSwitchCase="'Select'">
+                  <label class="qm-option__label" for="{{ s.name }}">
+                    {{ 'label.settings.' + s.name.toLowerCase() | translate}}
+                  </label>
+                  <div class="qm-option__selection-container qm-option__selection-container--select-list">
+                    <!--select class="form-control qm-option__selection-container_selectlist" [formControl]="settingsEditForm.controls[s.name]">
+                      <option *ngFor="let preselect of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="preselect">
+                        {{'label.settings.preselect.' + preselect.toLowerCase() | translate}}
+                      </option>
+                    </select-->
+
+                    <ng-select  [clearable]="false" [formControl]="settingsEditForm.controls[s.name]">
+                      <ng-option *ngFor="let pre of ['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']" [value]="pre">{{'label.settings.preselect.' + pre.toLowerCase() | translate}}</ng-option>
+                    </ng-select>
+                    <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                      <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                      <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="qm-option qm-option--checkbox" *ngSwitchCase="'Boolean'">
+                  <label class="qm-option__label" for="{{ s.name }}">
+
+                    <span class="qm-option__selector-label" [innerHtml]="'label.settings.' + s.name.toLowerCase() | translate | htmlDecode">
+
+                    </span>
+                    <div class="qm-option__selection-container">
+                      <input id="{{ s.name }}" [formControl]="settingsEditForm.controls[s.name]" (change)="handleSettingSelect(s)" class="qm-option__checkbox"
+                        type="checkbox" name="{{s.name}}" [checked]="s.value" />
+                      <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
+                    </div>
+                  </label>
+                  <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                    <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                    <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + s.name.toLowerCase() | translate}}</span>
+                  </button>
+                </div>
+
+                <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child">
+                  <li class="qm-settings-admin__option-list-item" *ngFor="let c of toArray(s.children)" [ngSwitch]="c.outputType">
+                    <div class="qm-option qm-option--input" *ngSwitchCase="'Text'">
+                      <label class="qm-option__label" for="{{ c.name }}">
+                        {{ 'label.settings.' + c.name.toLowerCase() | translate}}
+                      </label>
+                      <div class="qm-option__selection-container">
+                        <input id="{{ c.name }}" class="qm-option__input-box" type="text" [formControl]="settingsEditForm.controls[c.name]" name="{{c.name}}"
+                          [value]="c.value" />
+
+                        <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                          <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                          <span class="qm-settings-admin__option-list-item__tooltip qm-settings-admin__option-list-item__tooltip--only-input"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="qm-option qm-option--checkbox" *ngSwitchCase="'Boolean'">
+                      <label class="qm-option__label" for="{{ c.name }}">
+                        <span class="qm-option__selector-label">
+                          {{ 'label.settings.' + c.name.toLowerCase() | translate}}
+                        </span>
+                        <div class="qm-option__selection-container">
+                          <input id="{{ c.name }}" [formControl]="settingsEditForm.controls[c.name]" class="qm-option__checkbox" type="checkbox" name="{{c.name}}"
+                            [checked]="c.value" />
+                          <i class="qm-option__checkbox-icon" aria-hidden="true"></i>
+                        </div>
+                      </label>
+                      <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+                        <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+                        <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + c.name.toLowerCase() | translate}}</span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="qm-settings-admin__footer">
+          <hr class="qm-settings-admin__divider" />
+          <div class="qm-settings-admin__footer-information-container">
+            <i class="qm-settings-admin__changes-icon icon-info" aria-hidden="true"></i>
+            <p class="qm-settings-admin__footer-information">
+              Changes made will be effective the next time a user log out and login again. Its recommended that changes are done during
+              non office hours.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="qm-settings-admin__action-container">
+        <button type="button" class="qm-btn qm-btn--secondary">
+          <span class="qm-btn__text" (click)="cancelEdit()" title="Cancel">Cancel</span>
+        </button>
+        <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid">
+          <span class="qm-btn__text" title="Confirm">Confirm</span>
+        </button>
+      </div>
+    </div>
+  </qm-main>
+  <qm-page-footer></qm-page-footer>
+</div>
+<div class="qm-messages" toastContainer dir="{{ userDirection$ | async }}"></div>

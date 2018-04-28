@@ -1,0 +1,27 @@
+<div class="qm-option qm-option--input">
+  <label class="qm-option__label" for="{{ setting.name }}">
+    {{ 'label.settings.' + setting.name.toLowerCase() | translate}}
+  </label>
+  <div class="qm-option__selection-container">
+    <div class="qm-option__toggle-container">
+      <label class="qm-option__toggle-label" for="24">
+        <input id="24" class="qm-option__radio" type="radio" [formControl]="settingControl" name="setting.name"
+        [value]="'24'" [checked]="setting.value === '24'" />
+        <span class="qm-option__toggle-box">
+          24 Hour
+        </span>
+      </label>
+      <label class="qm-option__toggle-label" for="AMPM">
+          <input id="AMPM" class="qm-option__radio" type="radio" [formControl]="settingControl" name="setting.name"
+          [value]="'AMPM'" [checked]="setting.value === 'AMPM'" />
+        <span class="qm-option__toggle-box">
+          AM/PM
+        </span>
+      </label>
+    </div>
+    <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
+      <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
+      <span class="qm-settings-admin__option-list-item__tooltip"> {{ 'label.settings.tooltip.' + setting.name.toLowerCase() | translate}}</span>
+    </button>
+  </div>
+</div>
