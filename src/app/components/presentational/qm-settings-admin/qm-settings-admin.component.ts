@@ -58,7 +58,7 @@ export class QmSettingsAdminComponent implements OnInit {
 
           if (set.children) {
             set.children.forEach((child: Setting) => {
-              ctrlConfig[child.name] = [child.value];
+              ctrlConfig[child.name] = [child.value, this.getValidators(child.validators)];
             });
           }
         });

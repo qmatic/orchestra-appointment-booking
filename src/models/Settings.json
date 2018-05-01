@@ -125,17 +125,26 @@
                     {
                         "name": "CustomerPhoneDefaultCountry",
                         "value": "",                
-                        "outputType": "Text"   
+                        "outputType": "Text"  ,
+                        "validators": {
+                            "pattern": "^[0-9\\+]+$"
+                        }  
                     },
                     {
                         "name": "CustomerPhoneMaxDigits",
                         "value": "",                
-                        "outputType": "Text"   
+                        "outputType": "Text",
+                        "validators": {
+                            "pattern": "^[0-9]+$"
+                        }   
                     },
                     {
                         "name": "CustomerPhoneMinDigits",
                         "value": "",                
-                        "outputType": "Text"   
+                        "outputType": "Text",
+                        "validators": {
+                            "pattern": "^[0-9]+$"
+                        }    
                     }
                 ]
             },
