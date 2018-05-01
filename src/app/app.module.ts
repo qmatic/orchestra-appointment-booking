@@ -95,6 +95,7 @@ import { QmGenericModalComponent } from './components/presentational/qm-generic-
 import { SettingsCheckboxComponent } from './components/presentational/qm-settings-admin/settings-checkbox/settings-checkbox.component';
 import { SettingsTextboxComponent } from './components/presentational/qm-settings-admin/settings-textbox/settings-textbox.component';
 import { SettingsListboxComponent } from './components/presentational/qm-settings-admin/settings-listbox/settings-listbox.component';
+// tslint:disable-next-line:max-line-length
 import { SettingsTimeformatComponent } from './components/presentational/qm-settings-admin/settings-timeformat/settings-timeformat.component';
 
 // Console.log all actions

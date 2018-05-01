@@ -1,4 +1,7 @@
-import { EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
+import { EventEmitter, Input } from '@angular/core';
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, Output } from '@angular/core';
 
 @Component({
@@ -16,24 +19,44 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ElementR
 })
 export class QmSearchBoxComponent implements OnInit {
 
+  inputChanged: Subject<string> = new Subject<string>();
 
   @Output()
   change = new EventEmitter();
 
-  constructor(private _element: ElementRef) { }
+  @Input()
+  placeholder: string;
+
+  @Input()
+  label: string;
+
+  @Input()
+  debounceTime: number;
+
+  @Input()
+  searchInputControl: FormControl;
+
+  constructor(private _element: ElementRef) {
+      this.inputChanged
+            .pipe(
+              distinctUntilChanged(),
+              debounceTime(this.debounceTime || 0)
+            )
+            .subscribe(text => this.change.emit(text));
+  }
 
   ngOnInit() {
   }
 
   handleFocus() {
-    this._element.nativeElement.classList.add('qm-select-item-focus');
+    this._element.nativeElement.classList.add('qm-search-box-focus');
   }
 
   handleBlur() {
-    this._element.nativeElement.classList.remove('qm-select-item-focus');
+    this._element.nativeElement.classList.remove('qm-search-box-focus');
   }
 
-  handleChange($event) {
-    this.change.emit($event);
+  handleInput($event) {
+    this.inputChanged.next($event.target.value);
   }
 }

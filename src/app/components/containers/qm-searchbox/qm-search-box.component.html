@@ -1,11 +1,9 @@
-<li class="qm-selector-item">
-    <label class="qm-selector-item__label">
-        <input class="qm-selector-item__input" type="checkbox" (change)="handleChange($event)" name="somename" />
-        <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">
-                <ng-content></ng-content>
-            </span>
-             <i class="qm-selector-item__selector-icon icon-" aria-hidden="true"></i>
-        </span>
-    </label>
-</li>
+<div class="qm-search">
+    <label for="" class="sr-only">{{ label }}</label>
+    <input type="text" class="qm-search__input" [formControl]="searchInputControl" 
+           placeholder='{{ placeholder }}' (input)="handleInput($event)" />
+    <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
+      <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
+      <span class="sr-only">{{ label }}</span>
+    </button>
+  </div>
