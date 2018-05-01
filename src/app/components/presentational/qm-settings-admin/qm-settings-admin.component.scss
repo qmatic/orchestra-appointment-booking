@@ -62,6 +62,10 @@
     &--child {
       padding-top: rem($standard-padding);
 
+      .qm-option__error {
+        left: 1.25em;
+      }
+
       label {
         padding-left: rem($standard-padding);
 
