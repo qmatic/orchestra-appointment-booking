@@ -202,8 +202,8 @@ export class AppModule {
     private userRoleDispatchers: UserRoleDispatchers,
     private router: Router
   ) {
-    // No Suffix for english language file (staffBookingMessages.properties)
-    this.translate.setDefaultLang('staffBookingMessages');
+    // No Suffix for english language file (appointmentBookingMessages.properties)
+    this.translate.setDefaultLang('appointmentBookingMessages');
     this.licenseInfoDispatchers.fetchLicenseInfo();
     this.router.navigate(['/loading']);
   }

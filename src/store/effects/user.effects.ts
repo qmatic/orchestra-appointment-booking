@@ -36,7 +36,7 @@ export class UserEffects {
       .ofType(UserActions.FETCH_USER_INFO_SUCCESS)
       .pipe(
         tap((action: UserActions.FetchUserInfoSuccess) => {
-          this.translate.use('staffBookingMessages' + (action.payload.locale === 'en' ? '' : `_${action.payload.locale}`));
+          this.translate.use('appointmentBookingMessages' + (action.payload.locale === 'en' ? '' : `_${action.payload.locale}`));
         })
       );
 }

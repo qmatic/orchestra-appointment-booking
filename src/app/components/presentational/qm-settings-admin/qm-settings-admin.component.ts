@@ -98,7 +98,6 @@ export class QmSettingsAdminComponent implements OnInit {
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
-
     const translateSubscription = this.translateService.get(this.preselectOptionKeys).subscribe(
       (preselectOptions: string[]) => {
        this.preselectOptions = preselectOptions;

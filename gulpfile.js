@@ -63,7 +63,7 @@ gulp.task("create:release-notes", function() {
 gulp.task("create:war", function() {
   return gulp
     .src(["./dist/**/*"])
-    .pipe(zip("staffbooking.war"))
+    .pipe(zip("appointmentbooking-ui.war"))
     .pipe(gulp.dest("./dist/webapp/"));
 });
 
@@ -75,7 +75,7 @@ gulp.task("create:artifactory:zip", function() {
       var version = appData.version;
       return gulp
         .src(["dist/**/*"])
-        .pipe(zip("staffbooking-" + version + ".zip"))
+        .pipe(zip("appointmentbooking-" + version + ".zip"))
         .pipe(gulp.dest("dist/"));
     }
   } catch (ex) {
@@ -89,7 +89,7 @@ gulp.task("create:artifactory:zip", function() {
 
 // Deploy build to orchestra
 gulp.task('deploy:war', function () {
-    return gulp.src('./dist/webapp/staffbooking.war')
+    return gulp.src('./dist/webapp/appointmentbooking-ui.war')
         .pipe(sftp({
             remotePath: remoteDeploymentDefaultPath,
             remotePlatform: remoteDeploymentPlatform,
@@ -119,7 +119,7 @@ gulp.task('deploy:war:artifactory', function () {
 
 // Deploy lang file to orchestra
 gulp.task('deploy:lang', function () {
-    return gulp.src('./dist/properties/staffBookingMessages.properties')
+    return gulp.src('./dist/properties/appointmentBookingMessages.properties')
         .pipe(sftp({
             remotePath: remoteDeploymentDefaultLangPath,
             remotePlatform: remoteDeploymentPlatform,
