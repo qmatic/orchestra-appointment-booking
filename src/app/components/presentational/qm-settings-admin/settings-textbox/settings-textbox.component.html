@@ -1,7 +1,7 @@
 <div class="qm-option qm-option--input">
   <label class="qm-option__label" for="{{ setting.name }}" [innerHtml]="'label.settings.' + setting.name.toLowerCase() | translate | htmlDecode">
   </label>
-  <span class="qm-option__error qm-option__error--pattern" *ngIf="settingControl?.errors?.pattern">{{'error.settings.number.required' | translate}}</span>
+  <span class="qm-option__error qm-option__error--pattern" *ngIf="settingControl?.errors?.pattern">{{'error.settings.' +  setting.name.toLowerCase() +'.pattern' | translate}}</span>
   <div class="qm-option__selection-container">
     <input id="{{ setting.name }}" class="qm-option__input-box" type="text" [formControl]="settingControl" name="{{setting.name}}"
       [value]="setting.value" />
