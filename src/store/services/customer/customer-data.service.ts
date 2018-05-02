@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 
 import { calendarEndpoint, DataServiceError } from '../data.service';
 import { ICustomerResponse } from '../../../models/ICustomerResponse';
@@ -23,13 +23,19 @@ export class CustomerDataService {
   createCustomer(customer: ICustomer): Observable<ICustomer> {
     return this.http
       .post<ICustomer>(`${calendarEndpoint}/customers`, customer)
-      .pipe(catchError(this.handleError()));
+      .pipe(
+        retry(3),
+        catchError(this.handleError()
+      ));
   }
 
   updateCustomer(customer: ICustomer): Observable<ICustomer> {
     return this.http
       .put<ICustomer>(`${calendarEndpoint}/customers/${customer.id}`, customer)
-      .pipe(catchError(this.handleError()));
+      .pipe(
+        retry(3),
+        catchError(this.handleError())
+      );
   }
 
   private handleError<T>(requestData?: T) {
