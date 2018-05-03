@@ -151,7 +151,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="qm-dob__error-message">{{ 'error.form.dob.invalid' | translate }}</div>
+                   <div class="qm-dob__error-message" *ngIf="isDOBRequiredValid()">{{ 'error.form.dob.required' | translate }}</div>        
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { reducers } from './../../../../store/reducers/index';
 import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -37,6 +38,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   ];
 
   private months: NgOption[];
+  private isShowDobError = false;
+  private isShowDobRequiredError = false;
 
   constructor(
     private fb: FormBuilder,
@@ -44,7 +47,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private customerDispatchers: CustomerDispatchers,
     private userSelectors: UserSelectors,
     private translateService: TranslateService,
-    private settingAdminSelectors: SettingsAdminSelectors
+    private settingAdminSelectors: SettingsAdminSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = settingAdminSelectors.settingsAsMap$;
@@ -84,7 +87,6 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   buildCustomerForm() {
 
-
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
       if (settings.CustomerPhoneRequired.value === true) {
@@ -96,19 +98,40 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         emailValidators.push(Validators.required);
       }
 
+      const dayValidators = [];
+      const yearValidators = [];
+
+      if (settings.CustomerIncludeDateofBirthRequired.value === true) {
+        dayValidators.push(Validators.required);
+        yearValidators.push(Validators.required);
+      }
+
       this.createCustomerForm = this.fb.group({
         firstName: [ '', Validators.required ],
         lastName: [ '', Validators.required ],
         email: ['', emailValidators],
-        phone: ['', phoneValidators],
+        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators],
         dateOfBirth: this.fb.group({
           month: null,
-          day: ['', [Validators.max(31), Validators.minLength(2), Validators.maxLength(2)]],
-          year: ['', [Validators.minLength(4), Validators.maxLength(4)]]
+          day: ['',  dayValidators],
+          year: ['', yearValidators]
         })
       });
     });
   }
+
+  isDOBRequiredValid(): boolean {
+    const dobGroup: FormGroup = this.createCustomerForm.controls['dateOfBirth'] as FormGroup;
+    const dayControl = dobGroup.controls['day'];
+    const yearControl = dobGroup.controls['year'];
+    return dobGroup.dirty &&
+      (
+        (dayControl.errors && dayControl.errors.required) ||
+        (yearControl.errors && yearControl.errors.required)
+      );
+  }
+
+
 
   onSubmit() {
     const customer: ICustomer = this.prepareSaveCustomer();
