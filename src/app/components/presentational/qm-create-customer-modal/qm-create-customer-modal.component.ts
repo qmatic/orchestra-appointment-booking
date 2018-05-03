@@ -91,10 +91,15 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         phoneValidators.push(Validators.required);
       }
 
+      const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)];
+      if (settings.CustomerIncludeEmailRequired.value === true) {
+        emailValidators.push(Validators.required);
+      }
+
       this.createCustomerForm = this.fb.group({
         firstName: [ '', Validators.required ],
         lastName: [ '', Validators.required ],
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', emailValidators],
         phone: ['', phoneValidators],
         dateOfBirth: this.fb.group({
           month: null,
