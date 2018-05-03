@@ -6,6 +6,8 @@ import { IServiceState } from '../../reducers/service.reducer';
 import { IService } from '../../../models/IService';
 import { IServiceGroup } from '../../../models/IServiceGroup';
 import { IServiceGroupList } from '../../../models/IServiceGroupList';
+import { getSettingsAsMap } from '../settings-admin';
+import { Setting } from '../../../models/Setting';
 
 // selectors
 const getServiceState = createFeatureSelector<IServiceState>('services');
@@ -27,20 +29,15 @@ export const getServiceGroups = createSelector(
 
 const getVisibleServices = createSelector(
   getServiceState,
-  (state: IServiceState) => {
+  getSettingsAsMap,
+  (state: IServiceState, settingsMap: { [name: string]: Setting }) => {
     const hasSelectedServices = state.selectedServices.length > 0;
     const serviceGroupsLoaded = state.serviceGroups.length > 0;
+    const isMultiServicesEnabled = settingsMap.AllowMultiService.value;
 
-    if (hasSelectedServices && serviceGroupsLoaded) {
+    if (hasSelectedServices && serviceGroupsLoaded && isMultiServicesEnabled) {
       const visibleServicesPublicIds = extractBookableServices(state.selectedServices, state.serviceGroups);
-      return state.searchText === ''
-                ? state.services.filter(
-                    (service: IService) => visibleServicesPublicIds.includes(service.publicId)
-                  )
-                : state.services.filter(
-                  (service: IService) => visibleServicesPublicIds.includes(service.publicId)
-                    && service.name.toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1
-                );
+      return getFilteredVisibleServices(state, visibleServicesPublicIds);
     } else {
       return getFilteredServices(state);
     }
@@ -61,6 +58,19 @@ function getFilteredServices(state): IService[] {
     );
 }
 
+function getFilteredVisibleServices(
+  state: IServiceState,
+  visibleServicesPublicIds: Array<string>
+) {
+  return state.searchText === ''
+          ? state.services.filter(
+              (service: IService) => visibleServicesPublicIds.includes(service.publicId)
+            )
+          : state.services.filter(
+            (service: IService) => visibleServicesPublicIds.includes(service.publicId)
+              && service.name.toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1
+            );
+}
 
 function extractBookableServices(
   selectedServices: IService[],

@@ -20,6 +20,7 @@ import {
 import { ICustomer } from '../../../../models/ICustomer';
 import { ToastService } from '../../../../services/util/toast.service';
 import { ModalService } from '../../../../services/util/modal.service';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-customer-search',
@@ -34,18 +35,19 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   private customersLoading$: Observable<boolean>;
   private customersLoaded$: Observable<boolean>;
   private searchText$: Observable<string>;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
   private CHARACTER_THRESHOLD = 2;
   private customers: ICustomer[];
   private searchText: string;
   private customersLoaded: boolean;
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private allowCreateNewCustomer = false;
 
   constructor(
     private userSelectors: UserSelectors,
     private customerDispatchers: CustomerDispatchers,
     private customersSelectors: CustomerSelectors,
-    private modalService: ModalService,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private modalService: ModalService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
@@ -60,8 +62,13 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
       tap((val) => this.immidiateActions(val)),
       distinctUntilChanged(),
       debounceTime(1000),
-      filter(text => text.length > this.CHARACTER_THRESHOLD),
+      filter(text => text.length >= this.CHARACTER_THRESHOLD),
     ).subscribe((searchText: string) => this.handleCustomerSearch(searchText));
+
+    const adminSettingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: { [name: string]: Setting }) =>
+        this.allowCreateNewCustomer = settingsMap.AllowCreateNewCustomer.value
+    );
 
     const customersLoadedSubscription = this.customersLoaded$.subscribe(
       (customersLoaded: boolean) => this.customersLoaded = customersLoaded
@@ -75,6 +82,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
       (searchText: string) => this.searchText = searchText
     );
 
+    this.subscriptions.add(adminSettingsMapSubscription);
     this.subscriptions.add(searchInputSubscription);
     this.subscriptions.add(customerSubscription);
     this.subscriptions.add(customersLoadedSubscription);
@@ -108,7 +116,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
 
   immidiateActions(searchText: string) {
     this.customerDispatchers.updateCustomerSearchText(searchText);
-    if (searchText.length <= this.CHARACTER_THRESHOLD) {
+    if (searchText.length < this.CHARACTER_THRESHOLD) {
       this.customerDispatchers.resetCustomers();
     }
   }

@@ -13,9 +13,11 @@ import * as fromUserRole from './user-role.reducer';
 import * as fromCustomer from './customer.reducer';
 import * as fromAppointments from './appointment.reducer';
 import * as fromAppointmentMeta from './appointment-meta.reducer';
-import * as fromBooking from './booking.reducer';
 import * as fromSettingsAdmin from './settings-admin.reducer';
 import * as fromNumberOfCustomers from './number-of-customers.reducer';
+import * as fromDates from './date.reducer';
+import * as fromTimeslot from './timeslot.reducer';
+import * as fromReserve from './reserve.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
@@ -27,9 +29,11 @@ export interface IAppState {
   customers: fromCustomer.ICustomerState;
   appointments: fromAppointments.IAppointmentState;
   appointmentMeta: fromAppointmentMeta.IAppointmentMetaState;
-  booking: fromBooking.IBookingState;
   settings: fromSettingsAdmin.ISettingsAdminState;
   numberOfCustomers: fromNumberOfCustomers.INumberOfCustomersState;
+  dates: fromDates.IDatesState;
+  timeslot: fromTimeslot.ITimeslotState;
+  reserved: fromReserve.IReserveState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -42,9 +46,11 @@ export const reducers: ActionReducerMap<IAppState> = {
   customers: fromCustomer.reducer,
   appointments: fromAppointments.reducer,
   appointmentMeta: fromAppointmentMeta.reducer,
-  booking: fromBooking.reducer,
   settings: fromSettingsAdmin.reducer,
-  numberOfCustomers: fromNumberOfCustomers.reducer
+  numberOfCustomers: fromNumberOfCustomers.reducer,
+  dates: fromDates.reducer,
+  timeslot: fromTimeslot.reducer,
+  reserved: fromReserve.reducer
   // here is where you put other reducers, when you have them
 };
 

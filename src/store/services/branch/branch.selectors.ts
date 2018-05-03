@@ -8,6 +8,7 @@ import { getSelectedServices, getServiceGroups } from '../service';
 import { IService } from '../../../models/IService';
 import { IServiceGroup } from '../../../models/IServiceGroup';
 import { IServiceGroupList } from '../../../models/IServiceGroupList';
+import { getNumberOfCustomers } from '../number-of-customers';
 
 
 // selectors
@@ -22,26 +23,22 @@ const getVisibleBranches = createSelector(
   getBranchState,
   getSelectedServices,
   getServiceGroups,
+  getNumberOfCustomers,
   (
     branchState: IBranchState,
     selectedServices: IService[],
-    serviceGroups: IServiceGroup[]
+    serviceGroups: IServiceGroup[],
+    numberOfCustomers: number,
   ) => {
     const hasSelectedServices = selectedServices.length > 0;
     const serviceGroupsLoaded = serviceGroups.length > 0;
+    const hasSelectedNumberOfCustomers = numberOfCustomers !== null;
 
-    if (serviceGroupsLoaded && hasSelectedServices) {
+    if (serviceGroupsLoaded && hasSelectedServices && hasSelectedNumberOfCustomers) {
       const visibleBranchPublicIds = getBranchPublicIdsThatHasService(selectedServices, serviceGroups);
 
       if (visibleBranchPublicIds.length > 0) {
-        return branchState.searchText === ''
-                ? branchState.branches.filter(
-                    (branch: IBranch) => visibleBranchPublicIds.includes(branch.publicId)
-                  )
-                : branchState.branches.filter(
-                  (branch: IBranch) => visibleBranchPublicIds.includes(branch.publicId)
-                    && branch.name.toLowerCase().indexOf(branchState.searchText.toLowerCase()) !== -1
-                );
+        return getFilteredVisibleDates(branchState, visibleBranchPublicIds);
       } else {
         return [];
       }
@@ -88,6 +85,20 @@ function getBranchPublicIdsThatHasService(
     }
   );
   return tmpBranchPublicIds;
+}
+
+function getFilteredVisibleDates(
+  branchState: IBranchState,
+  visibleBranchPublicIds: Array<string>
+) {
+  return branchState.searchText === ''
+          ? branchState.branches.filter(
+              (branch: IBranch) => visibleBranchPublicIds.includes(branch.publicId)
+            )
+          : branchState.branches.filter(
+            (branch: IBranch) => visibleBranchPublicIds.includes(branch.publicId)
+              && branch.name.toLowerCase().indexOf(branchState.searchText.toLowerCase()) !== -1
+            );
 }
 
 @Injectable()

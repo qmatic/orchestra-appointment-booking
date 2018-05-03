@@ -37,7 +37,7 @@ export function reducer (
     case ServiceActions.FETCH_SERVICES_SUCCESS: {
       return {
         ...state,
-        services: action.payload.serviceList,
+        services: sortServices(action.payload.serviceList),
         loading: false,
         loaded: true,
         error: null
@@ -113,5 +113,19 @@ export function reducer (
         return state;
     }
   }
+}
+
+/**
+ * Sort services alphabetically
+ * @param serviceList Fetched serviceList
+ */
+function sortServices(serviceList: IService[]): IService[] {
+  return serviceList.sort(
+    (service1: IService, service2: IService) => {
+      if (service1.name.toLowerCase() < service2.name.toLowerCase() ) { return -1; }
+      if (service1.name.toLowerCase() > service2.name.toLowerCase() ) { return 1; }
+      return 0;
+    }
+  );
 }
 

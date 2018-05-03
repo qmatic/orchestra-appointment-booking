@@ -7,9 +7,9 @@
         </qm-list-item>
       </qm-list>
     </div>
-    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col">
+    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" *ngIf="shouldShowCustomerColumn()">
       <qm-list [searchable]="false" [header]="'Customers'">
-        <qm-list-item [name]="'customer'" [isSelected]="isNumberOfCustomerSelected(number)" [inputType]="'radio'" [centerText]="true" *ngFor="let number of getSelectableAmountOfCustomers()" (optionClicked)="handleNumberOfCustomersSelection(number)">
+        <qm-list-item [name]="'customer'" [isSelected]="isNumberOfCustomerSelected(number)" [inputType]="'radio'" [centerText]="true" *ngFor="let number of numberOfCustomersArray$ | async" (optionClicked)="handleNumberOfCustomersSelection(number)">
           {{ number }}
         </qm-list-item>
       </qm-list>
@@ -22,16 +22,16 @@
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col">
-      <qm-list [placeholder]="'Search Date'" [header]="'Date'">
-        <qm-list-item [name]="'date'" [inputType]="'radio'" *ngFor="let b of services$ | async" (optionClicked)="handleDateSelection(b)">
-          {{b.name}}
+      <qm-list [searchText]="datesSearchText$ | async" [placeholder]="'Search Date'" [header]="'Date'" (search)="filterDates($event)">
+        <qm-list-item [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates$ | async" (optionClicked)="handleDateSelection(selectableDate)">
+          {{ selectableDate | date:'EEEE d MMMM':'':userLocale }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
       <qm-list [searchable]="false" [header]="'Time'">
-        <qm-list-item [name]="'time'" [inputType]="'radio'" [centerText]="true" *ngFor="let b of services$ | async" (optionClicked)="handleTimeSelection(b)">
-          {{b.name}}
+        <qm-list-item [name]="'time'" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times$ | async" (optionClicked)="handleTimeslotSelection(timeslot)">
+          {{ timeslot }}
         </qm-list-item>
       </qm-list>
     </div>

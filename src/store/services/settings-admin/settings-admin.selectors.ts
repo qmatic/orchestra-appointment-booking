@@ -31,7 +31,7 @@ const getSettingsByCategory = createSelector(getSettingsAdminState, (state: ISet
   return Array.from(settingsByCategory.values());
 });
 
-const getSettingsAsMap = createSelector(
+export const getSettingsAsMap = createSelector(
   getSettingsAdminState,
   (state: ISettingsAdminState) => {
     const settingsList = state.settings;

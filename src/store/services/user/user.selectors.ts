@@ -23,7 +23,7 @@ const getUserUserName = createSelector(
   (state: IUser) => state.userName
 );
 
-const getUserLocale = createSelector(
+export const getUserLocale = createSelector(
   getUser,
   (state: IUser) => state.locale
 );

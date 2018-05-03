@@ -7,9 +7,6 @@ import {
   ServiceDataService,
   ServiceDispatchers,
   ServiceSelectors,
-  BookingDataService,
-  BookingDispatchers,
-  BookingSelectors,
   AppointmentMetaDispatchers,
   AppointmentMetaSelectors,
   AppointmentDataService,
@@ -23,6 +20,12 @@ import {
   BranchDataService,
   BranchDispatchers,
   BranchSelectors,
+  DateDataService,
+  DateDispatchers,
+  DateSelectors,
+  TimeslotDataService,
+  TimeslotDispatchers,
+  TimeslotSelectors,
   SystemInfoDataService,
   SystemInfoDispatchers,
   SystemInfoSelectors,
@@ -37,16 +40,16 @@ import {
   UserRoleSelectors,
   SettingsAdminDataService,
   SettingsAdminDispatchers,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  ReserveDataService,
+  ReserveDispatchers,
+  ReserveSelectors
 } from './services';
 
 export const storeServices = [
   ServiceDataService,
   ServiceDispatchers,
   ServiceSelectors,
-  BookingDataService,
-  BookingDispatchers,
-  BookingSelectors,
   AppointmentMetaDispatchers,
   AppointmentMetaSelectors,
   AppointmentDataService,
@@ -60,6 +63,12 @@ export const storeServices = [
   BranchDataService,
   BranchDispatchers,
   BranchSelectors,
+  DateDataService,
+  DateDispatchers,
+  DateSelectors,
+  TimeslotDataService,
+  TimeslotDispatchers,
+  TimeslotSelectors,
   SystemInfoDataService,
   SystemInfoDispatchers,
   SystemInfoSelectors,
@@ -74,5 +83,8 @@ export const storeServices = [
   UserRoleSelectors,
   SettingsAdminDataService,
   SettingsAdminDispatchers,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  ReserveDataService,
+  ReserveDispatchers,
+  ReserveSelectors
 ];

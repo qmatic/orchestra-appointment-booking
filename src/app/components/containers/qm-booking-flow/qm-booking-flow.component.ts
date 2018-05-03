@@ -5,13 +5,24 @@ import {
   ServiceDispatchers,
   BranchSelectors,
   BranchDispatchers,
-  SettingsAdminSelectors} from '../../../../store';
+  SettingsAdminSelectors,
+  DateSelectors,
+  DateDispatchers,
+  UserSelectors,
+  TimeslotSelectors,
+  TimeslotDispatchers,
+  ReserveDispatchers,
+  CustomerSelectors
+} from '../../../../store';
 import { IBranch } from '../../../../models/IBranch';
 import { IService } from '../../../../models/IService';
 import { Subscription } from 'rxjs/Subscription';
 import { Setting } from '../../../../models/Setting';
 import { NumberOfCustomersSelectors } from '../../../../store/services/number-of-customers/number-of-customers.selectors';
 import { NumberOfCustomersDispatchers } from '../../../../store/services/number-of-customers/number-of-customers.dispatchers';
+import { IBookingInformation } from '../../../../models/IBookingInformation';
+import { IAppointment } from '../../../../models/IAppointment';
+import { ICustomer } from '../../../../models/ICustomer';
 
 @Component({
   selector: 'qm-booking-flow',
@@ -20,20 +31,32 @@ import { NumberOfCustomersDispatchers } from '../../../../store/services/number-
 })
 export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
+  private services$: Observable<IService[]>;
+  private selectedServices$: Observable<IService[]>;
+  private servicesSearchText$: Observable<string>;
+  private numberOfCustomers$: Observable<number>;
+  private numberOfCustomersArray$: Observable<number[]>;
   private branches$: Observable<IBranch[]>;
   private selectedBranches$: Observable<IBranch[]>;
   private branchesSearchText$: Observable<string>;
-  private services$: Observable<IService[]>;
-  private servicesSearchText$: Observable<string>;
-  private selectedServices$: Observable<IService[]>;
+  private dates$: Observable<string[]>;
+  private selectedDate$: Observable<string>;
+  private datesSearchText$: Observable<string>;
+  private times$: Observable<string[]>;
+  private selectedTime$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
-  private numberOfCustomers$: Observable<number>;
+  private userLocale$: Observable<string>;
+  private currentCustomer$: Observable<ICustomer>;
 
   private branches: IBranch[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
   private settingsMap: { [name: string ]: Setting };
   private numberOfCustomers: number;
+  private userLocale: string;
+  private selectedDate: string;
+  private selectedTime: string;
+  private currentCustomer: ICustomer;
 
   constructor(
     private branchSelectors: BranchSelectors,
@@ -42,7 +65,14 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     private serviceDispatchers: ServiceDispatchers,
     private settingsAdminSelectors: SettingsAdminSelectors,
     private numberOfCustomersSelectors: NumberOfCustomersSelectors,
-    private numberOfCustomersDispatchers: NumberOfCustomersDispatchers
+    private numberOfCustomersDispatchers: NumberOfCustomersDispatchers,
+    private dateSelectors: DateSelectors,
+    private dateDispatchers: DateDispatchers,
+    private userSelectors: UserSelectors,
+    private timeslotSelectors: TimeslotSelectors,
+    private timeslotDispatchers: TimeslotDispatchers,
+    private reserveDispatchers: ReserveDispatchers,
+    private customerSelectors: CustomerSelectors
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;
@@ -52,11 +82,27 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.selectedServices$ = this.serviceSelectors.selectedServices$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.numberOfCustomers$ = this.numberOfCustomersSelectors.numberOfCustomers$;
+    this.numberOfCustomersArray$ = this.numberOfCustomersSelectors.numberOfCustomersArray$;
+    this.dates$ = this.dateSelectors.visibleDates$;
+    this.datesSearchText$ = this.dateSelectors.searchText$;
+    this.times$ = this.timeslotSelectors.times$;
+    this.selectedDate$ = this.dateSelectors.selectedDate$;
+    this.selectedTime$ = this.timeslotSelectors.selectedTime$;
+    this.userLocale$ = this.userSelectors.userLocale$;
+    this.currentCustomer$ = this.customerSelectors.currentCustomer$;
   }
 
   ngOnInit() {
     const branchSubscription = this.branches$.subscribe(
       (branches: IBranch[]) => this.branches = branches
+    );
+
+    const currentCustomerSubscription = this.currentCustomer$.subscribe(
+      (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
+    );
+
+    const userLocaleSubscription = this.userLocale$.subscribe(
+      (userLocale: string) => this.userLocale = userLocale
     );
 
     const selectedServicesSubscription = this.selectedServices$.subscribe(
@@ -75,17 +121,41 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (selectedNumberOfCustomers: number) => this.numberOfCustomers = selectedNumberOfCustomers
     );
 
+    const selectedDateSubscription = this.selectedDate$.subscribe(
+      (selectedDate: string) => this.selectedDate = selectedDate
+    );
+
+    const selectedTimeslotSubscription = this.selectedTime$.subscribe(
+      (selectedTime: string) => this.selectedTime = selectedTime
+    );
+
+    const numberOfCustomersArraySubscription = this.numberOfCustomersArray$.subscribe(
+      (numberOfCustomersArray: number[]) => this.numberOfCustomersDispatchers.setNumberOfCustomers(1)
+    );
+
+    this.subscriptions.add(userLocaleSubscription);
+    this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(branchSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedBranchesSubscription);
     this.subscriptions.add(settingsSubscription);
     this.subscriptions.add(numberOfCustomersSubscription);
+    this.subscriptions.add(numberOfCustomersArraySubscription);
+    this.subscriptions.add(selectedDateSubscription);
+    this.subscriptions.add(selectedTimeslotSubscription);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
+  /***************/
+  /*   SERVICES  */
+  /***************/
+
+  /**
+   * Get the input type for the services list
+   */
   getInputTypeForServices(): string {
     const multiServicesEnabled = this.settingsMap.AllowMultiService.value;
     if (multiServicesEnabled) {
@@ -95,24 +165,18 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterBranches(searchText: string) {
-    this.branchDispatchers.filterBranches(searchText);
-  }
-
-  handleBranchSelection(branch: IBranch) {
-    const isSelected = this.isBranchSelected(branch);
-
-    if (isSelected) {
-      this.branchDispatchers.deselectBranch(branch);
-    } else {
-      this.branchDispatchers.selectBranch(branch);
-    }
-  }
-
+  /**
+   * Filter services
+   * @param searchText - Search string
+   */
   filterServices(searchText: string) {
     this.serviceDispatchers.filterServices(searchText);
   }
 
+  /**
+   * Click handler for service list
+   * @param service - Selected service
+   */
   handleServiceSelection(service: IService) {
     const isSelected = this.isServiceSelected(service);
 
@@ -129,20 +193,44 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.updateServiceGroups();
   }
 
-  getSelectableAmountOfCustomers() {
-    const shouldSetToOne = this.shouldSetNumberOfCustomersToOne();
-    if (shouldSetToOne) {
-      return this.createNumberOfCustomersArray(1);
-    } else {
-      const maxNumberOfCustomers = this.settingsMap.MaxCustomers.value;
-      return this.createNumberOfCustomersArray(maxNumberOfCustomers);
-    }
+  /**
+   * Update the service groups
+   * Used to display related services and available branches
+   */
+  updateServiceGroups() {
+    const queryString = this.getServicesQueryString();
+    this.serviceDispatchers.fetchServiceGroups(queryString);
   }
 
-  createNumberOfCustomersArray(maxNumberOfCustomers: number): Array<number> {
-    return Array.from({length: maxNumberOfCustomers}, (v, k) => k + 1);
+  /**
+   * Generate query string of selected services
+   */
+  getServicesQueryString(): string {
+    return this.selectedServices.reduce(
+      (queryString, service: IService) => {
+        return queryString + `;servicePublicId=${service.publicId}`;
+      }, '');
   }
 
+  /**
+   * Check if provided service is in selected services array
+   * @param service - Provided service
+   */
+  isServiceSelected(service: IService): boolean {
+    return this.selectedServices.reduce(
+      (acc: boolean, curr: IService) => {
+        return !acc ? curr.publicId === service.publicId : acc;
+      }, false);
+  }
+
+  /**************************/
+  /*   NUMBER OF CUSTOMERS  */
+  /**************************/
+
+  /**
+   * Click handler for number of customers selection
+   * @param numberOfCustomers - Clicked number of customers
+   */
   handleNumberOfCustomersSelection(numberOfCustomers: number) {
     const isSelected = this.isNumberOfCustomerSelected(numberOfCustomers);
 
@@ -152,44 +240,179 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
   }
 
-  updateServiceGroups() {
-    const queryString = this.getServicesQueryString();
-    this.serviceDispatchers.fetchServiceGroups(queryString);
-  }
-
-  getServicesQueryString(): string {
-    return this.selectedServices.reduce(
-      (queryString, service: IService) => {
-        return queryString + `;servicePublicId=${service.publicId}`;
-      }, '');
-  }
-
-  shouldSetNumberOfCustomersToOne() {
-    return this.selectedServices.reduce(
-      (shouldSetToOne: boolean, selectedService: IService) => {
-        return !shouldSetToOne
-                ? selectedService.additionalCustomerDuration === 0
-                : true;
-      },
-      false
-    );
-  }
-
+  /**
+   * Check if provided number of customers already is the selected number of customers
+   * @param numberOfCustomers - Provided number of customers
+   */
   isNumberOfCustomerSelected(numberOfCustomers: number) {
     return this.numberOfCustomers === numberOfCustomers;
   }
 
-  isServiceSelected(service: IService): boolean {
-    return this.selectedServices.reduce(
-      (acc: boolean, curr: IService) => {
-        return !acc ? curr.publicId === service.publicId : acc;
-      }, false);
+  /**
+   * Decide if customer column should be rendered.
+   */
+  shouldShowCustomerColumn() {
+    return this.settingsMap.MaxCustomers.value > 1;
   }
 
+  /***************/
+  /*   BRANCHES  */
+  /***************/
+
+  /**
+   * Filter branches
+   * @param searchText - Search string
+   */
+  filterBranches(searchText: string) {
+    this.branchDispatchers.filterBranches(searchText);
+  }
+
+  /**
+   * Click handler for branch selection
+   * @param branch - Selected branch
+   */
+  handleBranchSelection(branch: IBranch) {
+    const isSelected = this.isBranchSelected(branch);
+
+    if (isSelected) {
+      this.branchDispatchers.deselectBranch();
+    } else {
+      this.branchDispatchers.selectBranch(branch);
+      this.getDates();
+    }
+  }
+
+  /**
+   * Getting the dates and populating the dates array
+   * when a branch is selected
+   */
+  getDates() {
+    const serviceQuery = this.getServicesQueryString();
+    const branchPublicId = this.selectedBranches[0].publicId;
+    const numberOfCustomers = this.numberOfCustomers;
+
+    const bookingInformation: IBookingInformation = {
+      serviceQuery,
+      branchPublicId,
+      numberOfCustomers
+    };
+
+    this.dateDispatchers.getDates(bookingInformation);
+  }
+
+  /**
+   * Checks if provided branch is in selected branches array
+   * @param branch - Provided branch
+   */
   isBranchSelected(branch: IBranch): boolean {
     return this.selectedBranches.reduce(
       (acc: boolean, curr: IBranch) => {
         return !acc ? curr.publicId === branch.publicId : acc;
       }, false);
+  }
+
+  /************/
+  /*   DATES  */
+  /************/
+
+  /**
+   * Click handler for date selection
+   * @param date - Selected date
+   */
+  handleDateSelection(date: string) {
+    const isSelected = this.isDateSelected(date);
+
+    if (isSelected) {
+      this.dateDispatchers.deselectDate();
+    } else {
+      this.dateDispatchers.selectDate(date);
+      this.getTimeslots();
+    }
+  }
+
+  /**
+   * Filter dates
+   * @param searchText - Search string
+   */
+  filterDates(searchText: string) {
+    this.dateDispatchers.filterDates(searchText);
+  }
+
+  /**
+   * Populate timeslots when date is selected
+   */
+  getTimeslots() {
+    const serviceQuery = this.getServicesQueryString();
+    const branchPublicId = this.selectedBranches[0].publicId;
+    const numberOfCustomers = this.numberOfCustomers;
+    const date = this.selectedDate.slice(0, 10);
+
+    const bookingInformation: IBookingInformation = {
+      serviceQuery,
+      branchPublicId,
+      numberOfCustomers,
+      date
+    };
+
+    this.timeslotDispatchers.getTimeslots(bookingInformation);
+  }
+
+  /**
+   * Check if provided date already is the selected date
+   * @param date - Provided date
+   */
+  isDateSelected(date: string): boolean {
+    return this.selectedDate === date;
+  }
+
+  /************/
+  /*   TIMES  */
+  /************/
+
+  /**
+   * Click handler for time selection
+   * @param timeslot - Selected time
+   */
+  handleTimeslotSelection(timeslot: string) {
+    const isSelected = this.isTimeslotSelected(timeslot);
+
+    if (isSelected) {
+      this.timeslotDispatchers.deselectTimeslot();
+    } else {
+      this.timeslotDispatchers.selectTimeslot(timeslot);
+      this.reserveAppointment();
+    }
+  }
+
+  /**
+   * Reserve appointment - Work in progress - might be moved to service
+   */
+  reserveAppointment() {
+    const branchPublicId = this.selectedBranches[0].publicId;
+    const date = this.selectedDate.slice(0, 10);
+    const time = this.selectedTime;
+
+    const bookingInformation: IBookingInformation = {
+      branchPublicId,
+      date,
+      time
+    };
+
+    const appointment: IAppointment = {
+      services: this.selectedServices,
+      customers: [this.currentCustomer],
+      title: '',
+      notes: ''
+    };
+
+    this.reserveDispatchers.reserveAppointment(bookingInformation, appointment);
+  }
+
+  /**
+   * Check if provided time is already the selected time
+   * @param time - Provided time
+   */
+  isTimeslotSelected(time: string) {
+    return this.selectedTime === time;
   }
 }

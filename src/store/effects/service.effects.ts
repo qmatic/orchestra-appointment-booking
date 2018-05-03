@@ -4,10 +4,10 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
 
-import * as ServiceActions from './../actions';
+import * as AllActions from './../actions';
 import { ServiceDataService } from '../services';
 
-const toAction = ServiceActions.toAction();
+const toAction = AllActions.toAction();
 
 @Injectable()
 export class ServiceEffects {
@@ -18,27 +18,42 @@ export class ServiceEffects {
 
     @Effect()
     getServices$: Observable<Action> = this.actions$
-      .ofType(ServiceActions.FETCH_SERVICES)
+      .ofType(AllActions.FETCH_SERVICES)
       .pipe(
         switchMap(() =>
           toAction(
             this.serviceDataService.getServices(),
-            ServiceActions.FetchServicesSuccess,
-            ServiceActions.FetchServicesFail
+            AllActions.FetchServicesSuccess,
+            AllActions.FetchServicesFail
           )
         )
       );
 
     @Effect()
     getServiceGroups$: Observable<Action> = this.actions$
-      .ofType(ServiceActions.FETCH_SERVICE_GROUPS)
+      .ofType(AllActions.FETCH_SERVICE_GROUPS)
       .pipe(
-        switchMap((action: ServiceActions.FetchServiceGroups) =>
+        switchMap((action: AllActions.FetchServiceGroups) =>
           toAction(
             this.serviceDataService.getServiceGroups(action.payload),
-            ServiceActions.FetchServiceGroupsSuccess,
-            ServiceActions.FetchServiceGroupsFail
+            AllActions.FetchServiceGroupsSuccess,
+            AllActions.FetchServiceGroupsFail
           )
         )
       );
+
+    /**
+     * Will start chain of effects
+     * reseting all fields to the right
+     */
+    // @Effect()
+    // resetBranchesOnServiceChange$: Observable<Action> = this.actions$
+    //   .ofType(
+    //     AllActions.SELECT_SERVICE,
+    //     AllActions.SELECT_MULTI_SERVICE,
+    //     AllActions.DESELECT_SERVICE
+    //   )
+    //   .pipe(
+    //     switchMap(() => [new AllActions.ResetNumberOfCustomers])
+    //   );
 }

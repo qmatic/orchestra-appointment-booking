@@ -2,20 +2,22 @@ import { ICustomer } from './ICustomer';
 import { IBranch } from './IBranch';
 import { IService } from './IService';
 import { IAppointmentCustomFields } from './IAppointmentCustomFields';
+import { IResource } from './IResource';
 
 export interface IAppointment {
-  publicId: string;
-  status: number;
-  created: number;
-  updated: number;
-  start: string;
-  custom: IAppointmentCustomFields;
+  publicId?: string;
+  status?: number;
+  created?: number;
+  updated?: number;
+  start?: string;
+  custom?: IAppointmentCustomFields;
   customers: ICustomer[];
-  branch: IBranch;
+  branch?: IBranch;
   services: IService[];
   title: string;
   notes: string;
-  allDay: boolean;
-  blocking: boolean;
-  end: string;
+  allDay?: boolean;
+  blocking?: boolean;
+  end?: string;
+  resource?: IResource;
 }

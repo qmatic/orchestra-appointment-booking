@@ -7,6 +7,10 @@ import { SystemInfoEffects } from './system-info.effects';
 import { LicenseInfoEffects } from './license.effects';
 import { CustomerEffects } from './customer.effects';
 import { AppointmentEffects } from './appointment.effects';
+import { DateEffects } from './date.effects';
+import { TimeslotEffects } from './timeslot.effects';
+import { NumberOfCustomersEffects } from './number-of-customers.effects';
+import { ReserveEffects } from './reserve.effects';
 
 export const effects: any[] = [
   AppointmentEffects,
@@ -17,7 +21,11 @@ export const effects: any[] = [
   SystemInfoEffects,
   LicenseInfoEffects,
   UserRoleEffects,
-  SettingsAdminEffects
+  SettingsAdminEffects,
+  DateEffects,
+  TimeslotEffects,
+  NumberOfCustomersEffects,
+  ReserveEffects
 ];
 
 export * from './service.effects';
@@ -29,3 +37,7 @@ export * from './user-role.effects';
 export * from './customer.effects';
 export * from './appointment.effects';
 export * from './settings-admin.effects';
+export * from './date.effects';
+export * from './timeslot.effects';
+export * from './number-of-customers.effects';
+export * from './reserve.effects';

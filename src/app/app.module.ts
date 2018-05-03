@@ -98,6 +98,7 @@ import { SettingsTextboxComponent } from './components/presentational/qm-setting
 import { SettingsListboxComponent } from './components/presentational/qm-settings-admin/settings-listbox/settings-listbox.component';
 // tslint:disable-next-line:max-line-length
 import { SettingsTimeformatComponent } from './components/presentational/qm-settings-admin/settings-timeformat/settings-timeformat.component';
+import { DatePipe } from '@angular/common';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -189,7 +190,7 @@ const toastrGlobalOptions = {
     )
   ],
   entryComponents: [QmCreateCustomerModalComponent, QmUpdateCustomerModalComponent, QmGenericModalComponent],
-  providers: [SPService, ToastService, ModalService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor],
+  providers: [SPService, ToastService, ModalService, TranslateService, ...storeServices, LicenseAuthGuard, ErrorInterceptor, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {
