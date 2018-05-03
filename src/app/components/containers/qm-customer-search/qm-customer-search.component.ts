@@ -1,4 +1,3 @@
-import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
