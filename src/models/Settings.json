@@ -37,7 +37,7 @@
             {
                 "name": "TimeFormat",
                 "defaultValue": "24",
-                "value": "AMPM",
+                "value": "24",
                 "outputType": "Time"
             },
             {

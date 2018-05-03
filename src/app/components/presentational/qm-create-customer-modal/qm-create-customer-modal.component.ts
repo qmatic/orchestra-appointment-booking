@@ -1,3 +1,4 @@
+import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { ICustomer } from '../../../../models/ICustomer';
-import { CustomerDispatchers, UserSelectors } from '../../../../store';
+import { CustomerDispatchers, UserSelectors, SettingsAdminSelectors } from '../../../../store';
 
 @Component({
   selector: 'qm-create-customer-modal',
@@ -18,6 +19,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private userDirection$: Observable<string>;
   private createCustomerForm: FormGroup;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
   private dateLabelKeys: string[] = [
     'label.january',
@@ -41,9 +43,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private activeModal: NgbActiveModal,
     private customerDispatchers: CustomerDispatchers,
     private userSelectors: UserSelectors,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private settingAdminSelectors: SettingsAdminSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.settingsMap$ = settingAdminSelectors.settingsAsMap$;
     this.buildCustomerForm();
   }
 
@@ -68,6 +72,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(translateSubscription);
+
+    this.settingsMap$.subscribe((x) => {
+      console.log(x);
+    });
   }
 
   ngOnDestroy() {
@@ -75,16 +83,25 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   }
 
   buildCustomerForm() {
-    this.createCustomerForm = this.fb.group({
-      firstName: [ '', Validators.required ],
-      lastName: [ '', Validators.required ],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/[0-9\-\+\s\(\)\.]/)]],
-      dateOfBirth: this.fb.group({
-        month: null,
-        day: ['', [Validators.max(31), Validators.minLength(2), Validators.maxLength(2)]],
-        year: ['', [Validators.minLength(4), Validators.maxLength(4)]]
-      })
+
+
+    this.settingsMap$.subscribe(settings => {
+      const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
+      if (settings.CustomerPhoneRequired.value === true) {
+        phoneValidators.push(Validators.required);
+      }
+
+      this.createCustomerForm = this.fb.group({
+        firstName: [ '', Validators.required ],
+        lastName: [ '', Validators.required ],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', phoneValidators],
+        dateOfBirth: this.fb.group({
+          month: null,
+          day: ['', [Validators.max(31), Validators.minLength(2), Validators.maxLength(2)]],
+          year: ['', [Validators.minLength(4), Validators.maxLength(4)]]
+        })
+      });
     });
   }
 
