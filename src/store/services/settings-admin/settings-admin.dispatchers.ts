@@ -1,3 +1,4 @@
+import { SettingsBuilder } from './../../../models/SettingsBuilder';
 import { ISettingsUpdateRequest } from './../../../models/ISettingsResponse';
 import { IBranch } from './../../../models/IBranch';
 import { Injectable } from '@angular/core';
@@ -16,5 +17,13 @@ export class SettingsAdminDispatchers {
 
   saveSettings(updateRequest: ISettingsUpdateRequest) {
     this.store.dispatch(new SettingsAdminActions.SaveSettings(updateRequest));
+  }
+
+  updateSettingsStore(updateRequest: ISettingsUpdateRequest) {
+    const settingsList = new SettingsBuilder()
+    .buildDefaultSettings()
+    .mergeSettingObj(updateRequest.settingsList)
+    .toArray();
+    this.store.dispatch(new SettingsAdminActions.UpdateSettingsStore(settingsList));
   }
 }

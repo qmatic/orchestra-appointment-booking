@@ -53,6 +53,28 @@ export class SettingsBuilder {
         return this;
     }
 
+    mergeSettingObj(parsedSettings: any): SettingsBuilder {
+        if (parsedSettings) {
+            for (const [name, value] of Object.entries(parsedSettings)) {
+                const targetSetting = this._defaultSettings.get(name);
+                if (targetSetting) {
+                    targetSetting.value = value;
+                    this._defaultSettings.set(name, targetSetting);
+                } else {
+                    this._defaultSettings.forEach((ds: Setting) => {
+                        if (ds.children && ds.children.has(name) ) {
+                            const childSetting = ds.children.get(name);
+                            childSetting.value = value;
+                            ds.children.set(name, childSetting);
+                        }
+                    });
+                }
+              }
+        }
+
+        return this;
+    }
+
     get(): Map<string, Setting> {
         return this._defaultSettings;
     }

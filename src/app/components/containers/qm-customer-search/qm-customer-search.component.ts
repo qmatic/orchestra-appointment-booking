@@ -1,3 +1,4 @@
+import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +13,8 @@ import {
 import {
   CustomerDispatchers,
   CustomerSelectors,
-  UserSelectors
+  UserSelectors,
+  SettingsAdminSelectors
 } from '../../../../store';
 
 import { ICustomer } from '../../../../models/ICustomer';
@@ -36,18 +38,21 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   private customers: ICustomer[];
   private searchText: string;
   private customersLoaded: boolean;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
   constructor(
     private userSelectors: UserSelectors,
     private customerDispatchers: CustomerDispatchers,
     private customersSelectors: CustomerSelectors,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
     this.searchText$ = this.customersSelectors.searchText$;
     this.customersLoading$ = this.customersSelectors.customersLoading$;
     this.customersLoaded$ = this.customersSelectors.customersLoaded$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {

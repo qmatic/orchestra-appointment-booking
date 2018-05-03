@@ -36,7 +36,6 @@ export class QmSettingsAdminComponent implements OnInit {
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
     this.setEditForm();
-    this.settingsAdminDispatchers.fetchSettings();
   }
 
   private preselectOptionKeys: string[] = [

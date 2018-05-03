@@ -32,9 +32,20 @@ export class SettingsAdminDataService {
       .pipe(catchError(this.handleError()));
   }
 
+  getMergedSettings(settingsToMerge) {
+    const settingsList = new SettingsBuilder()
+    .buildDefaultSettings()
+    .merge(settingsToMerge)
+    .toArray();
+    return settingsList;
+  }
+
   updateSettings(settigsUpdateRequest: ISettingsUpdateRequest) {
       return this.http.put(`${restEndpoint}/variables`, {name: this.ADMIN_VAR_NAME,
-                            value: JSON.stringify(settigsUpdateRequest.settingsList) });
+                            value: JSON.stringify(settigsUpdateRequest.settingsList) })
+                            .map( x => {
+                              return settigsUpdateRequest;
+                            });
   }
 
   private handleError<T>(requestData?: T) {

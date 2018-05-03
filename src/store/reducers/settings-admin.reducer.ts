@@ -42,6 +42,16 @@ export function reducer (
       };
     }
 
+    case SettingsAdminActions.UPDATE_SETTINGS_STORE: {
+      return {
+        ...state,
+        settings: action.payload,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+
     case SettingsAdminActions.FETCH_SETTINGS_FAIL: {
       return {
         ...state,

@@ -1,3 +1,4 @@
+import { SettingsAdminDataService } from './../store/services/settings-admin/settings-admin-data.service';
 import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
 import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
 import { LicenseAuthGuard } from './../routes/license-auth-guard';
@@ -42,7 +43,7 @@ import { appRoutes } from './../routes/app-routes';
 import { SPService } from './../services/rest/sp.service';
 import { ToastService } from './../services/util/toast.service';
 import { ModalService } from './../services/util/modal.service';
-import { storeServices, BranchDispatchers, ServiceDispatchers } from '../store';
+import { storeServices, BranchDispatchers, ServiceDispatchers, SettingsAdminDispatchers } from '../store';
 
 // Components
 import { AppComponent } from './app.component';
@@ -201,11 +202,13 @@ export class AppModule {
     private branchDispatchers: BranchDispatchers,
     private licenseInfoDispatchers: LicenseDispatchers,
     private userRoleDispatchers: UserRoleDispatchers,
-    private router: Router
+    private router: Router,
+    private settingsAdminDispatchers: SettingsAdminDispatchers
   ) {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');
     this.licenseInfoDispatchers.fetchLicenseInfo();
     this.router.navigate(['/loading']);
+    this.settingsAdminDispatchers.fetchSettings();
   }
 }

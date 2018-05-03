@@ -1,3 +1,4 @@
+import { SettingsAdminDispatchers } from './../services/settings-admin/settings-admin.dispatchers';
 import { SaveSettings } from './../actions/settings-admin.actions';
 import { SettingsAdminDataService } from './../services/settings-admin/settings-admin-data.service';
 import { Injectable } from '@angular/core';
@@ -18,7 +19,8 @@ export class SettingsAdminEffects {
       private actions$: Actions,
       private settingsAdminDataService: SettingsAdminDataService,
       private translateService: TranslateService,
-      private toastService: ToastService
+      private toastService: ToastService,
+      private settingsDispatchers: SettingsAdminDispatchers
     ) {}
 
     @Effect()
@@ -47,17 +49,24 @@ export class SettingsAdminEffects {
         )
       );
 
-      @Effect()
+      @Effect({dispatch : false})
       saveSettingsSuccess$: Observable<Action> = this.actions$
         .ofType(SettingsAdminActions.SAVE_SETTINGS_SUCCESS)
         .pipe(
-          tap((action: SettingsAdminActions.SaveSettingsSuccess) =>
-            this.translateService.get('message.settings.save.success').subscribe(
-              (label: string) => this.toastService.successToast(label)
-            ).unsubscribe()
+          tap((action: SettingsAdminActions.SaveSettingsSuccess) => {
+              this.translateService.get('message.settings.save.success').subscribe(
+              (label: string) =>  {
+                this.toastService.successToast(label);
+              }
+
+            ).unsubscribe();
+
+            this.settingsDispatchers.updateSettingsStore(action.payload);
+          }
           ),
+
           switchMap((action: SettingsAdminActions.SaveSettingsSuccess) =>
-            []
+          []
         )
         );
 
