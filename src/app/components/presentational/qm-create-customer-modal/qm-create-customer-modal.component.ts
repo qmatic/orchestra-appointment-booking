@@ -100,10 +100,12 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
       const dayValidators = [];
       const yearValidators = [];
+      const monthValidators = [];
 
       if (settings.CustomerIncludeDateofBirthRequired.value === true) {
         dayValidators.push(Validators.required);
         yearValidators.push(Validators.required);
+        monthValidators.push(Validators.required);
       }
 
       this.createCustomerForm = this.fb.group({
@@ -112,7 +114,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         email: ['', emailValidators],
         phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators],
         dateOfBirth: this.fb.group({
-          month: null,
+          month: [null, monthValidators],
           day: ['',  dayValidators],
           year: ['', yearValidators]
         })
@@ -120,18 +122,18 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  isDOBRequiredValid(): boolean {
+  isDOBRequired(): boolean {
     const dobGroup: FormGroup = this.createCustomerForm.controls['dateOfBirth'] as FormGroup;
     const dayControl = dobGroup.controls['day'];
     const yearControl = dobGroup.controls['year'];
-    return dobGroup.dirty &&
+    const monthControl = dobGroup.controls['month'];
+    return dobGroup.dirty && dayControl.dirty && monthControl.dirty && yearControl.dirty &&
       (
         (dayControl.errors && dayControl.errors.required) ||
-        (yearControl.errors && yearControl.errors.required)
+        (yearControl.errors && yearControl.errors.required) ||
+        (monthControl.errors && monthControl.errors.required)
       );
   }
-
-
 
   onSubmit() {
     const customer: ICustomer = this.prepareSaveCustomer();
