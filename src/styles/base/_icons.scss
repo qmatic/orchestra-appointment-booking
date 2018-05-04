@@ -1,15 +1,14 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('./assets/icons/icomoon.eot?nu0h09');
-  src:  url('./assets/icons/icomoon.eot?nu0h09#iefix') format('embedded-opentype'),
-    url('./assets/icons/icomoon.woff2?nu0h09') format('woff2'),
-    url('./assets/icons/icomoon.ttf?nu0h09') format('truetype'),
-    url('./assets/icons/icomoon.woff?nu0h09') format('woff'),
-    url('./assets/icons/icomoon.svg?nu0h09#icomoon') format('svg');
+  src:  url('./assets/icons/icomoon.eot?pup6du');
+  src:  url('./assets/icons/icomoon.eot?pup6du#iefix') format('embedded-opentype'),
+    url('./assets/icons/icomoon.woff2?pup6du') format('woff2'),
+    url('./assets/icons/icomoon.ttf?pup6du') format('truetype'),
+    url('./assets/icons/icomoon.woff?pup6du') format('woff'),
+    url('./assets/icons/icomoon.svg?pup6du#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-
 
 [class^="icon-"], [class*=" icon-"], .icomoon-styles {
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -100,6 +99,12 @@
 
 .icon-subtract-smaller:before {
   content: "\e912";
+}
+.icon-radiobutton-checked:before {
+  content: "\e966";
+}
+.icon-radiobutton-unchecked:before {
+  content: "\e967";
 }
 .icon-calendar:before {
   content: "\e962";

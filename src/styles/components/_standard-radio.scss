@@ -3,13 +3,30 @@
   &__label {
     width: 100%;
     margin-bottom: 0;
+
+    &:hover {
+      .qm-standard-radio__icon {
+
+        &:before {
+          content: "\e966";
+        }
+      }
+    }
   }
 
   &__input {
-    @extend .sr-only;
+    @include sr-only;
+
     &:focus {
       & ~ .qm-standard-radio__selector {
         font-weight: $font-weight-regular;
+
+        .qm-standard-radio__icon {
+
+          &:before {
+            content: "\e966";
+          }
+        }
       }
     }
 
@@ -21,11 +38,7 @@
           color: $secondary-color;
 
           &:before {
-            content: "\e946";
-
-            @at-root [dir='rtl'] & {
-              content: "\e945";
-            }
+            content: "\e966";
           }
         }
       }
@@ -83,7 +96,7 @@
     transform: translateY(-50%);
 
     &:before {
-      content: "\e95f";
+      content: "\e967";
     }
 
     @at-root [dir='rtl'] & {
