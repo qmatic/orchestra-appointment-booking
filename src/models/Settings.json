@@ -82,8 +82,8 @@
             },
             {
                 "name": "OptionPreselect",
-                "defaultValue": "Select an option",
-                "value": ["PreSelectNoOption", "PreselectSMS", "PreselectEmail", "PreselectEmailandSMS", "NoNotification" ],                
+                "defaultValue": "PreSelectNoOption",
+                "value": "PreSelectNoOption",                
                 "outputType": "Select"
             }
         ]

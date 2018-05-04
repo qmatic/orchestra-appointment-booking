@@ -85,8 +85,27 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  buildCustomerForm() {
+  isValidDOBEntered(control: FormGroup) {
+    console.log(control);
+    let errors = null;
+    if (control.value) {
+      // invalid date check for leap year
+      if (control.value.year && control.value.month && control.value.day) {
+        const d = new Date(control.value.year, parseInt(control.value.month, 10) - 1, control.value.day);
+        if (d && (d.getMonth() + 1) !==  parseInt(control.value.month, 10)) {
+          control.setErrors({
+            invalidDay: true
+          });
+          errors = {...errors, invalidDay: true};
+        }
+      }
+    }
 
+    return errors;
+  }
+
+
+  buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
       if (settings.CustomerPhoneRequired.value === true) {
@@ -98,14 +117,14 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         emailValidators.push(Validators.required);
       }
 
-      const dayValidators = [];
-      const yearValidators = [];
-      const monthValidators = [];
+      let dayValidators = [];
+      let yearValidators = [];
+      let monthValidators = [];
 
       if (settings.CustomerIncludeDateofBirthRequired.value === true) {
-        dayValidators.push(Validators.required);
-        yearValidators.push(Validators.required);
-        monthValidators.push(Validators.required);
+        dayValidators = [...dayValidators, Validators.required, Validators.max(31)];
+        yearValidators = [...yearValidators, Validators.required, Validators.min(1)];
+        monthValidators = [...monthValidators, Validators.required];
       }
 
       this.createCustomerForm = this.fb.group({
@@ -117,6 +136,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
           month: [null, monthValidators],
           day: ['',  dayValidators],
           year: ['', yearValidators]
+        }, {
+          validator: this.isValidDOBEntered.bind(this)
         })
       });
     });
