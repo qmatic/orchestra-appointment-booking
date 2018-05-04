@@ -12,8 +12,8 @@ import {
   NO_ROLE
 } from '../../reducers/user-role.reducer';
 
-const STAFF_BOOKING_ROLE = 'staffbooking';
-const STAFF_BOOKING_ADMIN_ROLE = 'staffbookingadmin';
+const STAFF_BOOKING_ROLE = 'appointmentbooking';
+const STAFF_BOOKING_ADMIN_ROLE = 'appointmentbookingadmin';
 const STAFF_SUPER_ADMIN_ROLE = '*';
 
 @Injectable()
@@ -23,14 +23,25 @@ export class UserRoleDataService {
   getUserRoleInfo(): Observable<string> {
     return this.http
       .get<IAccount>(`${restEndpoint}/account`)
-      .map((res: {modules: string[]}) => {
-          const isStaffUser = res.modules.filter(module => module === STAFF_BOOKING_ROLE).length > 0 ? true : false;
-          const isStaffAdminUser = res.modules.filter(module => module === STAFF_BOOKING_ADMIN_ROLE).length > 0 ? true : false;
-          const isSuperAdminUser = res.modules.filter(module => module === STAFF_SUPER_ADMIN_ROLE).length > 0 ? true : false;
-          let userRole = NO_ROLE;
-          userRole = isStaffUser ? USER_ROLE : userRole;
-          userRole = isStaffAdminUser || isSuperAdminUser ? ADMIN_ROLE : userRole;
-          return userRole;
+      .map((res: { modules: string[] }) => {
+        const isStaffUser =
+          res.modules.filter(module => module === STAFF_BOOKING_ROLE).length > 0
+            ? true
+            : false;
+        const isStaffAdminUser =
+          res.modules.filter(module => module === STAFF_BOOKING_ADMIN_ROLE)
+            .length > 0
+            ? true
+            : false;
+        const isSuperAdminUser =
+          res.modules.filter(module => module === STAFF_SUPER_ADMIN_ROLE)
+            .length > 0
+            ? true
+            : false;
+        let userRole = NO_ROLE;
+        userRole = isStaffUser ? USER_ROLE : userRole;
+        userRole = isStaffAdminUser || isSuperAdminUser ? ADMIN_ROLE : userRole;
+        return userRole;
       })
       .pipe(catchError(this.handleError()));
   }
