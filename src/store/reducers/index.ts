@@ -1,6 +1,4 @@
-import {
-  ActionReducerMap,
-} from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
 import { Store } from '@ngrx/store';
 
@@ -18,14 +16,15 @@ import * as fromNumberOfCustomers from './number-of-customers.reducer';
 import * as fromDates from './date.reducer';
 import * as fromTimeslot from './timeslot.reducer';
 import * as fromReserve from './reserve.reducer';
+import * as fromAccount from './account.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
   branches: fromBranch.IBranchState;
   systemInfo: fromSystemInfo.ISystemInfoState;
-  user: fromUser.IUserState;
-  license:  fromLicense.ILicenseState;
-  userRole: fromUserRole.IUserRoleState;
+  // user: fromUser.IUserState;
+  license: fromLicense.ILicenseState;
+  // userRole: fromUserRole.IUserRoleState;
   customers: fromCustomer.ICustomerState;
   appointments: fromAppointments.IAppointmentState;
   appointmentMeta: fromAppointmentMeta.IAppointmentMetaState;
@@ -34,15 +33,16 @@ export interface IAppState {
   dates: fromDates.IDatesState;
   timeslot: fromTimeslot.ITimeslotState;
   reserved: fromReserve.IReserveState;
+  account: fromAccount.IAccountState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
   services: fromService.reducer,
   branches: fromBranch.reducer,
   systemInfo: fromSystemInfo.reducer,
-  user: fromUser.reducer,
+  // user: fromUser.reducer,
   license: fromLicense.reducer,
-  userRole: fromUserRole.reducer,
+  // userRole: fromUserRole.reducer,
   customers: fromCustomer.reducer,
   appointments: fromAppointments.reducer,
   appointmentMeta: fromAppointmentMeta.reducer,
@@ -50,7 +50,7 @@ export const reducers: ActionReducerMap<IAppState> = {
   numberOfCustomers: fromNumberOfCustomers.reducer,
   dates: fromDates.reducer,
   timeslot: fromTimeslot.reducer,
-  reserved: fromReserve.reducer
+  reserved: fromReserve.reducer,
+  account: fromAccount.reducer
   // here is where you put other reducers, when you have them
 };
-

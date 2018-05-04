@@ -43,7 +43,9 @@ import {
   SettingsAdminSelectors,
   ReserveDataService,
   ReserveDispatchers,
-  ReserveSelectors
+  ReserveSelectors,
+  AccountDataService,
+  AccountDispatchers
 } from './services';
 
 export const storeServices = [
@@ -86,5 +88,7 @@ export const storeServices = [
   SettingsAdminSelectors,
   ReserveDataService,
   ReserveDispatchers,
-  ReserveSelectors
+  ReserveSelectors,
+  AccountDataService,
+  AccountDispatchers
 ];

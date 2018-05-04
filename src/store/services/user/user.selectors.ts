@@ -1,3 +1,5 @@
+import { IAccount } from './../../../models/IAccount';
+import { IAccountState } from './../../reducers/account.reducer';
 import { Injectable } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
@@ -5,37 +7,39 @@ import { IAppState } from '../../reducers';
 import { IUserState } from '../../reducers/user.reducer';
 import { IUser } from '../../../models/IUser';
 
+import { ADMIN_ROLE } from './../../reducers/user-role.reducer';
+
 // selectors
-const getUserState = createFeatureSelector<IUserState>('user');
+const getUserState = createFeatureSelector<IAccountState>('account');
 
 const getUser = createSelector(
   getUserState,
-  (state: IUserState) => state.data
+  (state: IAccountState) => state.data
 );
 
 const getUserFullName = createSelector(
   getUser,
-  (state: IUser) => state.fullName
+  (state: IAccount) => state.fullName
 );
 
 const getUserUserName = createSelector(
   getUser,
-  (state: IUser) => state.userName
+  (state: IAccount) => state.userName
 );
 
 export const getUserLocale = createSelector(
   getUser,
-  (state: IUser) => state.locale
+  (state: IAccount) => state.locale
 );
 
 const getUserDirection = createSelector(
   getUser,
-  (state: IUser) => state.direction
+  (state: IAccount) => state.direction
 );
 
 const getUserIsAdmin = createSelector(
-  getUser,
-  (state: IUser) => state.isAdmin
+  getUserState,
+  (state: IAccountState) => state.userRole === ADMIN_ROLE
 );
 
 @Injectable()

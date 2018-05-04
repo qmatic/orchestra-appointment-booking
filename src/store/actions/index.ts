@@ -14,3 +14,4 @@ export * from './number-of-customers.actions';
 export * from './date.actions';
 export * from './timeslot.actions';
 export * from './reserve.actions';
+export * from './account.actions';

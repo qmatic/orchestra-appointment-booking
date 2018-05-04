@@ -1,11 +1,9 @@
-import * as UserRoleActions from '../actions';
+import { IAccount } from './../../models/IAccount';
+import * as AccountActions from '../actions';
 
-export const ADMIN_ROLE = 'ADMIN_ROLE';
-export const USER_ROLE = 'USER_ROLE';
-export const NO_ROLE = 'NO_ROLE';
-
-export interface IUserRoleState {
-  role: string;
+export interface IAccountState {
+  data: IAccount;
+  userRole: string;
   loading: boolean;
   loaded: boolean;
   error: Object;
@@ -13,43 +11,47 @@ export interface IUserRoleState {
 
 const initialState = {
   data: {
-    id: '',
+    id: null,
     userName: '',
     firstName: '',
     lastName: '',
     locale: '',
     direction: '',
+    status: '',
     fullName: '',
-    isAdmin: true
+    modules: []
   },
-  role: NO_ROLE,
+  userRole: '',
   loading: false,
   loaded: false,
   error: null
 };
 
 export function reducer(
-  state: IUserRoleState = initialState,
-  action: UserRoleActions.AllUserRoleActions
-): IUserRoleState {
+  state: IAccountState = initialState,
+  action: AccountActions.AllAccountActions
+): IAccountState {
   switch (action.type) {
-    case UserRoleActions.FETCH_USER_ROLE_INFO: {
+    case AccountActions.FETCH_ACCOUNT_INFO: {
       return {
         ...state,
         loading: true,
         error: null
       };
     }
-    case UserRoleActions.FETCH_USER_ROLE_SUCCESS: {
+    case AccountActions.FETCH_ACCOUNT_INFO_SUCCESS: {
       return {
         ...state,
-        role: action.payload,
+        data: {
+          ...action.payload.data
+        },
+        userRole: action.payload.userRole,
         loading: false,
         loaded: true,
         error: null
       };
     }
-    case UserRoleActions.FETCH_USER_ROLE_FAIL: {
+    case AccountActions.FETCH_ACCOUNT_INFO_FAIL: {
       return {
         ...state,
         loading: false,

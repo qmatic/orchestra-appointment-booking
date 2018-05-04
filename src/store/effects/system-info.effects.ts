@@ -11,21 +11,21 @@ const toAction = SystemInfoActions.toAction();
 
 @Injectable()
 export class SystemInfoEffects {
-    constructor(
-      private actions$: Actions,
-      private systemInfoDataService: SystemInfoDataService
-    ) {}
+  constructor(
+    private actions$: Actions,
+    private systemInfoDataService: SystemInfoDataService
+  ) {}
 
-    @Effect()
-    getSystemInfo$: Observable<Action> = this.actions$
-      .ofType(SystemInfoActions.FETCH_USER_INFO)
-      .pipe(
-        switchMap(() =>
-          toAction(
-            this.systemInfoDataService.getSystemInfo(),
-            SystemInfoActions.FetchSystemInfoSuccess,
-            SystemInfoActions.FetchSystemInfoFail
-          )
+  @Effect()
+  getSystemInfo$: Observable<Action> = this.actions$
+    .ofType(SystemInfoActions.FETCH_SYSTEM_INFO)
+    .pipe(
+      switchMap(() =>
+        toAction(
+          this.systemInfoDataService.getSystemInfo(),
+          SystemInfoActions.FetchSystemInfoSuccess,
+          SystemInfoActions.FetchSystemInfoFail
         )
-      );
+      )
+    );
 }

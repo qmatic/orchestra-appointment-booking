@@ -10,7 +10,8 @@ import {
   UserRoleDispatchers,
   SystemInfoDispatchers,
   ServiceDispatchers,
-  SettingsAdminDispatchers
+  SettingsAdminDispatchers,
+  AccountDispatchers
 } from '../store';
 import { ToastService } from '../services/util/toast.service';
 
@@ -28,15 +29,14 @@ export class AppComponent implements OnInit {
     private userRoleDispatchers: UserRoleDispatchers,
     private systemInfoDispatchers: SystemInfoDispatchers,
     private serviceDispachers: ServiceDispatchers,
-    private userDispatchers: UserDispatchers,
+    private accountDispatchers: AccountDispatchers,
     private settingsAdminDispatchers: SettingsAdminDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() {
-    this.userRoleDispatchers.fetchUserRoleInfo();
-    this.userDispatchers.fetchUserInfo();
+    this.accountDispatchers.fetchAccountInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
     this.settingsAdminDispatchers.fetchSettings();
     this.serviceDispachers.fetchServices();

@@ -16,3 +16,4 @@ export * from './number-of-customers';
 export * from './date';
 export * from './timeslot';
 export * from './reserve';
+export * from './account';
