@@ -1,12 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SelectBranch } from './../../../../store/actions/branch.actions';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { IBranch } from '../../../../models/IBranch';
 import { ICustomer } from '../../../../models/ICustomer';
 import {
-  BranchSelectors,
-  BranchDispatchers,
   CustomerSelectors,
   UserSelectors
 } from '../../../../store';

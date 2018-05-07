@@ -6,7 +6,8 @@ import { catchError } from 'rxjs/operators';
 
 import {
   calendarPublicEndpointV2,
-  DataServiceError,
+  calendarPublicEndpoint,
+  DataServiceError
 } from '../data.service';
 
 import { IAppointment } from '../../../models/IAppointment';
@@ -28,6 +29,12 @@ export class ReserveDataService {
               + `/dates/${bookingInformation.date}`
               + `/times/${bookingInformation.time}/reserve/`, appointment
             )
+            .pipe(catchError(this.handleError()));
+  }
+
+  unreserveAppointment(reservationPublicId: string) {
+    return this.http
+            .delete<IAppointment>(`${calendarPublicEndpoint}/appointments/${reservationPublicId}`)
             .pipe(catchError(this.handleError()));
   }
 

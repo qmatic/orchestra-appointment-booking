@@ -12,7 +12,8 @@ import {
   TimeslotSelectors,
   TimeslotDispatchers,
   ReserveDispatchers,
-  CustomerSelectors
+  CustomerSelectors,
+  AppointmentMetaSelectors
 } from '../../../../store';
 import { IBranch } from '../../../../models/IBranch';
 import { IService } from '../../../../models/IService';
@@ -47,7 +48,10 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private userLocale$: Observable<string>;
   private currentCustomer$: Observable<ICustomer>;
+  private notes$: Observable<string>;
+  private title$: Observable<string>;
 
+  private services: IService[];
   private branches: IBranch[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
@@ -57,6 +61,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private selectedDate: string;
   private selectedTime: string;
   private currentCustomer: ICustomer;
+  private notes: string;
+  private title: string;
 
   constructor(
     private branchSelectors: BranchSelectors,
@@ -72,7 +78,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     private timeslotSelectors: TimeslotSelectors,
     private timeslotDispatchers: TimeslotDispatchers,
     private reserveDispatchers: ReserveDispatchers,
-    private customerSelectors: CustomerSelectors
+    private customerSelectors: CustomerSelectors,
+    private appointmentMetaSelectors: AppointmentMetaSelectors
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;
@@ -90,9 +97,23 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.selectedTime$ = this.timeslotSelectors.selectedTime$;
     this.userLocale$ = this.userSelectors.userLocale$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
+    this.title$ = this.appointmentMetaSelectors.title$;
+    this.notes$ = this.appointmentMetaSelectors.notes$;
   }
 
   ngOnInit() {
+    const titleSubscription = this.title$.subscribe(
+      (title: string) => this.title = title
+    );
+
+    const notesSubscription = this.notes$.subscribe(
+      (notes: string) => this.notes = notes
+    );
+
+    const servicesSubscription = this.services$.subscribe(
+      (services: IService[]) => this.services = services
+    );
+
     const branchSubscription = this.branches$.subscribe(
       (branches: IBranch[]) => this.branches = branches
     );
@@ -133,6 +154,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (numberOfCustomersArray: number[]) => this.numberOfCustomersDispatchers.setNumberOfCustomers(1)
     );
 
+    this.subscriptions.add(titleSubscription);
+    this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(servicesSubscription);
     this.subscriptions.add(userLocaleSubscription);
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(branchSubscription);
@@ -401,8 +425,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     const appointment: IAppointment = {
       services: this.selectedServices,
       customers: [this.currentCustomer],
-      title: '',
-      notes: ''
+      title: this.title,
+      notes: this.notes
     };
 
     this.reserveDispatchers.reserveAppointment(bookingInformation, appointment);

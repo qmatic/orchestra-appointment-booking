@@ -15,3 +15,4 @@ export * from './date.actions';
 export * from './timeslot.actions';
 export * from './reserve.actions';
 export * from './account.actions';
+export * from './booking.actions';

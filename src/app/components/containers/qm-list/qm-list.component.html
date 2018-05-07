@@ -1,12 +1,12 @@
 <fieldset class="qm-booking" [ngClass]="{ 'qm-booking--nosearch': searchable === false }">
   <legend class="qm-booking__header">
-    <span class="qm-booking__header-text">{{header}}</span>
+    <span class="qm-booking__header-text">{{header}} <span class="qm-required-star" *ngIf="displayAsRequired">*</span></span>
   </legend>
   <div class="qm-booking__body">
     <div *ngIf="searchable === true" class="qm-booking__search">
       <div class="qm-search">
         <label for="" class="sr-only">{{ header }}</label>
-        <input type="text" class="qm-search__input" [formControl]="searchInputControl" 
+        <input type="text" class="qm-search__input" [formControl]="searchInputControl"
                placeholder='{{ placeholder }}' [ngModel]="searchText"/>
         <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
           <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>

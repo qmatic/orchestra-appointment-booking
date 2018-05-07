@@ -11,6 +11,8 @@ export const UNRESERVE_APPOINTMENT = '[Reserve] UNRESERVE_APPOINTMENT';
 export const UNRESERVE_APPOINTMENT_FAIL = '[Reserve] UNRESERVE_APPOINTMENT_FAIL';
 export const UNRESERVE_APPOINTMENT_SUCCESS = '[Reserve] UNRESERVE_APPOINTMENT_SUCCESS';
 
+export const RESET_RESERVED_APPOINTMENT = '[Reserve] RESET_RESERVED_APPOINTMENT';
+
 
 export class ReserveAppointment implements Action {
   readonly type = RESERVE_APPOINTMENT;
@@ -42,9 +44,14 @@ export class UnreserveAppointmentSuccess implements Action {
   constructor(public payload: IAppointment) {}
 }
 
+export class ResetReservedAppointment implements Action {
+  readonly type = RESET_RESERVED_APPOINTMENT;
+}
+
 export type AllReserveActions = ReserveAppointment |
                                 ReserveAppointmentFail |
                                 ReserveAppointmentSuccess |
                                 UnreserveAppointment |
                                 UnreserveAppointmentFail |
-                                UnreserveAppointmentSuccess;
+                                UnreserveAppointmentSuccess |
+                                ResetReservedAppointment;

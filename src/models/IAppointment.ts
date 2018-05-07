@@ -11,11 +11,11 @@ export interface IAppointment {
   updated?: number;
   start?: string;
   custom?: IAppointmentCustomFields;
-  customers: ICustomer[];
+  customers?: ICustomer[];
   branch?: IBranch;
-  services: IService[];
-  title: string;
-  notes: string;
+  services?: IService[];
+  title?: string;
+  notes?: string;
   allDay?: boolean;
   blocking?: boolean;
   end?: string;

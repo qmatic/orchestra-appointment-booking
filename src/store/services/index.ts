@@ -17,3 +17,4 @@ export * from './date';
 export * from './timeslot';
 export * from './reserve';
 export * from './account';
+export * from './booking';

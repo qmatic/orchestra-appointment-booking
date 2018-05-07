@@ -30,6 +30,9 @@ export class QmListComponent implements OnInit, OnDestroy {
   @Input()
   searchText: string;
 
+  @Input()
+  displayAsRequired = true;
+
   @Output()
   search: EventEmitter<string> = new EventEmitter<string>();
 

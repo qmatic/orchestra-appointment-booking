@@ -28,3 +28,13 @@ export const toAction = (...actions: Action[]) => <T>(
     mergeMap((data: T) => [new successAction(data), ...actions]),
     catchError((err: DataServiceError<T>) => of(new errorAction(err)))
   );
+
+export const toActionSecondary = (...actions: Action[]) => <T>(
+  source: Observable<T>,
+  successAction: new (data: T) => Action,
+  errorAction: new (err: DataServiceError<T>) => Action
+) =>
+  source.pipe(
+    mergeMap((data: T) => [...actions, new successAction(data)]),
+    catchError((err: DataServiceError<T>) => of(new errorAction(err)))
+  );

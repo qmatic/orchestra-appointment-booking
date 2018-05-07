@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';

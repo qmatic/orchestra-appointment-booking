@@ -45,7 +45,10 @@ import {
   ReserveDispatchers,
   ReserveSelectors,
   AccountDataService,
-  AccountDispatchers
+  AccountDispatchers,
+  BookingDataService,
+  BookingDispatchers,
+  BookingSelectors
 } from './services';
 
 export const storeServices = [
@@ -90,5 +93,8 @@ export const storeServices = [
   ReserveDispatchers,
   ReserveSelectors,
   AccountDataService,
-  AccountDispatchers
+  AccountDispatchers,
+  BookingDataService,
+  BookingDispatchers,
+  BookingSelectors
 ];

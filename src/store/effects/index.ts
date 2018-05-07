@@ -12,6 +12,7 @@ import { TimeslotEffects } from './timeslot.effects';
 import { NumberOfCustomersEffects } from './number-of-customers.effects';
 import { ReserveEffects } from './reserve.effects';
 import { AccountEffects } from './account.effects';
+import { BookingEffects } from './booking.effects';
 
 export const effects: any[] = [
   AppointmentEffects,
@@ -27,7 +28,8 @@ export const effects: any[] = [
   TimeslotEffects,
   NumberOfCustomersEffects,
   ReserveEffects,
-  AccountEffects
+  AccountEffects,
+  BookingEffects
 ];
 
 export * from './service.effects';
@@ -44,3 +46,4 @@ export * from './timeslot.effects';
 export * from './number-of-customers.effects';
 export * from './reserve.effects';
 export * from './account.effects';
+export * from './booking.effects';

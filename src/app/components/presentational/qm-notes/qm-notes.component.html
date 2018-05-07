@@ -14,7 +14,7 @@
       class="qm-notes__textarea"
       maxlength="{{ notesMaxLength }}"
       rows="5"
-      [ngModel]="notes"
+      [ngModel]="notes$ | async"
       (input)="handleNotesInput(notesInput.value)"
       (blur)="hideNotesInput()"
       qmAutofocus
