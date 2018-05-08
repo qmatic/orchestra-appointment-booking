@@ -10,8 +10,20 @@ export class QmAppointmentIconListComponent implements OnInit {
   @Input() appointment: IAppointment;
   @Input() userLocale: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  getAdditionalServices(appointment) {
+    return (
+      appointment.services &&
+      appointment.services
+        .slice(0)
+        .map(function(service) {
+          return service.name;
+        })
+        .slice(1)
+        .join(', ')
+    );
   }
+
+  ngOnInit() {}
 }

@@ -1,112 +1,98 @@
 @import '../../../../styles/base/_component-manifest.scss';
-
 :host {
-  display: flex;
-  height: 100%;
+    display: flex;
+    height: 100%;
 }
 
 .qm-customer-appointments {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  background: $white;
-  box-shadow: $dashboard-body-box-shadow;
-  border-radius: $standard-border-radius;
-  padding: rem(0 $standard-padding * 3);
-
-  &--full {
-    width: 100%;
-    padding: rem($standard-padding $standard-padding * 1.75);
-  }
-
-  &__headline {
-    display: block;
-    line-height: rem(28px);
-    margin-bottom: rem($standard-margin);
-    margin-top: rem(12px);
-
-    @at-root [dir='rtl'] & {
-      text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background: $white;
+    box-shadow: $dashboard-body-box-shadow;
+    border-radius: $standard-border-radius;
+    padding: rem(0 $standard-padding * 3);
+    &--full {
+        width: 100%;
+        padding: rem($standard-padding $standard-padding * 1.75);
     }
-  }
-
-  &__no-appointments {
-    display: block;
-    font-size: rem(18px);
-    color: $dark-transparent82;
-    text-align: center;
-    font-weight: $font-weight-light;
-    margin-bottom: rem(20px);
-  }
+    &__headline {
+        display: block;
+        line-height: rem(28px);
+        margin-bottom: rem($standard-margin);
+        margin-top: rem(12px);
+        @at-root [dir='rtl'] & {
+            text-align: right;
+        }
+    }
+    &__no-appointments {
+        display: block;
+        font-size: rem(18px);
+        color: $dark-transparent82;
+        text-align: center;
+        font-weight: $font-weight-light;
+        margin-bottom: rem(20px);
+    }
 }
 
 .qm-fetch-appointments-btn {
-  display: inline-block;
-  background: transparent;
-  border: 0;
-  color: $primary-action-button-color;
-  font-weight: $font-weight-light;
-  padding: 0;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover,
-  &:focus {
-    font-weight: $font-weight-medium;
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    color: $primary-action-button-color;
+    font-weight: $font-weight-light;
+    padding: 0;
+    cursor: pointer;
     text-decoration: none;
-  }
-
-  &__icon-container {
-    position: relative;
-    display: block;
-    width: rem(62px);
-    height: rem(62px);
-    margin: 0 auto 8px;
-  }
-
-  &__icon-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: rem($base-unit * 4);
-    color: $dark-transparent12;
-
-    @at-root [dir='rtl'] & {
-      left: auto;
-      right: 0;
+    &:hover,
+    &:focus {
+        font-weight: $font-weight-medium;
+        text-decoration: none;
     }
-  }
-
-  &__icon-foreground {
-    position: absolute;
-    bottom: -12px;
-    right: -12px;
-    font-size: rem($base-unit * 3);
-    color: $dark-transparent82;
-
-    @at-root [dir='rtl'] & {
-      right: auto;
-      left: -12px;
+    &__icon-container {
+        position: relative;
+        display: block;
+        width: rem(62px);
+        height: rem(62px);
+        margin: 0 auto 8px;
     }
-  }
-
-  &__text {
-    font-size: rem(18px);
-    color: $secondary-color;
-
-    &:after {
-      display: block;
-      content: attr(title);
-      font-weight: $font-weight-medium;
-      height: 0;
-      overflow: hidden;
-      visibility: hidden;
+    &__icon-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: rem($base-unit * 4);
+        color: $dark-transparent12;
+        @at-root [dir='rtl'] & {
+            left: auto;
+            right: 0;
+        }
     }
-  }
+    &__icon-foreground {
+        position: absolute;
+        bottom: -12px;
+        right: -12px;
+        font-size: rem($base-unit * 3);
+        color: $dark-transparent82;
+        @at-root [dir='rtl'] & {
+            right: auto;
+            left: -12px;
+        }
+    }
+    &__text {
+        font-size: rem(18px);
+        color: $secondary-color;
+        &:after {
+            display: block;
+            content: attr(title);
+            font-weight: $font-weight-medium;
+            height: 0;
+            overflow: hidden;
+            visibility: hidden;
+        }
+    }
 }
 
 .qm-loader-container {
-  padding: rem(0 $standard-padding * 2);
+    padding: rem(0 $standard-padding * 2);
 }
-

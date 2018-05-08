@@ -3,17 +3,25 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npm run ng-config-dev && ng serve --proxy-config proxy.config.json",
-    "startlocal": "npm run ng-config-dev && ng serve --proxy-config proxy.config.localhost.json",
+    "start":
+      "npm run ng-config-dev && ng serve --proxy-config proxy.config.json",
+    "startlocal":
+      "npm run ng-config-dev && ng serve --proxy-config proxy.config.localhost.json",
     "build": "ng build --prod",
     "test": "ng test",
-    "build-war-dev": "npm run ng-config-dev && ng build && gulp build:war:properties",
-    "build-war-prod": "npm run ng-config-prod && ng build --prod && gulp build:war:properties",
-    "build-artifactory": "npm run ng-config-prod && ng build --prod && gulp build:artifactory",
-    "deploy-war-dev": "npm run ng-config-dev && ng build && gulp build:war:deploy",
-    "deploy-war-prod": "npm run ng-config-prod && ng build --prod && gulp build:war:deploy",
+    "build-war-dev":
+      "npm run ng-config-dev && ng build && gulp build:war:properties",
+    "build-war-prod":
+      "npm run ng-config-prod && ng build --prod && gulp build:war:properties",
+    "build-artifactory":
+      "npm run ng-config-prod && ng build --prod && gulp build:artifactory",
+    "deploy-war-dev":
+      "npm run ng-config-dev && ng build && gulp build:war:deploy",
+    "deploy-war-prod":
+      "npm run ng-config-prod && ng build --prod && gulp build:war:deploy",
     "deploy-lang": "gulp deploy:lang",
-    "deploy-artifactory": "npm run ng-config-prod && ng build --prod && gulp build:artifactory:deploy",
+    "deploy-artifactory":
+      "npm run ng-config-prod && ng build --prod && gulp build:artifactory:deploy",
     "ng-config-dev": "node build-configuration/build-config.js dev",
     "ng-config-prod": "node build-configuration/build-config.js prod"
   },
@@ -29,7 +37,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "@ng-bootstrap/ng-bootstrap": "^1.1.2",
+    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
     "@ng-select/ng-select": "^1.1.0",
     "@ngrx/core": "^1.2.0",
     "@ngrx/effects": "^5.2.0",

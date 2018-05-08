@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UserSelectors } from '../../../../store/index';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'qm-dropdown',
@@ -9,13 +11,16 @@ export class QmDropdownComponent implements OnInit {
   @Input() text: string;
   @Input() userDirection: string;
   @Input() isExpanded = false;
+  @Input() maxHeight: string;
+  userDirection$: Observable<string>;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private userSelectors: UserSelectors) {
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
-  toggleDropdown () {
+  ngOnInit() {}
+
+  toggleDropdown() {
     this.isExpanded = !this.isExpanded;
   }
 }

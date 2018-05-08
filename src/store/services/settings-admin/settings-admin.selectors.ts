@@ -6,30 +6,35 @@ import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 import { IAppState } from '../../reducers';
 
 // selectors
-const getSettingsAdminState = createFeatureSelector<ISettingsAdminState>('settings');
+const getSettingsAdminState = createFeatureSelector<ISettingsAdminState>(
+  'settings'
+);
 
 const getAllSettings = createSelector(
   getSettingsAdminState,
   (state: ISettingsAdminState) => state.settings
 );
 
-const getSettingsByCategory = createSelector(getSettingsAdminState, (state: ISettingsAdminState) => {
-  const settingsByCategory = new Map<string, SettingCategory>();
+const getSettingsByCategory = createSelector(
+  getSettingsAdminState,
+  (state: ISettingsAdminState) => {
+    const settingsByCategory = new Map<string, SettingCategory>();
 
-  state.settings.forEach((s: Setting) => {
-    if (!settingsByCategory.has(s.category.name)) {
-      settingsByCategory.set(s.category.name, s.category);
-    }
+    state.settings.forEach((s: Setting) => {
+      if (!settingsByCategory.has(s.category.name)) {
+        settingsByCategory.set(s.category.name, s.category);
+      }
 
-    const foundCat = settingsByCategory.get(s.category.name);
-    foundCat.settings.set(s.name, s);
-    settingsByCategory.set(s.category.name, foundCat);
-  });
+      const foundCat = settingsByCategory.get(s.category.name);
+      foundCat.settings.set(s.name, s);
+      settingsByCategory.set(s.category.name, foundCat);
+    });
 
-  console.log(settingsByCategory.values());
+    console.log(settingsByCategory.values());
 
-  return Array.from(settingsByCategory.values());
-});
+    return Array.from(settingsByCategory.values());
+  }
+);
 
 export const getSettingsAsMap = createSelector(
   getSettingsAdminState,
@@ -41,7 +46,9 @@ export const getSettingsAsMap = createSelector(
         const childSettings = {};
 
         if (setting.children && setting.children.size > 0) {
-          setting.children.forEach ((v, k) => { childSettings[k] = v; });
+          setting.children.forEach((v, k) => {
+            childSettings[k] = v;
+          });
         }
 
         return {

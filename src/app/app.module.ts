@@ -12,7 +12,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // A11y
-import {A11yModule} from '@angular/cdk/a11y';
+import { A11yModule } from '@angular/cdk/a11y';
 
 // Ng Bootstrap, used for modals
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +29,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // Translations
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateService
+} from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../i18n/TranslationsLoaderFactory';
 
 // Store setup
@@ -43,7 +47,12 @@ import { appRoutes } from './../routes/app-routes';
 import { SPService } from './../services/rest/sp.service';
 import { ToastService } from './../services/util/toast.service';
 import { ModalService } from './../services/util/modal.service';
-import { storeServices, BranchDispatchers, ServiceDispatchers, SettingsAdminDispatchers } from '../store';
+import {
+  storeServices,
+  BranchDispatchers,
+  ServiceDispatchers,
+  SettingsAdminDispatchers
+} from '../store';
 
 // Components
 import { AppComponent } from './app.component';
@@ -72,15 +81,11 @@ import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-p
 import { QmSearchBoxComponent } from './components/containers/qm-searchbox/qm-search-box.component';
 import { QmCustomerSearchComponent } from './components/containers/qm-customer-search/qm-customer-search.component';
 import { QmCustomerCardComponent } from './components/presentational/qm-customer-card/qm-customer-card.component';
-import {
-  QmCustomerSearchResultsComponent
-} from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
+import { QmCustomerSearchResultsComponent } from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
-import {
-  QmCustomerAppointmentListComponent
-} from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
+import { QmCustomerAppointmentListComponent } from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
 import { QmAppointmentIconListComponent } from './components/presentational/qm-appointment-icon-list/qm-appointment-icon-list.component';
 import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 import { QmLoaderComponent } from './components/presentational/qm-loader/qm-loader.component';
@@ -203,7 +208,6 @@ const toastrGlobalOptions = {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
   constructor(
     private translate: TranslateService,
     private userDispatchers: UserDispatchers,

@@ -1,7 +1,7 @@
 <div class="qm-customer-appointments" [ngClass]="{'qm-customer-appointments--full' : appointmentsLoaded}">
   <div class="" *ngIf="appointmentsLoaded; else appointmentFetch">
     <span class="qm-headline qm-headline--large qm-customer-appointments__headline">Booked appointments</span>
-    <qm-dropdown [text]="dropdownLabel" [isExpanded]="true" *ngIf="appointments.length > 0; else noAppointments">
+    <qm-dropdown maxHeight="calc(100vh - 300px)" [text]="dropdownLabel" [isExpanded]="true" *ngIf="appointments.length > 0; else noAppointments">
       <qm-customer-appointment-list [appointments]="appointments"></qm-customer-appointment-list>
     </qm-dropdown>
     <ng-template #noAppointments>

@@ -1,12 +1,20 @@
 <ul class="qm-icon-list">
 
-  <li class="qm-icon-list-item">
+  <li class="qm-icon-list-item" *ngIf="appointment.services.length > 0">
     <i class="qm-icon-list-item__icon icon-service-solid" aria-hidden="true"></i>
     <div class="qm-icon-list-item__text-container">
       <span class="qm-icon-list-item__text">
-        <ng-template ngFor let-service [ngForOf]="appointment.services" let-isLast="last">
+        <span *ngIf="appointment.services.length > 0">
+          {{ appointment.services[0].name }}
+        </span>
+        <span class="qm-icon-list-item__text--highlighted" *ngIf="appointment.services.length > 1">
+        <span [ngbTooltip]="getAdditionalServices(appointment)" placement="bottom">
+        +{{ appointment.services.length - 1 }}&nbsp;{{ 'label.services' | translate }}
+        </span>
+        </span>
+        <!--<ng-template ngFor let-service [ngForOf]="appointment.services" let-isLast="last">
           {{ service.name }}<span *ngIf="!isLast">, </span>
-        </ng-template>
+        </ng-template>-->
       </span>
     </div>
   </li>

@@ -1,34 +1,84 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Setting } from './../../../../../../models/Setting';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  AfterViewInit
+} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { IAppointment } from '../../../../../../models/IAppointment';
-import { UserSelectors, AppointmentDispatchers } from '../../../../../../store';
-
+import {
+  UserSelectors,
+  AppointmentDispatchers,
+  SettingsAdminSelectors
+} from '../../../../../../store';
 
 @Component({
   selector: 'qm-customer-appointment-list',
   templateUrl: './qm-customer-appointment-list.component.html',
   styleUrls: ['./qm-customer-appointment-list.component.scss']
 })
-export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
+export class QmCustomerAppointmentListComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   @Input() appointments: IAppointment[];
   private subscriptions: Subscription = new Subscription();
   private userLocale$: Observable<string>;
   private userLocale: string;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private isMilitaryTime: boolean;
+  private idClosestToCurretTime: string;
+  userDirection$: Observable<string>;
 
   constructor(
     private userSelectors: UserSelectors,
-    private appointmentDispatchers: AppointmentDispatchers
+    private appointmentDispatchers: AppointmentDispatchers,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
+    this.userDirection$ = this.userSelectors.userDirection$;
     this.userLocale$ = this.userSelectors.userLocale$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
-    const userLocalSubscription = this.userLocale$.subscribe(
-      (userLocale: string) => this.userLocale = userLocale
+    this.updateScrollToStatusOnAppointments();
+
+    const settingsSubscription = this.settingsMap$.subscribe(
+      (settingsMap: { [name: string]: Setting }) => {
+        this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
+      }
     );
+
+    const userLocalSubscription = this.userLocale$.subscribe(
+      (userLocale: string) => {
+        this.userLocale = userLocale;
+      }
+    );
+
     this.subscriptions.add(userLocalSubscription);
+    this.subscriptions.add(settingsSubscription);
+  }
+
+  updateScrollToStatusOnAppointments(): void {
+    const now = Math.round(new Date().getTime() / 1000);
+    let proximity = Number.MAX_SAFE_INTEGER;
+
+    this.appointments.forEach(appointment => {
+      const appointmentStart = Math.round(
+        new Date(appointment.start).getTime() / 1000
+      );
+      const newProximity = Math.abs(appointmentStart - now);
+      if (newProximity < proximity) {
+        proximity = newProximity;
+        this.idClosestToCurretTime = appointment.publicId;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    window.location.hash = this.idClosestToCurretTime.slice(0, 7);
   }
 
   deleteAppointment(appointment: IAppointment): void {
@@ -38,10 +88,24 @@ export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
   displayStatus(appointment: IAppointment) {
     switch (appointment.status) {
       case 20: // Created
-      case 21: { // Rescheduled
+      case 21: {
+        // Rescheduled
+        // if appointment start date in the past display Done status
         const now = new Date();
         const appointmentStart = new Date(appointment.start);
-        return appointmentStart < now; // if appointment start date in the past display Done status
+        return appointmentStart < now
+          ? {
+              showStatus: true,
+              showPrint: true,
+              showEdit: false,
+              showCancel: false
+            }
+          : {
+              showStatus: false,
+              showPrint: true,
+              showEdit: true,
+              showCancel: true
+            };
       }
       case 30: // Arrived
       case 40: // Called
@@ -49,11 +113,22 @@ export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
       case 51: // No show
       case 52: // Ended by reset
       case 53: // Cancelled
-      case 54: { // Never arrived
-        return true;
+      case 54: {
+        // Never arrived
+        return {
+          showStatus: true,
+          showPrint: true,
+          showEdit: false,
+          showCancel: false
+        };
       }
       default: {
-        return false;
+        return {
+          showStatus: false,
+          showPrint: true,
+          showEdit: false,
+          showCancel: false
+        };
       }
     }
   }
@@ -101,6 +176,7 @@ export class QmCustomerAppointmentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    window.location.hash = '';
     this.subscriptions.unsubscribe();
   }
 }
