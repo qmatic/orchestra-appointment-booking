@@ -415,11 +415,13 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     const branchPublicId = this.selectedBranches[0].publicId;
     const date = this.selectedDate.slice(0, 10);
     const time = this.selectedTime;
+    const numberOfCustomers = this.numberOfCustomers;
 
     const bookingInformation: IBookingInformation = {
       branchPublicId,
       date,
-      time
+      time,
+      numberOfCustomers
     };
 
     const appointment: IAppointment = {

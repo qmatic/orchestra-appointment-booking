@@ -27,7 +27,8 @@ export class ReserveDataService {
               `${calendarPublicEndpointV2}`
               + `/branches/${bookingInformation.branchPublicId}`
               + `/dates/${bookingInformation.date}`
-              + `/times/${bookingInformation.time}/reserve/`, appointment
+              + `/times/${bookingInformation.time}/reserve;`
+              + `numberOfCustomers=${bookingInformation.numberOfCustomers}`, appointment
             )
             .pipe(catchError(this.handleError()));
   }
