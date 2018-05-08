@@ -62,6 +62,10 @@
   &__list-container {
     display: flex;
     align-items: flex-end;
+
+    &--justify-end {
+      justify-content: flex-end;
+    }
   }
 
   &__list {

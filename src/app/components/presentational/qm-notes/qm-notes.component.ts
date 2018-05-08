@@ -9,11 +9,12 @@ import {
   AppointmentMetaSelectors,
   AppointmentMetaDispatchers
 } from '../../../../store';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'qm-notes',
   templateUrl: './qm-notes.component.html',
-  styleUrls: ['./qm-notes.component.scss']
+  styleUrls: ['./qm-notes.component.scss'],
 })
 export class QmNotesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -40,7 +41,9 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const notesInputSubscription = this.notesInput$.subscribe(
+    const notesInputSubscription = this.notesInput$.pipe(
+      debounceTime(500)
+    ).subscribe(
       (note: string) => this.setNote(note)
     );
 
