@@ -86,9 +86,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   }
 
   isValidDOBEntered(control: FormGroup) {
-    console.log(control);
     let errors = null;
     if (control.value) {
+      console.log(JSON.stringify(control.value) + '%%%%%%%%%%%%%');
       // invalid date check for leap year
       if (control.value.year && control.value.month && control.value.day) {
         const d = new Date(control.value.year, parseInt(control.value.month, 10) - 1, control.value.day);
@@ -98,6 +98,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
           });
           errors = {...errors, invalidDay: true};
         }
+      } else if (control.value.year || control.value.month || control.value.day) {
+        control.setErrors({
+          incompleteDay: true
+        });
+        errors = {...errors, incompleteDob: true};
       }
     }
 
@@ -117,13 +122,13 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         emailValidators.push(Validators.required);
       }
 
-      let dayValidators = [];
-      let yearValidators = [];
+      let dayValidators = [Validators.max(31)];
+      let yearValidators = [Validators.min(1)];
       let monthValidators = [];
 
       if (settings.CustomerIncludeDateofBirthRequired.value === true) {
-        dayValidators = [...dayValidators, Validators.required, Validators.max(31)];
-        yearValidators = [...yearValidators, Validators.required, Validators.min(1)];
+        dayValidators = [...dayValidators, Validators.required];
+        yearValidators = [...yearValidators, Validators.required];
         monthValidators = [...monthValidators, Validators.required];
       }
 

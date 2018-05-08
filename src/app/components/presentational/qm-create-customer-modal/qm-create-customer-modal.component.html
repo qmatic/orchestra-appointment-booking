@@ -114,7 +114,10 @@
               </div>
             </div>
             <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirth?.value === true">
-              <span class="qm-modal__sub-header">{{ 'label.createCustomerForm.dob' | translate }}</span>
+              <span class="qm-modal__sub-header qm-modal__sub-header-dob">{{ 'label.createCustomerForm.dob' | translate }} 
+              <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirthRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+                
+              </span>
               <div class="qm-dob" formArrayName="dateOfBirth">
                 <div class="qm-dob__month">
                 <label class="qm-standard-number-field__label">
@@ -154,6 +157,7 @@
                    <div class="qm-dob__error-message" *ngIf="isDOBRequired()">{{ 'error.form.dob.required' | translate }}</div>        
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth']?.errors?.invalidDay">{{ 'error.form.dob.invalidDay' | translate }}</div>        
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('min')">{{ 'error.form.dob.invalidYear' | translate }}</div>        
+                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob')">{{ 'error.form.dob.incompleteDob' | translate }}</div>        
               </div>
             </div>
           </div>

@@ -1,0 +1,10 @@
+.qm-modal {
+    &__sub-header {
+        &-dob {
+            .qm-standard-text-field__required {
+                padding-left: 14.5em;
+                font-weight: 400;
+            }
+        }
+    }
+}
