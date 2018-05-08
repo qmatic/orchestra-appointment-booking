@@ -15,11 +15,13 @@ export class ModalService {
   constructor(private modalService: NgbModal) { }
 
   openCreateCustomerModal() {
-    this.modalService.open(QmCreateCustomerModalComponent, { centered: true });
+    const modal = this.modalService.open(QmCreateCustomerModalComponent, { centered: true });
+    modal.componentInstance.isOnUpdate = false;
   }
 
   openUpdateCustomerModal() {
-    this.modalService.open(QmUpdateCustomerModalComponent, { centered: true });
+    const modal = this.modalService.open(QmCreateCustomerModalComponent, { centered: true });
+    modal.componentInstance.isOnUpdate = true;
   }
 
   openNavigateBackConfirmModal() {

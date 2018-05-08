@@ -1,3 +1,4 @@
+import { CustomerSelectors } from './../../../../store/services/customer/customer.selectors';
 import { reducers } from './../../../../store/reducers/index';
 import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -21,6 +22,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   private userDirection$: Observable<string>;
   private createCustomerForm: FormGroup;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
+  isOnUpdate: Boolean = false;
+
+  private currentCustomer$: Observable<ICustomer>;
+  private currentCustomer: ICustomer;
 
   private dateLabelKeys: string[] = [
     'label.january',
@@ -48,13 +53,30 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private translateService: TranslateService,
     private settingAdminSelectors: SettingsAdminSelectors,
+    private customerSelectors: CustomerSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = settingAdminSelectors.settingsAsMap$;
-    this.buildCustomerForm();
+    this.currentCustomer$ = this.customerSelectors.currentCustomer$;
+    if (!this.isOnUpdate) {
+      this.buildCustomerForm();
+    }
   }
 
   ngOnInit() {
+    let currentCustomerSubscription = null;
+
+    if (this.isOnUpdate) {
+        currentCustomerSubscription = this.currentCustomer$.subscribe(
+        (currentCustomer: ICustomer) => {
+          this.currentCustomer = currentCustomer;
+          this.buildCustomerForm();
+          this.setUpdatingCustomerFields();
+        }
+      );
+    }
+
+
     const translateSubscription = this.translateService.get(this.dateLabelKeys).subscribe(
       (dateLabels: string[]) => {
         this.months = [
@@ -75,10 +97,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(translateSubscription);
-
-    this.settingsMap$.subscribe((x) => {
-      console.log(x);
-    });
+    if (currentCustomerSubscription) {
+      this.subscriptions.add(currentCustomerSubscription);
+    }
   }
 
   ngOnDestroy() {
@@ -88,7 +109,6 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   isValidDOBEntered(control: FormGroup) {
     let errors = null;
     if (control.value) {
-      console.log(JSON.stringify(control.value) + '%%%%%%%%%%%%%');
       // invalid date check for leap year
       if (control.value.year && control.value.month && control.value.day) {
         const d = new Date(control.value.year, parseInt(control.value.month, 10) - 1, control.value.day);
@@ -148,6 +168,59 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     });
   }
 
+  setUpdatingCustomerFields() {
+    let date = {
+      day: '',
+      month: '',
+      year: ''
+    };
+
+    if (this.currentCustomer.dateOfBirth) {
+      const dob: any = this.currentCustomer.dateOfBirth;
+      const dobDate = new Date(dob);
+      const test = dobDate.getMonth();
+      date = this.formatDate(
+              dobDate.getDate(),
+              dobDate.getMonth(),
+              dobDate.getFullYear());
+    }
+
+    this.createCustomerForm.patchValue({
+      firstName : this.currentCustomer.firstName,
+      lastName: this.currentCustomer.lastName,
+      email: this.currentCustomer.email,
+      phone: this.currentCustomer.phone,
+      dateOfBirth: {
+        month: date.month ? date.month : null,
+        day: date.day ? date.day : '',
+        year: date.year ? date.year : ''
+      }
+    });
+  }
+
+  formatDate(day, month, year) {
+    let newDay, newMonth;
+    if (day !== '' || day !== undefined) {
+      const intDay = parseInt(day, 10);
+      if (intDay < 10) {
+        newDay = '0' + intDay;
+      }
+    }
+
+    if (month !== '' || month !== undefined) {
+      const intMonth = parseInt(month, 10) + 1;
+      if (intMonth < 10) {
+        newMonth = '0' + intMonth;
+      }
+    }
+
+    return {
+      day: newDay,
+      month: newMonth,
+      year: year
+    };
+  }
+
   isDOBRequired(): boolean {
     const dobGroup: FormGroup = this.createCustomerForm.controls['dateOfBirth'] as FormGroup;
     const dayControl = dobGroup.controls['day'];
@@ -163,7 +236,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const customer: ICustomer = this.prepareSaveCustomer();
-    this.customerDispatchers.createCustomer(customer);
+    if (this.isOnUpdate) {
+      this.customerDispatchers.updateCustomer(customer);
+    } else {
+      this.customerDispatchers.createCustomer(customer);
+    }
     this.activeModal.close();
   }
 
@@ -171,6 +248,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     const formModel = this.createCustomerForm.value;
 
     const customerToSave: ICustomer = {
+      id: this.isOnUpdate ? this.currentCustomer.id : undefined,
       firstName: formModel.firstName as string,
       lastName: formModel.lastName as string,
       name: formModel.firstName as string + ' ' + formModel.lastName as string,

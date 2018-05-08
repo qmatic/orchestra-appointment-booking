@@ -153,7 +153,7 @@ export class QmUpdateCustomerModalComponent implements OnInit, OnDestroy {
 
     return year && month && day
           ? year + '-' + month + '-' + day
-          : '';
+          : null;
   }
 
   formatDate(day, month, year) {

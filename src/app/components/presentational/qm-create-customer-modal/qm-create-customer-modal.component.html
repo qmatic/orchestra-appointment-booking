@@ -5,7 +5,7 @@
             <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
             <span class="sr-only">{{ 'label.modal.close' | translate }}</span>
           </button>
-          <span class="qm-modal__headline">{{ 'label.createCustomerForm.heading' | translate }}</span>
+          <span class="qm-modal__headline">{{ (isOnUpdate ? 'label.updateCustomerForm.heading' : 'label.createCustomerForm.heading') | translate }}</span>
         </div>
         <div class="qm-modal__body">
           <div class="qm-modal-row">
@@ -171,7 +171,7 @@
             </button>
             <button class="qm-btn qm-btn--primary" [disabled]="!createCustomerForm.valid">
               <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
-                {{ 'button.createCustomerForm.save' | translate }}
+                {{ (isOnUpdate ? 'button.updateCustomerForm.save' : 'button.createCustomerForm.save') | translate }}
               </span>
             </button>
           </div>
