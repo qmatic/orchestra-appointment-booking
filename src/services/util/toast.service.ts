@@ -32,6 +32,7 @@ export class ToastService {
 
   setToastContainer (toastContainer) {
     this.toastrService.overlayContainer = toastContainer;
+    this.toastrService['overlay']['_paneElements'] = {};
   }
 
   successToast(text: string) {
