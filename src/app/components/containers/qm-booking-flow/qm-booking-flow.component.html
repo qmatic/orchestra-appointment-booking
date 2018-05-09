@@ -16,7 +16,7 @@
     </div>
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="branchesSearchText$ | async" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
-        <qm-list-item [name]="'branch'" [isSelected]="isBranchSelected(branch)" [inputType]="'radio'" *ngFor="let branch of branches" (optionClicked)="handleBranchSelection(branch)">
+        <qm-list-item [title]="getBranchAddressText(branch)" [name]="'branch'" [isSelected]="isBranchSelected(branch)" [inputType]="'radio'" *ngFor="let branch of branches" (optionClicked)="handleBranchSelection(branch)">
           {{ branch.name }}
         </qm-list-item>
       </qm-list>

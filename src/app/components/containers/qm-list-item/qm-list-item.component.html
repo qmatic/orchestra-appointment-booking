@@ -6,7 +6,7 @@
           [checked]="isSelected"
           (click)="handleClick($event)" />
         <span class="qm-selector-item__selector">
-            <span class="qm-selector-item__selector-text">
+            <span class="qm-selector-item__selector-text" [attr.title]="title !== '' ? title : null">
                 <ng-content></ng-content>
             </span>
             <i *ngIf="inputType === 'checkbox'" class="qm-selector-item__selector-icon" aria-hidden="true"></i>

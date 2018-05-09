@@ -303,6 +303,24 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.branchDispatchers.filterBranches(searchText);
   }
 
+  getBranchAddressText(branch: IBranch) {
+    const address = branch.addressLine1;
+    const city = branch.addressCity;
+    let completeAddress = '';
+
+    if (address !== '') {
+      completeAddress += address;
+    }
+    if (city !== '') {
+      if (address !== '') {
+        completeAddress += ', ';
+      }
+      completeAddress += city;
+    }
+
+    return completeAddress;
+  }
+
   /**
    * Click handler for branch selection
    * @param branch - Selected branch

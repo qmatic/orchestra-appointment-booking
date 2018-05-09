@@ -27,6 +27,9 @@ export class QmListItemComponent implements OnInit {
   @Input()
   name: string;
 
+  @Input()
+  title = '';
+
   @Output()
   optionClicked = new EventEmitter();
 

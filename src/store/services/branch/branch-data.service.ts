@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarEndpoint, DataServiceError } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError } from '../data.service';
 
 import { IBranchResponse } from '../../../models/IBranchResponse';
 
@@ -14,7 +14,7 @@ export class BranchDataService {
 
   getBranches(): Observable<IBranchResponse> {
     return this.http
-      .get<IBranchResponse>(`${calendarEndpoint}/branches/`)
+      .get<IBranchResponse>(`${calendarPublicEndpoint}/branches/`)
       .pipe(catchError(this.handleError()));
   }
 
