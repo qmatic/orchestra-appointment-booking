@@ -105,6 +105,7 @@ import { SettingsTimeformatComponent } from './components/presentational/qm-sett
 import { DatePipe } from '@angular/common';
 import { QmBookingFooterComponent } from './components/containers/qm-booking-footer/qm-booking-footer.component';
 import { QmStandardRadioComponent } from './components/presentational/qm-standard-radio/qm-standard-radio.component';
+import { CanDeactivateGuard } from '../routes/can-deactivatet';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -205,6 +206,7 @@ const toastrGlobalOptions = {
     ...storeServices,
     LicenseAuthGuard,
     ErrorInterceptor,
+    CanDeactivateGuard,
     DatePipe
   ],
   bootstrap: [AppComponent]

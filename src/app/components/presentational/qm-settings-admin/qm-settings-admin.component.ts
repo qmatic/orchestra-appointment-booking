@@ -69,12 +69,13 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   onRouteChange(event: RouterEvent) {
-    if (event instanceof NavigationStart) {
+    /*if (event instanceof NavigationStart) {
       if (this.settingsEditForm.dirty) {
         this.clickBackToAppointmentsPage(event);
         return;
       }
     }
+    */
   }
 
   setEditForm() {
