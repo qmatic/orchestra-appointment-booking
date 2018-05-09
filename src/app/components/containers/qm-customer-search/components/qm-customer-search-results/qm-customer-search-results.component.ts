@@ -10,11 +10,11 @@ import { CustomerDispatchers, UserSelectors } from '../../../../../../store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QmCustomerSearchResultsComponent implements OnInit {
-  @Input() private customers: ICustomer[];
-  @Input() private customersLoading: boolean;
-  @Input() private customersLoaded: boolean;
-  @Input() private searchText: string;
-  private userDirection$: Observable<string>;
+  @Input() customers: ICustomer[];
+  @Input() customersLoading: boolean;
+  @Input() customersLoaded: boolean;
+  @Input() searchText: string;
+  userDirection$: Observable<string>;
 
   constructor(
     private userSelectors: UserSelectors,

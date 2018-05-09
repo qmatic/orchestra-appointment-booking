@@ -13,9 +13,9 @@ import {
   styleUrls: ['./qm-appointment-title.component.scss']
 })
 export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription = new Subscription();
-  private titleInput$: Subject<string> = new Subject<string>();
-  private title$: Observable<string>;
+  subscriptions: Subscription = new Subscription();
+  titleInput$: Subject<string> = new Subject<string>();
+  title$: Observable<string>;
 
   private title: string;
 

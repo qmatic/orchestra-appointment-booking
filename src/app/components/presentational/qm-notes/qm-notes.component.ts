@@ -17,17 +17,17 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./qm-notes.component.scss'],
 })
 export class QmNotesComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription = new Subscription();
-  private notesInput$: Subject<string> = new Subject<string>();
-  private notesLength$: Observable<number>;
-  private userDirection$: Observable<string>;
-  private notes$: Observable<string>;
+  subscriptions: Subscription = new Subscription();
+  notesInput$: Subject<string> = new Subject<string>();
+  notesLength$: Observable<number>;
+  userDirection$: Observable<string>;
+  notes$: Observable<string>;
 
-  private notes: string;
-  private notesLength: number;
-  private notesMaxLength = 255;
-  private notesInputOpened = false;
-  private buttonPlaceholderText: string;
+  notes: string;
+  notesLength: number;
+  notesMaxLength = 255;
+  notesInputOpened = false;
+  buttonPlaceholderText: string;
 
   constructor(
     private userSelectors: UserSelectors,

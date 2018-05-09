@@ -18,14 +18,14 @@ import { CustomerDispatchers, UserSelectors, SettingsAdminSelectors } from '../.
   styleUrls: ['./qm-create-customer-modal.component.scss']
 })
 export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
-  private createCustomerForm: FormGroup;
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  subscriptions: Subscription = new Subscription();
+  userDirection$: Observable<string>;
+  createCustomerForm: FormGroup;
+  settingsMap$: Observable<{ [name: string]: Setting }>;
   isOnUpdate: Boolean = false;
 
-  private currentCustomer$: Observable<ICustomer>;
-  private currentCustomer: ICustomer;
+  currentCustomer$: Observable<ICustomer>;
+  currentCustomer: ICustomer;
 
   private dateLabelKeys: string[] = [
     'label.january',
@@ -48,7 +48,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private activeModal: NgbActiveModal,
+    public activeModal: NgbActiveModal,
     private customerDispatchers: CustomerDispatchers,
     private userSelectors: UserSelectors,
     private translateService: TranslateService,

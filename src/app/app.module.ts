@@ -89,7 +89,6 @@ import { QmAppointmentTitleComponent } from './components/presentational/qm-appo
 import { QmNotifyComponent } from './components/presentational/qm-notify/qm-notify.component';
 import { QmCreateCustomerModalComponent } from './components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
 import { QmSettingsAdminComponent } from './components/presentational/qm-settings-admin/qm-settings-admin.component';
-import { QmUpdateCustomerModalComponent } from './components/presentational/qm-update-customer-modal/qm-update-customer-modal.component';
 import { QmBookingFlowComponent } from './components/containers/qm-booking-flow/qm-booking-flow.component';
 import { HtmlDecodePipe } from './components/presentational/qm-settings-admin/html-decode.pipe';
 import { QmGenericModalComponent } from './components/presentational/qm-generic-modal/qm-generic-modal.component';
@@ -153,7 +152,6 @@ const toastrGlobalOptions = {
     QmNotifyComponent,
     QmCreateCustomerModalComponent,
     QmSettingsAdminComponent,
-    QmUpdateCustomerModalComponent,
     QmBookingFlowComponent,
     HtmlDecodePipe,
     QmGenericModalComponent,
@@ -191,7 +189,7 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  entryComponents: [QmCreateCustomerModalComponent, QmUpdateCustomerModalComponent, QmGenericModalComponent],
+  entryComponents: [QmCreateCustomerModalComponent, QmGenericModalComponent],
   providers: [
     SPService,
     ToastService,

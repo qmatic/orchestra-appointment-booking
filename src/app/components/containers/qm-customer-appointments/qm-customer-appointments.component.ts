@@ -18,15 +18,15 @@ import { ICustomer } from '../../../../models/ICustomer';
   styleUrls: ['./qm-customer-appointments.component.scss']
 })
 export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription = new Subscription();
-  private appointments$: Observable<IAppointment[]>;
-  private currentCustomer$: Observable<ICustomer>;
-  private appointmentsLoaded$: Observable<boolean>;
-  private appointmentsLoading$: Observable<boolean>;
-  private appointments: IAppointment[];
-  private currentCustomer: ICustomer;
-  private appointmentsLoaded: boolean;
-  private dropdownLabel: string;
+  subscriptions: Subscription = new Subscription();
+  appointments$: Observable<IAppointment[]>;
+  currentCustomer$: Observable<ICustomer>;
+  appointmentsLoaded$: Observable<boolean>;
+  appointmentsLoading$: Observable<boolean>;
+  appointments: IAppointment[];
+  currentCustomer: ICustomer;
+  appointmentsLoaded: boolean;
+  dropdownLabel: string;
 
   constructor(
     private appointmentSelectors: AppointmentSelectors,

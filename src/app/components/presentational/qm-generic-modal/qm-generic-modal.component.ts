@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QmGenericModalComponent implements OnInit {
 
-  constructor(private activeModal: NgbActiveModal, private router: Router) { }
+  constructor(public activeModal: NgbActiveModal, public router: Router) { }
 
   ngOnInit() {
   }

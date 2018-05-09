@@ -22,14 +22,13 @@ import { Setting } from '../../../../models/Setting';
 })
 export class QmCustomerCardComponent implements OnInit, OnDestroy {
   @Input() customer: ICustomer;
-  private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
-  private toastMessage$: Observable<string>;
-  private toastMessage: string;
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
-
-  private phoneEnabled: boolean;
-  private emailEnabled: boolean;
+  subscriptions: Subscription = new Subscription();
+  userDirection$: Observable<string>;
+  toastMessage$: Observable<string>;
+  toastMessage: string;
+  settingsMap$: Observable<{ [name: string]: Setting }>;
+  phoneEnabled: boolean;
+  emailEnabled: boolean;
 
   constructor(
     private customerDispatchers: CustomerDispatchers,

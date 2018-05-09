@@ -27,19 +27,19 @@ import { Setting } from '../../../../models/Setting';
   styleUrls: ['./qm-customer-search.component.scss']
 })
 export class QmCustomerSearchComponent implements OnDestroy, OnInit {
-  private subscriptions: Subscription = new Subscription();
-  private searchInput$: Subject<string> = new Subject<string>();
-  private userDirection$: Observable<string>;
-  private customers$: Observable<ICustomer[]>;
-  private customersLoading$: Observable<boolean>;
-  private customersLoaded$: Observable<boolean>;
-  private searchText$: Observable<string>;
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  subscriptions: Subscription = new Subscription();
+  searchInput$: Subject<string> = new Subject<string>();
+  userDirection$: Observable<string>;
+  customers$: Observable<ICustomer[]>;
+  customersLoading$: Observable<boolean>;
+  customersLoaded$: Observable<boolean>;
+  searchText$: Observable<string>;
+  settingsMap$: Observable<{ [name: string]: Setting }>;
   private CHARACTER_THRESHOLD = 2;
-  private customers: ICustomer[];
-  private searchText: string;
-  private customersLoaded: boolean;
-  private allowCreateNewCustomer = false;
+  customers: ICustomer[];
+  searchText: string;
+  customersLoaded: boolean;
+  allowCreateNewCustomer = false;
 
   constructor(
     private userSelectors: UserSelectors,

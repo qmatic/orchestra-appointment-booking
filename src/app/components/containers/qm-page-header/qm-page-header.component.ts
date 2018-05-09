@@ -20,13 +20,13 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   logoutSubscription: Subscription;
 
   @Output()
-  clickBackToAppointmentClick: EventEmitter<any> = new EventEmitter<any>();
+  clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private userSelectors: UserSelectors,
     private userRoleSelectors: UserRoleSelectors,
     private spService: SPService,
-    private route: ActivatedRoute
+    public route: ActivatedRoute
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -48,6 +48,6 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   navigateBackToAppointment($event) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.clickBackToAppointmentClick.emit($event);
+    this.clickBackToAppointmentsPage.emit($event);
   }
 }

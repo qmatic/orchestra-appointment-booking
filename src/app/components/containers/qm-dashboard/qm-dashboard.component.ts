@@ -13,10 +13,10 @@ import {
   styleUrls: ['./qm-dashboard.component.scss']
 })
 export class QmDashboardComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
-  private currentCustomer$: Observable<ICustomer>;
-  private currentCustomer: ICustomer;
+  subscriptions: Subscription = new Subscription();
+  userDirection$: Observable<string>;
+  currentCustomer$: Observable<ICustomer>;
+  currentCustomer: ICustomer;
 
   constructor(
     private customerSelectors: CustomerSelectors,

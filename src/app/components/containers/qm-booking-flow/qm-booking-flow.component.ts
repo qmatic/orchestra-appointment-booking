@@ -34,16 +34,16 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private services$: Observable<IService[]>;
   private selectedServices$: Observable<IService[]>;
-  private servicesSearchText$: Observable<string>;
+  servicesSearchText$: Observable<string>;
   private numberOfCustomers$: Observable<number>;
   private numberOfCustomersArray$: Observable<number[]>;
   private branches$: Observable<IBranch[]>;
   private selectedBranches$: Observable<IBranch[]>;
-  private branchesSearchText$: Observable<string>;
-  private dates$: Observable<string[]>;
+  branchesSearchText$: Observable<string>;
+  dates$: Observable<string[]>;
   private selectedDate$: Observable<string>;
-  private datesSearchText$: Observable<string>;
-  private times$: Observable<string[]>;
+  datesSearchText$: Observable<string>;
+  times$: Observable<string[]>;
   private selectedTime$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private userLocale$: Observable<string>;
@@ -51,8 +51,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private notes$: Observable<string>;
   private title$: Observable<string>;
 
-  private services: IService[];
-  private branches: IBranch[];
+  services: IService[];
+  branches: IBranch[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
   private settingsMap: { [name: string ]: Setting };

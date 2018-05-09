@@ -87,7 +87,7 @@ export class QmSettingsAdminComponent implements OnInit {
     return validationArray;
   }
 
-  clickBackToAppointmentClick($event) {
+  clickBackToAppointmentsPage($event) {
     if (this.settingsEditForm.dirty) {
       this.modalService.openNavigateBackConfirmModal();
     }  else {
