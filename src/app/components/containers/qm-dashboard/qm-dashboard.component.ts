@@ -10,7 +10,7 @@ import {
 @Component({
   selector: 'qm-dashboard',
   templateUrl: './qm-dashboard.component.html',
-  styleUrls: ['./qm-dashboard.component.scss']
+  styleUrls: ['./qm-dashboard.component.scss'],
 })
 export class QmDashboardComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();

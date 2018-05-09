@@ -1,7 +1,6 @@
 import { ICustomer } from './ICustomer';
 import { IBranch } from './IBranch';
 import { IService } from './IService';
-import { IAppointmentCustomFields } from './IAppointmentCustomFields';
 import { IResource } from './IResource';
 
 export interface IAppointment {
@@ -10,7 +9,7 @@ export interface IAppointment {
   created?: number;
   updated?: number;
   start?: string;
-  custom?: IAppointmentCustomFields;
+  custom?: string;
   customers?: ICustomer[];
   branch?: IBranch;
   services?: IService[];

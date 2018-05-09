@@ -88,6 +88,12 @@ export function reducer (
         )
       };
     }
+    case ServiceActions.DESELECT_SERVICES: {
+      return {
+        ...state,
+        selectedServices: []
+      };
+    }
     case ServiceActions.SELECT_MULTI_SERVICE: {
       return {
         ...state,

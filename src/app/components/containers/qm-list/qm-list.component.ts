@@ -8,6 +8,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'qm-list',
@@ -37,12 +39,14 @@ export class QmListComponent implements OnInit, OnDestroy {
   search: EventEmitter<string> = new EventEmitter<string>();
 
   private subscriptions: Subscription = new Subscription();
-  private searchInputControl = new FormControl();
+  private searchInput$: Subject<string> = new Subject<string>();
   constructor() {}
 
   ngOnInit() {
     const searchInputSubscription =
-      this.searchInputControl.valueChanges.subscribe(
+      this.searchInput$.pipe(
+        distinctUntilChanged()
+      ).subscribe(
         (text: string) => {
           this.search.emit(text);
         }
@@ -53,5 +57,9 @@ export class QmListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  filter(text: string) {
+    this.searchInput$.next(text);
   }
 }

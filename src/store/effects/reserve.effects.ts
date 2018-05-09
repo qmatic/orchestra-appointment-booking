@@ -13,26 +13,26 @@ import { IAppState } from '../reducers/index';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/empty';
+import { IAppointment } from '../../models/IAppointment';
 
 const toAction = ReserveActions.toAction();
-// const toReserveAction = ReserveActions.toAction(new ReserveActions.ResetReservedAppointment());
 
 @Injectable()
 export class ReserveEffects {
-    constructor(
-      private store$: Store<IAppState>,
-      private actions$: Actions,
-      private reserveDataService: ReserveDataService,
-      private toastService: ToastService,
-    ) {}
+  constructor(
+    private store$: Store<IAppState>,
+    private actions$: Actions,
+    private reserveDataService: ReserveDataService,
+    private toastService: ToastService,
+  ) {}
 
   @Effect()
   reserveAppointment$: Observable<Action> = this.actions$
     .ofType(ReserveActions.RESERVE_APPOINTMENT)
     .pipe(
-      withLatestFrom(this.store$.select(state => state.reserved.reservedAppointment)),
+      withLatestFrom(this.store$.select((state: IAppState) => state.reserved.reservedAppointment)),
       switchMap((data: any) => {
-        const [ action, reservedAppointment ] = data;
+        const [ action, reservedAppointment ]: [ReserveActions.ReserveAppointment, IAppointment] = data;
         if (reservedAppointment) {
           // Previously reserved appointment. Try to delete before continuing
           return Observable.forkJoin([
@@ -49,7 +49,10 @@ export class ReserveEffects {
         }
       }),
       switchMap((data: any) => {
-        const [action, unreserveAppointmentAction] = data;
+        const [action, unreserveAppointmentAction]: [
+                                                    ReserveActions.ReserveAppointment,
+                                                    (ReserveActions.UnreserveAppointmentSuccess
+                                                  | ReserveActions.UnreserveAppointmentSuccess)] = data;
         if (unreserveAppointmentAction) {
           const toReserveAction = ReserveActions.toActionSecondary(unreserveAppointmentAction);
           return toReserveAction(

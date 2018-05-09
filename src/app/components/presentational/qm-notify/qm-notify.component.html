@@ -1,40 +1,43 @@
-<fieldset class="qm-notify">
+<fieldset class="qm-notify" dir="userDirection | async" *ngIf="!allNotificationTypesDisabled()">
   <legend class="qm-notify__header">
     <span class="qm-notify__header-text">Notify customer</span>
   </legend>
   <ul class="qm-notify__list">
-    <li class="qm-notify__list-item">
-      <div class="qm-standard-radio">
-        <label class="qm-standard-radio__label">
-          <input type="radio" class="qm-standard-radio__input" name="notify" />
-          <span class="qm-standard-radio__selector">
-            <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-            <span class="qm-standard-radio__text" title="Notify by mail">Notify by mail</span>
-          </span>
-        </label>
-      </div>
+    <li class="qm-notify__list-item" *ngIf="emailEnabled">
+      <qm-standard-radio
+        name="notify"
+        value="email"
+        [text]="'label.appointmentNotify.email' | translate"
+        [isSelected]="isSelected('email')"
+        (optionClicked)="handleClick($event)">
+      </qm-standard-radio>
     </li>
-    <li class="qm-notify__list-item">
-      <div class="qm-standard-radio">
-        <label class="qm-standard-radio__label">
-          <input type="radio" class="qm-standard-radio__input" name="notify" />
-          <span class="qm-standard-radio__selector">
-            <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-            <span class="qm-standard-radio__text" title="Notify by SMS">Notify by SMS</span>
-          </span>
-        </label>
-      </div>
+    <li class="qm-notify__list-item" *ngIf="smsEnabled">
+      <qm-standard-radio
+        name="notify"
+        value="sms"
+        [text]="'label.appointmentNotify.sms' | translate"
+        [isSelected]="isSelected('sms')"
+        (optionClicked)="handleClick($event)">
+      </qm-standard-radio>
     </li>
-    <li class="qm-notify__list-item">
-      <div class="qm-standard-radio">
-        <label class="qm-standard-radio__label">
-          <input type="radio" class="qm-standard-radio__input" name="notify" />
-          <span class="qm-standard-radio__selector">
-            <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
-            <span class="qm-standard-radio__text" title="Notify by both mail and SMS">Notify by both mail and SMS</span>
-          </span>
-        </label>
-      </div>
+    <li class="qm-notify__list-item" *ngIf="emailAndSmsEnabled">
+      <qm-standard-radio
+        name="notify"
+        value="both"
+        [text]="'label.appointmentNotify.smsAndEmail' | translate"
+        [isSelected]="isSelected('both')"
+        (optionClicked)="handleClick($event)">
+      </qm-standard-radio>
+    </li>
+    <li class="qm-notify__list-item" *ngIf="noNotificationEnabled">
+      <qm-standard-radio
+        name="notify"
+        value="none"
+        [text]="'label.appointmentNotify.noNotification' | translate"
+        [isSelected]="isSelected('none')"
+        (optionClicked)="handleClick($event)">
+      </qm-standard-radio>
     </li>
   </ul>
 </fieldset>

@@ -104,6 +104,7 @@ import { SettingsListboxComponent } from './components/presentational/qm-setting
 import { SettingsTimeformatComponent } from './components/presentational/qm-settings-admin/settings-timeformat/settings-timeformat.component';
 import { DatePipe } from '@angular/common';
 import { QmBookingFooterComponent } from './components/containers/qm-booking-footer/qm-booking-footer.component';
+import { QmStandardRadioComponent } from './components/presentational/qm-standard-radio/qm-standard-radio.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -164,7 +165,8 @@ const toastrGlobalOptions = {
     SettingsTextboxComponent,
     SettingsListboxComponent,
     SettingsTimeformatComponent,
-    QmBookingFooterComponent
+    QmBookingFooterComponent,
+    QmStandardRadioComponent
   ],
   imports: [
     BrowserModule,

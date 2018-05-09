@@ -33,6 +33,7 @@ import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/set';
+import 'core-js/es7/array';
 
 /** IE10 and IE11 requires the following Object.entries etc. */
 import 'core-js/es7/object';

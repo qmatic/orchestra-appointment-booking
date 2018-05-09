@@ -8,17 +8,17 @@ import { IAppointmentMetaState } from '../../reducers/appointment-meta.reducer';
 const getAppointmentMetaState = createFeatureSelector<IAppointmentMetaState>('appointmentMeta');
 
 
-const getAppointmentMetaNotificationType = createSelector(
+export const getAppointmentMetaNotificationType = createSelector(
   getAppointmentMetaState,
   (state: IAppointmentMetaState) => state.notificationType
 );
 
-const getAppointmentMetaTitle = createSelector(
+export const getAppointmentMetaTitle = createSelector(
   getAppointmentMetaState,
   (state: IAppointmentMetaState) => state.title
 );
 
-const getAppointmentMetaNotes = createSelector(
+export const getAppointmentMetaNotes = createSelector(
   getAppointmentMetaState,
   (state: IAppointmentMetaState) => state.notes
 );

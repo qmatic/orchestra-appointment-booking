@@ -1,0 +1,16 @@
+<div class="qm-standard-radio">
+  <label class="qm-standard-radio__label">
+    <input
+      type="radio"
+      class="qm-standard-radio__input"
+      [name]="name"
+      [value]="value"
+      [checked]="isSelected"
+      (click)="handleClick(value)"
+      #radioInput />
+    <span class="qm-standard-radio__selector">
+      <i class="qm-standard-radio__icon icomoon-styles" aria-hidden="true"></i>
+      <span class="qm-standard-radio__text" title="{{ text }}">{{ text }}</span>
+    </span>
+  </label>
+</div>

@@ -23,14 +23,14 @@
     </div>
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="datesSearchText$ | async" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)">
-        <qm-list-item [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates$ | async" (optionClicked)="handleDateSelection(selectableDate)">
+        <qm-list-item [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates" (optionClicked)="handleDateSelection(selectableDate)">
           {{ selectableDate | date:'EEEE d MMMM':'':userLocale }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
       <qm-list [searchable]="false" [header]="'label.bookingFlow.time.header' | translate">
-        <qm-list-item [name]="'time'" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times$ | async" (optionClicked)="handleTimeslotSelection(timeslot)">
+        <qm-list-item [name]="'time'" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
           {{ timeslot }}
         </qm-list-item>
       </qm-list>

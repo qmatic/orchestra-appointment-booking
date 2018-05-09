@@ -42,18 +42,4 @@ export class ServiceEffects {
         )
       );
 
-    /**
-     * Will start chain of effects
-     * reseting all fields to the right
-     */
-    // @Effect()
-    // resetBranchesOnServiceChange$: Observable<Action> = this.actions$
-    //   .ofType(
-    //     AllActions.SELECT_SERVICE,
-    //     AllActions.SELECT_MULTI_SERVICE,
-    //     AllActions.DESELECT_SERVICE
-    //   )
-    //   .pipe(
-    //     switchMap(() => [new AllActions.ResetNumberOfCustomers])
-    //   );
 }

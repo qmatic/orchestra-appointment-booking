@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
@@ -12,8 +12,8 @@ import { BookingDataService } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
-import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/empty';
+import { IAppointment } from '../../models/IAppointment';
 
 const toAction = BookingActions.toAction();
 
@@ -70,7 +70,7 @@ export class BookingEffects {
       )
     );
 
-  @Effect({ dispatch: false })
+  @Effect()
   bookAppointmentSuccess$: Observable<Action> = this.actions$
     .ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS)
     .pipe(
@@ -79,6 +79,27 @@ export class BookingEffects {
             (label: string) => this.toastService.successToast(label)
           ).unsubscribe();
         }
-      )
+      ),
+      withLatestFrom(this.store$.select((state: IAppState) => state.appointments.appointments)),
+      switchMap((data: any) => {
+        const [ action, appointments ]: [ BookingActions.BookAppointmentSuccess, IAppointment[] ] = data;
+        if (appointments.length > 0) {
+          return [
+            new BookingActions.FetchAppointments(action.payload.customers[0].publicId),
+            new BookingActions.ResetReservedAppointment,
+            new BookingActions.DeselectServices,
+            new BookingActions.ResetAppointmentNotificationType,
+            new BookingActions.ResetAppointmentTitle,
+            new BookingActions.ResetAppointmentNote
+          ];
+        }
+        return [
+          new BookingActions.ResetReservedAppointment,
+          new BookingActions.DeselectServices,
+          new BookingActions.ResetAppointmentNotificationType,
+          new BookingActions.ResetAppointmentTitle,
+          new BookingActions.ResetAppointmentNote
+        ];
+      })
     );
 }

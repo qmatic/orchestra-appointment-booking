@@ -20,7 +20,7 @@ export class ServiceDataService {
 
   getServices(): Observable<IServiceResponse> {
     return this.http
-      .get<IServiceResponse>(`${calendarEndpoint}/services/`)
+      .get<IServiceResponse>(`${calendarPublicEndpoint}/services/`)
       .pipe(catchError(this.handleError()));
   }
 

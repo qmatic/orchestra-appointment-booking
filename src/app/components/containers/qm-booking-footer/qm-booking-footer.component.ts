@@ -27,6 +27,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private title$: Observable<string>;
   private notes$: Observable<string>;
   private selectedBranches$: Observable<IBranch[]>;
+  private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
   private selectedTime$: Observable<string>;
 
@@ -35,6 +36,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private selectedDate: string;
   private selectedTime: string;
   private currentCustomer: ICustomer;
+  private notificationType: string;
   private title: string;
   private notes: string;
 
@@ -54,6 +56,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.selectedTime$ = this.timeslotSelectors.selectedTime$;
     this.title$ = this.appointmentMetaSelectors.title$;
     this.notes$ = this.appointmentMetaSelectors.notes$;
+    this.notificationType$ = this.appointmentMetaSelectors.notificationType$;
   }
 
   ngOnInit() {
@@ -63,6 +66,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     const notesSubscription = this.notes$.subscribe(
       (notes: string) => this.notes = notes
+    );
+
+    const notificationTypeSubscription = this.notificationType$.subscribe(
+      (notificationType: string) => this.notificationType = notificationType
     );
 
     const selectedBranchSubscription = this.selectedBranches$.subscribe(
@@ -88,6 +95,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(notificationTypeSubscription);
     this.subscriptions.add(selectedBranchSubscription);
     this.subscriptions.add(selectedDateSubscription);
     this.subscriptions.add(selectedTimeSubscription);
@@ -118,9 +126,61 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       ...this.reservedAppointment,
       customers: [this.currentCustomer],
       notes: this.notes,
-      title: this.title
+      title: this.title,
+      custom: this.getAppointmentCustomJson()
     };
 
     this.bookingDispatchers.bookAppointment(bookingInformation, appointment);
+  }
+
+  notificationTypeIsValid(): boolean {
+    const notificationType = this.notificationType;
+
+    switch (notificationType) {
+      case 'sms': {
+        return this.currentCustomer.phone !== '';
+      }
+      case 'email': {
+        return this.currentCustomer.email !== '';
+      }
+      case 'both': {
+        return this.currentCustomer.phone !== '' && this.currentCustomer.email !== '';
+      }
+      default: {
+        return true;
+      }
+    }
+  }
+
+  getAppointmentCustomJson(): string {
+    const notificationType: string = this.notificationType;
+
+    switch (notificationType) {
+      case 'sms': {
+        return `{`
+                + `"phoneNumber":"${this.currentCustomer.phone}",`
+                + `"notificationType":"${this.notificationType}",`
+                + `"appId":"generic"`
+              + `}`;
+      }
+      case 'email': {
+        return `{`
+                + `"email":"${this.currentCustomer.email}",`
+                + `"notificationType":"${this.notificationType}",`
+                + `"appId":"generic"`
+              + `}`;
+      }
+      case 'both': {
+        return `{`
+                + `"phoneNumber":"${this.currentCustomer.phone}",`
+                + `"email":"${this.currentCustomer.email}",`
+                + `"notificationType":"${this.notificationType}",`
+                + `"appId":"generic"`
+              + `}`;
+      }
+      default: {
+        return '';
+      }
+    }
   }
 }

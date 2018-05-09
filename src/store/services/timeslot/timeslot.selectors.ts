@@ -12,7 +12,7 @@ const getTimeslots = createSelector(
   (state: ITimeslotState) => state.times
 );
 
-const getSelectedTimeslot = createSelector(
+export const getSelectedTimeslot = createSelector(
   getTimeslotState,
   (state: ITimeslotState) => state.selectedTime
 );

@@ -31,7 +31,7 @@ export class BranchEffects {
 
     @Effect()
     resetDatesOnBranchChange$: Observable<Action> = this.actions$
-      .ofType(AllActions.DESELECT_BRANCH)
+      .ofType(AllActions.SELECT_BRANCH, AllActions.DESELECT_BRANCH)
       .pipe(
         switchMap(() => {
           return [

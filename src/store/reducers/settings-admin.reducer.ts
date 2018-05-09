@@ -1,4 +1,3 @@
-import { FETCH_SETTINGS } from './../actions/settings-admin.actions';
 import { ISettingsAdminState } from './settings-admin.reducer';
 import * as SettingsAdminActions from '../actions';
 import { Setting, SettingCategoryEnum } from '../../models/Setting';

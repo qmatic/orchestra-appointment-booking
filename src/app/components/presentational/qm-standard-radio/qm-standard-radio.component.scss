@@ -1,0 +1,109 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-standard-radio {
+
+  &__label {
+    width: 100%;
+    margin-bottom: 0;
+
+    &:hover {
+      .qm-standard-radio__icon {
+
+        &:before {
+          content: "\e966";
+        }
+      }
+    }
+  }
+
+  &__input {
+    @include sr-only;
+
+    &:focus {
+      & ~ .qm-standard-radio__selector {
+        font-weight: $font-weight-regular;
+
+        .qm-standard-radio__icon {
+
+          &:before {
+            content: "\e966";
+          }
+        }
+      }
+    }
+
+    &:checked {
+      & ~ .qm-standard-radio__selector {
+        font-weight: $font-weight-regular;
+
+        .qm-standard-radio__icon {
+          color: $secondary-color;
+
+          &:before {
+            content: "\e966";
+          }
+        }
+      }
+
+      &[disabled] {
+        & ~ .qm-standard-radio__selector {
+
+          .qm-standard-radio__icon {
+            color: $dark-transparent12;
+          }
+        }
+      }
+    }
+
+    &[disabled] {
+      & ~ .qm-standard-radio__selector {
+        cursor: auto;
+      }
+    }
+
+    &[type="radio"] ~ .qm-standard-radio__selector {
+      padding: rem($list-item-padding $standard-padding $list-item-padding $standard-padding * 2);
+
+      @at-root [dir='rtl'] & {
+        padding: rem($list-item-padding $standard-padding * 2 $list-item-padding $standard-padding);
+      }
+    }
+  }
+
+  &__selector {
+    display: block;
+    position: relative;
+    border: 1px solid transparent;
+    font-weight: $font-weight-light;
+    cursor: pointer;
+  }
+
+  &__text {
+    display: block;
+    user-select: none;
+    word-break: break-all; // IE fallback
+    word-break: break-word;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__icon {
+    font-size: rem(24px);
+    color: $dark-transparent12;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:before {
+      content: "\e967";
+    }
+
+    @at-root [dir='rtl'] & {
+      left: auto;
+      right: 0;
+    }
+  }
+}

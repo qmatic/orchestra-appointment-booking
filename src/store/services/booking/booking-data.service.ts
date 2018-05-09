@@ -29,7 +29,8 @@ export class BookingDataService {
     const confirmAppointment: IAppointment = {
       title: appointment.title,
       notes: appointment.notes,
-      customers: appointment.customers
+      customers: appointment.customers,
+      custom: appointment.custom
     };
 
     return this.http
@@ -44,8 +45,8 @@ export class BookingDataService {
    * Book appointment is the secondary way of saving an appointment
    * and will be used if the confirm appointment fails because of
    * reservation expirey,
-   * @param bookingInformation Placeholder
-   * @param appointment Placeholder
+   * @param bookingInformation Information about the booking
+   * @param appointment previously reserved appointment
    */
   bookAppointment(
     bookingInformation: IBookingInformation,
@@ -55,7 +56,8 @@ export class BookingDataService {
       title: appointment.title,
       notes: appointment.notes,
       customers: appointment.customers,
-      services: appointment.services
+      services: appointment.services,
+      custom: appointment.custom
     };
     return this.http
             .post<IAppointment>(

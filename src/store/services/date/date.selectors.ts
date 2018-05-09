@@ -25,7 +25,7 @@ const getVisibleDates = createSelector(
   }
 );
 
-const getSelectedDate = createSelector(
+export const getSelectedDate = createSelector(
   getDatesState,
   (state: IDatesState) => state.selectedDate
 );

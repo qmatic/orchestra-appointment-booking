@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import {
   ServiceSelectors,
@@ -28,7 +28,7 @@ import { ICustomer } from '../../../../models/ICustomer';
 @Component({
   selector: 'qm-booking-flow',
   templateUrl: './qm-booking-flow.component.html',
-  styleUrls: ['./qm-booking-flow.component.scss']
+  styleUrls: ['./qm-booking-flow.component.scss'],
 })
 export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -51,8 +51,10 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private notes$: Observable<string>;
   private title$: Observable<string>;
 
-  services: IService[];
-  branches: IBranch[];
+  private services: IService[];
+  private branches: IBranch[];
+  private dates: string[];
+  private times: string[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
   private settingsMap: { [name: string ]: Setting };
@@ -118,6 +120,14 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (branches: IBranch[]) => this.branches = branches
     );
 
+    const datesSubscription = this.dates$.subscribe(
+      (dates: string[]) => this.dates = dates
+    );
+
+    const timesSubscription = this.times$.subscribe(
+      (times: string[]) => this.times = times
+    );
+
     const currentCustomerSubscription = this.currentCustomer$.subscribe(
       (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
     );
@@ -160,6 +170,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.subscriptions.add(userLocaleSubscription);
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(branchSubscription);
+    this.subscriptions.add(datesSubscription);
+    this.subscriptions.add(timesSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedBranchesSubscription);
     this.subscriptions.add(settingsSubscription);

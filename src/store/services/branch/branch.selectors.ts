@@ -48,7 +48,7 @@ const getVisibleBranches = createSelector(
   }
 );
 
-const getSelectedBranch = createSelector(
+export const getSelectedBranch = createSelector(
   getBranchState,
   (state: IBranchState) => state.selectedBranch
 );
