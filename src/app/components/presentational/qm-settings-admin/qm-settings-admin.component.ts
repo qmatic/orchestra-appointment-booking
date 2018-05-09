@@ -1,4 +1,6 @@
-import { Router } from '@angular/router';
+import { CanComponentDeactivate } from './../../../../routes/can-deactivatet';
+import { Subscription } from 'rxjs/Subscription';
+import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { ToastService } from './../../../../services/util/toast.service';
 import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
@@ -6,12 +8,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
+import { Subject } from 'rxjs/Subject';
+import { RouterEvent } from '@angular/router/src/events';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -20,13 +24,15 @@ import { ModalService } from '../../../../services/util/modal.service';
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None
 })
-export class QmSettingsAdminComponent implements OnInit {
+export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+
   userDirection$: Observable<string>;
   settingsByCategory$: Observable<SettingCategory[]>;
   settings$: Observable<Setting[]>;
   settingsByCategory: SettingCategory[];
   settingsEditForm: FormGroup;
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
+  subscriptions: Subscription = new Subscription();
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -36,6 +42,7 @@ export class QmSettingsAdminComponent implements OnInit {
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
     this.setEditForm();
+    this.subscriptions.add(this.router.events.subscribe((this.onRouteChange.bind(this))));
   }
 
   private preselectOptionKeys: string[] = [
@@ -47,6 +54,28 @@ export class QmSettingsAdminComponent implements OnInit {
   ];
 
   preselectOptions: string[] = [];
+
+  ngOnInit() {
+    this.toastService.setToastContainer(this.toastContainer);
+    const translateSubscription = this.translateService.get(this.preselectOptionKeys).subscribe(
+      (preselectOptions: string[]) => {
+       this.preselectOptions = preselectOptions;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  onRouteChange(event: RouterEvent) {
+    if (event instanceof NavigationStart) {
+      if (this.settingsEditForm.dirty) {
+        this.clickBackToAppointmentsPage(event);
+        return;
+      }
+    }
+  }
 
   setEditForm() {
     this.settings$.subscribe((settings) => {
@@ -95,15 +124,6 @@ export class QmSettingsAdminComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.toastService.setToastContainer(this.toastContainer);
-    const translateSubscription = this.translateService.get(this.preselectOptionKeys).subscribe(
-      (preselectOptions: string[]) => {
-       this.preselectOptions = preselectOptions;
-      }
-    );
-  }
-
   toArray(map) {
     if (!map) {
       return [];
@@ -138,6 +158,14 @@ export class QmSettingsAdminComponent implements OnInit {
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
   }
 
+  canDeactivate (): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.settingsEditForm.dirty) {
+      this.modalService.openNavigateBackConfirmModal();
+      return false;
+    }  else {
+      return true;
+    }
+  }
   toHTML(input): any {
     return new DOMParser().parseFromString(input, 'text/html').documentElement.textContent;
   }

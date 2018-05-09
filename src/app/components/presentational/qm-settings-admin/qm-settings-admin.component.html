@@ -4,10 +4,9 @@
     <div class="qm-settings-admin">
       <div class="qm-settings-admin__inner-container">
         <div class="qm-settings-admin__header">
-          <h1 class="qm-settings-admin__headline">Settings Appointment booking module</h1>
+          <h1 class="qm-settings-admin__headline">{{'label.settings.page.title' | translate}}</h1>
           <p class="qm-settings-admin__description">
-            By adjusting parameters and selecting what features to include you can customize how you would like your Staff booking module
-            to work.
+            {{'label.settings.page.sub.title' | translate}}
           </p>
         </div>
         <div class="qm-settings-admin__body">
@@ -71,18 +70,17 @@
           <div class="qm-settings-admin__footer-information-container">
             <i class="qm-settings-admin__changes-icon icon-info" aria-hidden="true"></i>
             <p class="qm-settings-admin__footer-information">
-              Changes made will be effective the next time a user log out and login again. Its recommended that changes are done during
-              non office hours.
+              {{ 'label.settings.admin.warning' | translate }}
             </p>
           </div>
         </div>
       </div>
       <div class="qm-settings-admin__action-container">
         <button type="button" class="qm-btn qm-btn--secondary">
-          <span class="qm-btn__text" (click)="cancelEdit()" title="Cancel">Cancel</span>
+          <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.settings.cancel' | translate }}">{{ 'button.settings.cancel' | translate }}</span>
         </button>
         <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid">
-          <span class="qm-btn__text" title="Confirm">Confirm</span>
+          <span class="qm-btn__text" title="{{ 'button.settings.confirm' | translate }}">{{ 'button.settings.confirm' | translate }}</span>
         </button>
       </div>
     </div>

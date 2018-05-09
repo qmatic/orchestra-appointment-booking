@@ -94,8 +94,8 @@
         "settings": [
             {
                 "name": "Title",
-                "defaultValue": true,
-                "value": true,
+                "defaultValue": false,
+                "value": false,
                 
                 "outputType": "Boolean"                
             },
@@ -156,7 +156,7 @@
                 "children" : [
                      {
                         "name": "CustomerIncludeEmailRequired",
-                        "value": true,                
+                        "value": false,                
                         "outputType": "Boolean"   
                     }
                 ]
@@ -170,7 +170,7 @@
                 "children" : [
                      {
                         "name": "CustomerIncludeDateofBirthRequired",
-                        "value": true,                
+                        "value": false,                
                         "outputType": "Boolean"   
                     }
                 ]
