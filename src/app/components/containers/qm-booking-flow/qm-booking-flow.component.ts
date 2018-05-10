@@ -28,7 +28,7 @@ import { ICustomer } from '../../../../models/ICustomer';
 @Component({
   selector: 'qm-booking-flow',
   templateUrl: './qm-booking-flow.component.html',
-  styleUrls: ['./qm-booking-flow.component.scss'],
+  styleUrls: ['./qm-booking-flow.component.scss']
 })
 export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -51,13 +51,13 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private notes$: Observable<string>;
   private title$: Observable<string>;
 
-  private services: IService[];
-  private branches: IBranch[];
-  private dates: string[];
-  private times: string[];
+  public services: IService[];
+  public branches: IBranch[];
+  public dates: string[];
+  public times: string[];
   private selectedServices: IService[];
   private selectedBranches: IBranch[];
-  private settingsMap: { [name: string ]: Setting };
+  private settingsMap: { [name: string]: Setting };
   private numberOfCustomers: number;
   private userLocale: string;
   private selectedDate: string;
@@ -105,63 +105,68 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const titleSubscription = this.title$.subscribe(
-      (title: string) => this.title = title
+      (title: string) => (this.title = title)
     );
 
     const notesSubscription = this.notes$.subscribe(
-      (notes: string) => this.notes = notes
+      (notes: string) => (this.notes = notes)
     );
 
     const servicesSubscription = this.services$.subscribe(
-      (services: IService[]) => this.services = services
+      (services: IService[]) => (this.services = services)
     );
 
     const branchSubscription = this.branches$.subscribe(
-      (branches: IBranch[]) => this.branches = branches
+      (branches: IBranch[]) => (this.branches = branches)
     );
 
     const datesSubscription = this.dates$.subscribe(
-      (dates: string[]) => this.dates = dates
+      (dates: string[]) => (this.dates = dates)
     );
 
     const timesSubscription = this.times$.subscribe(
-      (times: string[]) => this.times = times
+      (times: string[]) => (this.times = times)
     );
 
     const currentCustomerSubscription = this.currentCustomer$.subscribe(
-      (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
+      (currentCustomer: ICustomer) => (this.currentCustomer = currentCustomer)
     );
 
     const userLocaleSubscription = this.userLocale$.subscribe(
-      (userLocale: string) => this.userLocale = userLocale
+      (userLocale: string) => (this.userLocale = userLocale)
     );
 
     const selectedServicesSubscription = this.selectedServices$.subscribe(
-      (selectedServices: IService[]) => this.selectedServices = selectedServices
+      (selectedServices: IService[]) =>
+        (this.selectedServices = selectedServices)
     );
 
     const selectedBranchesSubscription = this.selectedBranches$.subscribe(
-      (selectedBranches: IBranch[]) => this.selectedBranches = selectedBranches
+      (selectedBranches: IBranch[]) =>
+        (this.selectedBranches = selectedBranches)
     );
 
     const settingsSubscription = this.settingsMap$.subscribe(
-      (settingsMap: { [name: string]: Setting }) => this.settingsMap = settingsMap
+      (settingsMap: { [name: string]: Setting }) =>
+        (this.settingsMap = settingsMap)
     );
 
     const numberOfCustomersSubscription = this.numberOfCustomers$.subscribe(
-      (selectedNumberOfCustomers: number) => this.numberOfCustomers = selectedNumberOfCustomers
+      (selectedNumberOfCustomers: number) =>
+        (this.numberOfCustomers = selectedNumberOfCustomers)
     );
 
     const selectedDateSubscription = this.selectedDate$.subscribe(
-      (selectedDate: string) => this.selectedDate = selectedDate
+      (selectedDate: string) => (this.selectedDate = selectedDate)
     );
 
     const selectedTimeslotSubscription = this.selectedTime$.subscribe(
-      (selectedTime: string) => this.selectedTime = selectedTime
+      (selectedTime: string) => (this.selectedTime = selectedTime)
     );
 
     const numberOfCustomersArraySubscription = this.numberOfCustomersArray$.subscribe(
-      (numberOfCustomersArray: number[]) => this.numberOfCustomersDispatchers.setNumberOfCustomers(1)
+      (numberOfCustomersArray: number[]) =>
+        this.numberOfCustomersDispatchers.setNumberOfCustomers(1)
     );
 
     this.subscriptions.add(titleSubscription);
@@ -242,10 +247,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
    * Generate query string of selected services
    */
   getServicesQueryString(): string {
-    return this.selectedServices.reduce(
-      (queryString, service: IService) => {
-        return queryString + `;servicePublicId=${service.publicId}`;
-      }, '');
+    return this.selectedServices.reduce((queryString, service: IService) => {
+      return queryString + `;servicePublicId=${service.publicId}`;
+    }, '');
   }
 
   /**
@@ -253,10 +257,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
    * @param service - Provided service
    */
   isServiceSelected(service: IService): boolean {
-    return this.selectedServices.reduce(
-      (acc: boolean, curr: IService) => {
-        return !acc ? curr.publicId === service.publicId : acc;
-      }, false);
+    return this.selectedServices.reduce((acc: boolean, curr: IService) => {
+      return !acc ? curr.publicId === service.publicId : acc;
+    }, false);
   }
 
   /**************************/
@@ -272,8 +275,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
 
     isSelected
       ? this.numberOfCustomersDispatchers.resetNumberOfCustomers()
-      : this.numberOfCustomersDispatchers.setNumberOfCustomers(numberOfCustomers);
-
+      : this.numberOfCustomersDispatchers.setNumberOfCustomers(
+          numberOfCustomers
+        );
   }
 
   /**
@@ -359,10 +363,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
    * @param branch - Provided branch
    */
   isBranchSelected(branch: IBranch): boolean {
-    return this.selectedBranches.reduce(
-      (acc: boolean, curr: IBranch) => {
-        return !acc ? curr.publicId === branch.publicId : acc;
-      }, false);
+    return this.selectedBranches.reduce((acc: boolean, curr: IBranch) => {
+      return !acc ? curr.publicId === branch.publicId : acc;
+    }, false);
   }
 
   /************/
