@@ -9,9 +9,17 @@ export interface CanComponentDeactivate {
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
   canDeactivate(component: CanComponentDeactivate,
-           route: ActivatedRouteSnapshot,
-           state: RouterStateSnapshot) {
-
-     return component.canDeactivate ? component.canDeactivate() : true;
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot) {
+    let focused: any = document.activeElement;
+    if (!focused || focused === document.body) {
+      focused = null;
+    } else if (document.querySelector) {
+      focused = document.querySelector(':focus');
+    }
+    if (focused) {
+      focused.blur();
+    }
+    return component.canDeactivate ? component.canDeactivate() : true;
   }
 }

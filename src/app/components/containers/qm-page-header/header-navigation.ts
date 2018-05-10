@@ -4,6 +4,7 @@ export const APPOINTMENT_BOOKING = 'APPOINTMENT_BOOKING';
 export const HELP = 'HELP';
 export const HELP_URL = '/help';
 export const APP_URL = '/';
+export const BOOKING_HOME_URL = '/app';
 export const LOGOUT_URL = '/logout.jsp';
 
 

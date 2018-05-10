@@ -1,3 +1,4 @@
+import { APP_URL, BOOKING_HOME_URL } from './../../containers/qm-page-header/header-navigation';
 import { SPService } from './../../../../services/rest/sp.service';
 import { CanComponentDeactivate } from './../../../../routes/can-deactivatet';
 import { Subscription } from 'rxjs/Subscription';
@@ -35,6 +36,8 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   settingsEditForm: FormGroup;
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
   subscriptions: Subscription = new Subscription();
+  isHeaderNavigationClicked: Boolean = false;
+  isUserOptedBrowserNavigation: Boolean = false;
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -45,7 +48,6 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
     this.setEditForm();
-    this.subscriptions.add(this.router.events.subscribe((this.onRouteChange.bind(this))));
   }
 
   private preselectOptionKeys: string[] = [
@@ -120,6 +122,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   clickBackToAppointmentsPage($event) {
+    this.isHeaderNavigationClicked = true;
     this.retainUserIfUnsavedChanges();
   }
 
@@ -171,13 +174,24 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   canDeactivate (): boolean | Observable<boolean> | Promise<boolean> {
-    if (this.settingsEditForm.dirty) {
-      this.modalService.openNavigateBackConfirmModal();
-      return false;
-    }  else {
+    if (!this.isHeaderNavigationClicked && !this.isUserOptedBrowserNavigation) {
+      if (this.settingsEditForm.dirty) {
+        const modal = this.modalService.openNavigateBackConfirmModal();
+        modal.result.then((result: string) => {
+          if (result === 'OK') {
+            this.router.navigateByUrl(BOOKING_HOME_URL);
+            this.isUserOptedBrowserNavigation = true;
+          }
+        });
+        return false;
+      }  else {
+        return true;
+      }
+    } else {
       return true;
     }
   }
+
   toHTML(input): any {
     return new DOMParser().parseFromString(input, 'text/html').documentElement.textContent;
   }
@@ -187,6 +201,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   handleHeaderNavigations(navigationType) {
+    this.isHeaderNavigationClicked = true;
     if (this.settingsEditForm.dirty) {
       const modal = this.modalService.openNavigateBackConfirmModal();
       modal.result.then((result) => {
