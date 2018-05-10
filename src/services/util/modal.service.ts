@@ -22,6 +22,6 @@ export class ModalService {
   }
 
   openNavigateBackConfirmModal() {
-    this.modalService.open(QmGenericModalComponent, { centered: true });
+    return this.modalService.open(QmGenericModalComponent, { centered: true });
   }
 }
