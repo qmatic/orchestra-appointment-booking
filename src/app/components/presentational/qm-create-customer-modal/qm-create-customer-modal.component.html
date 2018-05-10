@@ -21,6 +21,7 @@
                           autocomplete="given-name"
                           placeholder=""
                           name="firstName"
+                          maxlength="50"
                           required
                           autoFocus
                           formControlName="firstName" />
@@ -46,6 +47,7 @@
                           class="qm-input qm-standard-text-field__input"
                           autocomplete="family-name"
                           placeholder=""
+                          maxlength="50"
                           name="lastName"
                           required
                           formControlName="lastName" />
@@ -140,7 +142,7 @@
                       <span class="qm-standard-number-field__top-container">
                         <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.day' | translate }}</span>
                       </span>
-                      <input formControlName="day" type="number" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" />
+                      <input formControlName="day" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" />
                     </label>
                   </div>
                 </div>
@@ -150,11 +152,11 @@
                       <span class="qm-standard-number-field__top-container">
                         <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.year' | translate }}</span>
                       </span>
-                      <input formControlName="year" type="number" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" />
+                      <input formControlName="year" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" />
                     </label>
                   </div>
                 </div>
-                   <div class="qm-dob__error-message" *ngIf="isDOBRequired()">{{ 'error.form.dob.required' | translate }}</div>        
+                   <div class="qm-dob__error-message" *ngIf="!createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob') && isDOBRequired()">{{ 'error.form.dob.required' | translate }}</div>        
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth']?.errors?.invalidDay">{{ 'error.form.dob.invalidDay' | translate }}</div>        
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('min')">{{ 'error.form.dob.invalidYear' | translate }}</div>        
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob')">{{ 'error.form.dob.incompleteDob' | translate }}</div>        

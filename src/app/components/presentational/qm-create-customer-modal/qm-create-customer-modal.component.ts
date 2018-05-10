@@ -142,8 +142,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         emailValidators.push(Validators.required);
       }
 
-      let dayValidators = [Validators.max(31)];
-      let yearValidators = [Validators.min(1)];
+      let dayValidators = [Validators.maxLength(2), Validators.max(31)];
+      let yearValidators = [Validators.maxLength(4), Validators.min(1)];
       let monthValidators = [];
 
       if (settings.CustomerIncludeDateofBirthRequired.value === true) {
@@ -153,8 +153,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
 
       this.createCustomerForm = this.fb.group({
-        firstName: [ '', Validators.required ],
-        lastName: [ '', Validators.required ],
+        firstName: [ '', Validators.required],
+        lastName: [ '', Validators.required],
         email: ['', emailValidators],
         phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators],
         dateOfBirth: this.fb.group({
@@ -255,8 +255,15 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       name: formModel.firstName as string + ' ' + formModel.lastName as string,
       email: formModel.email as string,
       phone: formModel.phone as string,
-      dateOfBirth: this.getDateOfBirth()
+      dateOfBirth: this.getDateOfBirth() || null
     };
+
+    // trim trailing spaces
+    for (const key in customerToSave) {
+      if (customerToSave[key] && customerToSave[key].trim) {
+        customerToSave[key] = customerToSave[key].trim();
+      }
+    }
 
     return customerToSave;
   }
@@ -277,6 +284,15 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     return year && month && day
           ? year + '-' + month + '-' + day
           : '';
+  }
+
+  restrictNumbers($event) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode($event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      $event.preventDefault();
+    }
   }
 
   get firstName() { return this.createCustomerForm.get('firstName'); }
