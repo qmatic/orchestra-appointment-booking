@@ -15,7 +15,7 @@ export const appRoutes: Routes = [
       { path: 'loading', component: QmAppLoaderComponent },
       { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard] },
       { path: 'invalid-license', component: QmInvalidLicenseComponent },
-      { path: 'settings-admin', component: QmSettingsAdminComponent,  canDeactivate: [CanDeactivateGuard]  },
+      { path: 'settings-admin', component: QmSettingsAdminComponent},
       { path: '**', component: QmAppPageNotFoundComponent }
     ]
   }
