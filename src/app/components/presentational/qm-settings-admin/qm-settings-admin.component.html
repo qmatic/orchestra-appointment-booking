@@ -1,5 +1,5 @@
 <div class="qm-app" dir="{{ userDirection$ | async }}">
-  <qm-page-header (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
+  <qm-page-header [isPreventHeaderNavigations]="true" (handleHeaderNavigations)="handleHeaderNavigations($event)" (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
   <qm-main class="qm-main--scrollable">
     <div class="qm-settings-admin">
       <div class="qm-settings-admin__inner-container">

@@ -18,7 +18,6 @@ export class QmGenericModalComponent implements OnInit {
   }
 
   okClicked() {
-    this.activeModal.close();
-    this.onOkClicked.next();
+    this.activeModal.close('OK');
   }
 }

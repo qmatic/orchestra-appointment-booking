@@ -1,10 +1,10 @@
 <header class="qm-header" dir="{{ userDirection$ | async }}">
   <div class="qm-header__left">
-    <a href="/" class="qm-action-btn qm-action-btn--only-icon qm-header__home-btn">
+    <a href="/" (click)="homeClick($event)" class="qm-action-btn qm-action-btn--only-icon qm-header__home-btn">
       <i class="qm-action-btn__icon icon-home" aria-hidden="true"></i>
       <span class="sr-only">{{ 'label.home' | translate }}</span>
     </a>
-    <a href="/" class="qm-header__brand-logo-container">
+    <a href="/" class="qm-header__brand-logo-container" (click)="homeClick($event)">
       <img class="qm-header__brand-logo" [src]="brandLogoSrc" alt="" role="presentation" />
       <span class="sr-only">{{ 'label.home' | translate }}</span>
     </a>
@@ -21,7 +21,7 @@
       <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
       <span>{{ 'label.settings.backto.appointment' | translate }}</span>
     </a>
-    <a href="/help" target="_blank" class="qm-action-btn qm-action-btn--only-icon qm-header__help-btn">
+    <a href="/help" (click)="helpClick($event)" target="_blank" class="qm-action-btn qm-action-btn--only-icon qm-header__help-btn">
       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>
       <span class="sr-only">{{ 'label.help' | translate }}</span>
     </a>

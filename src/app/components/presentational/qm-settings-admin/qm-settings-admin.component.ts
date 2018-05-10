@@ -1,3 +1,4 @@
+import { SPService } from './../../../../services/rest/sp.service';
 import { CanComponentDeactivate } from './../../../../routes/can-deactivatet';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, NavigationStart } from '@angular/router';
@@ -16,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Subject } from 'rxjs/Subject';
 import { RouterEvent } from '@angular/router/src/events';
+import { LOGOUT, HOME, HELP } from '../../containers/qm-page-header/header-navigation';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -37,6 +39,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
     private translateService: TranslateService, private modalService: ModalService,
+    private spService: SPService,
     private router: Router) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
@@ -93,7 +96,6 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
         });
 
         this.settingsEditForm = this.formBuilder.group(ctrlConfig);
-
         settings.forEach((set) => {
           this.handleSettingSelect(set);
         });
@@ -118,8 +120,17 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   clickBackToAppointmentsPage($event) {
+    this.retainUserIfUnsavedChanges();
+  }
+
+  retainUserIfUnsavedChanges() {
     if (this.settingsEditForm.dirty) {
-      this.modalService.openNavigateBackConfirmModal();
+      const modal = this.modalService.openNavigateBackConfirmModal();
+      modal.result.then((result) => {
+        if (result === 'OK') {
+          this.router.navigateByUrl('/app');
+        }
+      });
     }  else {
       this.router.navigateByUrl('/app');
     }
@@ -173,5 +184,30 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   cancelEdit() {
     this.setEditForm();
+  }
+
+  handleHeaderNavigations(navigationType) {
+    if (this.settingsEditForm.dirty) {
+      const modal = this.modalService.openNavigateBackConfirmModal();
+      modal.result.then((result) => {
+        if (result === 'OK') {
+          this.navigateToLink(navigationType);
+        }
+      });
+    } else {
+      this.navigateToLink(navigationType);
+    }
+  }
+
+  navigateToLink(navigationType) {
+    if (navigationType === LOGOUT) {
+      this.spService.logout().subscribe(() => {
+        window.location.href = '/logout.jsp';
+      });
+    } else if (navigationType === HELP) {
+      window.location.href = '/help';
+    } else if (navigationType === HOME) {
+      window.location.href = '/';
+    }
   }
 }
