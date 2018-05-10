@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
@@ -11,11 +12,13 @@ export class QmGenericModalComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal, public router: Router) { }
 
+  onOkClicked = new Subject();
+
   ngOnInit() {
   }
 
-  navigateBack() {
+  okClicked() {
     this.activeModal.close();
-    this.router.navigateByUrl('/app');
+    this.onOkClicked.next();
   }
 }
