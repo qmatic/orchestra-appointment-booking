@@ -1,24 +1,19 @@
 .qm-generic-layout {
-  display: flex;
-  flex-wrap: wrap;
-
-  &--align-right {
-    justify-content: flex-end;
-  }
-
-  &--space-between {
-    justify-content: space-between;
-  }
-
-  &--justify-center {
-    justify-content: center;
-  }
-
-  &--nowrap {
-    flex-wrap: nowrap;
-  }
-
-  &--align-flex-end {
-    align-items: flex-end;
-  }
+    display: flex;
+    flex-wrap: wrap;
+    &--align-right {
+        justify-content: flex-end;
+    }
+    &--space-between {
+        justify-content: space-between;
+    }
+    &--justify-center {
+        justify-content: center;
+    }
+    &--nowrap {
+        flex-wrap: nowrap;
+    }
+    &--align-flex-end {
+        align-items: flex-end;
+    }
 }

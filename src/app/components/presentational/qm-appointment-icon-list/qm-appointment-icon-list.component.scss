@@ -40,7 +40,6 @@
   }
   &__text {
     display: block;
-    position: absolute;
     font-size: rem(16px);
     line-height: rem(24px);
     font-weight: $font-weight-light;
@@ -52,6 +51,10 @@
     }
     &--emphasis {
       font-weight: $font-weight-regular;
+      color: $dark-transparent82;
+    }
+    &--float {
+      position: absolute;
       color: $dark-transparent82;
     }
     &--highlighted {

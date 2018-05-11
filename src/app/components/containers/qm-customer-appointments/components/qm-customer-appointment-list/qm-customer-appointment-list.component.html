@@ -1,6 +1,6 @@
 
 <ul class="qm-appointment-list"  dir="{{ userDirection$ | async }}">
-  <li [id]="appointment.publicId.slice(0, 7)" class="qm-appointment-list__item" *ngFor="let appointment of appointments;">
+  <li [id]="appointment.publicId.slice(0, 7)" class="qm-appointment-list__item" *ngFor="let appointment of appointments; let last = last">
     <div class="qm-appointment-card">
       <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline-container">
@@ -43,7 +43,7 @@
           </span>
         </button>
 
-        <button *ngIf="displayStatus(appointment).showEdit" class="qm-action-btn qm-action-btn qm-appointment-card__btn">
+        <button *ngIf="displayStatus(appointment).showEdit" class="qm-action-btn qm-action-btn qm-appointment-card__btn" (click)="rescheduleClicked(appointment)">
           <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
           <span class="sr-only" title="{{ 'button.customerAppointments.edit' | translate }}">
             {{ 'button.customerAppointments.edit' | translate }}

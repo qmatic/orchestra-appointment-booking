@@ -1,9 +1,24 @@
+
 <div class="qm-customer-appointments" [ngClass]="{'qm-customer-appointments--full' : appointmentsLoaded}">
   <div class="" *ngIf="appointmentsLoaded; else appointmentFetch">
     <span class="qm-headline qm-headline--large qm-customer-appointments__headline">Booked appointments</span>
+    <!--
+    # Note - Dropdrop component implementation has been moved into this component to get support for lifecycle hooks on component. Please note, Life Cycle Hook methods don't fire on ngContent.
+
     <qm-dropdown maxHeight="calc(100vh - 300px)" [text]="dropdownLabel" [isExpanded]="true" *ngIf="appointments.length > 0; else noAppointments">
       <qm-customer-appointment-list [appointments]="appointments"></qm-customer-appointment-list>
     </qm-dropdown>
+
+    # TODO: A Better Solution, if need the flexibility, would be to pass a data array to the dropdown component and have it render the view inside the dropdown component instead of using ngContent directive.
+    -->
+    <div class="qm-dropdown" dir="{{ userDirection$ | async }}">
+    <div class="qm-dropdown__backdrop" *ngIf="isExpand" (click)="toggleDrop()"></div>
+      <button class="qm-dropdown__btn" [attr.aria-expanded]="isExpand" aria-haspopup="true" (click)="toggleDrop()" ngTranslate="">{{dropdownLabel}}</button>
+      <div class="qm-dropdown__body" [style.maxHeight]="maxHeight">
+        <qm-customer-appointment-list *ngIf="isExpand" [idClosestToCurretTime]="idClosestToCurretTime" [appointments]="appointments"></qm-customer-appointment-list>
+      </div>
+    </div>
+
     <ng-template #noAppointments>
       <span class="qm-customer-appointments__no-appointments">
         {{ 'label.customerAppointments.no.appointments' | translate }}

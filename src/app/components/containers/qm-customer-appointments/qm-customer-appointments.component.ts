@@ -27,6 +27,8 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   currentCustomer: ICustomer;
   appointmentsLoaded: boolean;
   dropdownLabel: string;
+  isExpand: boolean;
+  idClosestToCurretTime: string;
 
   constructor(
     private appointmentSelectors: AppointmentSelectors,
@@ -41,19 +43,23 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isExpand = true;
+
     const appointmentsSubcription = this.appointments$.subscribe(
       (appointments: IAppointment[]) => {
         this.appointments = [...appointments].sort(this.sortDate);
         this.updateDropdownLabel();
-      });
+        this.updateScrollToStatusOnAppointments();
+      }
+    );
 
     const appointmentsLoadedSubcription = this.appointmentsLoaded$.subscribe(
       (appointmentsLoaded: boolean) =>
-        this.appointmentsLoaded = appointmentsLoaded
+        (this.appointmentsLoaded = appointmentsLoaded)
     );
 
     const customerSubcription = this.currentCustomer$.subscribe(
-      (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
+      (currentCustomer: ICustomer) => (this.currentCustomer = currentCustomer)
     );
 
     this.subscriptions.add(appointmentsSubcription);
@@ -61,13 +67,35 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(customerSubcription);
   }
 
+  updateScrollToStatusOnAppointments(): void {
+    const now = Math.round(new Date().getTime() / 1000);
+    let proximity = Number.MAX_SAFE_INTEGER;
+
+    this.appointments.forEach(appointment => {
+      const appointmentStart = Math.round(
+        new Date(appointment.start).getTime() / 1000
+      );
+      const newProximity = Math.abs(appointmentStart - now);
+      if (newProximity < proximity) {
+        proximity = newProximity;
+        this.idClosestToCurretTime = appointment.publicId;
+      }
+    });
+  }
+
+  toggleDrop() {
+    this.isExpand = !this.isExpand;
+  }
+
   updateDropdownLabel(): void {
     this.translateService
-      .get('button.customerAppointments.dropdown',
-        {0: this.appointments.length}).subscribe(
-          (dropdownLabel: string) =>
-            this.dropdownLabel = dropdownLabel
-      ).unsubscribe();
+      .get('button.customerAppointments.dropdown', {
+        0: this.appointments.length
+      })
+      .subscribe(
+        (dropdownLabel: string) => (this.dropdownLabel = dropdownLabel)
+      )
+      .unsubscribe();
   }
 
   ngOnDestroy() {
@@ -78,12 +106,18 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
     const date1 = new Date(appointment1.start);
     const date2 = new Date(appointment2.start);
 
-    if (date1 > date2) { return 1; }
-    if (date1 < date2) { return -1; }
+    if (date1 > date2) {
+      return 1;
+    }
+    if (date1 < date2) {
+      return -1;
+    }
     return 0;
   }
 
   fetchAppointments(): void {
-    this.appointmentDispatchers.fetchAppointments(this.currentCustomer.publicId);
+    this.appointmentDispatchers.fetchAppointments(
+      this.currentCustomer.publicId
+    );
   }
 }

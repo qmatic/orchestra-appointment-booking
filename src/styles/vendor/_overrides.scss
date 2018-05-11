@@ -1,0 +1,4 @@
+// Bootstrap modal override to vertically center on screen
+.modal-content {
+    transform: translate(0, 45vh) translate(0, -50%);
+}

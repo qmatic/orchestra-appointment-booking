@@ -106,6 +106,8 @@ import { DatePipe } from '@angular/common';
 import { QmBookingFooterComponent } from './components/containers/qm-booking-footer/qm-booking-footer.component';
 import { QmStandardRadioComponent } from './components/presentational/qm-standard-radio/qm-standard-radio.component';
 import { CanDeactivateGuard } from '../routes/can-deactivatet';
+import { QmModalComponent } from './components/presentational/qm-modal/qm-modal.component';
+import { QmModalService } from './components/presentational/qm-modal/qm-modal.service';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -167,7 +169,8 @@ const toastrGlobalOptions = {
     SettingsListboxComponent,
     SettingsTimeformatComponent,
     QmBookingFooterComponent,
-    QmStandardRadioComponent
+    QmStandardRadioComponent,
+    QmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -197,8 +200,13 @@ const toastrGlobalOptions = {
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  entryComponents: [QmCreateCustomerModalComponent, QmGenericModalComponent],
+  entryComponents: [
+    QmCreateCustomerModalComponent,
+    QmGenericModalComponent,
+    QmModalComponent
+  ],
   providers: [
+    QmModalService,
     SPService,
     ToastService,
     ModalService,

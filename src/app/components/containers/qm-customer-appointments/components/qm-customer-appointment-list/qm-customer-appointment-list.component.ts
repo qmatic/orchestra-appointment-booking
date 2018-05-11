@@ -1,11 +1,15 @@
+import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
 import { Setting } from './../../../../../../models/Setting';
 import {
   Component,
   OnInit,
   Input,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
@@ -13,7 +17,8 @@ import { IAppointment } from '../../../../../../models/IAppointment';
 import {
   UserSelectors,
   AppointmentDispatchers,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  BookingHelperSelectors
 } from '../../../../../../store';
 
 @Component({
@@ -29,22 +34,25 @@ export class QmCustomerAppointmentListComponent
   private userLocale: string;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private isMilitaryTime: boolean;
-  private idClosestToCurretTime: string;
+  @Input() idClosestToCurretTime: string;
+  private bookingStarted$: Observable<boolean>;
   userDirection$: Observable<string>;
 
   constructor(
     private userSelectors: UserSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private bookingHelperSelectors: BookingHelperSelectors,
+    private modalService: QmModalService,
+    private translate: TranslateService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.userLocale$ = this.userSelectors.userLocale$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.bookingStarted$ = this.bookingHelperSelectors.bookingStarted$;
   }
 
   ngOnInit() {
-    this.updateScrollToStatusOnAppointments();
-
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
@@ -61,24 +69,10 @@ export class QmCustomerAppointmentListComponent
     this.subscriptions.add(settingsSubscription);
   }
 
-  updateScrollToStatusOnAppointments(): void {
-    const now = Math.round(new Date().getTime() / 1000);
-    let proximity = Number.MAX_SAFE_INTEGER;
-
-    this.appointments.forEach(appointment => {
-      const appointmentStart = Math.round(
-        new Date(appointment.start).getTime() / 1000
-      );
-      const newProximity = Math.abs(appointmentStart - now);
-      if (newProximity < proximity) {
-        proximity = newProximity;
-        this.idClosestToCurretTime = appointment.publicId;
-      }
-    });
-  }
-
-  ngAfterViewInit(): void {
-    window.location.hash = this.idClosestToCurretTime.slice(0, 7);
+  ngAfterViewInit() {
+    setTimeout(() => {
+      window.location.hash = this.idClosestToCurretTime.slice(0, 7);
+    }, 0);
   }
 
   deleteAppointment(appointment: IAppointment): void {
@@ -173,6 +167,31 @@ export class QmCustomerAppointmentListComponent
         return '';
       }
     }
+  }
+
+  rescheduleClicked(appointment) {
+    const isBookingSubscription = this.bookingStarted$.subscribe(
+      isBookingStarted => {
+        if (isBookingStarted) {
+          const transSubscription = this.modalService.openForTransKeys(
+            'label.modal.reschedule',
+            'label.modal.prevent.reschedule',
+            'button.yes',
+            'button.no',
+            result => {
+              alert(result + 'Rescheduling!!!!');
+            },
+            err => {
+              console.log(err);
+            }
+          );
+          this.subscriptions.add(transSubscription);
+        } else {
+          // NEXT : CALL FUNCTION TO RESHEDULE WITH APPOINTMENT
+        }
+      }
+    );
+    this.subscriptions.add(isBookingSubscription);
   }
 
   ngOnDestroy() {

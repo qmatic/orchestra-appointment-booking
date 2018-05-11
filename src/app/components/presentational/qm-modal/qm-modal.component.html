@@ -1,0 +1,28 @@
+<div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" dir="userDirection | async" cdkTrapFocus>
+  <form class="qm-modal__box-container">
+      <div class="qm-modal__header">
+        <span class="qm-modal__headline">{{ title }}</span>
+      </div>
+      <div class="qm-modal__body"  *ngIf="message && message.length > 0">
+        <div class="qm-modal-row">
+          <div class="qm-modal-col-12">
+           {{ message }}
+          </div>
+        </div>
+      </div>
+      <div class="qm-modal__footer">
+        <div class="qm-generic-layout qm-generic-layout--justify-center">
+          <button type="button" class="qm-btn qm-btn--secondary" (click)="accept()"  *ngIf="btnOkText && btnOkText.length > 0">
+            <span class="qm-btn__text" title="{{ btnOkText }}">
+              {{ btnOkText }}
+            </span>
+          </button>
+          <button class="qm-btn qm-btn--primary" (click)="decline()" *ngIf="btnCancelText && btnCancelText.length > 0">
+            <span class="qm-btn__text"  title="{{ btnCancelText }}">
+              {{ btnCancelText }}
+            </span>
+          </button>
+        </div>
+      </div>
+  </form>
+</div>
