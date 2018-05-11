@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ICustomer } from '../../../../models/ICustomer';
 import { CustomerDispatchers, UserSelectors, SettingsAdminSelectors } from '../../../../store';
+import { noAllWhitespaceValidator } from '../../../util/custom-form-validators';
 
 @Component({
   selector: 'qm-create-customer-modal',
@@ -134,7 +135,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
       if (settings.CustomerPhoneRequired.value === true) {
-        phoneValidators.push(Validators.required);
+        phoneValidators.push(Validators.required, noAllWhitespaceValidator);
       }
 
       const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)];
@@ -153,8 +154,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
 
       this.createCustomerForm = this.fb.group({
-        firstName: [ '', Validators.required],
-        lastName: [ '', Validators.required],
+        firstName: [ '', Validators.required, noAllWhitespaceValidator],
+        lastName: [ '', Validators.required, noAllWhitespaceValidator],
         email: ['', emailValidators],
         phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators],
         dateOfBirth: this.fb.group({

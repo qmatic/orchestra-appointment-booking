@@ -31,7 +31,10 @@
                       <ng-container *ngIf="firstName.errors.required">
                         {{ 'error.form.firstName.required' | translate }}
                       </ng-container>
+                    <ng-container *ngIf="firstName.errors.allwhitespace">
+                      {{ 'field.createCustomerForm.firstName.error.allwhitespace' | translate }}
                     </ng-container>
+                    </ng-container>                    
                   </span>
                 </label>
               </div>
@@ -55,6 +58,9 @@
                     <ng-container *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
                       <ng-container *ngIf="lastName.errors.required">
                         {{ 'error.form.lastName.required' | translate }}
+                      </ng-container>
+                      <ng-container *ngIf="lastName.errors.allwhitespace">
+                        {{ 'field.createCustomerForm.lastName.error.allwhitespace' | translate }}
                       </ng-container>
                     </ng-container>
                   </span>
@@ -109,6 +115,9 @@
                       </ng-container>
                       <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
                         {{ 'error.form.phone.invalid' | translate }}
+                      </ng-container>
+                      <ng-container *ngIf="phone.errors.allwhitespace">
+                        {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
                       </ng-container>
                     </ng-container>
                   </span>
