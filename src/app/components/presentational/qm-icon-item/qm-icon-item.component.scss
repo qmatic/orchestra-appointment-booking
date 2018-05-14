@@ -1,0 +1,56 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: block;
+  margin-top: rem($standard-margin / 2);
+  height: rem($sub-booking-flow-height);
+}
+
+.qm-icon-item {
+  display: flex;
+
+  @at-root [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    font-size: rem(24px);
+    line-height: rem(24px);
+    color: $dark-transparent82;
+    margin-right: rem($standard-margin / 2);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 2);
+    }
+  }
+
+  &__text-container {
+    flex: 0 1 auto;
+    overflow: hidden;
+
+    @at-root [dir='rtl'] & {
+      padding-right: 0;
+      margin-right: 0;
+      padding-left: rem($standard-padding);
+      margin-left: rem($standard-margin);
+    }
+  }
+
+  &__text {
+    display: block;
+    font-size: rem(16px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    color: $dark-transparent82;
+    word-break: break-all;
+    word-break: break-word;
+    // text-overflow: ellipsis;
+    max-width: 100%;
+    width: 100%;
+    // float: left;
+    // overflow: hidden;
+    // white-space: nowrap;
+  }
+}

@@ -1,0 +1,6 @@
+<div class="qm-icon-item" [dir]="userDirection$ | async" *ngIf="text !== ''">
+  <i class="qm-icon-item__icon icon-home" ngClass="{ icon : icon !== '' }" aria-hidden="true"></i>
+  <div class="qm-icon-item__text-container">
+    <span class="qm-icon-item__text" title="{{ text }}">{{ text | truncate : 20 }}</span>
+  </div>
+</div>

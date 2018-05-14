@@ -9,7 +9,8 @@ import {
   AppointmentMetaSelectors,
   BranchSelectors,
   DateSelectors,
-  TimeslotSelectors
+  TimeslotSelectors,
+  UserSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
@@ -30,6 +31,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
   private selectedTime$: Observable<string>;
+  private userDirection$: Observable<string>;
 
   private reservedAppointment: IAppointment;
   private selectedBranches: IBranch[];
@@ -47,7 +49,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private branchSelectors: BranchSelectors,
     private dateSelectors: DateSelectors,
-    private timeslotSelectors: TimeslotSelectors
+    private timeslotSelectors: TimeslotSelectors,
+    private userSelectors: UserSelectors
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -57,6 +60,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.title$ = this.appointmentMetaSelectors.title$;
     this.notes$ = this.appointmentMetaSelectors.notes$;
     this.notificationType$ = this.appointmentMetaSelectors.notificationType$;
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() {

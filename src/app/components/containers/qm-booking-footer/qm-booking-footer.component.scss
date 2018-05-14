@@ -2,6 +2,7 @@
 
 .qm-booking-footer {
   flex: 0 0 auto;
+  position: relative;
 
   &__content {
     padding: rem($standard-padding 0 $standard-padding / 2);
@@ -10,4 +11,31 @@
   .qm-btn {
     min-width: rem(164px);
   }
+
+  &__required-container {
+    position: absolute;
+    font-size: rem(14px);
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    @at-root [dir='rtl'] & {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  &__required-star {
+    margin-right: rem($standard-margin / 4);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 4);
+    }
+  }
+
+  &__required-text {
+
+  }
+
 }

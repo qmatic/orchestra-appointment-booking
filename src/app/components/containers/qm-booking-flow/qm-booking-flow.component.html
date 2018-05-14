@@ -20,6 +20,7 @@
           {{ branch.name }}
         </qm-list-item>
       </qm-list>
+      <qm-icon-item icon="'icon-home'" [text]="getBranchAddressText(selectedBranches[0])"></qm-icon-item>
     </div>
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="datesSearchText$ | async" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)">
@@ -27,6 +28,7 @@
           {{ selectableDate | date:'EEEE d MMMM':'':userLocale }}
         </qm-list-item>
       </qm-list>
+      <qm-resource-text [text]="getResource()"></qm-resource-text>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
       <qm-list [searchable]="false" [header]="'label.bookingFlow.time.header' | translate">

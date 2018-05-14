@@ -1,5 +1,9 @@
-<div class="qm-booking-footer">
+<div class="qm-booking-footer" [dir]="userDirection$ | async">
   <div class="qm-booking-footer__content qm-generic-layout qm-generic-layout--align-right">
+    <div class="qm-booking-footer__required-container">
+      <span class="qm-booking-footer__required-star qm-required-star">*</span>
+      <span class="qm-booking-footer__required-text">{{ 'label.bookingFlow.required.fields' | translate }}</span>
+    </div>
     <button class="qm-btn qm-btn--secondary">
       <span class="qm-btn__text" title="{{ 'button.bookingFooter.clear.all' | translate }}">{{ 'button.bookingFooter.clear.all' | translate }}</span>
     </button>

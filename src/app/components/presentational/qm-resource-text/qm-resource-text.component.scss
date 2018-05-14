@@ -1,0 +1,20 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: block;
+  margin-top: rem($standard-margin / 2);
+  height: rem($sub-booking-flow-height);
+}
+
+.qm-resource-text {
+  &__label {
+    font-size: rem(16px);
+    color: $dark-transparent82;
+  }
+
+  &__text {
+    font-weight: $font-weight-light;
+    font-size: rem(16px);
+    color: $dark-transparent82;
+  }
+}

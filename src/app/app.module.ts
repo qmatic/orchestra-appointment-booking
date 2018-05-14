@@ -81,11 +81,16 @@ import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-p
 import { QmSearchBoxComponent } from './components/containers/qm-searchbox/qm-search-box.component';
 import { QmCustomerSearchComponent } from './components/containers/qm-customer-search/qm-customer-search.component';
 import { QmCustomerCardComponent } from './components/presentational/qm-customer-card/qm-customer-card.component';
-import { QmCustomerSearchResultsComponent } from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
+import {
+  QmCustomerSearchResultsComponent
+} from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
+import { QmTruncatePipe } from './pipes/qm-truncate.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
-import { QmCustomerAppointmentListComponent } from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
+import {
+  QmCustomerAppointmentListComponent
+} from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
 import { QmAppointmentIconListComponent } from './components/presentational/qm-appointment-icon-list/qm-appointment-icon-list.component';
 import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 import { QmLoaderComponent } from './components/presentational/qm-loader/qm-loader.component';
@@ -109,6 +114,8 @@ import { CanDeactivateGuard } from '../routes/can-deactivatet';
 import { QmModalComponent } from './components/presentational/qm-modal/qm-modal.component';
 import { QmModalService } from './components/presentational/qm-modal/qm-modal.service';
 import { QmReservationTimerComponent } from './components/containers/qm-reservation-timer/qm-reservation-timer.component';
+import { QmIconItemComponent } from './components/presentational/qm-icon-item/qm-icon-item.component';
+import { QmResourceTextComponent } from './components/presentational/qm-resource-text/qm-resource-text.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -151,6 +158,7 @@ const toastrGlobalOptions = {
     QmCustomerCardComponent,
     QmCustomerSearchResultsComponent,
     QmHighlightPipe,
+    QmTruncatePipe,
     QmCustomerAppointmentsComponent,
     QmDropdownComponent,
     QmCustomerAppointmentListComponent,
@@ -172,7 +180,9 @@ const toastrGlobalOptions = {
     QmBookingFooterComponent,
     QmStandardRadioComponent,
     QmModalComponent,
-    QmReservationTimerComponent
+    QmReservationTimerComponent,
+    QmIconItemComponent,
+    QmResourceTextComponent
   ],
   imports: [
     BrowserModule,

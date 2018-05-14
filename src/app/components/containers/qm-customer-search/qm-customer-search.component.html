@@ -1,5 +1,5 @@
 <div class="qm-customer-search" dir="{{ userDirection$ | async }}">
-  <h2 class="qm-headline qm-headline--large qm-customer-search__headline">{{ 'label.customerSearch.headline' | translate }}</h2>
+  <h2 class="qm-headline qm-headline--large qm-customer-search__headline">{{ 'label.customerSearch.headline' | translate }}<span class="qm-required-star"> *</span></h2>
   <div class="qm-customer-search__layout">
     <div class="qm-customer-search__backdrop" *ngIf="showBackdrop()" (click)="resetSearch()"></div>
     <div class="qm-customer-search__search-container">
