@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ICustomer } from '../../../../models/ICustomer';
 import { CustomerDispatchers, UserSelectors, SettingsAdminSelectors } from '../../../../store';
-import { noAllWhitespaceValidator } from '../../../util/custom-form-validators';
+import { whiteSpaceValidator } from '../../../util/custom-form-validators';
 
 @Component({
   selector: 'qm-create-customer-modal',
@@ -154,10 +154,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
 
       this.createCustomerForm = this.fb.group({
-        firstName: [ '', Validators.required, noAllWhitespaceValidator],
-        lastName: [ '', Validators.required, noAllWhitespaceValidator],
+        firstName: [ '', Validators.required, whiteSpaceValidator],
+        lastName: [ '', Validators.required, whiteSpaceValidator],
         email: ['', emailValidators],
-        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators],
+        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators, whiteSpaceValidator],
         dateOfBirth: this.fb.group({
           month: [null, monthValidators],
           day: ['',  dayValidators],

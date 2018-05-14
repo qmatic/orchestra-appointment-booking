@@ -3,7 +3,7 @@ import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operator/map';
-export function noAllWhitespaceValidator(control: FormControl) {
+export function whiteSpaceValidator(control: FormControl) {
     const whiteSpaceErrorObject = { 'allwhitespace': true };
     return of(control.value).
         map(v => {
