@@ -49,7 +49,12 @@ import {
   BookingDataService,
   BookingDispatchers,
   BookingSelectors,
-  BookingHelperSelectors
+  BookingHelperSelectors,
+  CalendarSettingsService,
+  CalendarSettingsDispatchers,
+  CalendarSettingsSelectors,
+  ReservationExpiryTimerDispatchers,
+  ReservationExpiryTimerSelectors
 } from './services';
 
 export const storeServices = [
@@ -98,5 +103,10 @@ export const storeServices = [
   BookingDataService,
   BookingDispatchers,
   BookingSelectors,
-  BookingHelperSelectors
+  BookingHelperSelectors,
+  CalendarSettingsService,
+  CalendarSettingsDispatchers,
+  CalendarSettingsSelectors,
+  ReservationExpiryTimerDispatchers,
+  ReservationExpiryTimerSelectors
 ];

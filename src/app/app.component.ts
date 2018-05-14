@@ -1,3 +1,4 @@
+import { CalendarSettingsDispatchers } from './../store/services/calendar-settings/calendar-settings.dispatcher';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ToastContainerDirective } from 'ngx-toastr';
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
     private systemInfoDispatchers: SystemInfoDispatchers,
     private serviceDispachers: ServiceDispatchers,
     private accountDispatchers: AccountDispatchers,
-    private settingsAdminDispatchers: SettingsAdminDispatchers
+    private settingsAdminDispatchers: SettingsAdminDispatchers,
+    private calendarSettingsDispatchers: CalendarSettingsDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
@@ -41,5 +43,6 @@ export class AppComponent implements OnInit {
     this.settingsAdminDispatchers.fetchSettings();
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
+    this.calendarSettingsDispatchers.fetchCalendarSettingsInfo();
   }
 }

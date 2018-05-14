@@ -9,19 +9,14 @@
           </ng-template>
         </div>
       </div>
-      <div class="col-sm-5">
+      <div [ngClass]="(showExpiryReservationTime$ | async) ? {'col-sm-5':true} : {'col-sm-7':true}">
         <div class="qm-full-height" *ngIf="currentCustomer">
           <qm-customer-appointments></qm-customer-appointments>
         </div>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-2" *ngIf="(showExpiryReservationTime$ | async)">
         <div class="qm-expire-counter-layout">
-
-          <div class="qm-expire-counter ">
-            <span class="qm-expire-counter__label">Reservation will expire in:</span>
-            <span class="qm-expire-counter__time js-expire-counter-time">09:59</span>
-          </div>
-
+            <qm-reservation-timer></qm-reservation-timer>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { CalendarSettingsEffects } from './calendar-settings.effects';
 import { SettingsAdminEffects } from './settings-admin.effects';
 import { UserRoleEffects } from './user-role.effects';
 import { ServiceEffects } from './service.effects';
@@ -29,7 +30,8 @@ export const effects: any[] = [
   NumberOfCustomersEffects,
   ReserveEffects,
   AccountEffects,
-  BookingEffects
+  BookingEffects,
+  CalendarSettingsEffects
 ];
 
 export * from './service.effects';
@@ -47,3 +49,5 @@ export * from './number-of-customers.effects';
 export * from './reserve.effects';
 export * from './account.effects';
 export * from './booking.effects';
+export * from './calendar-settings.effects';
+export * from './reservation-expiry-timer.effects';

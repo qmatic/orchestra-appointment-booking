@@ -8,39 +8,37 @@ import { ICustomer } from '../../../../models/ICustomer';
 import { CustomerSelectors, UserSelectors } from '../../../../store';
 
 @Component({
-  selector: 'qm-dashboard',
-  templateUrl: './qm-dashboard.component.html',
-  styleUrls: ['./qm-dashboard.component.scss']
+  selector: 'qm-reservation-timer',
+  templateUrl: './qm-reservation-timer.component.html',
+  styleUrls: ['./qm-reservation-timer.component.scss']
 })
-export class QmDashboardComponent implements OnInit, OnDestroy {
+export class QmReservationTimerComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   userDirection$: Observable<string>;
-  currentCustomer$: Observable<ICustomer>;
-  currentCustomer: ICustomer;
   reservationTime$: Observable<Number>;
   getExpiryReservationTime$: Observable<Number>;
-  showExpiryReservationTime$: Observable<Boolean>;
 
   constructor(
-    private customerSelectors: CustomerSelectors,
     private userSelectors: UserSelectors,
     private reservationExpiryTimerSelectors: ReservationExpiryTimerSelectors,
     private calendarSettingsSelectors: CalendarSettingsSelectors,
     private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservationTime$ = this.reservationExpiryTimerSelectors.reservationExpiryTime$;
     this.getExpiryReservationTime$ = this.calendarSettingsSelectors.getReservationExpiryTime$;
-    this.showExpiryReservationTime$ = this.reservationExpiryTimerSelectors.showReservationExpiryTime$;
   }
 
   ngOnInit() {
-    const currentCustomerSubscription = this.currentCustomer$.subscribe(
-      (customer: ICustomer) => (this.currentCustomer = customer)
+    const expiryReservationTimerSubscription = this.getExpiryReservationTime$.subscribe(
+      (time: Number) => {
+        console.error(time);
+
+        setTimeout(() => {}, 1000);
+      }
     );
 
-    this.subscriptions.add(currentCustomerSubscription);
+    this.subscriptions.add(expiryReservationTimerSubscription);
   }
 
   ngOnDestroy() {

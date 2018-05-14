@@ -1,3 +1,4 @@
+import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import {
@@ -81,7 +82,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     private timeslotDispatchers: TimeslotDispatchers,
     private reserveDispatchers: ReserveDispatchers,
     private customerSelectors: CustomerSelectors,
-    private appointmentMetaSelectors: AppointmentMetaSelectors
+    private appointmentMetaSelectors: AppointmentMetaSelectors,
+    private calendarSettingsSelectors: CalendarSettingsSelectors
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;

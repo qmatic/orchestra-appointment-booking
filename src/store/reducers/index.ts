@@ -18,6 +18,8 @@ import * as fromTimeslot from './timeslot.reducer';
 import * as fromReserve from './reserve.reducer';
 import * as fromAccount from './account.reducer';
 import * as fromBooking from './booking.reducer';
+import * as fromCalendarSettings from './calendar-settings.reducer';
+import * as fromReservationTimer from './reservation-expiry-timer.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
@@ -36,6 +38,8 @@ export interface IAppState {
   reserved: fromReserve.IReserveState;
   account: fromAccount.IAccountState;
   booked: fromBooking.IBookingState;
+  calendarSettings: fromCalendarSettings.ICalendarSettingsState;
+  reservationExpiryTimer: fromReservationTimer.IReservationTimerState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -55,5 +59,7 @@ export const reducers: ActionReducerMap<IAppState> = {
   reserved: fromReserve.reducer,
   account: fromAccount.reducer,
   booked: fromBooking.reducer,
+  calendarSettings: fromCalendarSettings.reducer,
+  reservationExpiryTimer: fromReservationTimer.reducer
   // here is where you put other reducers, when you have them
 };

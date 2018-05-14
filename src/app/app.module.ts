@@ -108,6 +108,7 @@ import { QmStandardRadioComponent } from './components/presentational/qm-standar
 import { CanDeactivateGuard } from '../routes/can-deactivatet';
 import { QmModalComponent } from './components/presentational/qm-modal/qm-modal.component';
 import { QmModalService } from './components/presentational/qm-modal/qm-modal.service';
+import { QmReservationTimerComponent } from './components/containers/qm-reservation-timer/qm-reservation-timer.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -170,7 +171,8 @@ const toastrGlobalOptions = {
     SettingsTimeformatComponent,
     QmBookingFooterComponent,
     QmStandardRadioComponent,
-    QmModalComponent
+    QmModalComponent,
+    QmReservationTimerComponent
   ],
   imports: [
     BrowserModule,
