@@ -135,7 +135,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
       if (settings.CustomerPhoneRequired.value === true) {
-        phoneValidators.push(Validators.required, noAllWhitespaceValidator);
+        phoneValidators.push(Validators.required);
       }
 
       const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)];
