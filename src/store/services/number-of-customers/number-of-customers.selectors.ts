@@ -29,11 +29,11 @@ const getSelectableNumberOfCustomers = createSelector(
     // Otherwise check if only one customer should be available
     const onlyOneCustomerAvailable = selectedServices.reduce(
       (shouldSetToOne: boolean, selectedService: IService) => {
-        return !shouldSetToOne
+        return shouldSetToOne
                 ? selectedService.additionalCustomerDuration === 0
-                : true;
+                : false;
       },
-      false
+      true
     );
 
     if (onlyOneCustomerAvailable) {
