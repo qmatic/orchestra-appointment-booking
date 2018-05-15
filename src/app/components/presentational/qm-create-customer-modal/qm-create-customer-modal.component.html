@@ -101,10 +101,11 @@
                     <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.phone' | translate }}</span>
                     <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>
                   </span>
-                  <input type="search"
+                  <input type="tel"
                           class="qm-input qm-standard-text-field__input"
                           autocomplete="tel"
                           placeholder=""
+                          maxlength="50"
                           name="phone"
                           [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true"
                           formControlName="phone" />

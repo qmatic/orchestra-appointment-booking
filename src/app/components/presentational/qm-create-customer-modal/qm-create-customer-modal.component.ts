@@ -278,7 +278,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     if (day && parseInt(day, 10)) {
       const intDay = parseInt(day, 10);
       if (intDay < 10) {
-        day = '0' + day;
+        day = '0' + intDay;
       }
     }
 
