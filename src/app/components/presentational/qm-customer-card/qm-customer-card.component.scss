@@ -49,6 +49,8 @@
   &__name {
     display: inline-block;
     color: $primary-color;
+    word-break: break-all;
+    word-break: break-word;
 
     &:hover,
     &:focus {
