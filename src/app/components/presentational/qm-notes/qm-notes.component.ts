@@ -3,13 +3,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { debounceTime } from 'rxjs/operators';
 
 import {
   UserSelectors,
   AppointmentMetaSelectors,
-  AppointmentMetaDispatchers
+  AppointmentMetaDispatchers,
+  SettingsAdminSelectors
 } from '../../../../store';
-import { debounceTime } from 'rxjs/operators';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-notes',
@@ -17,27 +19,31 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./qm-notes.component.scss'],
 })
 export class QmNotesComponent implements OnInit, OnDestroy {
-  subscriptions: Subscription = new Subscription();
-  notesInput$: Subject<string> = new Subject<string>();
-  notesLength$: Observable<number>;
-  userDirection$: Observable<string>;
-  notes$: Observable<string>;
+  private subscriptions: Subscription = new Subscription();
+  private notesInput$: Subject<string> = new Subject<string>();
+  private notesLength$: Observable<number>;
+  private userDirection$: Observable<string>;
+  private notes$: Observable<string>;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
-  notes: string;
-  notesLength: number;
-  notesMaxLength = 255;
-  notesInputOpened = false;
-  buttonPlaceholderText: string;
+  private notes: string;
+  private notesLength: number;
+  private notesMaxLength = 255;
+  private notesInputOpened = false;
+  private buttonPlaceholderText: string;
+  private notesEnabled: boolean;
 
   constructor(
     private userSelectors: UserSelectors,
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.notesLength$ = this.appointmentMetaSelectors.notesLength$;
     this.notes$ = this.appointmentMetaSelectors.notes$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
@@ -45,6 +51,11 @@ export class QmNotesComponent implements OnInit, OnDestroy {
       debounceTime(500)
     ).subscribe(
       (note: string) => this.setNote(note)
+    );
+
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting}) =>
+        this.notesEnabled = settingsMap.Notes.value
     );
 
     const notesSubscription = this.notes$.subscribe(
@@ -62,6 +73,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(notesInputSubscription);
+    this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(notesLengthSubscription);
     this.subscriptions.add(notesSubscription);
     this.subscriptions.add(buttonLabelSunscription);

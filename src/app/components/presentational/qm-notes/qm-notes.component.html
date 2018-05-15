@@ -1,4 +1,4 @@
-<div class="qm-notes" dir="{{ userDirection$ | async }}">
+<div class="qm-notes" *ngIf="notesEnabled" dir="{{ userDirection$ | async }}">
   <div class="qm-notes__edit-container" *ngIf="notesInputOpened; else notesPresentational">
     <div class="qm-notes-layout">
       <label class="qm-notes__label" for="notesEdit">{{ 'label.notes.edit.heading' | translate }}</label>
