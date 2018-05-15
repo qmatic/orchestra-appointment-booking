@@ -32,7 +32,7 @@
                 <ng-container *ngSwitchCase="'Select'">
                     <qm-settings-listbox [settingName]="s.name" 
                     [setting] = "s"
-                    [listCollection] = "['NoOption', 'SMS', 'Email', 'EmailandSMS', 'NoNotification']"
+                    [listCollection] = "['NoOption', 'sms', 'email', 'both', 'none']"
                     [settingControl]="settingsEditForm.controls[s.name]"></qm-settings-listbox>
                 </ng-container>
                  <ng-container *ngSwitchCase="'Boolean'">
