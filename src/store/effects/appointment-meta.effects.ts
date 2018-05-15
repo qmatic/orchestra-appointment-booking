@@ -32,10 +32,9 @@ export class AppointmentMetaEffects {
         (setting: Setting) => setting.name === this.PRESELECT_OPTION_NAME
       ))),
       switchMap((data: any) => {
-        const [ action, setting ]: [ AppointmentMetaActions.ResetAppointmentNotificationType, Setting ] = data;
-
-        if (setting && setting.value !== this.PRESELECT_NO_OPTION) {
-          return [new AppointmentMetaActions.SetAppointmentNotificationType(setting.value)];
+        const [ action, setting ]: [ AppointmentMetaActions.ResetAppointmentNotificationType, Setting[] ] = data;
+        if (setting && setting.length > 0 && setting[0].value !== this.PRESELECT_NO_OPTION) {
+          return [new AppointmentMetaActions.SetAppointmentNotificationType(setting[0].value)];
         } else {
           return Observable.empty();
         }

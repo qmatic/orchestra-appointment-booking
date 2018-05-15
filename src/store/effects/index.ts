@@ -14,6 +14,7 @@ import { NumberOfCustomersEffects } from './number-of-customers.effects';
 import { ReserveEffects } from './reserve.effects';
 import { AccountEffects } from './account.effects';
 import { BookingEffects } from './booking.effects';
+import { AppointmentMetaEffects } from './appointment-meta.effects';
 
 export const effects: any[] = [
   AppointmentEffects,
@@ -31,7 +32,8 @@ export const effects: any[] = [
   ReserveEffects,
   AccountEffects,
   BookingEffects,
-  CalendarSettingsEffects
+  CalendarSettingsEffects,
+  AppointmentMetaEffects
 ];
 
 export * from './service.effects';
@@ -51,3 +53,4 @@ export * from './account.effects';
 export * from './booking.effects';
 export * from './calendar-settings.effects';
 export * from './reservation-expiry-timer.effects';
+export * from './appointment-meta.effects';
