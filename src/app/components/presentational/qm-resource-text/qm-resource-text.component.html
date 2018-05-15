@@ -1,4 +1,4 @@
-<div class="qm-resource-text" *ngIf="text !== ''" [dir]="userDirection$ | async">
+<div class="qm-resource-text" *ngIf="showResource()" [dir]="userDirection$ | async">
   <span class="qm-resource-text__label">{{ 'label.resource' | translate }}:</span>
   <span class="qm-resource-text__text" title="{{ text }}">{{ text | truncate : 20 }}</span>
 </div>
