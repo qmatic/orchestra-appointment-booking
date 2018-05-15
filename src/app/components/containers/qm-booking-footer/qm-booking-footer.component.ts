@@ -31,7 +31,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
   private selectedTime$: Observable<string>;
-  private userDirection$: Observable<string>;
+  userDirection$: Observable<string>;
 
   private reservedAppointment: IAppointment;
   private selectedBranches: IBranch[];

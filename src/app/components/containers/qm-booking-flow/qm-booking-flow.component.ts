@@ -59,7 +59,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   public dates: string[];
   public times: string[];
   private selectedServices: IService[];
-  private selectedBranches: IBranch[];
+  selectedBranches: IBranch[];
   private settingsMap: { [name: string]: Setting };
   private numberOfCustomers: number;
   private userLocale: string;

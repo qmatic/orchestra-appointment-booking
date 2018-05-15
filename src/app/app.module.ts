@@ -1,3 +1,4 @@
+import { QmClearInputDirective } from './directives/qm-clear-input.directive';
 import { SettingsAdminDataService } from './../store/services/settings-admin/settings-admin-data.service';
 import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
 import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
@@ -182,7 +183,8 @@ const toastrGlobalOptions = {
     QmModalComponent,
     QmReservationTimerComponent,
     QmIconItemComponent,
-    QmResourceTextComponent
+    QmResourceTextComponent,
+    QmClearInputDirective
   ],
   imports: [
     BrowserModule,

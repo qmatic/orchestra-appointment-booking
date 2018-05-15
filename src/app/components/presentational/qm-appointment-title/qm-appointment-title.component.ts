@@ -20,7 +20,7 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   private title$: Observable<string>;
   private settingsMap$: Observable<{[name: string]: Setting}>;
 
-  private titleEnabled: boolean;
+  titleEnabled: boolean;
   private title: string;
 
   constructor(

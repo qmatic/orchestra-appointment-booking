@@ -31,7 +31,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   private notesMaxLength = 255;
   private notesInputOpened = false;
   private buttonPlaceholderText: string;
-  private notesEnabled: boolean;
+  notesEnabled: boolean;
 
   constructor(
     private userSelectors: UserSelectors,

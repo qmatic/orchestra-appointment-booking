@@ -1,4 +1,5 @@
 import { Directive, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import * as $ from 'jquery';
 
 @Directive({
   selector: '[qmClearInput]'
@@ -9,9 +10,6 @@ export class QmClearInputDirective {
   }
 
   @HostListener('mouseenter') onMouseEnter() {
-    const button = this.renderer.createElement('button');
-    const text = this.renderer.createText('x');
-    this.renderer.appendChild(button, text);
-    this.renderer.appendChild(this.element.nativeElement, button);
+    $('<button>x</button>').insertAfter($(this.element.nativeElement));
   }
 }
