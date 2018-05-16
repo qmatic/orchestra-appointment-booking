@@ -1,5 +1,4 @@
 import { TimeUtils } from './../../../../services/util/timeUtils.service';
-import { ReserveSelectors } from './../../../../store/services/reserve/reserve.selectors';
 import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -74,7 +73,6 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private reservedAppointment: IAppointment;
   private settingReservationExpiryTime: number;
   getExpiryReservationTime$: Observable<Number>;
-  reservedAppointment$: Observable<IAppointment>;
 
   constructor(
     private branchSelectors: BranchSelectors,
@@ -95,8 +93,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     private calendarSettingsSelectors: CalendarSettingsSelectors,
     private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers,
     private reserveSelectors: ReserveSelectors,
-    private timeUtils: TimeUtils,
-    private reserveSelectors: ReserveSelectors
+    private timeUtils: TimeUtils
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.branchesSearchText$ = this.branchSelectors.searchText$;
@@ -206,7 +203,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     );
 
     const reservedAppointmentSubscription = this.reservedAppointment$.subscribe(
-      (reservedAppointment: IAppointment) => this.reservedAppointment = reservedAppointment
+      (reservedAppointment: IAppointment) =>
+        (this.reservedAppointment = reservedAppointment)
     );
 
     this.subscriptions.add(titleSubscription);
@@ -519,7 +517,6 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   isTimeslotSelected(time: string) {
     return this.selectedTime === time;
   }
-
 
   /************/
   /*   MISC   */
