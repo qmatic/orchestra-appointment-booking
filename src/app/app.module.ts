@@ -117,6 +117,7 @@ import { QmModalService } from './components/presentational/qm-modal/qm-modal.se
 import { QmReservationTimerComponent } from './components/containers/qm-reservation-timer/qm-reservation-timer.component';
 import { QmIconItemComponent } from './components/presentational/qm-icon-item/qm-icon-item.component';
 import { QmResourceTextComponent } from './components/presentational/qm-resource-text/qm-resource-text.component';
+import { QmClearInputButtonComponent } from './directives/qm-clear-input-button/qm-clear-input-button.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -184,7 +185,8 @@ const toastrGlobalOptions = {
     QmReservationTimerComponent,
     QmIconItemComponent,
     QmResourceTextComponent,
-    QmClearInputDirective
+    QmClearInputDirective,
+    QmClearInputButtonComponent
   ],
   imports: [
     BrowserModule,
