@@ -7,12 +7,15 @@
     </span>
     <input
     type="text"
+    id="appointmentTitle"
     class="qm-input qm-standard-text-field__input"
     placeholder="{{ 'label.appointmentTitle.input.placeholder' | translate }}"
-    name="title"
+    name="appointmentTitle"
+    maxlength="{{ titleMaxLength }}"
     [ngModel]="title$ | async"
-    (input)="updateTitle(appointmentTitleInput.value)"
-    #appointmentTitleInput />
-    <!--<span class="qm-standard-text-field__error-message">Appointment title cannot be blank</span>-->
+    (input)="updateTitle(appointmentTitle.value)"
+    #appointmentTitle="ngModel"
+    qmMaxLengthValidator="{{ titleMaxLength }}" />
+    <span class="qm-standard-text-field__error-message">{{ appointmentTitle?.errors?.maxlength.value | async }}</span>
   </label>
 </div>

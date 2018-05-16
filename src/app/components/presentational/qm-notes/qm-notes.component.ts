@@ -48,7 +48,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const notesInputSubscription = this.notesInput$.pipe(
-      debounceTime(500)
+      debounceTime(300)
     ).subscribe(
       (note: string) => this.setNote(note)
     );
@@ -91,10 +91,14 @@ export class QmNotesComponent implements OnInit, OnDestroy {
     this.appointmentMetaDispatchers.setAppointmentNote(note);
   }
 
+  hasNotesText() {
+    return this.notes.trim().length !== 0;
+  }
+
   getButtonText() {
-    return this.notes.trim().length === 0
-            ? this.buttonPlaceholderText
-            : this.notes;
+    return this.hasNotesText()
+            ? this.notes
+            : this.buttonPlaceholderText;
   }
 
   hideNotesInput() {

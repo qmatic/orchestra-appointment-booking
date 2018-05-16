@@ -1,6 +1,6 @@
 <fieldset class="qm-notify" dir="userDirection | async" *ngIf="!allNotificationTypesDisabled()">
   <legend class="qm-notify__header">
-    <span class="qm-notify__header-text">Notify customer</span>
+    <span class="qm-notify__header-text">{{ 'label.appointmentNotify.heading' | translate }}<span class="qm-required-star"> *</span></span>
   </legend>
   <ul class="qm-notify__list">
     <li class="qm-notify__list-item" *ngIf="emailEnabled">

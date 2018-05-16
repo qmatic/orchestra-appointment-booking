@@ -43,7 +43,7 @@
 
   &__error-message {
     display: inline-block;
-    visibility: hidden;
+    // visibility: hidden;
     font-size: rem(12px);
     line-height: rem(16px);
     color: $primary-color;

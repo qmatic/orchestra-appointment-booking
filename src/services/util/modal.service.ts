@@ -5,6 +5,7 @@ import {
   QmCreateCustomerModalComponent
 } from '../../app/components/presentational/qm-create-customer-modal/qm-create-customer-modal.component';
 import { QmGenericModalComponent } from '../../app/components/presentational/qm-generic-modal/qm-generic-modal.component';
+import { QmNotificationModalComponent } from '../../app/components/containers/qm-notification-modal/qm-notification-modal.component';
 
 @Injectable()
 export class ModalService {
@@ -23,5 +24,9 @@ export class ModalService {
 
   openNavigateBackConfirmModal() {
     return this.modalService.open(QmGenericModalComponent, { centered: true });
+  }
+
+  openNotificationModal() {
+    return this.modalService.open(QmNotificationModalComponent, { centered: true });
   }
 }

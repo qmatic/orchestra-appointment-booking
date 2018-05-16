@@ -10,11 +10,14 @@ import {
   BranchSelectors,
   DateSelectors,
   TimeslotSelectors,
-  UserSelectors
+  UserSelectors,
+  SettingsAdminSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
 import { IBranch } from '../../../../models/IBranch';
+import { Setting } from '../../../../models/Setting';
+import { ModalService } from '../../../../services/util/modal.service';
 
 @Component({
   selector: 'qm-booking-footer',
@@ -31,8 +34,13 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
   private selectedTime$: Observable<string>;
-  userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
+  private emailEnabled: boolean;
+  private smsEnabled: boolean;
+  private emailAndSmsEnabled: boolean;
+  private noNotificationEnabled: boolean;
   private reservedAppointment: IAppointment;
   private selectedBranches: IBranch[];
   private selectedDate: string;
@@ -50,7 +58,9 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private branchSelectors: BranchSelectors,
     private dateSelectors: DateSelectors,
     private timeslotSelectors: TimeslotSelectors,
-    private userSelectors: UserSelectors
+    private userSelectors: UserSelectors,
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private modalService: ModalService
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -61,6 +71,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.notes$ = this.appointmentMetaSelectors.notes$;
     this.notificationType$ = this.appointmentMetaSelectors.notificationType$;
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
@@ -97,6 +108,15 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
     );
 
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.emailEnabled = settingsMap.IncludeEmail.value;
+        this.smsEnabled = settingsMap.IncludeSms.value;
+        this.emailAndSmsEnabled = settingsMap.IncludeEmailAndSms.value;
+        this.noNotificationEnabled = settingsMap.NoNotification.value;
+      }
+    );
+
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
     this.subscriptions.add(notificationTypeSubscription);
@@ -105,6 +125,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(selectedTimeSubscription);
     this.subscriptions.add(reservedAppointmentSubscription);
     this.subscriptions.add(currentCustomerSubscription);
+    this.subscriptions.add(settingsMapSubscription);
   }
 
   ngOnDestroy() {
@@ -112,10 +133,23 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   }
 
   isConfirmDisabled() {
-    return this.currentCustomer && this.reservedAppointment ? false : true;
+    if (this.hasNotificationOptionsEnabled()) {
+      return this.hasSelectedNotificationType() && this.currentCustomer && this.reservedAppointment ? false : true;
+    } else {
+      return this.currentCustomer && this.reservedAppointment ? false : true;
+    }
   }
 
   handleBooking () {
+    if (!this.notificationTypeIsValid()) {
+      // const modal = this.modalService.openNotificationModal();
+      // modal.result.then()
+    } else {
+      this.bookAppointment();
+    }
+  }
+
+  bookAppointment() {
     const branchPublicId = this.selectedBranches[0].publicId;
     const date = this.selectedDate.slice(0, 10);
     const time = this.selectedTime;
@@ -129,7 +163,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     const appointment: IAppointment = {
       ...this.reservedAppointment,
       customers: [this.currentCustomer],
-      notes: this.notes,
+      notes: encodeURIComponent(this.notes),
       title: this.title,
       custom: this.getAppointmentCustomJson()
     };
@@ -137,8 +171,19 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.bookingDispatchers.bookAppointment(bookingInformation, appointment);
   }
 
+  hasNotificationOptionsEnabled(): boolean {
+    return this.emailEnabled === true
+            || this.smsEnabled === true
+            || this.emailAndSmsEnabled === true
+            || this.noNotificationEnabled === true;
+  }
+
+  hasSelectedNotificationType(): boolean {
+    return this.notificationType !== '';
+  }
+
   notificationTypeIsValid(): boolean {
-    const notificationType = this.notificationType;
+    const notificationType: string = this.notificationType;
 
     switch (notificationType) {
       case 'sms': {

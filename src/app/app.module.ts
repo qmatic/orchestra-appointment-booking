@@ -117,6 +117,8 @@ import { QmResourceTextComponent } from './components/presentational/qm-resource
 import { QmClearInputButtonComponent } from './directives/qm-clear-input-button/qm-clear-input-button.component';
 
 import { MomentModule } from 'angular2-moment';
+import { QmMaxLengthValidatorDirective } from './directives/qm-max-length-validator.directive';
+import { QmNotificationModalComponent } from './components/containers/qm-notification-modal/qm-notification-modal.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -185,7 +187,9 @@ const toastrGlobalOptions = {
     QmIconItemComponent,
     QmResourceTextComponent,
     QmClearInputDirective,
-    QmClearInputButtonComponent
+    QmClearInputButtonComponent,
+    QmMaxLengthValidatorDirective,
+    QmNotificationModalComponent
   ],
   imports: [
     MomentModule,
@@ -220,7 +224,8 @@ const toastrGlobalOptions = {
     QmCreateCustomerModalComponent,
     QmGenericModalComponent,
     QmModalComponent,
-    QmClearInputButtonComponent
+    QmClearInputButtonComponent,
+    QmNotificationModalComponent
   ],
   providers: [
     QmModalService,
