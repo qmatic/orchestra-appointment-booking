@@ -1,40 +1,45 @@
-import { Directive, HostListener, ElementRef, Renderer2, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+import { QmClearInputButtonComponent } from './qm-clear-input-button/qm-clear-input-button.component';
+import { Directive, HostListener, ElementRef, Renderer2, OnInit,
+  ComponentFactory, ComponentFactoryResolver, Input, TemplateRef, ViewContainerRef,
+  EventEmitter, Output, } from '@angular/core';
+import { ComponentRef } from '@angular/core/src/linker/component_factory';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[qmClearInput]'
+  selector: '[qmClearInput]',
 })
-export class QmClearInputDirective implements OnInit {
+export class QmClearInputDirective implements OnInit  {
 
   isClearInputCreated: Boolean = false;
-  $buttonElement: any = $('<span class="form-control-clear glyphicon glyphicon-remove form-control-feedback"></span>');
 
-  constructor(private element: ElementRef, private renderer: Renderer2) {
+  constructor(
+    private viewContainer: ViewContainerRef, private element: ElementRef,
+    private renderer: Renderer2, private resolver: ComponentFactoryResolver, private control: NgControl) {
   }
+  componentRef: ComponentRef<QmClearInputButtonComponent>;
+  buttonComponent: QmClearInputButtonComponent;
 
   @HostListener('input', ['$event'])
   onInput(event) {
-    this.createOrUpdateButtonStatus();
+    this.updateButtonVisibility(event.target.value);
   }
 
   ngOnInit(): void {
-    this.createOrUpdateButtonStatus();
+    const factory: ComponentFactory<QmClearInputButtonComponent> = this.resolver.resolveComponentFactory(QmClearInputButtonComponent);
+    this.componentRef = factory.create(this.viewContainer.parentInjector);
+    this.viewContainer.insert(this.componentRef.hostView);
+    this.viewContainer.element.nativeElement.classList.add('clear-enabled-input');
+    this.componentRef.instance.clear.subscribe(() =>  {
+      this.control.control.setValue('');
+      this.updateButtonVisibility('');
+     });
   }
 
-  createOrUpdateButtonStatus() {
-    if (!this.isClearInputCreated && $(this.element.nativeElement).val().toString().length > 0) {
-      this.$buttonElement.insertAfter($(this.element.nativeElement));
-      this.$buttonElement.css({'display': 'block'});
-      this.isClearInputCreated = true;
-    }  else if (!$(this.element.nativeElement).val().toString().length) {
-      this.$buttonElement.css({'display': 'none'});
-    }
-  }
-
-  removeClearButton() {
-    if (this.isClearInputCreated) {
-      $('<button class="clear-input-btn">x</button>').insertAfter($(this.element.nativeElement));
-      this.isClearInputCreated = false;
+  updateButtonVisibility(inputText: string) {
+    if (inputText) {
+      this.componentRef.instance.isVisible = true;
+    } else {
+      this.componentRef.instance.isVisible = false;
     }
   }
 }

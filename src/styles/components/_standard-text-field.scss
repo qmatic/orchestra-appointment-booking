@@ -37,6 +37,10 @@
     }
   }
 
+  &__input.clear-enabled-input {
+    padding-right: 25px;
+  }
+
   &__error-message {
     display: inline-block;
     visibility: hidden;
@@ -72,6 +76,17 @@
 
     .qm-standard-text-field__error-message {
       visibility: visible;
+    }
+  }
+
+  .qm-clear-input-button {
+    position: absolute;
+    right: 14px;
+    top: 34px;
+    cursor: pointer;
+    .qm-action-btn__icon {
+      color: $dark-transparent42;
+      font-size: rem(16px);
     }
   }
 }

@@ -21,6 +21,7 @@
                           autocomplete="given-name"
                           placeholder=""
                           name="firstName"
+                          qmClearInput
                           maxlength="50"
                           required
                           autoFocus
@@ -52,6 +53,7 @@
                           placeholder=""
                           maxlength="50"
                           name="lastName"
+                          qmClearInput
                           required
                           formControlName="lastName" />
                   <span class="qm-standard-text-field__error-message">
@@ -78,6 +80,7 @@
                           class="qm-input qm-standard-text-field__input"
                           autocomplete="email"
                           placeholder=""
+                          qmClearInput
                           [required]="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true"
                           name="email"
                           formControlName="email" />
@@ -105,6 +108,7 @@
                           class="qm-input qm-standard-text-field__input"
                           autocomplete="tel"
                           placeholder=""
+                          qmClearInput
                           maxlength="50"
                           name="phone"
                           [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true"

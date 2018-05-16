@@ -1,1 +1,5 @@
-<button>x</button>
+<span *ngIf="isVisible" class="qm-clear-input-button">
+  <span (click)="buttonClicked($event)">
+    <i class="qm-action-btn__icon icon-close qm-search__icon" aria-hidden="true"></i>
+  </span>
+</span>

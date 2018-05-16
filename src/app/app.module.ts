@@ -220,7 +220,8 @@ const toastrGlobalOptions = {
   entryComponents: [
     QmCreateCustomerModalComponent,
     QmGenericModalComponent,
-    QmModalComponent
+    QmModalComponent,
+    QmClearInputButtonComponent
   ],
   providers: [
     QmModalService,
