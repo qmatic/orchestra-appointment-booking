@@ -9,7 +9,9 @@ export function whiteSpaceValidator(control: FormControl) {
         map(v => {
             const isAllWhiteSpace = (control.value || '').trim().length === 0;
             const isValid: boolean = !isAllWhiteSpace;
-            control.setErrors(whiteSpaceErrorObject);
-            return isValid ? null : whiteSpaceErrorObject;
+            if (!isValid && control.dirty) {
+                control.setErrors(whiteSpaceErrorObject);
+            }
+            return !control.dirty || isValid ? null : whiteSpaceErrorObject;
         });
 }
