@@ -17,8 +17,6 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   userDirection$: Observable<string>;
   currentCustomer$: Observable<ICustomer>;
   currentCustomer: ICustomer;
-  reservationTime$: Observable<Number>;
-  getExpiryReservationTime$: Observable<Number>;
   showExpiryReservationTime$: Observable<Boolean>;
 
   constructor(
@@ -30,8 +28,8 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
-    this.reservationTime$ = this.reservationExpiryTimerSelectors.reservationExpiryTime$;
-    this.getExpiryReservationTime$ = this.calendarSettingsSelectors.getReservationExpiryTime$;
+
+    // Bing wheather to show or not the timer
     this.showExpiryReservationTime$ = this.reservationExpiryTimerSelectors.showReservationExpiryTime$;
   }
 

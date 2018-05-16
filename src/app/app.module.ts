@@ -1,3 +1,4 @@
+import { TimeUtils } from './../services/util/timeUtils.service';
 import { QmClearInputDirective } from './directives/qm-clear-input.directive';
 import { SettingsAdminDataService } from './../store/services/settings-admin/settings-admin-data.service';
 import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
@@ -231,7 +232,8 @@ const toastrGlobalOptions = {
     LicenseAuthGuard,
     ErrorInterceptor,
     CanDeactivateGuard,
-    DatePipe
+    DatePipe,
+    TimeUtils
   ],
   bootstrap: [AppComponent]
 })

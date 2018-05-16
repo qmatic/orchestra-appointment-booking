@@ -5,7 +5,7 @@ import {
 import * as Actions from '../actions';
 
 export interface IReservationTimerState {
-  onGoingTime: Number;
+  onGoingTime: number;
   showTimer: Boolean;
 }
 

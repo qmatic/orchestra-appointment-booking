@@ -15,7 +15,7 @@ export const initialState: IReserveState = {
   error: null
 };
 
-export function reducer (
+export function reducer(
   state: IReserveState = initialState,
   action: ReserveActions.AllReserveActions
 ): IReserveState {
@@ -69,7 +69,7 @@ export function reducer (
     case ReserveActions.RESET_RESERVED_APPOINTMENT: {
       return {
         ...state,
-        reservedAppointment: null,
+        reservedAppointment: null
       };
     }
     default: {

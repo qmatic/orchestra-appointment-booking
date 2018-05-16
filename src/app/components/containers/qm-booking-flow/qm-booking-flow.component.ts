@@ -1,3 +1,5 @@
+import { TimeUtils } from './../../../../services/util/timeUtils.service';
+import { ReserveSelectors } from './../../../../store/services/reserve/reserve.selectors';
 import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +17,7 @@ import {
   ReserveDispatchers,
   CustomerSelectors,
   AppointmentMetaSelectors,
+  ReservationExpiryTimerDispatchers,
   ReserveSelectors
 } from '../../../../store';
 import { IBranch } from '../../../../models/IBranch';
@@ -69,6 +72,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private notes: string;
   private title: string;
   private reservedAppointment: IAppointment;
+  private settingReservationExpiryTime: number;
+  getExpiryReservationTime$: Observable<Number>;
+  reservedAppointment$: Observable<IAppointment>;
 
   constructor(
     private branchSelectors: BranchSelectors,
@@ -87,6 +93,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     private customerSelectors: CustomerSelectors,
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private calendarSettingsSelectors: CalendarSettingsSelectors,
+    private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers,
+    private reserveSelectors: ReserveSelectors,
+    private timeUtils: TimeUtils,
     private reserveSelectors: ReserveSelectors
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
@@ -108,9 +117,29 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.title$ = this.appointmentMetaSelectors.title$;
     this.notes$ = this.appointmentMetaSelectors.notes$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
+    this.getExpiryReservationTime$ = this.calendarSettingsSelectors.getReservationExpiryTime$;
   }
 
   ngOnInit() {
+    const expiryReservationCalendarSettingSubscription = this.getExpiryReservationTime$.subscribe(
+      (time: number) => {
+        this.settingReservationExpiryTime = time;
+      }
+    );
+
+    const appointmentSubscription = this.reservedAppointment$.subscribe(
+      (app: IAppointment) => {
+        if (app) {
+          this.reservationExpiryTimerDispatchers.showReservationExpiryTimer();
+          this.reservationExpiryTimerDispatchers.setReservationExpiryTimer(
+            this.settingReservationExpiryTime
+          );
+        } else {
+          this.reservationExpiryTimerDispatchers.hideReservationExpiryTimer();
+        }
+      }
+    );
+
     const titleSubscription = this.title$.subscribe(
       (title: string) => (this.title = title)
     );
@@ -195,6 +224,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.subscriptions.add(numberOfCustomersArraySubscription);
     this.subscriptions.add(selectedDateSubscription);
     this.subscriptions.add(selectedTimeslotSubscription);
+    this.subscriptions.add(expiryReservationCalendarSettingSubscription);
+    this.subscriptions.add(appointmentSubscription);
     this.subscriptions.add(reservedAppointmentSubscription);
   }
 

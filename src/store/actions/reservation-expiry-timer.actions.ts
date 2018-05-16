@@ -12,6 +12,10 @@ export class SetReservationExpiryTime implements Action {
   constructor(public payload: number) {}
 }
 
+export class ResetReservationExpiryTimer implements Action {
+  readonly type = SHOW_RESERVATION_EXPIRY_TIMER;
+}
+
 export class HideReservationExpiryTimer implements Action {
   readonly type = HIDE_RESERVATION_EXPIRY_TIMER;
 }

@@ -1,3 +1,6 @@
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from './../../../../services/util/toast.service';
+import { TimeUtils } from './../../../../services/util/timeUtils.service';
 import { ReservationExpiryTimerDispatchers } from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.dispatchers';
 import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { ReservationExpiryTimerSelectors } from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.selectors';
@@ -15,30 +18,66 @@ import { CustomerSelectors, UserSelectors } from '../../../../store';
 export class QmReservationTimerComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   userDirection$: Observable<string>;
-  reservationTime$: Observable<Number>;
-  getExpiryReservationTime$: Observable<Number>;
+  reservationTime$: Observable<number>;
+  getExpiryReservationTime$: Observable<number>;
+  onGoingReservationTime$: Observable<number>;
+  counterString: string;
 
   constructor(
     private userSelectors: UserSelectors,
     private reservationExpiryTimerSelectors: ReservationExpiryTimerSelectors,
     private calendarSettingsSelectors: CalendarSettingsSelectors,
-    private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers
+    private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers,
+    private timeUtils: TimeUtils,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.reservationTime$ = this.reservationExpiryTimerSelectors.reservationExpiryTime$;
     this.getExpiryReservationTime$ = this.calendarSettingsSelectors.getReservationExpiryTime$;
+    // Bind on going reservation expiry counter to view
+    this.onGoingReservationTime$ = this.reservationExpiryTimerSelectors.reservationExpiryTime$;
   }
 
   ngOnInit() {
-    const expiryReservationTimerSubscription = this.getExpiryReservationTime$.subscribe(
-      (time: Number) => {
-        console.error(time);
+    // List to updates from counter in store
+    const expiryTimeUpdateSubscription = this.onGoingReservationTime$.subscribe(
+      onGoingTime => {
+        if (onGoingTime >= 0) {
+          // Format Number into string
+          this.counterString = this.timeUtils.formatSecondsIntoMinituesAndSeconds(
+            onGoingTime
+          );
 
-        setTimeout(() => {}, 1000);
+          if (onGoingTime === 120) {
+            const translateSubscription = this.translate
+              .get('label.reservation.timer.soonexpire')
+              .subscribe((res: string) => {
+                this.toastService.errorToast(res);
+              });
+            this.subscriptions.add(translateSubscription);
+          }
+
+          if (onGoingTime === 0) {
+            const translateSubscription = this.translate
+              .get('label.reservation.timer.expired')
+              .subscribe((res: string) => {
+                this.toastService.errorToast(res);
+              });
+            this.subscriptions.add(translateSubscription);
+          }
+
+          // Decrement counter
+          setTimeout(() => {
+            this.reservationExpiryTimerDispatchers.setReservationExpiryTimer(
+              --onGoingTime
+            );
+          }, 1000);
+        }
       }
     );
 
-    this.subscriptions.add(expiryReservationTimerSubscription);
+    this.subscriptions.add(expiryTimeUpdateSubscription);
   }
 
   ngOnDestroy() {

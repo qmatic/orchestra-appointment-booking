@@ -10,7 +10,10 @@ import { IAppointment } from '../../../models/IAppointment';
 export class ReserveDispatchers {
   constructor(private store: Store<IAppState>) {}
 
-  reserveAppointment(bookingInformation: IBookingInformation, appointment: IAppointment) {
+  reserveAppointment(
+    bookingInformation: IBookingInformation,
+    appointment: IAppointment
+  ) {
     const payload = {
       bookingInformation,
       appointment

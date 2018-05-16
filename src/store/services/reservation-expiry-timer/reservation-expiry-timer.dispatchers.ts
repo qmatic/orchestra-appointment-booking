@@ -12,4 +12,12 @@ export class ReservationExpiryTimerDispatchers {
   showReservationExpiryTimer() {
     this.store.dispatch(new Actions.ShowReservationExpiryTimer());
   }
+
+  hideReservationExpiryTimer() {
+    this.store.dispatch(new Actions.HideReservationExpiryTimer());
+  }
+
+  setReservationExpiryTimer(number: number) {
+    this.store.dispatch(new Actions.SetReservationExpiryTime(number));
+  }
 }
