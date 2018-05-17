@@ -75,12 +75,21 @@
       padding: rem($standard-padding / 2);
     }
 
+    &__list-container {
+      display: flex;
+      flex-wrap: nowrap;
+      height: calc(100% - 62px);
+      overflow: hidden;
+      width: 100%;
+    }
+
     &__list {
+      flex: 1 1 auto;
       position: relative;
       list-style-type: none;
       padding: 0;
       margin: 0;
-      height: calc(100% - 62px);
+      height: 100%;
       overflow-x: hidden;
       overflow-y: auto;
       width: 100%;
@@ -94,6 +103,12 @@
       }
     }
 
+    &__sidebar {
+      flex: 0 0 36px;
+      background: $dark-transparent04;
+      height: 100%;
+    }
+
     &--nosearch {
       // margin-top: rem(62px);
       // height: calc(100% - 52px);
@@ -101,6 +116,10 @@
       .qm-booking__body {
         margin-top: rem(62px);
         height: calc(100% - 108px);
+      }
+
+      .qm-booking__list-container {
+        height: 100%;
       }
 
       .qm-booking__list {

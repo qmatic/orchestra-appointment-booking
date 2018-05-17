@@ -11,7 +11,7 @@
   height: 100%;
 
   &__row {
-    flex: 0 1 100%;
+    flex: 1 1 100%;
   }
 
   &__col {
@@ -26,7 +26,7 @@
     }
 
     &--time-col {
-      flex: 0 0 140px;
+      flex: 0 0 190px;
     }
   }
 }

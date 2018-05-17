@@ -25,6 +25,7 @@ export class QmNotifyComponent implements OnInit, OnDestroy {
   private smsEnabled: boolean;
   private emailAndSmsEnabled: boolean;
   private noNotificationEnabled: boolean;
+  private preselectedOption: string;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -47,11 +48,23 @@ export class QmNotifyComponent implements OnInit, OnDestroy {
         this.smsEnabled = settingsMap.IncludeSms.value;
         this.emailAndSmsEnabled = settingsMap.IncludeEmailAndSms.value;
         this.noNotificationEnabled = settingsMap.NoNotification.value;
+        this.preselectedOption = settingsMap.OptionPreselect.value;
+        this.setPreselectedOption();
       }
     );
 
     this.subscriptions.add(notificationTypeSubscription);
     this.subscriptions.add(settingsMapSubscription);
+
+  }
+
+  setPreselectedOption() {
+    if (this.preselectedOption === 'sms'
+      || this.preselectedOption === 'email'
+      || this.preselectedOption === 'both'
+      || this.preselectedOption === 'none') {
+        this.appointmentMetaDispatchers.setAppointmentNotificationType(this.preselectedOption);
+      }
   }
 
   allNotificationTypesDisabled() {

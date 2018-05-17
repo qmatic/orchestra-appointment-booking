@@ -275,6 +275,23 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.updateServiceGroups();
   }
 
+  getTimeAsDate(time: string): Date {
+    const now = new Date();
+    const splitTime = time.split(':');
+    now.setHours(parseInt(splitTime[0], 10));
+    now.setMinutes(parseInt(splitTime[1], 10));
+
+    return now;
+  }
+
+  getTimeFormat(): string {
+    if (this.settingsMap.TimeFormat.value === 'AMPM') {
+      return 'shortTime';
+    } else {
+      return 'HH:mm';
+    }
+  }
+
   /**
    * Update the service groups
    * Used to display related services and available branches
@@ -351,18 +368,28 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   getBranchAddressText(branch: IBranch) {
     let completeAddress = '';
     if (branch) {
-      const address = branch.addressLine1;
-      const city = branch.addressCity;
+      const fieldsToLookFor = [
+        'addressLine1',
+        'addressLine2',
+        'addressZip',
+        'addressCity',
+        'addressCountry'
+      ];
 
-      if (address !== '') {
-        completeAddress += address;
-      }
-      if (city !== '') {
-        if (address !== '') {
-          completeAddress += ', ';
-        }
-        completeAddress += city;
-      }
+      completeAddress = fieldsToLookFor.reduce(
+        (acc, curr) => {
+          if (curr in branch) {
+            const value = branch[curr];
+            if (value !== null && value !== '') {
+              if (acc === '') {
+                return value;
+              } else {
+                return acc += ', ' + value;
+              }
+            }
+          }
+          return acc;
+        }, '');
     }
 
     return completeAddress;

@@ -119,6 +119,8 @@ import { QmClearInputButtonComponent } from './directives/qm-clear-input-button/
 import { MomentModule } from 'angular2-moment';
 import { QmMaxLengthValidatorDirective } from './directives/qm-max-length-validator.directive';
 import { QmNotificationModalComponent } from './components/containers/qm-notification-modal/qm-notification-modal.component';
+import { QmStandardCheckboxComponent } from './components/presentational/qm-standard-checkbox/qm-standard-checkbox.component';
+import { QmBookingSidebarComponent } from './components/presentational/qm-booking-sidebar/qm-booking-sidebar.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -189,7 +191,9 @@ const toastrGlobalOptions = {
     QmClearInputDirective,
     QmClearInputButtonComponent,
     QmMaxLengthValidatorDirective,
-    QmNotificationModalComponent
+    QmNotificationModalComponent,
+    QmStandardCheckboxComponent,
+    QmBookingSidebarComponent
   ],
   imports: [
     MomentModule,
@@ -205,9 +209,7 @@ const toastrGlobalOptions = {
     NgbModule.forRoot(),
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
-    StoreDevtoolsModule.instrument({
-      maxAge: 20
-    }),
+    ...(!environment.production ? [StoreDevtoolsModule.instrument({ maxAge: 10 })] : []),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

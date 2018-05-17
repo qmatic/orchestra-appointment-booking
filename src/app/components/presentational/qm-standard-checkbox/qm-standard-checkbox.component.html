@@ -1,0 +1,13 @@
+<label class="qm-selector-item__label">
+    <input class="qm-selector-item__input"
+      type="checkbox"
+      name="{{ name }}"
+      [checked]="isSelected"
+      (click)="handleChange($event)" />
+    <span class="qm-selector-item__selector">
+        <i class="qm-selector-item__selector-icon" aria-hidden="true"></i>
+        <span class="qm-selector-item__selector-text" [attr.title]="title !== '' ? title : null">
+            <ng-content></ng-content>
+        </span>
+    </span>
+</label>

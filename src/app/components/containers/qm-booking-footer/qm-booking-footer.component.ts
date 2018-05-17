@@ -11,7 +11,8 @@ import {
   DateSelectors,
   TimeslotSelectors,
   UserSelectors,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  FETCH_LICENSE_INFO
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
@@ -142,14 +143,19 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
   handleBooking () {
     if (!this.notificationTypeIsValid()) {
-      // const modal = this.modalService.openNotificationModal();
-      // modal.result.then()
+      const missingNotificationType = this.getMissingNotificationType();
+      const modal = this.modalService.openNotificationModal(missingNotificationType);
+      modal.result.then((updatedCustomer: ICustomer) => {
+        if (updatedCustomer !== undefined) {
+          this.bookAppointment(updatedCustomer);
+        }
+      }).catch(() => {});
     } else {
       this.bookAppointment();
     }
   }
 
-  bookAppointment() {
+  bookAppointment(currentCustomer = this.currentCustomer) {
     const branchPublicId = this.selectedBranches[0].publicId;
     const date = this.selectedDate.slice(0, 10);
     const time = this.selectedTime;
@@ -165,7 +171,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       customers: [this.currentCustomer],
       notes: encodeURIComponent(this.notes),
       title: this.title,
-      custom: this.getAppointmentCustomJson()
+      custom: this.getAppointmentCustomJson(currentCustomer)
     };
 
     this.bookingDispatchers.bookAppointment(bookingInformation, appointment);
@@ -201,29 +207,54 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAppointmentCustomJson(): string {
+  getMissingNotificationType(): string {
+    const notificationType: string = this.notificationType;
+
+    switch (notificationType) {
+      case 'sms': {
+        return notificationType;
+      }
+      case 'email': {
+        return notificationType;
+      }
+      case 'both': {
+        if (this.currentCustomer.phone === '' && this.currentCustomer.email === '') {
+          return notificationType;
+        } else if (this.currentCustomer.phone === '') {
+          return 'sms';
+        } else {
+          return 'email';
+        }
+      }
+      default: {
+        return '';
+      }
+    }
+  }
+
+  getAppointmentCustomJson(currentCustomer: ICustomer): string {
     const notificationType: string = this.notificationType;
 
     switch (notificationType) {
       case 'sms': {
         return `{`
-                + `"phoneNumber":"${this.currentCustomer.phone}",`
-                + `"notificationType":"${this.notificationType}",`
+                + `"phoneNumber":"${currentCustomer.phone}",`
+                + `"notificationType":"${notificationType}",`
                 + `"appId":"generic"`
               + `}`;
       }
       case 'email': {
         return `{`
-                + `"email":"${this.currentCustomer.email}",`
-                + `"notificationType":"${this.notificationType}",`
+                + `"email":"${currentCustomer.email}",`
+                + `"notificationType":"${notificationType}",`
                 + `"appId":"generic"`
               + `}`;
       }
       case 'both': {
         return `{`
-                + `"phoneNumber":"${this.currentCustomer.phone}",`
-                + `"email":"${this.currentCustomer.email}",`
-                + `"notificationType":"${this.notificationType}",`
+                + `"phoneNumber":"${currentCustomer.phone}",`
+                + `"email":"${currentCustomer.email}",`
+                + `"notificationType":"${notificationType}",`
                 + `"appId":"generic"`
               + `}`;
       }

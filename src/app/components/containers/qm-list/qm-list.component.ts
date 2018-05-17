@@ -35,6 +35,9 @@ export class QmListComponent implements OnInit, OnDestroy {
   @Input()
   displayAsRequired = true;
 
+  @Input()
+  sidebarEnabled = false;
+
   @Output()
   search: EventEmitter<string> = new EventEmitter<string>();
 
@@ -53,6 +56,10 @@ export class QmListComponent implements OnInit, OnDestroy {
       );
 
     this.subscriptions.add(searchInputSubscription);
+  }
+
+  handleSidebarClick(event: Event) {
+    console.log('this is the event: ', event);
   }
 
   ngOnDestroy() {

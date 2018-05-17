@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'qm-standard-radio',

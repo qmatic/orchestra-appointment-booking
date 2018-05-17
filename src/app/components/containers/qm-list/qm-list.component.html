@@ -14,8 +14,13 @@
         </button>
       </div>
     </div>
-    <ul class="qm-booking__list">
-      <ng-content></ng-content>
-    </ul>
+    <div class="qm-booking__list-container">
+      <div class="qm-booking__sidebar" *ngIf="sidebarEnabled">
+        <qm-booking-sidebar (optionClicked)="handleSidebarClick($event)"></qm-booking-sidebar>
+      </div>
+      <ul class="qm-booking__list">
+        <ng-content></ng-content>
+      </ul>
+    </div>
   </div>
 </fieldset>

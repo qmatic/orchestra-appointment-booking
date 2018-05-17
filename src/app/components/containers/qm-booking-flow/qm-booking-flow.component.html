@@ -31,11 +31,18 @@
       <qm-resource-text [text]="getResource()"></qm-resource-text>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
-      <qm-list [searchable]="false" [header]="'label.bookingFlow.time.header' | translate">
+      <qm-list [searchable]="false" [sidebarEnabled]="true" [header]="'label.bookingFlow.time.header' | translate">
         <qm-list-item [name]="'time'" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
-          {{ timeslot }}
+          {{ getTimeAsDate(timeslot) | date:getTimeFormat() }}
         </qm-list-item>
       </qm-list>
+    </div>
+    <div class="col-3 qm-booking-flow__col">
+      <div class="qm-booking-information">
+        <qm-notify></qm-notify>
+        <qm-appointment-title></qm-appointment-title>
+        <qm-notes></qm-notes>
+      </div>
     </div>
   </div>
 </div>

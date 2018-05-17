@@ -1,0 +1,120 @@
+@import "../../../../styles/base/component-manifest";
+
+.qm-selector-item {
+
+    &__label {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    &__input {
+      @include sr-only;
+
+      &:hover {
+        & ~ .qm-selector-item__selector {
+          .qm-selector-item__selector-icon {
+            color: $dark-transparent12;
+
+            &:before {
+              content: "\e95e";
+
+              @at-root [dir='rtl'] & {
+                content: "\e960";
+              }
+            }
+          }
+        }
+      }
+
+      &:focus {
+        & ~ .qm-selector-item__selector {
+          .qm-selector-item__selector-text {
+            font-weight: $font-weight-regular;
+          }
+        }
+      }
+
+      &:checked {
+        & ~ .qm-selector-item__selector {
+          font-weight: $font-weight-regular;
+
+          .qm-selector-item__selector-icon {
+            color: $secondary-color;
+
+            &:before {
+              content: "\e95e";
+
+              @at-root [dir='rtl'] & {
+                content: "\e960";
+              }
+            }
+          }
+        }
+
+        &[disabled] {
+          & ~ .qm-selector-item__selector {
+            color: $dark-transparent12;
+
+            .qm-selector-item__selector-icon {
+              color: $dark-transparent12;
+            }
+          }
+        }
+      }
+
+      &[disabled] {
+        & ~ .qm-selector-item__selector {
+          cursor: auto;
+        }
+      }
+
+      &[type="checkbox"] ~ .qm-selector-item__selector {
+        padding: rem(0 20px 0 $standard-padding * 2);
+
+        @at-root [dir='rtl'] & {
+          padding: rem(0 $standard-padding * 2 0 20px);
+        }
+      }
+    }
+
+    &__selector {
+      cursor: pointer;
+      display: block;
+      position: relative;
+      font-weight: $font-weight-light;
+    }
+
+    &__selector-text {
+      display: block;
+      font-size: rem(18px);
+      user-select: none;
+      word-break: break-all; // IE fallback
+      word-break: break-word;
+
+      @at-root [dir='rtl'] & {
+        text-align: right;
+      }
+    }
+
+    &__selector-icon {
+      font-size: rem(24px);
+      line-height: rem(24px);
+      height: rem(24px);
+      width: rem(24px);
+      color: $dark-transparent12;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:before {
+        content: "\e961";
+        @include icomoon-styles;
+      }
+
+      @at-root [dir='rtl'] & {
+        left: auto;
+        right: 0;
+      }
+    }
+  }

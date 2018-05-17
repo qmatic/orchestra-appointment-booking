@@ -1,0 +1,43 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.qm-booking-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+
+  &__btn {
+    background: none;
+    border: 0;
+    color: $dark-transparent42;
+    font-weight: $font-weight-light;
+    cursor: pointer;
+
+    &:after {
+      display: block;
+      content: attr(title);
+      font-weight: $font-weight-medium;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+    }
+
+    &:hover,
+    &:focus {
+      font-weight: $font-weight-medium;
+    }
+
+    &:active {
+      font-weight: $font-weight-medium;
+      color: $dark-transparent82;
+    }
+  }
+}

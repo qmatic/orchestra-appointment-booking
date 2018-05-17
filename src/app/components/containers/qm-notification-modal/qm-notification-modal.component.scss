@@ -1,0 +1,41 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-notification-modal {
+
+  &__header {
+    justify-content: center;
+    padding: rem($standard-padding * 2 $standard-padding * 2 0);
+  }
+
+  &__headline {
+    font-size: rem(24px);
+    margin-left: 0;
+    text-align: center;
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+    }
+  }
+
+  &__body {
+    max-width: rem(345px);
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__save-to-customer-option {
+    margin-bottom: rem($standard-margin * 3);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    max-width: rem(345px);
+    width: 100%;
+    margin: 0 auto 32px;
+
+    .qm-btn {
+      min-width: rem(155px);
+    }
+  }
+}

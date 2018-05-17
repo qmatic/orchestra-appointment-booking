@@ -3,12 +3,12 @@
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-right: rem($standard-padding);
+  // padding-right: rem($standard-padding);
 
-  @at-root [dir='rtl'] & {
-    padding-right: 0;
-    padding-left: rem($standard-padding);
-  }
+  // @at-root [dir='rtl'] & {
+  //   padding-right: 0;
+  //   padding-left: rem($standard-padding);
+  // }
 
   .qm-notify {
     margin-bottom: rem($standard-margin * 2);

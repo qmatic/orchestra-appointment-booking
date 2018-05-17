@@ -26,7 +26,9 @@ export class ModalService {
     return this.modalService.open(QmGenericModalComponent, { centered: true });
   }
 
-  openNotificationModal() {
-    return this.modalService.open(QmNotificationModalComponent, { centered: true });
+  openNotificationModal(typeToEdit: string) {
+    const modal = this.modalService.open(QmNotificationModalComponent, { centered: true });
+    modal.componentInstance.typeToEdit = typeToEdit;
+    return modal;
   }
 }

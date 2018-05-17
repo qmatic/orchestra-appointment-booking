@@ -1,4 +1,6 @@
-import { ReservationExpiryTimerDispatchers } from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.dispatchers';
+import {
+  ReservationExpiryTimerDispatchers
+} from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.dispatchers';
 import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { ReservationExpiryTimerSelectors } from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
