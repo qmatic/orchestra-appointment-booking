@@ -6,7 +6,7 @@ import { UserRoleDispatchers } from './../store/services/user-role/user-role.dis
 import { LicenseAuthGuard } from './../routes/license-auth-guard';
 import { LicenseDispatchers } from './../store/services/license/license.dispatchers';
 // Angular
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -83,16 +83,12 @@ import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-p
 import { QmSearchBoxComponent } from './components/containers/qm-searchbox/qm-search-box.component';
 import { QmCustomerSearchComponent } from './components/containers/qm-customer-search/qm-customer-search.component';
 import { QmCustomerCardComponent } from './components/presentational/qm-customer-card/qm-customer-card.component';
-import {
-  QmCustomerSearchResultsComponent
-} from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
+import { QmCustomerSearchResultsComponent } from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
 import { QmTruncatePipe } from './pipes/qm-truncate.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
-import {
-  QmCustomerAppointmentListComponent
-} from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
+import { QmCustomerAppointmentListComponent } from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
 import { QmAppointmentIconListComponent } from './components/presentational/qm-appointment-icon-list/qm-appointment-icon-list.component';
 import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 import { QmLoaderComponent } from './components/presentational/qm-loader/qm-loader.component';
@@ -120,11 +116,13 @@ import { QmIconItemComponent } from './components/presentational/qm-icon-item/qm
 import { QmResourceTextComponent } from './components/presentational/qm-resource-text/qm-resource-text.component';
 import { QmClearInputButtonComponent } from './directives/qm-clear-input-button/qm-clear-input-button.component';
 
+import { MomentModule } from 'angular2-moment';
+
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    console.log('state', state);
-    console.log('action', action);
+    // console.log('state', state);
+    // console.log('action', action);
 
     return reducer(state, action);
   };
@@ -190,6 +188,7 @@ const toastrGlobalOptions = {
     QmClearInputButtonComponent
   ],
   imports: [
+    MomentModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

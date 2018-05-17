@@ -25,7 +25,7 @@
     <div class="col qm-booking-flow__col">
       <qm-list [searchText]="datesSearchText$ | async" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)">
         <qm-list-item [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates" (optionClicked)="handleDateSelection(selectableDate)">
-          {{ selectableDate | date:'EEEE d MMMM':'':userLocale }}
+          {{ selectableDate | amDateFormat: 'dddd DD MMMM' }}
         </qm-list-item>
       </qm-list>
       <qm-resource-text [text]="getResource()"></qm-resource-text>

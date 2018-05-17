@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ICustomer } from '../../../../models/ICustomer';
 import { CustomerSelectors, UserSelectors } from '../../../../store';
+import { registerLocaleData } from '@angular/common';
 
 @Component({
   selector: 'qm-reservation-timer',
@@ -40,6 +41,14 @@ export class QmReservationTimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // const localeSubscription = this.userSelectors.userLocale$.subscribe(
+    //   locale => {
+    //     import(`@angular/common/locales/sv_SE.js`).then(locale => {
+    //       registerLocaleData(locale.default);
+    //     });
+    //   }
+    // );
+
     // List to updates from counter in store
     const expiryTimeUpdateSubscription = this.onGoingReservationTime$.subscribe(
       onGoingTime => {

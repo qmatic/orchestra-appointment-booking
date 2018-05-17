@@ -22,9 +22,7 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "qm",
-      "styles": [
-        "styles.scss"
-      ],
+      "styles": ["styles.scss"],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -1,7 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { CalendarSettingsDispatchers } from './../store/services/calendar-settings/calendar-settings.dispatcher';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ToastContainerDirective } from 'ngx-toastr';
+import { registerLocaleData } from '@angular/common';
+import * as moment from 'moment';
+import * as locales from 'moment/min/locales';
 
 import { IBranch } from './../models/IBranch';
 import {
@@ -23,6 +27,7 @@ import { ToastService } from '../services/util/toast.service';
 })
 export class AppComponent implements OnInit {
   userDirection$: Observable<string>;
+  userLocale$: Observable<string>;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -32,9 +37,11 @@ export class AppComponent implements OnInit {
     private serviceDispachers: ServiceDispatchers,
     private accountDispatchers: AccountDispatchers,
     private settingsAdminDispatchers: SettingsAdminDispatchers,
-    private calendarSettingsDispatchers: CalendarSettingsDispatchers
+    private calendarSettingsDispatchers: CalendarSettingsDispatchers,
+    private http: HttpClient
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.userLocale$ = this.userSelectors.userLocale$;
   }
 
   ngOnInit() {
@@ -44,5 +51,10 @@ export class AppComponent implements OnInit {
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
     this.calendarSettingsDispatchers.fetchCalendarSettingsInfo();
+
+    // Set up locale of user
+    this.userLocale$.subscribe(locale => {
+      moment.locale(locale);
+    });
   }
 }
