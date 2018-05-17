@@ -29,6 +29,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   currentCustomer: ICustomer;
 
   private dateLabelKeys: string[] = [
+    'label.month.none',
     'label.january',
     'label.february',
     'label.march',
@@ -81,6 +82,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     const translateSubscription = this.translateService.get(this.dateLabelKeys).subscribe(
       (dateLabels: string[]) => {
         this.months = [
+          { value: '', label: dateLabels['label.month.none'] },
           { value: '01', label: dateLabels['label.january'] },
           { value: '02', label: dateLabels['label.february'] },
           { value: '03', label: dateLabels['label.march'] },
