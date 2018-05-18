@@ -31,8 +31,8 @@
       <qm-resource-text [text]="getResource()"></qm-resource-text>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
-      <qm-list [searchable]="false" [sidebarEnabled]="true" [header]="'label.bookingFlow.time.header' | translate">
-        <qm-list-item [name]="'time'" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
+      <qm-list [itemToScrollTo$]="timeToScrollTo$" (sidebar)="handleSidebarClick($event)" [searchable]="false" [sidebarEnabled]="true" [header]="'label.bookingFlow.time.header' | translate">
+        <qm-list-item [name]="'time'" [time]="timeslot" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
           {{ getTimeAsDate(timeslot) | date:getTimeFormat() }}
         </qm-list-item>
       </qm-list>

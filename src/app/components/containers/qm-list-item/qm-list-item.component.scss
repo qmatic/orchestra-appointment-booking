@@ -117,4 +117,10 @@
         text-align: center;
       }
     }
+
+    &--time {
+      .qm-selector-item__selector {
+        padding: rem($list-item-padding $standard-padding / 2 $list-item-padding);
+      }
+    }
   }

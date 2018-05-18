@@ -12,6 +12,8 @@
 
   &__row {
     flex: 1 1 100%;
+    max-width: 100%;
+    width: 100%;
   }
 
   &__col {
@@ -21,12 +23,12 @@
       flex: 0 0 100px;
     }
 
-    &--date-col {
-      flex: 0 1 260px;
-    }
+    // &--date-col {
+    //   flex: 0 1 260px;
+    // }
 
     &--time-col {
-      flex: 0 0 190px;
+      flex: 0 0 180px;
     }
   }
 }

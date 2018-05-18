@@ -7,7 +7,6 @@ import {
   Input
 } from '@angular/core';
 
-
 @Component({
   selector: 'qm-list-item',
   templateUrl: './qm-list-item.component.html',
@@ -15,6 +14,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QmListItemComponent implements OnInit {
+
   @Input()
   isSelected = false;
 
@@ -30,17 +30,22 @@ export class QmListItemComponent implements OnInit {
   @Input()
   title = '';
 
+  @Input()
+  time = '';
+
   @Output()
   optionClicked = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   handleClick($event) {
     this.optionClicked.emit($event);
+  }
+
+  isTimeItem(): boolean {
+    return this.time !== '';
   }
 }
 

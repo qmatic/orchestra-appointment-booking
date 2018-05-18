@@ -28,6 +28,7 @@ import { NumberOfCustomersDispatchers } from '../../../../store/services/number-
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { IAppointment } from '../../../../models/IAppointment';
 import { ICustomer } from '../../../../models/ICustomer';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'qm-booking-flow',
@@ -55,6 +56,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private notes$: Observable<string>;
   private title$: Observable<string>;
   private reservedAppointment$: Observable<IAppointment>;
+  public timeToScrollTo$: Subject<number> = new Subject<number>();
+
 
   public services: IService[];
   public branches: IBranch[];
@@ -512,7 +515,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Reserve appointment - Work in progress - might be moved to service
+   * Reserve appointment
    */
   reserveAppointment() {
     const branchPublicId = this.selectedBranches[0].publicId;
@@ -535,6 +538,76 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     };
 
     this.reserveDispatchers.reserveAppointment(bookingInformation, appointment);
+  }
+
+  /**
+   * Handles scrolling in time list
+   */
+  handleSidebarClick(timeToScrollTo: string) {
+    const nextClosestTime = this.getNextClosestTime(timeToScrollTo);
+    const indexOfChild = this.getPositionOfTimeInList(nextClosestTime);
+    this.timeToScrollTo$.next(indexOfChild);
+  }
+
+  getPositionOfTimeInList(timeToFind) {
+    return this.times.indexOf(timeToFind);
+  }
+
+  getNextClosestTime(time: string): string {
+    const timeFormat = this.settingsMap.TimeFormat.value;
+
+    if (timeFormat === 'AMPM') {
+      return this.getNextClosestTimeAMPM(time);
+    } else {
+      return this.getNextClosestTime24Hours(time);
+    }
+  }
+
+  getNextClosestTime24Hours(time: string): string {
+    const timeToScrollTo = this.times.reduce(
+      (nextClosestTime: string, currTime: string) => {
+        const clickedTime: number = parseInt(time, 10);
+        const currentHour: string = currTime.split(':')[0];
+        const currentIterTime = parseInt(currentHour, 10);
+
+        if (nextClosestTime === '' && currentIterTime >= clickedTime) {
+          return currTime;
+        } else {
+          return nextClosestTime;
+        }
+      }, ''
+    );
+
+    return timeToScrollTo;
+  }
+
+  getNextClosestTimeAMPM(ampm: string) {
+    const timeToScrollTo = this.times.reduce(
+      (nextClosestTime: string, currTime: string) => {
+        const clickedAMPM: string = ampm;
+
+        if (clickedAMPM === 'AM') {
+          if (nextClosestTime === '') {
+            return currTime;
+          } else {
+            return nextClosestTime;
+          }
+        }
+
+        if (clickedAMPM === 'PM') {
+          const currentHour: string = currTime.split(':')[0];
+          const currentIterTime = parseInt(currentHour, 10);
+
+          if (nextClosestTime === '' && currentIterTime >= 12) {
+            return currTime;
+          } else {
+            return nextClosestTime;
+          }
+        }
+      }, ''
+    );
+
+    return timeToScrollTo;
   }
 
   /**
