@@ -23,13 +23,13 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
   private currentCustomer$: Observable<ICustomer>;
   private subscriptions: Subscription = new Subscription();
   public userDirection$: Observable<string>;
-  public settingsMap$: Observable<{ [name: string ]: Setting }>;
+  public settingsMap$: Observable<{ [name: string]: Setting }>;
   public notificationForm: FormGroup;
 
   public settingsMap: { [name: string]: Setting };
 
   private currentCustomer: ICustomer;
-  private typeToEdit: string;
+  public typeToEdit: string;
   private saveToCustomerObject = false;
 
   constructor(
@@ -38,7 +38,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
     private customerSelectors: CustomerSelectors,
     private userSelectors: UserSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private customerDispatchers: CustomerDispatchers,
+    private customerDispatchers: CustomerDispatchers
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.userDirection$ = this.userSelectors.userDirection$;
@@ -49,10 +49,11 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
-    });
+      }
+    );
 
     const currentCustomerSubscription = this.currentCustomer$.subscribe(
-      (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
+      (currentCustomer: ICustomer) => (this.currentCustomer = currentCustomer)
     );
 
     this.subscriptions.add(settingsMapSubscription);
@@ -66,7 +67,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
   }
 
   handleSaveToCustomerChange(event: Event) {
-    const element: HTMLInputElement = <HTMLInputElement> event.target;
+    const element: HTMLInputElement = <HTMLInputElement>event.target;
     this.saveToCustomerObject = element.checked;
   }
 
@@ -113,8 +114,14 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
   }
 
   buildCustomerForm() {
-    const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/), Validators.required];
-    const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/), Validators.required];
+    const phoneValidators = [
+      Validators.pattern(/[0-9\-\+\s\(\)\.]/),
+      Validators.required
+    ];
+    const emailValidators = [
+      Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/),
+      Validators.required
+    ];
 
     if (this.typeToEdit === 'email') {
       this.notificationForm = this.fb.group({
@@ -124,18 +131,28 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
 
     if (this.typeToEdit === 'sms') {
       this.notificationForm = this.fb.group({
-        notificationPhone: [this.settingsMap.CustomerPhoneDefaultCountry.value || '', phoneValidators/*, whiteSpaceValidator*/],
+        notificationPhone: [
+          this.settingsMap.CustomerPhoneDefaultCountry.value || '',
+          phoneValidators /*, whiteSpaceValidator*/
+        ]
       });
     }
 
     if (this.typeToEdit === 'both') {
       this.notificationForm = this.fb.group({
         notificationEmail: ['', emailValidators],
-        notificationPhone: [this.settingsMap.CustomerPhoneDefaultCountry.value || '', phoneValidators/*, whiteSpaceValidator*/],
+        notificationPhone: [
+          this.settingsMap.CustomerPhoneDefaultCountry.value || '',
+          phoneValidators /*, whiteSpaceValidator*/
+        ]
       });
     }
   }
 
-  get notificationPhone() { return this.notificationForm.get('notificationPhone'); }
-  get notificationEmail() { return this.notificationForm.get('notificationEmail'); }
+  get notificationPhone() {
+    return this.notificationForm.get('notificationPhone');
+  }
+  get notificationEmail() {
+    return this.notificationForm.get('notificationEmail');
+  }
 }
