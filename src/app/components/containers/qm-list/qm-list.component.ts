@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { UserSelectors } from '../../../../store';
 
 @Component({
   selector: 'qm-list',
@@ -19,6 +20,9 @@ import { distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./qm-list.component.scss']
 })
 export class QmListComponent implements OnInit, OnDestroy {
+  @Input()
+  userDirection: string;
+
   @Input()
   searchable = true;
 
@@ -51,7 +55,9 @@ export class QmListComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription = new Subscription();
   private searchInput$: Subject<string> = new Subject<string>();
-  constructor(private elRef: ElementRef) {}
+  constructor(
+    private elRef: ElementRef,
+  ) { }
 
   ngOnInit() {
     if (this.searchable === true) {

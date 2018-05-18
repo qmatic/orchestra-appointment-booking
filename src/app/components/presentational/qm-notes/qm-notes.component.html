@@ -23,7 +23,7 @@
   <ng-template #notesPresentational>
     <div class="qm-notes__presentation-container">
       <button class="qm-notes-btn js-notes-btn" (click)="toggleNotesInput()">
-        <span class="qm-notes-btn__text" [ngClass]="{ 'qm-notes-btn__text--has-text' : hasNotesText() }">{{ getButtonText() }}</span>
+        <span class="qm-notes-btn__text" [ngClass]="{ 'qm-notes-btn__text--has-text' : hasNotesText() }" [innerHTML]="getButtonText()"></span>
         <i class="qm-notes-btn__icon icon-edit" aria-hidden="true"></i>
       </button>
       <div class="qm-generic-layout qm-generic-layout--align-right">

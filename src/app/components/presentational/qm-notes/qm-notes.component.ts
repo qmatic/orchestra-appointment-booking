@@ -88,7 +88,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   }
 
   setNote(note: string) {
-    this.appointmentMetaDispatchers.setAppointmentNote(note);
+    this.appointmentMetaDispatchers.setAppointmentNote(`${note}`);
   }
 
   hasNotesText() {
@@ -97,7 +97,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
 
   getButtonText() {
     return this.hasNotesText()
-            ? this.notes
+            ? this.notes.split('\n').join('<br />')
             : this.buttonPlaceholderText;
   }
 

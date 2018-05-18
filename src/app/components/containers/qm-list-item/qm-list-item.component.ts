@@ -14,6 +14,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QmListItemComponent implements OnInit {
+  @Input()
+  userDirection: string;
 
   @Input()
   isSelected = false;

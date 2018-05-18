@@ -1,4 +1,4 @@
-<fieldset class="qm-booking" [ngClass]="{ 'qm-booking--nosearch': searchable === false }">
+<fieldset class="qm-booking" [ngClass]="{ 'qm-booking--nosearch': searchable === false }" [dir]="userDirection">
   <legend class="qm-booking__header">
     <span class="qm-booking__header-text">{{header}} <span class="qm-required-star" *ngIf="displayAsRequired">*</span></span>
   </legend>

@@ -57,8 +57,9 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private title$: Observable<string>;
   private reservedAppointment$: Observable<IAppointment>;
   public timeToScrollTo$: Subject<number> = new Subject<number>();
+  private userDirection$: Observable<string>;
 
-
+  public userDirection: string;
   public services: IService[];
   public branches: IBranch[];
   public dates: string[];
@@ -118,6 +119,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.notes$ = this.appointmentMetaSelectors.notes$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
     this.getExpiryReservationTime$ = this.calendarSettingsSelectors.getReservationExpiryTime$;
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() {
@@ -125,6 +127,10 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
       (time: number) => {
         this.settingReservationExpiryTime = time;
       }
+    );
+
+    const userDirectionSubscription = this.userDirection$.subscribe(
+      (userDirection: string) => this.userDirection = userDirection
     );
 
     const appointmentSubscription = this.reservedAppointment$.subscribe(
@@ -210,6 +216,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
         (this.reservedAppointment = reservedAppointment)
     );
 
+    this.subscriptions.add(userDirectionSubscription);
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
     this.subscriptions.add(servicesSubscription);

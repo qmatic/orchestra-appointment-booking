@@ -1,4 +1,4 @@
-<li class="qm-selector-item" [ngClass]="{'qm-selector-item--centered': centerText, 'qm-selector-item--time': isTimeItem()}">
+<li class="qm-selector-item" [ngClass]="{'qm-selector-item--centered': centerText, 'qm-selector-item--time': isTimeItem()}" [dir]="userDirection">
     <label class="qm-selector-item__label">
         <input class="qm-selector-item__input"
           type="{{ inputType }}"

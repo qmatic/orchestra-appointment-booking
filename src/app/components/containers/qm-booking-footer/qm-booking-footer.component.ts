@@ -169,7 +169,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     const appointment: IAppointment = {
       ...this.reservedAppointment,
       customers: [this.currentCustomer],
-      notes: encodeURIComponent(this.notes),
+      notes: `${this.notes}`,
       title: this.title,
       custom: this.getAppointmentCustomJson(currentCustomer)
     };

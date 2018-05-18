@@ -1,38 +1,38 @@
-<div class="qm-booking-flow">
+<div class="qm-booking-flow" [dir]="userDirection">
   <div class="row qm-booking-flow__row">
     <div class="col qm-booking-flow__col">
-      <qm-list [searchText]="servicesSearchText$ | async" [placeholder]="'label.bookingFlow.services.search.placeholder' | translate" [header]="'label.bookingFlow.services.header' | translate" (search)="filterServices($event)">
-        <qm-list-item [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services" (optionClicked)="handleServiceSelection(service)">
+      <qm-list [userDirection]="userDirection" [searchText]="servicesSearchText$ | async" [placeholder]="'label.bookingFlow.services.search.placeholder' | translate" [header]="'label.bookingFlow.services.header' | translate" (search)="filterServices($event)">
+        <qm-list-item [userDirection]="userDirection" [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services" (optionClicked)="handleServiceSelection(service)">
           {{ service.name }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" *ngIf="shouldShowCustomerColumn()">
-      <qm-list [searchable]="false" [header]="'label.bookingFlow.customers.header' | translate">
-        <qm-list-item [name]="'customer'" [isSelected]="isNumberOfCustomerSelected(number)" [inputType]="'radio'" [centerText]="true" *ngFor="let number of numberOfCustomersArray$ | async" (optionClicked)="handleNumberOfCustomersSelection(number)">
+      <qm-list [userDirection]="userDirection" [searchable]="false" [header]="'label.bookingFlow.customers.header' | translate">
+        <qm-list-item [userDirection]="userDirection" [name]="'customer'" [isSelected]="isNumberOfCustomerSelected(number)" [inputType]="'radio'" [centerText]="true" *ngFor="let number of numberOfCustomersArray$ | async" (optionClicked)="handleNumberOfCustomersSelection(number)">
           {{ number }}
         </qm-list-item>
       </qm-list>
     </div>
     <div class="col qm-booking-flow__col">
-      <qm-list [searchText]="branchesSearchText$ | async" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
-        <qm-list-item [title]="getBranchAddressText(branch)" [name]="'branch'" [isSelected]="isBranchSelected(branch)" [inputType]="'radio'" *ngFor="let branch of branches" (optionClicked)="handleBranchSelection(branch)">
+      <qm-list [userDirection]="userDirection" [searchText]="branchesSearchText$ | async" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
+        <qm-list-item [userDirection]="userDirection" [title]="getBranchAddressText(branch)" [name]="'branch'" [isSelected]="isBranchSelected(branch)" [inputType]="'radio'" *ngFor="let branch of branches" (optionClicked)="handleBranchSelection(branch)">
           {{ branch.name }}
         </qm-list-item>
       </qm-list>
       <qm-icon-item icon="'icon-home'" [text]="getBranchAddressText(selectedBranches[0])"></qm-icon-item>
     </div>
     <div class="col qm-booking-flow__col">
-      <qm-list [searchText]="datesSearchText$ | async" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)">
-        <qm-list-item [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates" (optionClicked)="handleDateSelection(selectableDate)">
+      <qm-list [userDirection]="userDirection" [searchText]="datesSearchText$ | async" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)">
+        <qm-list-item [userDirection]="userDirection" [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" *ngFor="let selectableDate of dates" (optionClicked)="handleDateSelection(selectableDate)">
           {{ selectableDate | amDateFormat: 'dddd DD MMMM' }}
         </qm-list-item>
       </qm-list>
       <qm-resource-text [text]="getResource()"></qm-resource-text>
     </div>
     <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
-      <qm-list [itemToScrollTo$]="timeToScrollTo$" (sidebar)="handleSidebarClick($event)" [searchable]="false" [sidebarEnabled]="true" [header]="'label.bookingFlow.time.header' | translate">
-        <qm-list-item [name]="'time'" [time]="timeslot" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
+      <qm-list [userDirection]="userDirection" [itemToScrollTo$]="timeToScrollTo$" (sidebar)="handleSidebarClick($event)" [searchable]="false" [sidebarEnabled]="true" [header]="'label.bookingFlow.time.header' | translate">
+        <qm-list-item [userDirection]="userDirection" [name]="'time'" [time]="timeslot" [isSelected]="isTimeslotSelected(timeslot)" [inputType]="'radio'" [centerText]="true" *ngFor="let timeslot of times" (optionClicked)="handleTimeslotSelection(timeslot)">
           {{ getTimeAsDate(timeslot) | date:getTimeFormat() }}
         </qm-list-item>
       </qm-list>
