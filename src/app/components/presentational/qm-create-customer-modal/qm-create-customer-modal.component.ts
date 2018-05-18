@@ -275,7 +275,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   getDateOfBirth(): string {
     const formModel = this.createCustomerForm.value;
-    let year = formModel.dateOfBirth.year as string;
+    let year = String(formModel.dateOfBirth.year);
     const month = formModel.dateOfBirth.month as string;
     let day = formModel.dateOfBirth.day as string;
 
