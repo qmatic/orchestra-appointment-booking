@@ -129,22 +129,6 @@
                         "validators": {
                             "pattern": "^[0-9\\+]+$"
                         }  
-                    },
-                    {
-                        "name": "CustomerPhoneMaxDigits",
-                        "value": "",                
-                        "outputType": "Text",
-                        "validators": {
-                            "pattern": "^[0-9]+$"
-                        }   
-                    },
-                    {
-                        "name": "CustomerPhoneMinDigits",
-                        "value": "",                
-                        "outputType": "Text",
-                        "validators": {
-                            "pattern": "^[0-9]+$"
-                        }    
                     }
                 ]
             },
