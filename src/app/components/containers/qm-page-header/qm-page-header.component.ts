@@ -1,13 +1,26 @@
 import { Subject } from 'rxjs/Subject';
 import { UserRoleSelectors } from './../../../../store/services/user-role/user-role.selectors';
-import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  Input
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
-import { LOGOUT, HELP, HOME, LOGOUT_URL, HELP_URL, APP_URL } from './header-navigation';
-
+import {
+  LOGOUT,
+  HELP,
+  HOME,
+  LOGOUT_URL,
+  HELP_URL,
+  APP_URL
+} from './header-navigation';
 
 @Component({
   selector: 'qm-page-header',
@@ -15,7 +28,7 @@ import { LOGOUT, HELP, HOME, LOGOUT_URL, HELP_URL, APP_URL } from './header-navi
   styleUrls: ['./qm-page-header.component.scss']
 })
 export class QmPageHeaderComponent implements OnInit, OnDestroy {
-  brandLogoSrc = 'assets/images/brand_logo_header.png';
+  brandLogoSrc = 'images/brand_logo_header.png';
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
@@ -27,8 +40,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   @Output()
   handleHeaderNavigations: EventEmitter<string> = new EventEmitter<string>();
 
-  @Input()
-  isPreventHeaderNavigations = false;
+  @Input() isPreventHeaderNavigations = false;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -41,7 +53,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnDestroy() {
     // this.logoutSubscription.unsubscribe();
   }
@@ -67,7 +79,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     $event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
       window.location.href = HELP_URL;
-    }  else {
+    } else {
       this.handleHeaderNavigations.emit(HELP);
     }
   }
@@ -75,8 +87,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   homeClick($event) {
     $event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
-    window.location.href = APP_URL;
-    }  else {
+      window.location.href = APP_URL;
+    } else {
       this.handleHeaderNavigations.emit(HOME);
     }
   }

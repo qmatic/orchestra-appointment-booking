@@ -9,7 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets/i18n/*",
-        "assets/images/*",
+        "images/*",
         "WEB-INF/",
         "META-INF",
         "app.json",
