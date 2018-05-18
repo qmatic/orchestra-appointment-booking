@@ -23,6 +23,7 @@ export class QmReservationTimerComponent implements OnInit, OnDestroy {
   getExpiryReservationTime$: Observable<number>;
   onGoingReservationTime$: Observable<number>;
   counterString: string;
+  timeoutRef = null;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -41,55 +42,56 @@ export class QmReservationTimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // const localeSubscription = this.userSelectors.userLocale$.subscribe(
-    //   locale => {
-    //     import(`@angular/common/locales/sv_SE.js`).then(locale => {
-    //       registerLocaleData(locale.default);
-    //     });
-    //   }
-    // );
+    const expiryReservationCalendarSettingSubscription = this.getExpiryReservationTime$.subscribe(
+      (calendarExpiryTime: number) => {
+        // List to updates from counter in store
+        const expiryTimeUpdateSubscription = this.onGoingReservationTime$.subscribe(
+          onGoingTime => {
+            if (onGoingTime >= 0) {
+              if (calendarExpiryTime === onGoingTime) {
+                clearInterval(!!this.timeoutRef && this.timeoutRef);
+              }
 
-    // List to updates from counter in store
-    const expiryTimeUpdateSubscription = this.onGoingReservationTime$.subscribe(
-      onGoingTime => {
-        if (onGoingTime >= 0) {
-          // Format Number into string
-          this.counterString = this.timeUtils.formatSecondsIntoMinituesAndSeconds(
-            onGoingTime
-          );
+              // Format Number into string
+              this.counterString = this.timeUtils.formatSecondsIntoMinituesAndSeconds(
+                onGoingTime
+              );
 
-          if (onGoingTime === 120) {
-            const translateSubscription = this.translate
-              .get('label.reservation.timer.soonexpire')
-              .subscribe((res: string) => {
-                this.toastService.errorToast(res);
-              });
-            this.subscriptions.add(translateSubscription);
+              if (onGoingTime === 120) {
+                const translateSubscription = this.translate
+                  .get('label.reservation.timer.soonexpire')
+                  .subscribe((res: string) => {
+                    this.toastService.errorToast(res);
+                  });
+                this.subscriptions.add(translateSubscription);
+              }
+
+              if (onGoingTime === 0) {
+                const translateSubscription = this.translate
+                  .get('label.reservation.timer.expired')
+                  .subscribe((res: string) => {
+                    this.toastService.errorToast(res);
+                  });
+                this.subscriptions.add(translateSubscription);
+              }
+
+              // Decrement counter
+              this.timeoutRef = setTimeout(() => {
+                this.reservationExpiryTimerDispatchers.setReservationExpiryTimer(
+                  --onGoingTime
+                );
+              }, 1000);
+            }
           }
-
-          if (onGoingTime === 0) {
-            const translateSubscription = this.translate
-              .get('label.reservation.timer.expired')
-              .subscribe((res: string) => {
-                this.toastService.errorToast(res);
-              });
-            this.subscriptions.add(translateSubscription);
-          }
-
-          // Decrement counter
-          setTimeout(() => {
-            this.reservationExpiryTimerDispatchers.setReservationExpiryTimer(
-              --onGoingTime
-            );
-          }, 1000);
-        }
+        );
+        this.subscriptions.add(expiryTimeUpdateSubscription);
       }
     );
-
-    this.subscriptions.add(expiryTimeUpdateSubscription);
+    this.subscriptions.add(expiryReservationCalendarSettingSubscription);
   }
 
   ngOnDestroy() {
+    clearInterval(this.timeoutRef);
     this.subscriptions.unsubscribe();
   }
 }
