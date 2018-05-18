@@ -13,6 +13,7 @@ import {
 import { ICustomer } from '../../../../models/ICustomer';
 // import { whiteSpaceValidator } from '../../../util/custom-form-validators';
 import { Setting } from '../../../../models/Setting';
+import { whiteSpaceValidator } from '../../../util/custom-form-validators';
 
 @Component({
   selector: 'qm-notification-modal',
@@ -133,7 +134,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
       this.notificationForm = this.fb.group({
         notificationPhone: [
           this.settingsMap.CustomerPhoneDefaultCountry.value || '',
-          phoneValidators /*, whiteSpaceValidator*/
+          phoneValidators, whiteSpaceValidator
         ]
       });
     }
@@ -143,7 +144,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
         notificationEmail: ['', emailValidators],
         notificationPhone: [
           this.settingsMap.CustomerPhoneDefaultCountry.value || '',
-          phoneValidators /*, whiteSpaceValidator*/
+          phoneValidators, whiteSpaceValidator
         ]
       });
     }

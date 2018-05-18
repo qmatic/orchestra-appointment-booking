@@ -38,9 +38,9 @@
               <ng-container *ngIf="notificationPhone.errors?.pattern && !notificationPhone.errors?.required">
                 {{ 'error.form.phone.invalid' | translate }}
               </ng-container>
-              <!--<ng-container *ngIf="phone.errors.allwhitespace">
-                {{ 'field.notificationForm.phone.error.allwhitespace' | translate }}
-              </ng-container>-->
+              <ng-container *ngIf="notificationPhone.errors?.allwhitespace">
+                {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
+              </ng-container>
             </ng-container>
           </span>
         </label>
