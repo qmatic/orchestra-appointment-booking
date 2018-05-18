@@ -54,7 +54,9 @@ import {
   CalendarSettingsDispatchers,
   CalendarSettingsSelectors,
   ReservationExpiryTimerDispatchers,
-  ReservationExpiryTimerSelectors
+  ReservationExpiryTimerSelectors,
+  ShiroDataService,
+  ShiroDispatchers
 } from './services';
 
 export const storeServices = [
@@ -108,5 +110,7 @@ export const storeServices = [
   CalendarSettingsDispatchers,
   CalendarSettingsSelectors,
   ReservationExpiryTimerDispatchers,
-  ReservationExpiryTimerSelectors
+  ReservationExpiryTimerSelectors,
+  ShiroDispatchers,
+  ShiroDataService
 ];

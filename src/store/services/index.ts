@@ -21,3 +21,4 @@ export * from './booking';
 export * from './booking-helper';
 export * from './calendar-settings';
 export * from './reservation-expiry-timer';
+export * from './shiro-refresh';

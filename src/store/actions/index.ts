@@ -18,3 +18,4 @@ export * from './account.actions';
 export * from './booking.actions';
 export * from './calendar-settings.actions';
 export * from './reservation-expiry-timer.actions';
+export * from './shiro.actions';

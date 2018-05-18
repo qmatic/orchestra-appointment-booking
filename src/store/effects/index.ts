@@ -1,3 +1,4 @@
+import { ShiroEffects } from './shiro.effects';
 import { CalendarSettingsEffects } from './calendar-settings.effects';
 import { SettingsAdminEffects } from './settings-admin.effects';
 import { UserRoleEffects } from './user-role.effects';
@@ -33,7 +34,8 @@ export const effects: any[] = [
   AccountEffects,
   BookingEffects,
   CalendarSettingsEffects,
-  AppointmentMetaEffects
+  AppointmentMetaEffects,
+  ShiroEffects
 ];
 
 export * from './service.effects';
@@ -54,3 +56,4 @@ export * from './booking.effects';
 export * from './calendar-settings.effects';
 export * from './reservation-expiry-timer.effects';
 export * from './appointment-meta.effects';
+export * from './shiro.effects';

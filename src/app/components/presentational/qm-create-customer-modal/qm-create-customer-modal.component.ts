@@ -136,8 +136,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
+      const phoneAsyncValidators = [];
       if (settings.CustomerPhoneRequired.value === true) {
         phoneValidators.push(Validators.required);
+        phoneAsyncValidators.push(whiteSpaceValidator);
       }
 
       const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)];
@@ -159,7 +161,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         firstName: [ '', Validators.required, whiteSpaceValidator],
         lastName: [ '', Validators.required, whiteSpaceValidator],
         email: ['', emailValidators],
-        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators, whiteSpaceValidator],
+        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators, ...phoneAsyncValidators],
         dateOfBirth: this.fb.group({
           month: [null, monthValidators],
           day: ['',  dayValidators],
@@ -273,7 +275,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   getDateOfBirth(): string {
     const formModel = this.createCustomerForm.value;
-    const year = formModel.dateOfBirth.year as string;
+    let year = formModel.dateOfBirth.year as string;
     const month = formModel.dateOfBirth.month as string;
     let day = formModel.dateOfBirth.day as string;
 
@@ -284,9 +286,18 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
     }
 
+    year = this.leftPadWithZeros(year, 4);
+
     return year && month && day
           ? year + '-' + month + '-' + day
           : '';
+  }
+
+  leftPadWithZeros (sourceString, length) {
+    while (sourceString.length < length) {
+      sourceString = '0' + sourceString;
+    }
+    return sourceString;
   }
 
   restrictNumbers($event) {

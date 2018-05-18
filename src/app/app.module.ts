@@ -53,7 +53,8 @@ import {
   storeServices,
   BranchDispatchers,
   ServiceDispatchers,
-  SettingsAdminDispatchers
+  SettingsAdminDispatchers,
+  ShiroDispatchers
 } from '../store';
 
 // Components
@@ -254,12 +255,14 @@ export class AppModule {
     private licenseInfoDispatchers: LicenseDispatchers,
     private userRoleDispatchers: UserRoleDispatchers,
     private router: Router,
-    private settingsAdminDispatchers: SettingsAdminDispatchers
+    private settingsAdminDispatchers: SettingsAdminDispatchers,
+    private shiroDispatchers: ShiroDispatchers,
   ) {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');
     this.licenseInfoDispatchers.fetchLicenseInfo();
     this.router.navigate(['/loading']);
     this.settingsAdminDispatchers.fetchSettings();
+    this.shiroDispatchers.startRefresh();
   }
 }

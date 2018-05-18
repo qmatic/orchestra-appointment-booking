@@ -7,7 +7,7 @@ export function whiteSpaceValidator(control: FormControl) {
     const whiteSpaceErrorObject = { 'allwhitespace': true };
     return of(control.value).
         map(v => {
-            const isAllWhiteSpace = (control.value || '').trim().length === 0;
+            const isAllWhiteSpace = control.value && control.value.trim().length === 0;
             const isValid: boolean = !isAllWhiteSpace;
             if (!isValid && control.dirty) {
                 control.setErrors(whiteSpaceErrorObject);
