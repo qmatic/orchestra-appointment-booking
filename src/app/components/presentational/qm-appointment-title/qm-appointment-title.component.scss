@@ -33,14 +33,45 @@
     color: $secondary-color;
   }
 
+  &__input-container {
+    position: relative;
+  }
+
   &__input {
     width: 100%;
     font-size: rem(18px);
+    line-height: 1;
     font-weight: $font-weight-light;
     height: rem(42px);
+    padding-right: rem($standard-padding * 2);
+
+    @at-root [dir='rtl'] & {
+      padding-right: 0;
+      padding-left: rem($standard-padding * 2);
+    }
 
     &[disabled] {
       background: $disabled-background;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    right: rem($base-unit / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    color: $dark-transparent42;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: rem($base-unit / 2);
+    }
+
+    &--clear {
+      z-index: 3;
+      .qm-action-btn__icon {
+        font-size: rem(18px);
+      }
     }
   }
 

@@ -5,17 +5,23 @@
         {{ 'label.appointmentTitle.heading' | translate }}
       </span>
     </span>
-    <input
-    type="text"
-    id="appointmentTitle"
-    class="qm-input qm-standard-text-field__input"
-    placeholder="{{ 'label.appointmentTitle.input.placeholder' | translate }}"
-    name="appointmentTitle"
-    maxlength="{{ titleMaxLength }}"
-    [ngModel]="title$ | async"
-    (input)="updateTitle(appointmentTitle.value)"
-    #appointmentTitle="ngModel"
-    qmMaxLengthValidator="{{ titleMaxLength }}" />
+    <div class="qm-standard-text-field__input-container">
+      <input
+      type="text"
+      id="appointmentTitle"
+      class="qm-input qm-standard-text-field__input"
+      placeholder="{{ 'label.appointmentTitle.input.placeholder' | translate }}"
+      name="appointmentTitle"
+      maxlength="{{ titleMaxLength }}"
+      [ngModel]="title"
+      (input)="updateTitle(appointmentTitle.value)"
+      #appointmentTitle="ngModel"
+      qmMaxLengthValidator="{{ titleMaxLength }}" />
+      <button *ngIf="title.length > 0" class="qm-action-btn qm-action-btn--only-icon qm-standard-text-field__btn qm-standard-text-field__btn--clear" (click)="handleClear()">
+        <i aria-hidden="true" class="qm-action-btn__icon icon-close qm-standard-text-field__icon"></i>
+        <span class="sr-only">{{ 'button.appointmentTitle.clear' | translate }}</span>
+      </button>
+    </div>
     <span class="qm-standard-text-field__error-message">{{ appointmentTitle?.errors?.maxlength.value | async }}</span>
   </label>
 </div>

@@ -44,12 +44,21 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
         this.titleEnabled = settingsMap.Title.value
     );
 
+    const titleSubscription = this.title$.subscribe(
+      (title: string) => this.title = title
+    );
+
     this.subscriptions.add(titleInputSubscription);
     this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(titleSubscription);
   }
 
   updateTitle(title: string) {
     this.titleInput$.next(title);
+  }
+
+  handleClear() {
+    this.appointmentMetaDispatchers.resetAppointmentTitle();
   }
 
   setTitle(title: string) {
