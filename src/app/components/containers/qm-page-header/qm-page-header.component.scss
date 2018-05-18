@@ -29,12 +29,9 @@
     align-items: center;
   }
 
-  &__home-btn,
-  &__help-btn,
-  &__logout-btn,
-  &__settings-btn,
-  &__settings-back-btn {
-    flex: 1 0 24px;
+
+
+@mixin top-bar-button-common {
     height: 27px;
     color: $light-transparent50;
 
@@ -52,7 +49,20 @@
       color: $white;
       text-decoration: none;
     }
-  }
+}
+
+&__home-btn,
+&__help-btn,
+&__logout-btn {
+  flex: 1 0 24px;
+  @include top-bar-button-common;
+}
+
+&__settings-btn, &__settings-back-btn{
+  flex: 1 0 auto;
+  @include top-bar-button-common;
+}
+
 
   &__settings-back-btn {
     display: inherit;
