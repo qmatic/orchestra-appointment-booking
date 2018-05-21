@@ -61,13 +61,13 @@ export class ReserveEffects {
                 action.payload.appointment
               ).pipe(
                 mergeMap((appointmentData: IAppointment) => [
-                  new ReserveActions.UnreserveAppointmentSuccess,
+                  new ReserveActions.ResetReservedAppointment,
                   new ReserveActions.ReserveAppointmentSuccess(appointmentData)]
                 ),
                 catchError((err: DataServiceError<any>) => {
 
                   return [
-                    new ReserveActions.UnreserveAppointmentSuccess,
+                    new ReserveActions.ResetReservedAppointment,
                     new ReserveActions.ReserveAppointmentFail(
                     {
                       ...err,

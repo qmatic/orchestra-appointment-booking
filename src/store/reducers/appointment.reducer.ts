@@ -3,6 +3,7 @@ import * as AppointmentActions from '../actions';
 
 export interface IAppointmentState {
   appointments: IAppointment[];
+  selectedAppointment: IAppointment;
   loading: boolean;
   loaded: boolean;
   error: Object;
@@ -10,6 +11,7 @@ export interface IAppointmentState {
 
 export const initialState: IAppointmentState = {
   appointments: [],
+  selectedAppointment: null,
   loading: false,
   loaded: false,
   error: null

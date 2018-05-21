@@ -52,13 +52,19 @@ export class BookingDataService {
     bookingInformation: IBookingInformation,
     appointment: IAppointment
   ): Observable<IAppointment> {
+    const customerPlaceholders = this.getCustomerPlaceholders(bookingInformation.numberOfCustomers);
+
     const bookAppointment: IAppointment = {
       title: appointment.title,
       notes: appointment.notes,
-      customers: appointment.customers,
+      customers: [
+        ...appointment.customers,
+        ...customerPlaceholders
+      ],
       services: appointment.services,
       custom: appointment.custom
     };
+
     return this.http
             .post<IAppointment>(
               `${calendarPublicEndpointV2}`
@@ -75,5 +81,17 @@ export class BookingDataService {
       console.error(error);
       return new ErrorObservable(error);
     };
+  }
+
+  getCustomerPlaceholders(numberOfCustomers: number) {
+    if (numberOfCustomers) {
+      const placeholderCustomers = [];
+      for (let i = 0; i < numberOfCustomers - 1; i++) {
+        placeholderCustomers.push({});
+      }
+      return placeholderCustomers;
+    } else {
+      return [];
+    }
   }
 }

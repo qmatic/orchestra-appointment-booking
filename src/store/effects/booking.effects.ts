@@ -4,16 +4,18 @@ import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
-import { BookingDataService } from '../services';
+import { BookingDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
 import 'rxjs/add/observable/empty';
 import { IAppointment } from '../../models/IAppointment';
+import { IBookingInformation } from '../../models/IBookingInformation';
+import { IService } from '../../models/IService';
 
 const toAction = BookingActions.toAction();
 
@@ -44,21 +46,38 @@ export class BookingEffects {
       switchMap((data: any) => {
         const [action, confirmAction] = data;
         if (confirmAction.type === BookingActions.BOOK_APPOINTMENT_FAIL) {
-          return toAction(
-                    this.bookingDataService.bookAppointment(
-                      action.payload.bookingInformation,
-                      action.payload.appointment
-                    ),
-                    BookingActions.BookAppointmentSuccess,
-                    BookingActions.BookAppointmentFail
-                  );
+          // return toAction(
+          //           this.bookingDataService.bookAppointment(
+          //             action.payload.bookingInformation,
+          //             action.payload.appointment
+          //           ),
+          //           BookingActions.BookAppointmentSuccess,
+          //           BookingActions.BookAppointmentFail
+          //         );
+          return this.bookingDataService.bookAppointment(
+            action.payload.bookingInformation,
+            action.payload.appointment
+          ).pipe(
+            mergeMap((appointmentData: IAppointment) => [
+              new BookingActions.BookAppointmentSuccess(appointmentData)]
+            ),
+            catchError((err: DataServiceError<any>) =>
+              of(new BookingActions.BookAppointmentFail(
+                {
+                  ...err,
+                  appointment: action.payload.appointment,
+                  bookingInformation: action.payload.bookingInformation
+                }
+              ))
+            )
+          );
         } else {
           return of(confirmAction);
         }
       })
     );
 
-  @Effect({ dispatch: false })
+  @Effect()
   bookAppointmentFailed$: Observable<Action> = this.actions$
     .ofType(BookingActions.BOOK_APPOINTMENT_FAIL)
     .pipe(
@@ -67,7 +86,20 @@ export class BookingEffects {
             (label: string) => this.toastService.errorToast(label)
           ).unsubscribe();
         }
-      )
+      ),
+      switchMap((action: BookingActions.BookAppointmentFail) => {
+        console.log('this is the action: ', action);
+        const serviceQuery = action.payload.appointment.services.reduce((queryString, service: IService) => {
+          return queryString + `;servicePublicId=${service.publicId}`;
+        }, '');
+
+        const bookingInformation: IBookingInformation = {
+          ...action.payload.bookingInformation,
+          serviceQuery
+        };
+
+        return [new BookingActions.DeselectTimeslot, new BookingActions.FetchTimeslots(bookingInformation)];
+      })
     );
 
   @Effect()

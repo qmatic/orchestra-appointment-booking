@@ -12,7 +12,8 @@ import {
   TimeslotSelectors,
   UserSelectors,
   SettingsAdminSelectors,
-  FETCH_LICENSE_INFO
+  FETCH_LICENSE_INFO,
+  BookingHelperSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
@@ -37,7 +38,9 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private selectedTime$: Observable<string>;
   public userDirection$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private numberOfCustomers$: Observable<number>;
 
+  private numberOfCustomers: number;
   private emailEnabled: boolean;
   private smsEnabled: boolean;
   private emailAndSmsEnabled: boolean;
@@ -61,7 +64,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private timeslotSelectors: TimeslotSelectors,
     private userSelectors: UserSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private bookingHelperSelectors: BookingHelperSelectors
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -73,6 +77,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.notificationType$ = this.appointmentMetaSelectors.notificationType$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.numberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
   }
 
   ngOnInit() {
@@ -82,6 +87,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     const notesSubscription = this.notes$.subscribe(
       (notes: string) => this.notes = notes
+    );
+
+    const numberOfCustomersSubscription = this.numberOfCustomers$.subscribe(
+      (selectedNumberOfCustomers: number) => this.numberOfCustomers = selectedNumberOfCustomers
     );
 
     const notificationTypeSubscription = this.notificationType$.subscribe(
@@ -120,6 +129,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(numberOfCustomersSubscription);
     this.subscriptions.add(notificationTypeSubscription);
     this.subscriptions.add(selectedBranchSubscription);
     this.subscriptions.add(selectedDateSubscription);
@@ -163,7 +173,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     const bookingInformation: IBookingInformation = {
       branchPublicId,
       date,
-      time
+      time,
+      numberOfCustomers: this.numberOfCustomers
     };
 
     const appointment: IAppointment = {

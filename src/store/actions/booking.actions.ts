@@ -34,7 +34,7 @@ export class BookAppointment implements Action {
 
 export class BookAppointmentFail implements Action {
   readonly type = BOOK_APPOINTMENT_FAIL;
-  constructor(public payload: Object) {}
+  constructor(public payload: any) {}
 }
 
 export class BookAppointmentSuccess implements Action {
