@@ -1,3 +1,7 @@
+import { TimeslotDispatchers } from './../../../../store/services/timeslot/timeslot.dispatchers';
+import { ReserveDataService } from './../../../../store/services/reserve/reserve-data.service';
+import { IService } from './../../../../models/IService';
+import { BookingHelperSelectors } from './../../../../store/services/booking-helper/booking-helper.selectors';
 import { Subject } from 'rxjs/Subject';
 import { UserRoleSelectors } from './../../../../store/services/user-role/user-role.selectors';
 import {
@@ -21,6 +25,7 @@ import {
   HELP_URL,
   APP_URL
 } from './header-navigation';
+import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 
 @Component({
   selector: 'qm-page-header',
@@ -32,7 +37,11 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
-  logoutSubscription: Subscription;
+  selectedServices$: Observable<IService[]>;
+  selectedServices: IService[] = [];
+  headerSubscriptions: Subscription = new Subscription();
+  isTimeSlotSelected: boolean;
+  selectedTime$: Observable<string>;
 
   @Output()
   clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
@@ -46,23 +55,43 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private userRoleSelectors: UserRoleSelectors,
     private spService: SPService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public qmModalService: QmModalService,
+    public bookingHelperSelectors: BookingHelperSelectors,
+    private reservationDataService: ReserveDataService,
+    private timeslotDispatchers: TimeslotDispatchers
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.selectedServices$ = this.bookingHelperSelectors.selectedServices$;
+    this.selectedTime$ = this.bookingHelperSelectors.selectedTime$;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.headerSubscriptions.add(this.selectedServices$.subscribe((services: IService[]) => {
+      this.selectedServices = services;
+    }));
+
+    this.headerSubscriptions.add(this.selectedTime$.subscribe((selectedTime: string) => {
+      if (selectedTime) {
+        this.isTimeSlotSelected = true;
+      } else {
+        this.isTimeSlotSelected = false;
+      }
+    }));
+  }
   ngOnDestroy() {
-    // this.logoutSubscription.unsubscribe();
+    this.headerSubscriptions.unsubscribe();
   }
 
   logout(event: Event) {
     event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
-      this.spService.logout().subscribe(() => {
-        window.location.href = LOGOUT_URL;
+      this.promptUserIfOngoingBooking(() => {
+        this.spService.logout().subscribe(() => {
+          window.location.href = LOGOUT_URL;
+        });
       });
     } else {
       this.handleHeaderNavigations.emit(LOGOUT);
@@ -78,7 +107,9 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   helpClick($event) {
     $event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
-      window.location.href = HELP_URL;
+      this.promptUserIfOngoingBooking(() => {
+        window.location.href = HELP_URL;
+      });
     } else {
       this.handleHeaderNavigations.emit(HELP);
     }
@@ -87,9 +118,36 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   homeClick($event) {
     $event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
-      window.location.href = APP_URL;
+      this.promptUserIfOngoingBooking(() => {
+        window.location.href = APP_URL;
+      });
+
     } else {
       this.handleHeaderNavigations.emit(HOME);
+    }
+  }
+
+  promptUserIfOngoingBooking(successAction) {
+    if (this.selectedServices.length > 0) {
+      this.qmModalService.openForTransKeys(
+        'modal.navigate.booking.page.title',
+        'modal.navigate.booking.page.message',
+        'modal.navigate.booking.button.ok',
+        'modal.navigate.booking.button.cancel',
+        (okClicked: Boolean) => {
+          if (okClicked) {
+            successAction();
+            if (this.isTimeSlotSelected) {
+              this.timeslotDispatchers.deselectTimeslot();
+            }
+          }
+        },
+        () => {
+        });
+
+
+    } else {
+      successAction();
     }
   }
 }
