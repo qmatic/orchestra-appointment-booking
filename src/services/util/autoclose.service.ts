@@ -34,7 +34,7 @@ export class AutoClose {
             clearInterval(this.autoCloseInterval);
             this.onAutoCloseTimeExpired();
           } else {
-            console.log(this.currentAutoCloseTime);
+            // console.log(this.currentAutoCloseTime);
             this.currentAutoCloseTime -= 1;
           }
         }, 1000);
@@ -50,10 +50,10 @@ export class AutoClose {
 
   refreshAutoClose() {
     if (this.currentAutoCloseTime > 0) {
-      console.log(
+      /*console.log(
         `Updating autoclose timer value currentAutoCloseTime to ${this
           .autoCloseTimeInSeconds}`
-      );
+      );*/
       this.currentAutoCloseTime = this.autoCloseTimeInSeconds;
     }
   }
