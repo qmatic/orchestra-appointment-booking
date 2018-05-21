@@ -210,7 +210,9 @@ const toastrGlobalOptions = {
     NgbModule.forRoot(),
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
-    ...(!environment.production ? [StoreDevtoolsModule.instrument({ maxAge: 10 })] : []),
+    ...(!environment.production
+      ? [StoreDevtoolsModule.instrument({ maxAge: 10 })]
+      : []),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -256,7 +258,7 @@ export class AppModule {
     private userRoleDispatchers: UserRoleDispatchers,
     private router: Router,
     private settingsAdminDispatchers: SettingsAdminDispatchers,
-    private shiroDispatchers: ShiroDispatchers,
+    private shiroDispatchers: ShiroDispatchers
   ) {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');

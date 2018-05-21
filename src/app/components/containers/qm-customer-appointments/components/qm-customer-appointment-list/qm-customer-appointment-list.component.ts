@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { IAppointment } from './../../../../../../models/IAppointment';
 import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
 import { Setting } from './../../../../../../models/Setting';
 import {
@@ -7,13 +9,13 @@ import {
   OnDestroy,
   AfterViewInit,
   ViewChildren,
-  QueryList
+  QueryList,
+  ElementRef
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-import { IAppointment } from '../../../../../../models/IAppointment';
 import {
   UserSelectors,
   AppointmentDispatchers,
@@ -34,9 +36,9 @@ export class QmCustomerAppointmentListComponent
   private userLocale: string;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private isMilitaryTime: boolean;
-  @Input() idClosestToCurretTime: string;
   private bookingStarted$: Observable<boolean>;
   userDirection$: Observable<string>;
+  @ViewChildren('customCard') customCards;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -71,8 +73,34 @@ export class QmCustomerAppointmentListComponent
 
   ngAfterViewInit() {
     setTimeout(() => {
-      window.location.hash = this.idClosestToCurretTime.slice(0, 7);
-    }, 0);
+      this.customCards.toArray().forEach((elem: ElementRef) => {
+        if (elem.nativeElement.getAttribute('data-scroll-to') === 'true') {
+          elem.nativeElement.scrollIntoView(true);
+        }
+      });
+    });
+  }
+
+  isNextAppointment(listAppointment: IAppointment) {
+    const now = Math.round(new Date().getTime() / 1000);
+    let proximity = Number.MAX_SAFE_INTEGER;
+    let closestAppointment: IAppointment = null;
+
+    if (this.appointments) {
+      this.appointments.forEach(appointment => {
+        const appointmentStart = Math.round(
+          new Date(appointment.start).getTime() / 1000
+        );
+        const newProximity = Math.abs(appointmentStart - now);
+        if (newProximity < proximity) {
+          proximity = newProximity;
+          closestAppointment = appointment;
+        }
+      });
+      return closestAppointment.publicId === listAppointment.publicId;
+    } else {
+      return false;
+    }
   }
 
   deleteAppointment(appointment: IAppointment): void {

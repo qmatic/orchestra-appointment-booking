@@ -28,7 +28,6 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   appointmentsLoaded: boolean;
   dropdownLabel: string;
   isExpand: boolean;
-  idClosestToCurretTime: string;
 
   constructor(
     private appointmentSelectors: AppointmentSelectors,
@@ -43,13 +42,13 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isExpand = true;
-
     const appointmentsSubcription = this.appointments$.subscribe(
       (appointments: IAppointment[]) => {
         this.appointments = [...appointments].sort(this.sortDate);
         this.updateDropdownLabel();
-        this.updateScrollToStatusOnAppointments();
+        if (this.appointments.length > 0) {
+          this.isExpand = true;
+        }
       }
     );
 
@@ -65,22 +64,6 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(appointmentsSubcription);
     this.subscriptions.add(appointmentsLoadedSubcription);
     this.subscriptions.add(customerSubcription);
-  }
-
-  updateScrollToStatusOnAppointments(): void {
-    const now = Math.round(new Date().getTime() / 1000);
-    let proximity = Number.MAX_SAFE_INTEGER;
-
-    this.appointments.forEach(appointment => {
-      const appointmentStart = Math.round(
-        new Date(appointment.start).getTime() / 1000
-      );
-      const newProximity = Math.abs(appointmentStart - now);
-      if (newProximity < proximity) {
-        proximity = newProximity;
-        this.idClosestToCurretTime = appointment.publicId;
-      }
-    });
   }
 
   toggleDrop() {

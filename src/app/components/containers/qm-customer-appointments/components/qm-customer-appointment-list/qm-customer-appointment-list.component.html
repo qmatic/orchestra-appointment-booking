@@ -1,6 +1,6 @@
 
 <ul class="qm-appointment-list"  dir="{{ userDirection$ | async }}">
-  <li [id]="appointment.publicId.slice(0, 7)" class="qm-appointment-list__item" *ngFor="let appointment of appointments; let last = last">
+  <li [attr.data-scroll-to]="isNextAppointment(appointment)" #customCard class="qm-appointment-list__item" *ngFor="let appointment of appointments">
     <div class="qm-appointment-card">
       <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline-container">

@@ -386,20 +386,19 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
         'addressCountry'
       ];
 
-      completeAddress = fieldsToLookFor.reduce(
-        (acc, curr) => {
-          if (curr in branch) {
-            const value = branch[curr];
-            if (value !== null && value !== '') {
-              if (acc === '') {
-                return value;
-              } else {
-                return acc += ', ' + value;
-              }
+      completeAddress = fieldsToLookFor.reduce((acc, curr) => {
+        if (curr in branch) {
+          const value = branch[curr];
+          if (value !== null && value !== '') {
+            if (acc === '') {
+              return value;
+            } else {
+              return (acc += ', ' + value);
             }
           }
-          return acc;
-        }, '');
+        }
+        return acc;
+      }, '');
     }
 
     return completeAddress;
