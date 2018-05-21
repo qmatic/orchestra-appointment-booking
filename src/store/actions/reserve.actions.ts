@@ -41,7 +41,6 @@ export class UnreserveAppointmentFail implements Action {
 
 export class UnreserveAppointmentSuccess implements Action {
   readonly type = UNRESERVE_APPOINTMENT_SUCCESS;
-  constructor(public payload: IAppointment) {}
 }
 
 export class ResetReservedAppointment implements Action {

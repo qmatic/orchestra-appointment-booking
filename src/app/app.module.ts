@@ -128,8 +128,10 @@ import { AutoClose } from '../services/util/autoclose.service';
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    // console.log('state', state);
-    // console.log('action', action);
+    if (action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME') {
+      console.log('state', state);
+      console.log('action', action);
+    }
 
     return reducer(state, action);
   };

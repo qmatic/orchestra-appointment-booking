@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, map, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import * as ReserveActions from './../actions';
-import { ReserveDataService } from '../services';
+import { ReserveDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
@@ -14,6 +14,8 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/empty';
 import { IAppointment } from '../../models/IAppointment';
+import { IService } from '../../models/IService';
+import { IBookingInformation } from '../../models/IBookingInformation';
 
 const toAction = ReserveActions.toAction();
 
@@ -52,25 +54,47 @@ export class ReserveEffects {
         const [action, unreserveAppointmentAction]: [
                                                     ReserveActions.ReserveAppointment,
                                                     (ReserveActions.UnreserveAppointmentSuccess
-                                                  | ReserveActions.UnreserveAppointmentSuccess)] = data;
-        if (unreserveAppointmentAction) {
-          const toReserveAction = ReserveActions.toActionSecondary(unreserveAppointmentAction);
-          return toReserveAction(
-            this.reserveDataService.reserveAppointment(
-              action.payload.bookingInformation,
-              action.payload.appointment
-            ),
-            ReserveActions.ReserveAppointmentSuccess,
-            ReserveActions.ReserveAppointmentFail
+                                                  | ReserveActions.UnreserveAppointmentFail)] = data;
+        if (unreserveAppointmentAction && unreserveAppointmentAction.type === ReserveActions.UNRESERVE_APPOINTMENT_SUCCESS) {
+          return this.reserveDataService.reserveAppointment(
+                action.payload.bookingInformation,
+                action.payload.appointment
+              ).pipe(
+                mergeMap((appointmentData: IAppointment) => [
+                  new ReserveActions.UnreserveAppointmentSuccess,
+                  new ReserveActions.ReserveAppointmentSuccess(appointmentData)]
+                ),
+                catchError((err: DataServiceError<any>) => {
+
+                  return [
+                    new ReserveActions.UnreserveAppointmentSuccess,
+                    new ReserveActions.ReserveAppointmentFail(
+                    {
+                      ...err,
+                      appointment: action.payload.appointment,
+                      bookingInformation: action.payload.bookingInformation
+                    }
+                  )];
+                }
+              )
           );
         } else {
-          return toAction(
-            this.reserveDataService.reserveAppointment(
-              action.payload.bookingInformation,
-              action.payload.appointment
+          return this.reserveDataService.reserveAppointment(
+            action.payload.bookingInformation,
+            action.payload.appointment
+          ).pipe(
+            mergeMap((appointmentData: IAppointment) => [
+              new ReserveActions.ReserveAppointmentSuccess(appointmentData)]
             ),
-            ReserveActions.ReserveAppointmentSuccess,
-            ReserveActions.ReserveAppointmentFail
+            catchError((err: DataServiceError<any>) =>
+              of(new ReserveActions.ReserveAppointmentFail(
+                {
+                  ...err,
+                  appointment: action.payload.appointment,
+                  bookingInformation: action.payload.bookingInformation
+                }
+              ))
+            )
           );
         }
       })
@@ -95,7 +119,7 @@ export class ReserveEffects {
         })
       );
 
-    @Effect({ dispatch: false })
+    @Effect(/* { dispatch: false } */)
     reserveAppointmentFailed$: Observable<Action> = this.actions$
       .ofType(ReserveActions.RESERVE_APPOINTMENT_FAIL)
       .pipe(
@@ -103,6 +127,38 @@ export class ReserveEffects {
           (action: ReserveActions.ReserveAppointmentFail) => {
             this.toastService.errorToast(action.payload.error.msg);
           }
-        )
+        ),
+        switchMap((action: ReserveActions.ReserveAppointmentFail) => {
+          const serviceQuery = action.payload.appointment.services.reduce((queryString, service: IService) => {
+            return queryString + `;servicePublicId=${service.publicId}`;
+          }, '');
+
+          const bookingInformation: IBookingInformation = {
+            ...action.payload.bookingInformation,
+            serviceQuery
+          };
+
+          return [new ReserveActions.DeselectTimeslot, new ReserveActions.FetchTimeslots(bookingInformation)];
+        })
       );
 }
+
+// export const toAction = (...actions: Action[]) => <T>(
+//   source: Observable<T>,
+//   successAction: new (data: T) => Action,
+//   errorAction: new (err: DataServiceError<T>) => Action
+// ) =>
+//   source.pipe(
+//     mergeMap((data: T) => [new successAction(data), ...actions]),
+//     catchError((err: DataServiceError<T>) => of(new errorAction(err)))
+//   );
+
+// export const toActionSecondary = (...actions: Action[]) => <T>(
+//   source: Observable<T>,
+//   successAction: new (data: T) => Action,
+//   errorAction: new (err: DataServiceError<T>) => Action
+// ) =>
+//   source.pipe(
+//     mergeMap((data: T) => [...actions, new successAction(data)]),
+//     catchError((err: DataServiceError<T>) => of(new errorAction(err)))
+//   );

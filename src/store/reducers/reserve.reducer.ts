@@ -62,6 +62,7 @@ export function reducer(
     case ReserveActions.UNRESERVE_APPOINTMENT_FAIL: {
       return {
         ...state,
+        reservedAppointment: null,
         loading: false,
         error: action.payload
       };
