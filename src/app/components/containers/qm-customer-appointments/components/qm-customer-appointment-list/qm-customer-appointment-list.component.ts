@@ -2,6 +2,7 @@ import { element } from 'protractor';
 import { IAppointment } from './../../../../../../models/IAppointment';
 import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
 import { Setting } from './../../../../../../models/Setting';
+import * as moment from 'moment';
 import {
   Component,
   OnInit,
@@ -104,7 +105,18 @@ export class QmCustomerAppointmentListComponent
   }
 
   deleteAppointment(appointment: IAppointment): void {
-    this.appointmentDispatchers.deleteAppointment(appointment);
+
+    this.modalService.openForTransKeys('modal.cancel.booking.message',
+      '',
+      'modal.cancel.booking.cancel',
+      'modal.cancel.booking.ok', (isCancelled: boolean) => {
+        if (!isCancelled) {
+          this.appointmentDispatchers.deleteAppointment(appointment);
+        }
+      }, () => {
+      }, {
+        date : moment(appointment.start).format('DD MMM YYYY')
+      });
   }
 
   displayStatus(appointment: IAppointment) {

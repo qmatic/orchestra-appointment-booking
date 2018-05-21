@@ -35,10 +35,11 @@ export class QmModalService {
     btnOkTextKey: string,
     btnCancelTextKey: string,
     confirmCallback: (result: boolean) => void,
-    errorCallback: (err: Object) => void
+    errorCallback: (err: Object) => void,
+    interpolatedKeys: Object = null
   ): Subscription {
     return this.translate
-      .get([titleKey, messageKey, btnOkTextKey, btnCancelTextKey])
+      .get([titleKey, messageKey, btnOkTextKey, btnCancelTextKey], interpolatedKeys)
       .subscribe(translations => {
         this.open(
           translations[titleKey],
