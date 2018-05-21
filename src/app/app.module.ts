@@ -122,6 +122,8 @@ import { QmMaxLengthValidatorDirective } from './directives/qm-max-length-valida
 import { QmNotificationModalComponent } from './components/containers/qm-notification-modal/qm-notification-modal.component';
 import { QmStandardCheckboxComponent } from './components/presentational/qm-standard-checkbox/qm-standard-checkbox.component';
 import { QmBookingSidebarComponent } from './components/presentational/qm-booking-sidebar/qm-booking-sidebar.component';
+import { QmAutoCloseComponent } from './components/containers/qm-auto-close/qm-auto-close.component';
+import { AutoClose } from '../services/util/autoclose.service';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -194,7 +196,8 @@ const toastrGlobalOptions = {
     QmMaxLengthValidatorDirective,
     QmNotificationModalComponent,
     QmStandardCheckboxComponent,
-    QmBookingSidebarComponent
+    QmBookingSidebarComponent,
+    QmAutoCloseComponent
   ],
   imports: [
     MomentModule,
@@ -243,7 +246,8 @@ const toastrGlobalOptions = {
     ErrorInterceptor,
     CanDeactivateGuard,
     DatePipe,
-    TimeUtils
+    TimeUtils,
+    AutoClose
   ],
   bootstrap: [AppComponent]
 })
