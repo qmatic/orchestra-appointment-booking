@@ -32,4 +32,8 @@ export class ServiceDispatchers {
   selectMultiService(service: IService) {
     this.store.dispatch(new ServiceActions.SelectMultiService(service));
   }
+
+  deselectServices() {
+    this.store.dispatch(new ServiceActions.DeselectServices);
+  }
 }

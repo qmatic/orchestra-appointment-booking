@@ -1,5 +1,10 @@
 @import '../../../../styles/base/_component-manifest.scss';
 .qm-modal {
+  &__headline {
+    font-size: rem(24px);
+    text-align: center;
+  }
+
   &__footer {
     margin-top: rem(50px);
   }

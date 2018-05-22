@@ -13,13 +13,22 @@ import {
   UserSelectors,
   SettingsAdminSelectors,
   FETCH_LICENSE_INFO,
-  BookingHelperSelectors
+  BookingHelperSelectors,
+  ServiceDispatchers,
+  CustomerDispatchers,
+  AppointmentMetaDispatchers,
+  AppointmentDispatchers,
+  ServiceSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
 import { IBranch } from '../../../../models/IBranch';
 import { Setting } from '../../../../models/Setting';
 import { ModalService } from '../../../../services/util/modal.service';
+import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
+import { IService } from '../../../../models/IService';
+import { ToastService } from '../../../../services/util/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'qm-booking-footer',
@@ -32,6 +41,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private currentCustomer$: Observable<ICustomer>;
   private title$: Observable<string>;
   private notes$: Observable<string>;
+  private selectedServices$: Observable<IService[]>
   private selectedBranches$: Observable<IBranch[]>;
   private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
@@ -47,6 +57,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private noNotificationEnabled: boolean;
   private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
+  private selectedServices: IService[];
   private selectedBranches: IBranch[];
   private selectedDate: string;
   private selectedTime: string;
@@ -58,6 +69,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   constructor(
     private customerSelectors: CustomerSelectors,
     private reserveSelectors: ReserveSelectors,
+    private serviceSelectors: ServiceSelectors,
     private bookingDispatchers: BookingDispatchers,
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private branchSelectors: BranchSelectors,
@@ -66,10 +78,18 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
     private modalService: ModalService,
-    private bookingHelperSelectors: BookingHelperSelectors
+    private bookingHelperSelectors: BookingHelperSelectors,
+    private qmModalService: QmModalService,
+    private serviceDispatchers: ServiceDispatchers,
+    private customerDispatchers: CustomerDispatchers,
+    private appointmentMetaDispatchers: AppointmentMetaDispatchers,
+    private appointmentDispatchers: AppointmentDispatchers,
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
+    this.selectedServices$ = this.serviceSelectors.selectedServices$;
     this.selectedBranches$ = this.branchSelectors.selectedBranch$;
     this.selectedDate$ = this.dateSelectors.selectedDate$;
     this.selectedTime$ = this.timeslotSelectors.selectedTime$;
@@ -96,6 +116,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     const notificationTypeSubscription = this.notificationType$.subscribe(
       (notificationType: string) => this.notificationType = notificationType
+    );
+
+    const selectedServicesSubscription = this.selectedServices$.subscribe(
+      (selectedServices: IService[]) => this.selectedServices = selectedServices
     );
 
     const selectedBranchSubscription = this.selectedBranches$.subscribe(
@@ -133,6 +157,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(notesSubscription);
     this.subscriptions.add(numberOfCustomersSubscription);
     this.subscriptions.add(notificationTypeSubscription);
+    this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedBranchSubscription);
     this.subscriptions.add(selectedDateSubscription);
     this.subscriptions.add(selectedTimeSubscription);
@@ -165,6 +190,46 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     } else {
       this.bookAppointment();
     }
+  }
+
+  handleClearAllFields () {
+    this.promptUserIfOngoingBooking();
+
+  }
+
+  promptUserIfOngoingBooking() {
+    const bookingIsStarted = this.bookingStarted();
+    if (bookingIsStarted) {
+      this.qmModalService.openForTransKeys(
+        'label.clearBookingModal.headline',
+        '',
+        'button.clearBookingModal.cancel',
+        'button.clearBookingModal.ok',
+        (cancelClicked: Boolean) => {
+          if (!cancelClicked) {
+            this.clearAllFields();
+            this.translateService.get('label.successfully.cleared.fields').subscribe(
+              (label: string) => this.toastService.successToast(label)
+            ).unsubscribe();
+          }
+        },
+        () => {
+        });
+    }
+  }
+
+  bookingStarted(): boolean {
+    return this.currentCustomer !== null
+            || this.selectedServices.length > 0
+            || this.title !== ''
+            || this.notes !== '';
+  }
+
+  clearAllFields() {
+    this.serviceDispatchers.deselectServices();
+    this.customerDispatchers.resetCurrentCustomer();
+    this.appointmentMetaDispatchers.resetAllAppointmentMeta();
+    this.appointmentDispatchers.resetAppointments();
   }
 
   bookAppointment(currentCustomer = this.currentCustomer) {

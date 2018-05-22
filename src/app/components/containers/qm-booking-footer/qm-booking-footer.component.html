@@ -4,7 +4,7 @@
       <span class="qm-booking-footer__required-star qm-required-star">*</span>
       <span class="qm-booking-footer__required-text">{{ 'label.bookingFlow.required.fields' | translate }}</span>
     </div>
-    <button class="qm-btn qm-btn--secondary">
+    <button class="qm-btn qm-btn--secondary" [disabled]="!bookingStarted()" (click)="handleClearAllFields()">
       <span class="qm-btn__text" title="{{ 'button.bookingFooter.clear.all' | translate }}">{{ 'button.bookingFooter.clear.all' | translate }}</span>
     </button>
 
