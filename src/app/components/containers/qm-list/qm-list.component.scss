@@ -7,7 +7,29 @@
   height: calc(100% - 64px);
   max-width: rem($booking-list-width);
   width: 100%;
+
 }
+
+:host ::ng-deep .qm-clear-input-button {
+  position: absolute;
+  right: 8px;
+  top: 15px;
+  cursor: pointer;
+  font-size: rem(16px);
+
+  ::ng-deep .qm-action-btn__icon{
+    color: $dark-transparent42;   
+    font-size: rem(18px);
+  }
+}
+
+:host ::ng-deep .qm-clear-search-button {
+  position: absolute;
+  right: 8px;
+  top: 12px;
+  cursor: pointer;
+  color: $dark-transparent42;
+} 
 
 .qm-booking {
     height: 100%;

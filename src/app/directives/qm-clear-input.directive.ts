@@ -19,16 +19,22 @@ export class QmClearInputDirective implements OnInit  {
   componentRef: ComponentRef<QmClearInputButtonComponent>;
   buttonComponent: QmClearInputButtonComponent;
 
+
+  @Input()
+  isSearchInput: Boolean = false;
+
   @HostListener('input', ['$event'])
   onInput(event) {
     this.updateButtonVisibility(event.target.value);
   }
+
 
   ngOnInit(): void {
     const factory: ComponentFactory<QmClearInputButtonComponent> = this.resolver.resolveComponentFactory(QmClearInputButtonComponent);
     this.componentRef = factory.create(this.viewContainer.parentInjector);
     this.viewContainer.insert(this.componentRef.hostView);
     this.viewContainer.element.nativeElement.classList.add('clear-enabled-input');
+    this.componentRef.instance.isSearchInput = this.isSearchInput;
     this.componentRef.instance.clear.subscribe(() =>  {
       this.control.control.setValue('');
       this.updateButtonVisibility('');

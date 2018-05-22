@@ -9,7 +9,10 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } fro
 export class QmClearInputButtonComponent implements OnInit {
 
   @Input()
-  isVisible: Boolean = false;
+  isVisible: Boolean = false; // whether clear button is visible
+
+  @Input()
+  isSearchInput: Boolean = false;
 
   @Output() clear: EventEmitter<any> = new EventEmitter();
 
