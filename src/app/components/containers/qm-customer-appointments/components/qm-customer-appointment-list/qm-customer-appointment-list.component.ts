@@ -16,6 +16,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import {Router} from '@angular/router';
 
 import {
   UserSelectors,
@@ -23,6 +24,8 @@ import {
   SettingsAdminSelectors,
   BookingHelperSelectors
 } from '../../../../../../store';
+
+
 
 @Component({
   selector: 'qm-customer-appointment-list',
@@ -47,7 +50,8 @@ export class QmCustomerAppointmentListComponent
     private settingsAdminSelectors: SettingsAdminSelectors,
     private bookingHelperSelectors: BookingHelperSelectors,
     private modalService: QmModalService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.userLocale$ = this.userSelectors.userLocale$;

@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import { of } from 'rxjs/observable/of';
 import { switchMap, mergeMap, catchError, tap } from 'rxjs/operators';
 import * as AppointmentActions from './../actions';
+import * as CustomerActions from './../actions';
 import { AppointmentDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 const toAction = AppointmentActions.toAction();
 
@@ -17,7 +20,8 @@ export class AppointmentEffects {
     private actions$: Actions,
     private appointmentDataService: AppointmentDataService,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private router: Router
   ) { }
 
   @Effect()
@@ -45,18 +49,19 @@ export class AppointmentEffects {
     )
     );
 
-
-  @Effect({ dispatch: false })
+  @Effect()
   deleteAppointmentSuccess$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS)
     .pipe(
-    tap(() => {
-      this.translateService.get('toast.cancel.booking.success').subscribe(
+    tap((action: AppointmentActions.DeleteAppointment) => {
+      this.translateService.get('toast.cancel.booking.success', {date : moment(action.payload.start).format('DD MMM YYYY') }).subscribe(
         (label: string) => this.toastService.successToast(label)
       ).unsubscribe();
 
-    })
-    );
+    }
+    )).pipe(switchMap((action: AppointmentActions.DeleteAppointment) => {
+      return [new CustomerActions.ResetCurrentCustomer()];
+    }));
 
   @Effect({ dispatch: false })
   deleteAppointmentFailed$: Observable<Action> = this.actions$
