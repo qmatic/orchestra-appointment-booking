@@ -1,3 +1,6 @@
+import { Logout } from './logout.service';
+import { TimeslotSelectors } from './../../store/services/timeslot/timeslot.selectors';
+import { TimeslotDispatchers } from './../../store/services/timeslot/timeslot.dispatchers';
 import { SettingsAdminSelectors } from './../../store/services/settings-admin/settings-admin.selectors';
 import { Injectable } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -15,7 +18,10 @@ export class AutoClose {
   private autoCloseInterval = null;
   constructor(
     private spService: SPService,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private timeslotDispatchers: TimeslotDispatchers,
+    private timeslotSelectors: TimeslotSelectors,
+    private logoutService: Logout
   ) {
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     const settingsSubscription = this.settingsMap$.subscribe(
@@ -43,9 +49,18 @@ export class AutoClose {
   }
 
   onAutoCloseTimeExpired() {
-    this.spService.logout().subscribe(() => {
-      window.location.href = LOGOUT_URL;
-    });
+    this.timeslotDispatchers.deselectTimeslot();
+    const subscription = this.timeslotSelectors.selectedTime$.subscribe(
+      timeslot => {
+        // When timeslot is released then logout!!
+        if (!!!timeslot) {
+          // Logout
+          this.logoutService.logout();
+        }
+
+        subscription.unsubscribe();
+      }
+    );
   }
 
   refreshAutoClose() {

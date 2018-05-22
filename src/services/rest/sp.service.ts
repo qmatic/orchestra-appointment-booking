@@ -8,7 +8,6 @@ import { UserSelectors, DataServiceError } from '../../store';
 
 @Injectable()
 export class SPService implements OnDestroy {
-
   userSubscription: Subscription;
   currentUserName$: Observable<string>;
   userName: string;
@@ -17,13 +16,15 @@ export class SPService implements OnDestroy {
 
   constructor(private http: HttpClient, private userSelectors: UserSelectors) {
     this.currentUserName$ = this.userSelectors.userUserName$;
-    this.userSubscription = this.currentUserName$.subscribe(userName => this.userName = userName);
+    this.userSubscription = this.currentUserName$.subscribe(
+      userName => (this.userName = userName)
+    );
   }
 
-  ngOnDestroy () {
+  ngOnDestroy() {
     this.userSubscription.unsubscribe();
   }
- /*  getAllUsers(): Promise<IUser[]> {
+  /*  getAllUsers(): Promise<IUser[]> {
     return this.http.get(this.userList)
       .toPromise().then(res => {
         console.log(res.json());
@@ -37,24 +38,51 @@ export class SPService implements OnDestroy {
   }
  */
 
+  fetchUserStatus() {
+    return this.http.get(this.spEndPoint + 'user/status');
+  }
+
   fetchUserInfo() {
     return this.http.get(this.spEndPoint + 'user');
   }
 
-  logout() {
-    return this.http.get(this.spEndPoint + 'user/status')
-            .pipe(switchMap((status: any) => {
-                const servicePointId = status.servicePointId !== null
-                                        ? status.servicePointId : 0;
-                return this.http.delete(this.spEndPoint + 'branches/' + status.branchId
-                + '/servicePoints/' + servicePointId
-                + '/users/' + this.userName);
-              }
-            ))
-            .pipe(switchMap(() => this.http.put(this.spEndPoint + 'logout', {})))
-            .pipe(catchError(this.handleError()));
+  logoutFromOrchestra() {
+    return this.http.put(this.spEndPoint + 'logout', {});
   }
 
+  logoutFromServicePoint(branchId, servicePointId, username) {
+    return this.http.delete(
+      this.spEndPoint +
+        'branches/' +
+        branchId +
+        '/servicePoints/' +
+        servicePointId +
+        '/users/' +
+        username
+    );
+  }
+
+  logout() {
+    return this.http
+      .get(this.spEndPoint + 'user/status')
+      .pipe(
+        switchMap((status: any) => {
+          const servicePointId =
+            status.servicePointId !== null ? status.servicePointId : 0;
+          return this.http.delete(
+            this.spEndPoint +
+              'branches/' +
+              status.branchId +
+              '/servicePoints/' +
+              servicePointId +
+              '/users/' +
+              this.userName
+          );
+        })
+      )
+      .pipe(switchMap(() => this.http.put(this.spEndPoint + 'logout', {})))
+      .pipe(catchError(this.handleError()));
+  }
 
   private handleError<T>(requestData?: T) {
     return (res: HttpErrorResponse) => {

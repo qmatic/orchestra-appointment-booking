@@ -1,3 +1,4 @@
+import { Logout } from './../services/util/logout.service';
 import { TimeUtils } from './../services/util/timeUtils.service';
 import { QmClearInputDirective } from './directives/qm-clear-input.directive';
 import { SettingsAdminDataService } from './../store/services/settings-admin/settings-admin-data.service';
@@ -128,7 +129,9 @@ import { AutoClose } from '../services/util/autoclose.service';
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME') {
+    if (
+      action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME'
+    ) {
       console.log('state', state);
       console.log('action', action);
     }
@@ -249,7 +252,8 @@ const toastrGlobalOptions = {
     CanDeactivateGuard,
     DatePipe,
     TimeUtils,
-    AutoClose
+    AutoClose,
+    Logout
   ],
   bootstrap: [AppComponent]
 })

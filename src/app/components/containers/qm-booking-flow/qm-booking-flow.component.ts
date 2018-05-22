@@ -130,7 +130,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     );
 
     const userDirectionSubscription = this.userDirection$.subscribe(
-      (userDirection: string) => this.userDirection = userDirection
+      (userDirection: string) => (this.userDirection = userDirection)
     );
 
     const appointmentSubscription = this.reservedAppointment$.subscribe(
@@ -581,7 +581,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
         } else {
           return nextClosestTime;
         }
-      }, ''
+      },
+      ''
     );
 
     return timeToScrollTo;
@@ -610,7 +611,8 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
             return nextClosestTime;
           }
         }
-      }, ''
+      },
+      ''
     );
 
     return timeToScrollTo;
