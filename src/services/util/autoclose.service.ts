@@ -50,10 +50,10 @@ export class AutoClose {
 
   refreshAutoClose() {
     if (this.currentAutoCloseTime > 0) {
-      /*console.log(
-        `Updating autoclose timer value currentAutoCloseTime to ${this
-          .autoCloseTimeInSeconds}`
-      );*/
+      //   console.log(
+      //     `Updating autoclose timer value currentAutoCloseTime to ${this
+      //       .autoCloseTimeInSeconds}`
+      //   );
       this.currentAutoCloseTime = this.autoCloseTimeInSeconds;
     }
   }
