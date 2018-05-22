@@ -45,6 +45,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private smsEnabled: boolean;
   private emailAndSmsEnabled: boolean;
   private noNotificationEnabled: boolean;
+  private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
   private selectedBranches: IBranch[];
   private selectedDate: string;
@@ -124,6 +125,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.smsEnabled = settingsMap.IncludeSms.value;
         this.emailAndSmsEnabled = settingsMap.IncludeEmailAndSms.value;
         this.noNotificationEnabled = settingsMap.NoNotification.value;
+        this.defaultPhoneCountryCode = settingsMap.CustomerPhoneDefaultCountry.value;
       }
     );
 
@@ -204,7 +206,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     switch (notificationType) {
       case 'sms': {
-        return this.currentCustomer.phone !== '';
+        return this.currentCustomer.phone !== '' && this.currentCustomer.phone !== this.defaultPhoneCountryCode;
       }
       case 'email': {
         return this.currentCustomer.email !== '';

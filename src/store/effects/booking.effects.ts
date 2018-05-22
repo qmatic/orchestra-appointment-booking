@@ -46,14 +46,6 @@ export class BookingEffects {
       switchMap((data: any) => {
         const [action, confirmAction] = data;
         if (confirmAction.type === BookingActions.BOOK_APPOINTMENT_FAIL) {
-          // return toAction(
-          //           this.bookingDataService.bookAppointment(
-          //             action.payload.bookingInformation,
-          //             action.payload.appointment
-          //           ),
-          //           BookingActions.BookAppointmentSuccess,
-          //           BookingActions.BookAppointmentFail
-          //         );
           return this.bookingDataService.bookAppointment(
             action.payload.bookingInformation,
             action.payload.appointment
@@ -88,7 +80,6 @@ export class BookingEffects {
         }
       ),
       switchMap((action: BookingActions.BookAppointmentFail) => {
-        console.log('this is the action: ', action);
         const serviceQuery = action.payload.appointment.services.reduce((queryString, service: IService) => {
           return queryString + `;servicePublicId=${service.publicId}`;
         }, '');
@@ -112,20 +103,22 @@ export class BookingEffects {
           ).unsubscribe();
         }
       ),
-      withLatestFrom(this.store$.select((state: IAppState) => state.appointments.appointments)),
+      // withLatestFrom(this.store$.select((state: IAppState) => state.appointments.appointments)),
       switchMap((data: any) => {
-        const [ action, appointments ]: [ BookingActions.BookAppointmentSuccess, IAppointment[] ] = data;
-        if (appointments.length > 0) {
-          return [
-            new BookingActions.FetchAppointments(action.payload.customers[0].publicId),
-            new BookingActions.ResetReservedAppointment,
-            new BookingActions.DeselectServices,
-            new BookingActions.ResetAppointmentNotificationType,
-            new BookingActions.ResetAppointmentTitle,
-            new BookingActions.ResetAppointmentNote
-          ];
-        }
+        // const [ action, appointments ]: [ BookingActions.BookAppointmentSuccess, IAppointment[] ] = data;
+        // if (appointments.length > 0) {
+        //   return [
+        //     new BookingActions.FetchAppointments(action.payload.customers[0].publicId),
+        //     new BookingActions.ResetReservedAppointment,
+        //     new BookingActions.DeselectServices,
+        //     new BookingActions.ResetAppointmentNotificationType,
+        //     new BookingActions.ResetAppointmentTitle,
+        //     new BookingActions.ResetAppointmentNote
+        //   ];
+        // }
         return [
+          new BookingActions.ResetCurrentCustomer,
+          new BookingActions.ResetAppointments,
           new BookingActions.ResetReservedAppointment,
           new BookingActions.DeselectServices,
           new BookingActions.ResetAppointmentNotificationType,
