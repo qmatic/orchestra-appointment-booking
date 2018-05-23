@@ -16,8 +16,8 @@ const toAction = ShiroActions.toAction();
 @Injectable()
 export class ShiroEffects {
 
-    // refresh interval is on miliseconds
-    private readonly REFRESH_INTERVAL = 3000000;
+    // refresh interval is on miliseconds (5 minutes - 5x60x1000)
+    private readonly REFRESH_INTERVAL = 300000;
 
     constructor(
         private actions$: Actions,
