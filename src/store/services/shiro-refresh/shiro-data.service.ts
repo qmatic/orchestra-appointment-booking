@@ -11,7 +11,7 @@ export class ShiroDataService {
 
     refreshShiro(): Observable<any> {
         return this.http
-          .get<any>(`entrypoint/systemInformation`)
+          .get<any>(`/entrypoint/systemInformation`)
           .pipe(catchError(this.handleError()));
       }
 

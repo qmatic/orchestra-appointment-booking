@@ -16,14 +16,15 @@ import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
 import { Subscription } from 'rxjs/Subscription';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   LOGOUT,
   HELP,
   HOME,
   LOGOUT_URL,
   HELP_URL,
-  APP_URL
+  APP_URL,
+  SETTINGS_URL
 } from './header-navigation';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 
@@ -59,7 +60,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     public qmModalService: QmModalService,
     public bookingHelperSelectors: BookingHelperSelectors,
     private reservationDataService: ReserveDataService,
-    private timeslotDispatchers: TimeslotDispatchers
+    private timeslotDispatchers: TimeslotDispatchers,
+    private router: Router
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -104,11 +106,19 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     this.clickBackToAppointmentsPage.emit($event);
   }
 
+  navigateToSettings($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.promptUserIfOngoingBooking(() => {
+      this.router.navigateByUrl(SETTINGS_URL);
+    });
+  }
+
   helpClick($event) {
     $event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
       this.promptUserIfOngoingBooking(() => {
-        window.location.href = HELP_URL;
+        Object.assign(document.createElement('a'), { target: '_blank', href: HELP_URL}).click();
       });
     } else {
       this.handleHeaderNavigations.emit(HELP);
