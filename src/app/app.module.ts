@@ -131,6 +131,7 @@ import { BookingHelperService } from '../services/util/bookingHelper.service';
 import { QmNumberOfCustomersBookerComponent } from './components/containers/qm-number-of-customers-booker/qm-number-of-customers-booker.component';
 import { QmBranchBookerComponent } from './components/containers/qm-branch-booker/qm-branch-booker.component';
 import { QmTimeslotBookerComponent } from './components/containers/qm-timeslot-booker/qm-timeslot-booker.component';
+import { GlobalErrorHandler } from '../services/util/global-error-handler.service';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -265,7 +266,8 @@ const toastrGlobalOptions = {
     TimeUtils,
     AutoClose,
     Logout,
-    BookingHelperService
+    BookingHelperService,
+    GlobalErrorHandler
   ],
   bootstrap: [AppComponent]
 })

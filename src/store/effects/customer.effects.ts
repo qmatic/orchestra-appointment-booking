@@ -1,3 +1,5 @@
+import { GlobalErrorHandler } from './../../services/util/global-error-handler.service';
+import { DataServiceError } from './../services/data.service';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
@@ -17,7 +19,8 @@ export class CustomerEffects {
       private actions$: Actions,
       private customerDataService: CustomerDataService,
       private toastService: ToastService,
-      private translateService: TranslateService
+      private translateService: TranslateService,
+      private globalErrorHandler: GlobalErrorHandler
     ) {}
 
     @Effect()
@@ -66,12 +69,14 @@ export class CustomerEffects {
     createCustomerFailed$: Observable<Action> = this.actions$
       .ofType(CustomerActions.CREATE_CUSTOMER_FAIL)
       .pipe(
-        tap((action: CustomerActions.CreateCustomerFail) =>
-          this.translateService.get('label.customer.created.error').subscribe(
-            (label: string) => this.toastService.errorToast(label)
-          ).unsubscribe()
+        tap((action: CustomerActions.CreateCustomerFail) => {
+          this.globalErrorHandler
+          .showError('label.customer.created.error', action.payload);
+        }
         )
       );
+
+
 
     @Effect()
     updateCustomer$: Observable<Action> = this.actions$
@@ -106,9 +111,8 @@ export class CustomerEffects {
       .ofType(CustomerActions.UPDATE_CUSTOMER_FAIL)
       .pipe(
         tap((action: CustomerActions.UpdateCustomerFail) => {
-            this.translateService.get('label.customer.updated.error').subscribe(
-              (label: string) => this.toastService.errorToast(label)
-            ).unsubscribe();
+            this.globalErrorHandler
+                .showError('label.customer.updated.error', action.payload);
           }
         )
       );

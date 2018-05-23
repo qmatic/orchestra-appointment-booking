@@ -8,16 +8,17 @@ import { calendarEndpoint, DataServiceError } from '../data.service';
 import { ICustomerResponse } from '../../../models/ICustomerResponse';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { ICustomer } from '../../../models/ICustomer';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 
 @Injectable()
 export class CustomerDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getCustomers(searchText: string): Observable<ICustomerResponse> {
     return this.http
       .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${encodeURIComponent(searchText)}`)
-      .pipe(catchError(this.handleError()));
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 
   createCustomer(customer: ICustomer): Observable<ICustomer> {
@@ -25,7 +26,7 @@ export class CustomerDataService {
       .post<ICustomer>(`${calendarEndpoint}/customers`, customer)
       .pipe(
         retry(3),
-        catchError(this.handleError()
+        catchError(this.errorHandler.handleError()
       ));
   }
 
@@ -34,15 +35,7 @@ export class CustomerDataService {
       .put<ICustomer>(`${calendarEndpoint}/customers/${customer.id}`, customer)
       .pipe(
         retry(3),
-        catchError(this.handleError())
+        catchError(this.errorHandler.handleError())
       );
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
   }
 }
