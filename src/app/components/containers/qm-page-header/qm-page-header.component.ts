@@ -1,3 +1,4 @@
+import { Logout } from './../../../../services/util/logout.service';
 import { TimeslotDispatchers } from './../../../../store/services/timeslot/timeslot.dispatchers';
 import { ReserveDataService } from './../../../../store/services/reserve/reserve-data.service';
 import { IService } from './../../../../models/IService';
@@ -61,7 +62,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     public bookingHelperSelectors: BookingHelperSelectors,
     private reservationDataService: ReserveDataService,
     private timeslotDispatchers: TimeslotDispatchers,
-    private router: Router
+    private router: Router,
+    private logoutService: Logout
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -91,9 +93,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     event.preventDefault();
     if (!this.isPreventHeaderNavigations) {
       this.promptUserIfOngoingBooking(() => {
-        this.spService.logout().subscribe(() => {
-          window.location.href = LOGOUT_URL;
-        });
+        this.logoutService.logout();
       });
     } else {
       this.handleHeaderNavigations.emit(LOGOUT);
