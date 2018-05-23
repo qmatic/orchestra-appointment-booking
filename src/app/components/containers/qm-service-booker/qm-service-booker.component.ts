@@ -20,8 +20,8 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
   @Input()
   settingsMap: { [name: string]: Setting };
 
-  private services$: Observable<IService[]>;
-  private servicesSearchText$: Observable<string>;
+  public services$: Observable<IService[]>;
+  public servicesSearchText$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
   private selectedServices: IService[];
 

@@ -20,7 +20,7 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   public datesSearchText$: Observable<string>;
   public resourceName = '';
 
-  private dates$: Observable<string[]>;
+  public dates$: Observable<string[]>;
   private selectedDate$: Observable<string>;
   private reservedAppointment$: Observable<IAppointment>;
   private selectedDate: string;

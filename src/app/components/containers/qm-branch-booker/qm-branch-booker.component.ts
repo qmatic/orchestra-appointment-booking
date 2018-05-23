@@ -18,7 +18,8 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   public branches$: Observable<IBranch[]>;
   private selectedBranches$: Observable<IBranch[]>;
-  private selectedBranches: IBranch[];
+  public selectedBranches: IBranch[];
+  public branchesSearchText$: Observable<string>;
 
 
   constructor(
@@ -29,6 +30,7 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
   ) {
     this.branches$ = this.branchSelectors.visibleBranches$;
     this.selectedBranches$ = this.branchSelectors.selectedBranch$;
+    this.branchesSearchText$ = this.branchSelectors.searchText$;
   }
 
   ngOnInit() {

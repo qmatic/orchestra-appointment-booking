@@ -23,7 +23,7 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
   private selectedTime$: Observable<string>;
   private selectedTime: string;
 
-  private times$: Observable<string[]>;
+  public times$: Observable<string[]>;
   public times: string[];
   public timeToScrollTo$: Subject<number> = new Subject<number>();
 
