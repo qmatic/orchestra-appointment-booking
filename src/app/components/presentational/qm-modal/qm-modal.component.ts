@@ -1,3 +1,4 @@
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +14,10 @@ export class QmModalComponent implements OnInit {
   btnOkText: string;
   btnCancelText: string;
 
-  constructor(private activeModal: NgbActiveModal) {}
+  constructor(
+    private activeModal: NgbActiveModal,
+    private autoCloseService: AutoClose
+  ) {}
 
   ngOnInit() {}
 

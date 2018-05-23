@@ -14,7 +14,7 @@
       name="appointmentTitle"
       maxlength="{{ titleMaxLength }}"
       [ngModel]="title"
-      (input)="updateTitle(appointmentTitle.value)"
+      (input)="updateTitle(appointmentTitle.value); autoCloseService.refreshAutoClose()"
       #appointmentTitle="ngModel"
       qmMaxLengthValidator="{{ titleMaxLength }}" />
       <button *ngIf="title.length > 0" class="qm-action-btn qm-action-btn--only-icon qm-standard-text-field__btn qm-standard-text-field__btn--clear" (click)="handleClear()">

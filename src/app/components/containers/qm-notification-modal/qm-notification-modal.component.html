@@ -29,7 +29,8 @@
                   maxlength="50"
                   name="notificationPhone"
                   required
-                  formControlName="notificationPhone" />
+                  formControlName="notificationPhone"
+                  (input)="autoCloseService.refreshAutoClose()" />
           <span class="qm-standard-text-field__error-message">
             <ng-container *ngIf="notificationPhone.invalid && (notificationPhone.dirty || notificationPhone.touched)">
               <ng-container *ngIf="notificationPhone.errors?.required">
@@ -59,7 +60,8 @@
                   placeholder=""
                   required
                   name="notificationEmail"
-                  formControlName="notificationEmail" />
+                  formControlName="notificationEmail"
+                  (input)="autoCloseService.refreshAutoClose()" />
           <span class="qm-standard-text-field__error-message">
             <ng-container *ngIf="notificationEmail.invalid && (notificationEmail.dirty || notificationEmail.touched)">
               <ng-container *ngIf="notificationEmail.errors.required">

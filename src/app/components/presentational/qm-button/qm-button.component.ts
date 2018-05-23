@@ -1,10 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { AutoClose } from './../../../../services/util/autoclose.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'qm-button',
@@ -19,11 +14,12 @@ export class QmButtonComponent implements OnInit {
   @Input() disabled = false;
   @Output() handleClick: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private autoCloseService: AutoClose) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   onClick(e) {
+    this.autoCloseService.refreshAutoClose();
     this.handleClick.emit(e);
   }
 
@@ -33,10 +29,10 @@ export class QmButtonComponent implements OnInit {
 
   getButtonClasses(): string {
     let buttonClasses = 'qm-btn';
-    if ( this.hasButtonClasses() ) {
+    if (this.hasButtonClasses()) {
       buttonClasses += ' ' + this.btnClassName;
     }
-    if ( this.hasIconClasses() ) {
+    if (this.hasIconClasses()) {
       buttonClasses += ' qm-btn--with-icon';
     }
 
@@ -45,7 +41,7 @@ export class QmButtonComponent implements OnInit {
 
   getIconClasses(): string {
     let iconClasses = 'qm-btn__icon';
-    if ( this.hasIconClasses() ) {
+    if (this.hasIconClasses()) {
       iconClasses += ' ' + this.iconClassName;
     }
     return iconClasses;

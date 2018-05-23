@@ -3,7 +3,7 @@
   </label>
   <span class="qm-option__error qm-option__error--pattern" *ngIf="settingControl?.errors?.pattern">{{'error.settings.' +  setting.name.toLowerCase() +'.pattern' | translate}}</span>
   <div class="qm-option__selection-container">
-    <input id="{{ setting.name }}" class="qm-option__input-box" type="text" [formControl]="settingControl" name="{{setting.name}}"
+    <input id="{{ setting.name }}" (input)="autoCloseService.refreshAutoClose()" class="qm-option__input-box" type="text" [formControl]="settingControl" name="{{setting.name}}"
       [value]="setting.value" />
     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>

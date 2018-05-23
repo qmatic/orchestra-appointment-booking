@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AutoClose } from '../../../../services/util/autoclose.service';
 
 @Component({
   selector: 'qm-standard-checkbox',
@@ -6,30 +7,21 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./qm-standard-checkbox.component.scss']
 })
 export class QmStandardCheckboxComponent implements OnInit {
+  @Input() isSelected = false;
 
-  @Input()
-  isSelected = false;
+  @Input() inputType: string;
 
-  @Input()
-  inputType: string;
+  @Input() name: string;
 
-  @Input()
-  name: string;
+  @Input() title = '';
 
-  @Input()
-  title = '';
+  @Output() optionChanged = new EventEmitter();
 
-  @Output()
-  optionChanged = new EventEmitter();
+  constructor(public autoCloseService: AutoClose) {}
 
-  constructor() { }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   handleChange($event) {
     this.optionChanged.emit($event);
   }
-
 }

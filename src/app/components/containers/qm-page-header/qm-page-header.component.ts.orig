@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { Logout } from './../../../../services/util/logout.service';
+=======
 import { AutoClose } from './../../../../services/util/autoclose.service';
+>>>>>>> 156118485 : Auto Close : handle text change in input boxes
 import { TimeslotDispatchers } from './../../../../store/services/timeslot/timeslot.dispatchers';
 import { ReserveDataService } from './../../../../store/services/reserve/reserve-data.service';
 import { IService } from './../../../../models/IService';
@@ -63,9 +66,12 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     public bookingHelperSelectors: BookingHelperSelectors,
     private reservationDataService: ReserveDataService,
     private timeslotDispatchers: TimeslotDispatchers,
-    public autoCloseService: AutoClose,
+<<<<<<< HEAD
     private router: Router,
     private logoutService: Logout
+=======
+    public autoCloseService: AutoClose
+>>>>>>> 156118485 : Auto Close : handle text change in input boxes
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;

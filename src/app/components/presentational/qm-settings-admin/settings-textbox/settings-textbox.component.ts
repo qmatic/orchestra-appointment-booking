@@ -1,6 +1,7 @@
 import { Setting } from './../../../../../models/Setting';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
+import { AutoClose } from '../../../../../services/util/autoclose.service';
 
 @Component({
   selector: 'qm-settings-textbox',
@@ -8,28 +9,19 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./settings-textbox.component.scss']
 })
 export class SettingsTextboxComponent implements OnInit {
+  constructor(public autoCloseService: AutoClose) {}
 
-  constructor() { }
+  @Input() settingLabel: string;
 
-  @Input()
-  settingLabel: string;
+  @Input() settingName: string;
 
-  @Input()
-  settingName: string;
+  @Input() settingValue: boolean;
 
-  @Input()
-  settingValue: boolean;
+  @Input() settingControl: FormControl;
 
-  @Input()
-  settingControl: FormControl;
+  @Input() settingGroup: FormGroup;
 
-  @Input()
-  settingGroup: FormGroup;
+  @Input() setting: Setting;
 
-  @Input()
-  setting: Setting;
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

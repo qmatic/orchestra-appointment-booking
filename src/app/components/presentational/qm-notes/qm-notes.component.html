@@ -15,7 +15,7 @@
       maxlength="{{ notesMaxLength }}"
       rows="5"
       [ngModel]="notes$ | async"
-      (input)="handleNotesInput(notesInput.value)"
+      (input)="handleNotesInput(notesInput.value); autoCloseService.refreshAutoClose()"
       (blur)="hideNotesInput()"
       qmAutofocus
       #notesInput></textarea>

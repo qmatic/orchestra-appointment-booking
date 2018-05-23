@@ -27,9 +27,15 @@ export class QmListItemComponent implements OnInit {
 
   @Input() title = '';
 
-  @Input() time = '';
+<<<<<<< HEAD
+  @Input()
+  text = '';
 
-  @Input() text = '';
+  @Input()
+  time = '';
+=======
+  @Input() time = '';
+>>>>>>> 156118485 : Auto Close : handle text change in input boxes
 
   @Output() optionClicked = new EventEmitter();
 

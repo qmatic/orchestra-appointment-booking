@@ -12,7 +12,7 @@
           name="q"
           [ngModel]="searchText"
           #customerSearch
-          (input)="search(customerSearch.value)" />
+          (input)="search(customerSearch.value); autoCloseService.refreshAutoClose()" />
 
         <button *ngIf="customerSearch.value === ''; else clearBtn" class="qm-action-btn qm-action-btn--only-icon qm-search__btn" (click)="search(customerSearch.value)">
           <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>

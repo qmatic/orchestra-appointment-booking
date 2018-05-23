@@ -1,3 +1,4 @@
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -46,7 +47,8 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
     private customerDispatchers: CustomerDispatchers,
     private customersSelectors: CustomerSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public autoCloseService: AutoClose
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
@@ -57,28 +59,30 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    const searchInputSubscription = this.searchInput$.pipe(
-      tap((val) => this.immidiateActions(val)),
-      distinctUntilChanged(),
-      debounceTime(1000),
-      filter(text => text.length >= this.CHARACTER_THRESHOLD),
-    ).subscribe((searchText: string) => this.handleCustomerSearch(searchText));
+    const searchInputSubscription = this.searchInput$
+      .pipe(
+        tap(val => this.immidiateActions(val)),
+        distinctUntilChanged(),
+        debounceTime(1000),
+        filter(text => text.length >= this.CHARACTER_THRESHOLD)
+      )
+      .subscribe((searchText: string) => this.handleCustomerSearch(searchText));
 
     const adminSettingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) =>
-        this.allowCreateNewCustomer = settingsMap.AllowCreateNewCustomer.value
+        (this.allowCreateNewCustomer = settingsMap.AllowCreateNewCustomer.value)
     );
 
     const customersLoadedSubscription = this.customersLoaded$.subscribe(
-      (customersLoaded: boolean) => this.customersLoaded = customersLoaded
+      (customersLoaded: boolean) => (this.customersLoaded = customersLoaded)
     );
 
     const customerSubscription = this.customers$.subscribe(
-      (customers: ICustomer[]) => this.customers = customers
+      (customers: ICustomer[]) => (this.customers = customers)
     );
 
     const searchTextSubscription = this.searchText$.subscribe(
-      (searchText: string) => this.searchText = searchText
+      (searchText: string) => (this.searchText = searchText)
     );
 
     this.subscriptions.add(adminSettingsMapSubscription);
@@ -101,7 +105,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
     return this.customersLoaded;
   }
 
-  search (text: string) {
+  search(text: string) {
     this.searchInput$.next(text);
   }
 

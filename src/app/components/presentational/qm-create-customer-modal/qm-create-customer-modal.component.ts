@@ -2,7 +2,12 @@ import { CustomerSelectors } from './../../../../store/services/customer/custome
 import { reducers } from './../../../../store/reducers/index';
 import { Setting } from './../../../../models/Setting';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgOption } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,8 +15,13 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { ICustomer } from '../../../../models/ICustomer';
-import { CustomerDispatchers, UserSelectors, SettingsAdminSelectors } from '../../../../store';
+import {
+  CustomerDispatchers,
+  UserSelectors,
+  SettingsAdminSelectors
+} from '../../../../store';
 import { whiteSpaceValidator } from '../../../util/custom-form-validators';
+import { AutoClose } from '../../../../services/util/autoclose.service';
 
 @Component({
   selector: 'qm-create-customer-modal',
@@ -55,7 +65,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private translateService: TranslateService,
     private settingAdminSelectors: SettingsAdminSelectors,
-    private customerSelectors: CustomerSelectors
+    private customerSelectors: CustomerSelectors,
+    public autoCloseService: AutoClose
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = settingAdminSelectors.settingsAsMap$;
@@ -69,7 +80,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     let currentCustomerSubscription = null;
 
     if (this.isOnUpdate) {
-        currentCustomerSubscription = this.currentCustomer$.subscribe(
+      currentCustomerSubscription = this.currentCustomer$.subscribe(
         (currentCustomer: ICustomer) => {
           this.currentCustomer = currentCustomer;
           this.buildCustomerForm();
@@ -78,9 +89,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       );
     }
 
-
-    const translateSubscription = this.translateService.get(this.dateLabelKeys).subscribe(
-      (dateLabels: string[]) => {
+    const translateSubscription = this.translateService
+      .get(this.dateLabelKeys)
+      .subscribe((dateLabels: string[]) => {
         this.months = [
           { value: '', label: dateLabels['label.month.none'] },
           { value: '01', label: dateLabels['label.january'] },
@@ -94,10 +105,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
           { value: '09', label: dateLabels['label.september'] },
           { value: '10', label: dateLabels['label.october'] },
           { value: '11', label: dateLabels['label.november'] },
-          { value: '12', label: dateLabels['label.december'] },
+          { value: '12', label: dateLabels['label.december'] }
         ];
-      }
-    );
+      });
 
     this.subscriptions.add(translateSubscription);
     if (currentCustomerSubscription) {
@@ -114,24 +124,31 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     if (control.value) {
       // invalid date check for leap year
       if (control.value.year && control.value.month && control.value.day) {
-        const d = new Date(control.value.year, parseInt(control.value.month, 10) - 1, control.value.day);
-        if (d && (d.getMonth() + 1) !==  parseInt(control.value.month, 10)) {
+        const d = new Date(
+          control.value.year,
+          parseInt(control.value.month, 10) - 1,
+          control.value.day
+        );
+        if (d && d.getMonth() + 1 !== parseInt(control.value.month, 10)) {
           control.setErrors({
             invalidDay: true
           });
-          errors = {...errors, invalidDay: true};
+          errors = { ...errors, invalidDay: true };
         }
-      } else if (control.value.year || control.value.month || control.value.day) {
+      } else if (
+        control.value.year ||
+        control.value.month ||
+        control.value.day
+      ) {
         control.setErrors({
           incompleteDay: true
         });
-        errors = {...errors, incompleteDob: true};
+        errors = { ...errors, incompleteDob: true };
       }
     }
 
     return errors;
   }
-
 
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
@@ -142,7 +159,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         phoneAsyncValidators.push(whiteSpaceValidator);
       }
 
-      const emailValidators = [Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)];
+      const emailValidators = [
+        Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+      ];
       if (settings.CustomerIncludeEmailRequired.value === true) {
         emailValidators.push(Validators.required);
       }
@@ -158,17 +177,24 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
 
       this.createCustomerForm = this.fb.group({
-        firstName: [ '', Validators.required, whiteSpaceValidator],
-        lastName: [ '', Validators.required, whiteSpaceValidator],
+        firstName: ['', Validators.required, whiteSpaceValidator],
+        lastName: ['', Validators.required, whiteSpaceValidator],
         email: ['', emailValidators],
-        phone: [settings.CustomerPhoneDefaultCountry.value || '', phoneValidators, ...phoneAsyncValidators],
-        dateOfBirth: this.fb.group({
-          month: [null, monthValidators],
-          day: ['',  dayValidators],
-          year: ['', yearValidators]
-        }, {
-          validator: this.isValidDOBEntered.bind(this)
-        })
+        phone: [
+          settings.CustomerPhoneDefaultCountry.value || '',
+          phoneValidators,
+          ...phoneAsyncValidators
+        ],
+        dateOfBirth: this.fb.group(
+          {
+            month: [null, monthValidators],
+            day: ['', dayValidators],
+            year: ['', yearValidators]
+          },
+          {
+            validator: this.isValidDOBEntered.bind(this)
+          }
+        )
       });
     });
   }
@@ -185,13 +211,14 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       const dobDate = new Date(dob);
       const test = dobDate.getMonth();
       date = this.formatDate(
-              dobDate.getDate(),
-              dobDate.getMonth(),
-              dobDate.getFullYear());
+        dobDate.getDate(),
+        dobDate.getMonth(),
+        dobDate.getFullYear()
+      );
     }
 
     this.createCustomerForm.patchValue({
-      firstName : this.currentCustomer.firstName,
+      firstName: this.currentCustomer.firstName,
       lastName: this.currentCustomer.lastName,
       email: this.currentCustomer.email,
       phone: this.currentCustomer.phone,
@@ -228,16 +255,21 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   }
 
   isDOBRequired(): boolean {
-    const dobGroup: FormGroup = this.createCustomerForm.controls['dateOfBirth'] as FormGroup;
+    const dobGroup: FormGroup = this.createCustomerForm.controls[
+      'dateOfBirth'
+    ] as FormGroup;
     const dayControl = dobGroup.controls['day'];
     const yearControl = dobGroup.controls['year'];
     const monthControl = dobGroup.controls['month'];
-    return dobGroup.dirty && dayControl.dirty && monthControl.dirty && yearControl.dirty &&
-      (
-        (dayControl.errors && dayControl.errors.required) ||
+    return (
+      dobGroup.dirty &&
+      dayControl.dirty &&
+      monthControl.dirty &&
+      yearControl.dirty &&
+      ((dayControl.errors && dayControl.errors.required) ||
         (yearControl.errors && yearControl.errors.required) ||
-        (monthControl.errors && monthControl.errors.required)
-      );
+        (monthControl.errors && monthControl.errors.required))
+    );
   }
 
   onSubmit() {
@@ -257,7 +289,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       id: this.isOnUpdate ? this.currentCustomer.id : undefined,
       firstName: formModel.firstName as string,
       lastName: formModel.lastName as string,
-      name: formModel.firstName as string + ' ' + formModel.lastName as string,
+      name: ((formModel.firstName as string) +
+        ' ' +
+        formModel.lastName) as string,
       email: formModel.email as string,
       phone: formModel.phone as string,
       dateOfBirth: this.getDateOfBirth() || null
@@ -288,12 +322,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
     year = this.leftPadWithZeros(year, 4);
 
-    return year && month && day
-          ? year + '-' + month + '-' + day
-          : '';
+    return year && month && day ? year + '-' + month + '-' + day : '';
   }
 
-  leftPadWithZeros (sourceString, length) {
+  leftPadWithZeros(sourceString, length) {
     while (sourceString.length < length) {
       sourceString = '0' + sourceString;
     }
@@ -309,11 +341,25 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  get firstName() { return this.createCustomerForm.get('firstName'); }
-  get lastName() { return this.createCustomerForm.get('lastName'); }
-  get email() { return this.createCustomerForm.get('email'); }
-  get phone() { return this.createCustomerForm.get('phone'); }
-  get day() { return this.createCustomerForm.get('dateOfBirth').get('day'); }
-  get month() { return this.createCustomerForm.get('dateOfBirth').get('month'); }
-  get year() { return this.createCustomerForm.get('dateOfBirth').get('year'); }
+  get firstName() {
+    return this.createCustomerForm.get('firstName');
+  }
+  get lastName() {
+    return this.createCustomerForm.get('lastName');
+  }
+  get email() {
+    return this.createCustomerForm.get('email');
+  }
+  get phone() {
+    return this.createCustomerForm.get('phone');
+  }
+  get day() {
+    return this.createCustomerForm.get('dateOfBirth').get('day');
+  }
+  get month() {
+    return this.createCustomerForm.get('dateOfBirth').get('month');
+  }
+  get year() {
+    return this.createCustomerForm.get('dateOfBirth').get('year');
+  }
 }

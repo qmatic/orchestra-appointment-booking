@@ -4,7 +4,7 @@
           type="{{ inputType }}"
           name="{{ name }}"
           [checked]="isSelected"
-          (click)="handleClick($event)" />
+          (click)="handleClick($event)" (input)="autoCloseService.refreshAutoClose()" />
         <span class="qm-selector-item__selector">
             <span class="qm-selector-item__selector-text" [attr.title]="title !== '' ? title : null">
                 {{ text }}

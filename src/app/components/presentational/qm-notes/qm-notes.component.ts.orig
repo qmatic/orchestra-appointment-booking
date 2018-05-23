@@ -49,9 +49,15 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+<<<<<<< HEAD
     const notesInputSubscription = this.notesInput$.subscribe(
       (note: string) => this.setNote(note)
     );
+=======
+    const notesInputSubscription = this.notesInput$
+      .pipe(debounceTime(300))
+      .subscribe((note: string) => this.setNote(note));
+>>>>>>> 156118485 : Auto Close : handle text change in input boxes
 
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) =>

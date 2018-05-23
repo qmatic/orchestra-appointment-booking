@@ -26,7 +26,8 @@
                           maxlength="50"
                           required
                           autoFocus
-                          formControlName="firstName" />
+                          formControlName="firstName"
+                          (input)="autoCloseService.refreshAutoClose()" />
                   <span
                   class="qm-standard-text-field__error-message">
                     <ng-container *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
@@ -56,7 +57,8 @@
                           name="lastName"
                           qmClearInput
                           required
-                          formControlName="lastName" />
+                          formControlName="lastName"
+                          (input)="autoCloseService.refreshAutoClose()" />
                   <span class="qm-standard-text-field__error-message">
                     <ng-container *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
                       <ng-container *ngIf="lastName.errors.required">
@@ -84,7 +86,8 @@
                           qmClearInput
                           [required]="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true"
                           name="email"
-                          formControlName="email" />
+                          formControlName="email"
+                          (input)="autoCloseService.refreshAutoClose()" />
                   <span class="qm-standard-text-field__error-message">
                     <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
                       <ng-container *ngIf="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true && email.errors.required">
@@ -113,7 +116,8 @@
                           maxlength="50"
                           name="phone"
                           [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true"
-                          formControlName="phone" />
+                          formControlName="phone"
+                          (input)="autoCloseService.refreshAutoClose()" />
                   <span class="qm-standard-text-field__error-message">
                     <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)">
                       <ng-container *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
@@ -157,7 +161,7 @@
                       <span class="qm-standard-number-field__top-container">
                         <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.day' | translate }}</span>
                       </span>
-                      <input formControlName="day" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" />
+                      <input formControlName="day" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" (input)="autoCloseService.refreshAutoClose()" />
                     </label>
                   </div>
                 </div>
@@ -167,7 +171,7 @@
                       <span class="qm-standard-number-field__top-container">
                         <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.year' | translate }}</span>
                       </span>
-                      <input formControlName="year" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" />
+                      <input formControlName="year" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" (input)="autoCloseService.refreshAutoClose()" />
                     </label>
                   </div>
                 </div>
@@ -181,7 +185,7 @@
         </div>
         <div class="qm-modal__footer">
           <div class="qm-generic-layout qm-generic-layout--align-right">
-            <button type="button" class="qm-btn qm-btn--secondary" (click)="activeModal.close()">
+            <button type="button" class="qm-btn qm-btn--secondary" (click)="activeModal.close(); autoCloseService.refreshAutoClose()">
               <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
                 {{ 'button.createCustomerForm.cancel' | translate }}
               </span>

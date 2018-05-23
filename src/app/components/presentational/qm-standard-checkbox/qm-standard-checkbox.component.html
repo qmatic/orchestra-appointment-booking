@@ -3,7 +3,7 @@
       type="checkbox"
       name="{{ name }}"
       [checked]="isSelected"
-      (click)="handleChange($event)" />
+      (click)="handleChange($event); autoCloseService.refreshAutoClose()" />
     <span class="qm-selector-item__selector">
         <i class="qm-selector-item__selector-icon" aria-hidden="true"></i>
         <span class="qm-selector-item__selector-text" [attr.title]="title !== '' ? title : null">

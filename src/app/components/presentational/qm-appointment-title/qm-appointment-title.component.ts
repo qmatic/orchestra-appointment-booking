@@ -1,3 +1,4 @@
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -18,7 +19,7 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private titleInput$: Subject<string> = new Subject<string>();
   private title$: Observable<string>;
-  private settingsMap$: Observable<{[name: string]: Setting}>;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
 
   private title: string;
 
@@ -28,24 +29,25 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   constructor(
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private autoCloseService: AutoClose
   ) {
     this.title$ = this.appointmentMetaSelectors.title$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
-    const titleInputSubscription = this.titleInput$.subscribe(
-      (title: string) => this.setTitle(title)
+    const titleInputSubscription = this.titleInput$.subscribe((title: string) =>
+      this.setTitle(title)
     );
 
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) =>
-        this.titleEnabled = settingsMap.Title.value
+        (this.titleEnabled = settingsMap.Title.value)
     );
 
     const titleSubscription = this.title$.subscribe(
-      (title: string) => this.title = title
+      (title: string) => (this.title = title)
     );
 
     this.subscriptions.add(titleInputSubscription);
@@ -68,5 +70,4 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
 }

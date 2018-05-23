@@ -1,3 +1,4 @@
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -39,7 +40,8 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
     private customerSelectors: CustomerSelectors,
     private userSelectors: UserSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private customerDispatchers: CustomerDispatchers
+    private customerDispatchers: CustomerDispatchers,
+    private autoCloseService: AutoClose
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.userDirection$ = this.userSelectors.userDirection$;

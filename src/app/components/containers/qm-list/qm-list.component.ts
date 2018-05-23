@@ -1,3 +1,4 @@
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import {
   Component,
   OnInit,
@@ -20,61 +21,47 @@ import { UserSelectors } from '../../../../store';
   styleUrls: ['./qm-list.component.scss'],
 })
 export class QmListComponent implements OnInit, OnDestroy {
-  @Input()
-  userDirection: string;
+  @Input() userDirection: string;
 
-  @Input()
-  searchable = true;
+  @Input() searchable = true;
 
-  @Input()
-  header: string;
+  @Input() header: string;
 
-  @Input()
-  placeholder: string;
+  @Input() placeholder: string;
 
-  @Input()
-  subheader: string;
+  @Input() subheader: string;
 
-  @Input()
-  searchText: string;
+  @Input() searchText: string;
 
-  @Input()
-  displayAsRequired = true;
+  @Input() displayAsRequired = true;
 
-  @Input()
-  sidebarEnabled = false;
+  @Input() sidebarEnabled = false;
 
-  @Input()
-  itemToScrollTo$: Observable<number> = undefined;
+  @Input() itemToScrollTo$: Observable<number> = undefined;
 
-  @Output()
-  search: EventEmitter<string> = new EventEmitter<string>();
+  @Output() search: EventEmitter<string> = new EventEmitter<string>();
 
-  @Output()
-  sidebar: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sidebar: EventEmitter<string> = new EventEmitter<string>();
 
   private subscriptions: Subscription = new Subscription();
   private searchInput$: Subject<string> = new Subject<string>();
-  constructor(
-    private elRef: ElementRef,
-  ) { }
+  constructor(private elRef: ElementRef, private autoCloseService: AutoClose) {}
 
   ngOnInit() {
     if (this.searchable === true) {
-      const searchInputSubscription =
-        this.searchInput$.pipe(
-          distinctUntilChanged()
-        ).subscribe(
-          (text: string) => {
-            this.search.emit(text);
-          }
-        );
+      const searchInputSubscription = this.searchInput$
+        .pipe(distinctUntilChanged())
+        .subscribe((text: string) => {
+          this.search.emit(text);
+        });
 
       this.subscriptions.add(searchInputSubscription);
     }
 
     if (this.sidebarEnabled === true) {
-      const bookingList = this.elRef.nativeElement.querySelector('.qm-booking__list');
+      const bookingList = this.elRef.nativeElement.querySelector(
+        '.qm-booking__list'
+      );
 
       if (this.itemToScrollTo$) {
         const scrollTimeSubscription = this.itemToScrollTo$.subscribe(

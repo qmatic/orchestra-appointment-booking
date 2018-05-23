@@ -16,7 +16,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import {
   UserSelectors,
@@ -24,8 +24,6 @@ import {
   SettingsAdminSelectors,
   BookingHelperSelectors
 } from '../../../../../../store';
-
-
 
 @Component({
   selector: 'qm-customer-appointment-list',
@@ -87,6 +85,7 @@ export class QmCustomerAppointmentListComponent
   }
 
   isNextAppointment(listAppointment: IAppointment) {
+    console.log('dawdw');
     const now = Math.round(new Date().getTime() / 1000);
     let proximity = Number.MAX_SAFE_INTEGER;
     let closestAppointment: IAppointment = null;
@@ -109,18 +108,21 @@ export class QmCustomerAppointmentListComponent
   }
 
   deleteAppointment(appointment: IAppointment): void {
-
-    this.modalService.openForTransKeys('modal.cancel.booking.message',
+    this.modalService.openForTransKeys(
+      'modal.cancel.booking.message',
       '',
       'modal.cancel.booking.cancel',
-      'modal.cancel.booking.ok', (isCancelled: boolean) => {
+      'modal.cancel.booking.ok',
+      (isCancelled: boolean) => {
         if (!isCancelled) {
           this.appointmentDispatchers.deleteAppointment(appointment);
         }
-      }, () => {
-      }, {
-        date : moment(appointment.start).format('DD MMM YYYY')
-      });
+      },
+      () => {},
+      {
+        date: moment(appointment.start).format('DD MMM YYYY')
+      }
+    );
   }
 
   displayStatus(appointment: IAppointment) {

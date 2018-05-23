@@ -6,8 +6,17 @@
     <div *ngIf="searchable === true" class="qm-booking__search">
       <div class="qm-search">
         <label for="" class="sr-only">{{ header }}</label>
-        <input qmClearInput isSearchInput="true" type="text" class="qm-search__input" (input)="filter(bookingFilter.value); autoCloseService.refreshAutoClose()"
+<<<<<<< HEAD
+        <input qmClearInput isSearchInput="true" type="text" class="qm-search__input" (input)="filter(bookingFilter.value)"
                placeholder="{{ placeholder }}" [ngModel]="searchText" #bookingFilter/>
+=======
+        <input type="text" class="qm-search__input" (input)="filter(bookingFilter.value)"
+               placeholder="{{ placeholder }}" [ngModel]="searchText" (input)="autoCloseService.refreshAutoClose()" #bookingFilter/>
+        <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
+          <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
+          <span class="sr-only">{{ header }}</span>
+        </button>
+>>>>>>> 156118485 : Auto Close : handle text change in input boxes
       </div>
     </div>
     <div class="qm-booking__list-container">
