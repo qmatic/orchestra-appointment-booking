@@ -125,6 +125,12 @@ import { QmStandardCheckboxComponent } from './components/presentational/qm-stan
 import { QmBookingSidebarComponent } from './components/presentational/qm-booking-sidebar/qm-booking-sidebar.component';
 import { QmAutoCloseComponent } from './components/containers/qm-auto-close/qm-auto-close.component';
 import { AutoClose } from '../services/util/autoclose.service';
+import { QmServiceBookerComponent } from './components/containers/qm-service-booker/qm-service-booker.component';
+import { QmDateBookerComponent } from './components/containers/qm-date-booker/qm-date-booker.component';
+import { BookingHelperService } from '../services/util/bookingHelper.service';
+import { QmNumberOfCustomersBookerComponent } from './components/containers/qm-number-of-customers-booker/qm-number-of-customers-booker.component';
+import { QmBranchBookerComponent } from './components/containers/qm-branch-booker/qm-branch-booker.component';
+import { QmTimeslotBookerComponent } from './components/containers/qm-timeslot-booker/qm-timeslot-booker.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -202,7 +208,12 @@ const toastrGlobalOptions = {
     QmNotificationModalComponent,
     QmStandardCheckboxComponent,
     QmBookingSidebarComponent,
-    QmAutoCloseComponent
+    QmAutoCloseComponent,
+    QmServiceBookerComponent,
+    QmDateBookerComponent,
+    QmNumberOfCustomersBookerComponent,
+    QmBranchBookerComponent,
+    QmTimeslotBookerComponent
   ],
   imports: [
     MomentModule,
@@ -253,7 +264,8 @@ const toastrGlobalOptions = {
     DatePipe,
     TimeUtils,
     AutoClose,
-    Logout
+    Logout,
+    BookingHelperService
   ],
   bootstrap: [AppComponent]
 })

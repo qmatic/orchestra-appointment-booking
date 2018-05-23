@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'qm-resource-text',
   templateUrl: './qm-resource-text.component.html',
-  styleUrls: ['./qm-resource-text.component.scss']
+  styleUrls: ['./qm-resource-text.component.scss'],
 })
 export class QmResourceTextComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();

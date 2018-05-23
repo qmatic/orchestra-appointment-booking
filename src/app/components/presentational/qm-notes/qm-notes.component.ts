@@ -47,9 +47,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const notesInputSubscription = this.notesInput$.pipe(
-      debounceTime(300)
-    ).subscribe(
+    const notesInputSubscription = this.notesInput$.subscribe(
       (note: string) => this.setNote(note)
     );
 

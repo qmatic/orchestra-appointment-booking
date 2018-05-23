@@ -1,0 +1,5 @@
+<qm-list [userDirection]="userDirection" [searchText]="servicesSearchText$ | async" [placeholder]="'label.bookingFlow.services.search.placeholder' | translate" [header]="'label.bookingFlow.services.header' | translate" (search)="filterServices($event)">
+  <qm-list-item [text]="service.name" [userDirection]="userDirection" [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services$ | async" (optionClicked)="handleServiceSelection(service)">
+
+  </qm-list-item>
+</qm-list>

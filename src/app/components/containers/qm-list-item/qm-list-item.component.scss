@@ -1,6 +1,11 @@
 @import "../../../../styles/base/component-manifest";
 
+:host {
+  display: block;
+}
+
 .qm-selector-item {
+  display: block;
 
     &__label {
       width: 100%;

@@ -1,0 +1,19 @@
+<qm-list
+  [userDirection]="userDirection"
+  [itemToScrollTo$]="timeToScrollTo$"
+  (sidebar)="handleSidebarClick($event)"
+  [searchable]="false"
+  [sidebarEnabled]="true"
+  [header]="'label.bookingFlow.time.header' | translate">
+  <qm-list-item
+    [text]="getTimeAsDate(timeslot) | date:getTimeFormat()"
+    [userDirection]="userDirection"
+    [name]="'time'"
+    [time]="timeslot"
+    [isSelected]="isTimeslotSelected(timeslot)"
+    [inputType]="'radio'"
+    [centerText]="true"
+    *ngFor="let timeslot of times$ | async"
+    (optionClicked)="handleTimeslotSelection(timeslot)">
+  </qm-list-item>
+</qm-list>

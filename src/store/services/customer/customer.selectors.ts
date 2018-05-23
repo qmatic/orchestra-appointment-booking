@@ -12,7 +12,7 @@ const getAllCustomers = createSelector(
   (state: ICustomerState) => state.customers
 );
 
-const getCurrentCustomer = createSelector(
+export const getCurrentCustomer = createSelector(
   getCustomerState,
   (state: ICustomerState) => state.currentCustomer
 );

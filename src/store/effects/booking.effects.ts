@@ -12,7 +12,6 @@ import { BookingDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
-import 'rxjs/add/observable/empty';
 import { IAppointment } from '../../models/IAppointment';
 import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
@@ -103,24 +102,13 @@ export class BookingEffects {
           ).unsubscribe();
         }
       ),
-      // withLatestFrom(this.store$.select((state: IAppState) => state.appointments.appointments)),
       switchMap((data: any) => {
-        // const [ action, appointments ]: [ BookingActions.BookAppointmentSuccess, IAppointment[] ] = data;
-        // if (appointments.length > 0) {
-        //   return [
-        //     new BookingActions.FetchAppointments(action.payload.customers[0].publicId),
-        //     new BookingActions.ResetReservedAppointment,
-        //     new BookingActions.DeselectServices,
-        //     new BookingActions.ResetAppointmentNotificationType,
-        //     new BookingActions.ResetAppointmentTitle,
-        //     new BookingActions.ResetAppointmentNote
-        //   ];
-        // }
         return [
           new BookingActions.ResetCurrentCustomer,
           new BookingActions.ResetAppointments,
           new BookingActions.ResetReservedAppointment,
           new BookingActions.DeselectServices,
+          new BookingActions.SetNumberOfCustomers(1),
           new BookingActions.ResetAppointmentNotificationType,
           new BookingActions.ResetAppointmentTitle,
           new BookingActions.ResetAppointmentNote

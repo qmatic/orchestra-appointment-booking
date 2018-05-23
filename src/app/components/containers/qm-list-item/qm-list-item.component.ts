@@ -33,6 +33,9 @@ export class QmListItemComponent implements OnInit {
   title = '';
 
   @Input()
+  text = '';
+
+  @Input()
   time = '';
 
   @Output()

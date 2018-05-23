@@ -4,7 +4,7 @@ import {
   Input,
   Output,
   OnDestroy,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
@@ -17,7 +17,7 @@ import { UserSelectors } from '../../../../store';
 @Component({
   selector: 'qm-list',
   templateUrl: './qm-list.component.html',
-  styleUrls: ['./qm-list.component.scss']
+  styleUrls: ['./qm-list.component.scss'],
 })
 export class QmListComponent implements OnInit, OnDestroy {
   @Input()
@@ -92,8 +92,6 @@ export class QmListComponent implements OnInit, OnDestroy {
         this.subscriptions.add(scrollTimeSubscription);
       }
     }
-
-
   }
 
   handleSidebarClick(timeToScrollTo: string) {

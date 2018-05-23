@@ -33,7 +33,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'qm-booking-footer',
   templateUrl: './qm-booking-footer.component.html',
-  styleUrls: ['./qm-booking-footer.component.scss']
+  styleUrls: ['./qm-booking-footer.component.scss'],
 })
 export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -41,7 +41,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private currentCustomer$: Observable<ICustomer>;
   private title$: Observable<string>;
   private notes$: Observable<string>;
-  private selectedServices$: Observable<IService[]>
+  private selectedServices$: Observable<IService[]>;
   private selectedBranches$: Observable<IBranch[]>;
   private notificationType$: Observable<string>;
   private selectedDate$: Observable<string>;
@@ -277,7 +277,9 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         return this.currentCustomer.email !== '';
       }
       case 'both': {
-        return this.currentCustomer.phone !== '' && this.currentCustomer.email !== '';
+        return this.currentCustomer.phone !== ''
+              && this.currentCustomer.phone !== this.defaultPhoneCountryCode
+              && this.currentCustomer.email !== '';
       }
       default: {
         return true;
@@ -296,9 +298,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         return notificationType;
       }
       case 'both': {
-        if (this.currentCustomer.phone === '' && this.currentCustomer.email === '') {
+        if ((this.currentCustomer.phone === '' || this.currentCustomer.phone === this.defaultPhoneCountryCode)
+              && this.currentCustomer.email === '') {
           return notificationType;
-        } else if (this.currentCustomer.phone === '') {
+        } else if (this.currentCustomer.phone === '' || this.currentCustomer.phone === this.defaultPhoneCountryCode) {
           return 'sms';
         } else {
           return 'email';

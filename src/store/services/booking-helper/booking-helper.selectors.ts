@@ -3,6 +3,7 @@ import { Store, createSelector } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';
 import { IBookingState } from '../../reducers/booking.reducer';
+import { getCurrentCustomer } from '../customer';
 import { getSelectedServices } from '../service';
 import { getNumberOfCustomers } from '../number-of-customers';
 import { getSelectedBranch } from '../branch';
@@ -31,6 +32,7 @@ export class BookingHelperSelectors {
     private store: Store<IAppState>,
   ) {}
   // selectors$
+  currentCustomer$ = this.store.select(getCurrentCustomer);
   selectedServices$ = this.store.select(getSelectedServices);
   selectedNumberOfCustomers$ = this.store.select(getNumberOfCustomers);
   selectedBranch$ = this.store.select(getSelectedBranch);

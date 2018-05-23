@@ -22,7 +22,6 @@ const getSelectableNumberOfCustomers = createSelector(
   getSettingsAsMap,
   (selectedServices: IService[], settingsMap: { [name: string]: Setting}) => {
     const hasSelectedServices = selectedServices.length > 0;
-
     // If no selected services return empty array
     if (!hasSelectedServices) { return []; }
 

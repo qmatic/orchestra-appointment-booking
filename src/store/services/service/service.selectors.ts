@@ -34,7 +34,6 @@ const getVisibleServices = createSelector(
     const hasSelectedServices = state.selectedServices.length > 0;
     const serviceGroupsLoaded = state.serviceGroups.length > 0;
     const isMultiServicesEnabled = settingsMap.AllowMultiService.value;
-
     if (hasSelectedServices && serviceGroupsLoaded && isMultiServicesEnabled) {
       const visibleServicesPublicIds = extractBookableServices(state.selectedServices, state.serviceGroups);
       return getFilteredVisibleServices(state, visibleServicesPublicIds);

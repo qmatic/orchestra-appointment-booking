@@ -17,7 +17,7 @@ import { Setting } from '../../../../models/Setting';
 export class QmNotifyComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private settingsMap$: Observable<{ [name: string]: Setting }>;
-  private userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
   private notificationType$: Observable<string>;
 
   private notificationType: string;

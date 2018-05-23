@@ -28,7 +28,7 @@ export class QmStandardRadioComponent implements OnInit, OnDestroy {
   isSelected = false;
 
   @Output()
-  optionClicked = new EventEmitter();
+  optionClickeda = new EventEmitter();
 
   private subscriptions: Subscription = new Subscription();
   private radioInput$: Subject<string> = new Subject<string>();
@@ -37,7 +37,7 @@ export class QmStandardRadioComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const radioInputSubscription = this.radioInput$.subscribe(
-      (value: string) => this.optionClicked.emit(value)
+      (value: string) => this.optionClickeda.emit(value)
     );
 
     this.subscriptions.add(radioInputSubscription);
