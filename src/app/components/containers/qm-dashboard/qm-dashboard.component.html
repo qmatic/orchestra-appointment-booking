@@ -9,7 +9,7 @@
           </ng-template>
         </div>
       </div>
-      <div [ngClass]="(showExpiryReservationTime$ | async) ? {'col-sm-5':true} : {'col-sm-7':true}">
+      <div class="col-sm-5">
         <div class="qm-full-height" *ngIf="customerAppointmentsAreVisible()">
           <qm-customer-appointments></qm-customer-appointments>
         </div>
