@@ -1,9 +1,13 @@
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { DataServiceError } from './../data.service';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
+
+import {
+  calendarEndpoint,
+  DataServiceError
+} from '../data.service';
 
 @Injectable()
 export class ShiroDataService {
@@ -11,7 +15,7 @@ export class ShiroDataService {
 
     refreshShiro(): Observable<any> {
         return this.http
-          .get<any>(`/rest/entrypoint/systemInformation`)
+          .get<any>(`${calendarEndpoint}/settings/systemInformation`)
           .pipe(catchError(this.handleError()));
       }
 
