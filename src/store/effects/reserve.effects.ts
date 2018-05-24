@@ -16,6 +16,7 @@ import 'rxjs/add/observable/empty';
 import { IAppointment } from '../../models/IAppointment';
 import { IService } from '../../models/IService';
 import { IBookingInformation } from '../../models/IBookingInformation';
+import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
 const toAction = ReserveActions.toAction();
 
@@ -26,6 +27,7 @@ export class ReserveEffects {
     private actions$: Actions,
     private reserveDataService: ReserveDataService,
     private toastService: ToastService,
+    private errorHandler: GlobalErrorHandler
   ) {}
 
   @Effect()
@@ -125,7 +127,7 @@ export class ReserveEffects {
       .pipe(
         tap(
           (action: ReserveActions.ReserveAppointmentFail) => {
-            this.toastService.errorToast(action.payload.error.msg);
+            this.errorHandler.showError('error.reserve.appointment.failed', action.payload);
           }
         ),
         switchMap((action: ReserveActions.ReserveAppointmentFail) => {

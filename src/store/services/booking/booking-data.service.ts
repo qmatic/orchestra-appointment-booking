@@ -11,11 +11,12 @@ import {
 
 import { IAppointment } from '../../../models/IAppointment';
 import { IBookingInformation } from '../../../models/IBookingInformation';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 
 @Injectable()
 export class BookingDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   /**
    * Confirm appointment.
@@ -37,7 +38,7 @@ export class BookingDataService {
             .post<IAppointment>(
               `${calendarPublicEndpointV2}`
               + `/branches/appointments/${appointment.publicId}/confirm`, confirmAppointment)
-            .pipe(catchError(this.handleError()));
+            .pipe(catchError(this.errorHandler.handleError()));
   }
 
   /**
@@ -72,15 +73,7 @@ export class BookingDataService {
               + `/dates/${bookingInformation.date}`
               + `/times/${bookingInformation.time}/book/`, bookAppointment
             )
-            .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, res);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+            .pipe(catchError(this.errorHandler.handleError()));
   }
 
   getCustomerPlaceholders(numberOfCustomers: number) {

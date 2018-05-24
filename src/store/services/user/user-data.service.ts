@@ -7,22 +7,15 @@ import { catchError } from 'rxjs/operators';
 import { DataServiceError, restEndpoint } from '../data.service';
 
 import { IUser } from '../../../models/IUser';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class UserDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getUserInfo(): Observable<IUser> {
     return this.http
       .get<IUser>(`${restEndpoint}/user`)
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.statusText, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

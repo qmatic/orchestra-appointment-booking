@@ -7,13 +7,14 @@ import 'rxjs/add/operator/map';
 
 import { qsystemEndpoint, DataServiceError } from '../data.service';
 import { ILicense } from './../../../models/ILicense';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 const APPOINTMENT_MANAGER_STANDARD_COMPONENT = 'Appointment Manager Standard';
 const APPOINTMENT_MANAGER_PREMIUM_COMPONENT = 'Appointment Manager Premium';
 
 @Injectable()
 export class LicenseDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getInfo(): Observable<Object> {
     return this.http
@@ -26,14 +27,6 @@ export class LicenseDataService {
           }, false);
           return isValidLicense;
       })
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

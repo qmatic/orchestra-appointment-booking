@@ -15,6 +15,7 @@ import { IAppState } from '../reducers/index';
 import { IAppointment } from '../../models/IAppointment';
 import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
+import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
 const toAction = BookingActions.toAction();
 
@@ -25,7 +26,8 @@ export class BookingEffects {
       private actions$: Actions,
       private bookingDataService: BookingDataService,
       private toastService: ToastService,
-      private translateService: TranslateService
+      private translateService: TranslateService,
+      private errorHandler: GlobalErrorHandler
     ) {}
 
   @Effect()
@@ -73,9 +75,7 @@ export class BookingEffects {
     .ofType(BookingActions.BOOK_APPOINTMENT_FAIL)
     .pipe(
       tap((action: BookingActions.BookAppointmentFail) => {
-          this.translateService.get('label.create.appointment.fail').subscribe(
-            (label: string) => this.toastService.errorToast(label)
-          ).unsubscribe();
+          this.errorHandler.showError('label.create.appointment.fail', action.payload);
         }
       ),
       switchMap((action: BookingActions.BookAppointmentFail) => {

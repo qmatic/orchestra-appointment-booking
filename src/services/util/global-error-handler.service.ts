@@ -11,10 +11,10 @@ export class GlobalErrorHandler {
 
     private readonly genericErrorKey: string = 'messages.error.generic.with.context';
 
-    showError(contextualErrorKey: string,  error: any, interpolationParams: any = {}) {
+    showError(contextualErrorKey: string,  errorAction: any, interpolationParams: any = {}) {
         // switch (error.errorCode) {
         // default:
-        const dsError = error as DataServiceError<any>;
+        const dsError = errorAction as DataServiceError<any>;
         this.translateService.get([contextualErrorKey, this.genericErrorKey], {
             errorCode: dsError.errorCode,
             ...interpolationParams

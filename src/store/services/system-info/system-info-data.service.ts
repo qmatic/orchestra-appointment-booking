@@ -8,22 +8,15 @@ import { calendarEndpoint, DataServiceError } from '../data.service';
 
 import { ISystemInfo } from '../../../models/ISystemInfo';
 import { ILicenseInfo } from '../../../models/ILicenseInfo';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class SystemInfoDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getSystemInfo(): Observable<ISystemInfo> {
     return this.http
       .get<ISystemInfo>(`${calendarEndpoint}/settings/systemInformation`)
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

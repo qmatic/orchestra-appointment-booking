@@ -9,10 +9,11 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, merge, mergeMap } from 'rxjs/operators';
 import { calendarEndpoint, restEndpoint, DataServiceError } from '../data.service';
 import { SettingsBuilder } from '../../../models/SettingsBuilder';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class SettingsAdminDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings';
 
@@ -29,7 +30,7 @@ export class SettingsAdminDataService {
         return outputSettings;
       })
 
-      .pipe(catchError(this.handleError()));
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 
   getMergedSettings(settingsToMerge) {
@@ -45,14 +46,6 @@ export class SettingsAdminDataService {
                             value: JSON.stringify(settigsUpdateRequest.settingsList) })
                             .map( x => {
                               return settigsUpdateRequest;
-                            });
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+                            }).pipe(catchError(this.errorHandler.handleError()));
   }
 }

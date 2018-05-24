@@ -6,10 +6,11 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 import { calendarEndpoint, DataServiceError } from './../data.service';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class CalendarSettingsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getSerttingsInfo(): Observable<{ data: ICalendarSetting }> {
     return this.http
@@ -20,14 +21,6 @@ export class CalendarSettingsService {
         )[1];
         return { data: { reservationExpiryTimeSeconds: reservationTime } };
       })
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

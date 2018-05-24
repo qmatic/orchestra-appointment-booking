@@ -7,10 +7,11 @@ import { catchError, retry } from 'rxjs/operators';
 import { calendarPublicEndpointV2, DataServiceError } from '../data.service';
 import { IBookingInformation } from '../../../models/IBookingInformation';
 import { IDatesResponse } from '../../../models/IDatesResponse';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class DateDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getDates(bookingInformation: IBookingInformation): Observable<IDatesResponse> {
     return this.http
@@ -22,15 +23,7 @@ export class DateDataService {
       )
       .pipe(
         retry(3),
-        catchError(this.handleError()
+        catchError(this.errorHandler.handleError()
       ));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
   }
 }

@@ -7,29 +7,22 @@ import { catchError } from 'rxjs/operators';
 import { calendarPublicEndpoint, DataServiceError } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 
 @Injectable()
 export class AppointmentDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getAppointments(publicId: string): Observable<IAppointmentResponse> {
     return this.http
       .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointments`)
-      .pipe(catchError(this.handleError()));
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 
   deleteAppointment(appointment: IAppointment) {
     return this.http
       .delete(`${calendarPublicEndpoint}/appointments/${appointment.publicId}`)
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

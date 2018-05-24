@@ -7,22 +7,15 @@ import { catchError } from 'rxjs/operators';
 import { calendarPublicEndpoint, DataServiceError } from '../data.service';
 
 import { IBranchResponse } from '../../../models/IBranchResponse';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class BranchDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getBranches(): Observable<IBranchResponse> {
     return this.http
       .get<IBranchResponse>(`${calendarPublicEndpoint}/branches/`)
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

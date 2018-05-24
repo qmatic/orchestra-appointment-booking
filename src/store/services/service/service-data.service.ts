@@ -13,28 +13,21 @@ import {
 import { IServiceResponse } from '../../../models/IServiceResponse';
 import { IServiceGroup } from '../../../models/IServiceGroup';
 import { IService } from '../../../models/IService';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
 export class ServiceDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getServices(): Observable<IServiceResponse> {
     return this.http
       .get<IServiceResponse>(`${calendarPublicEndpoint}/services/`)
-      .pipe(catchError(this.handleError()));
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 
   getServiceGroups(servicePublicIds: string): Observable<IServiceGroup[]> {
     return this.http
       .get<IServiceGroup[]>(`${calendarPublicEndpoint}/services/groups${servicePublicIds}`)
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

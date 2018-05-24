@@ -7,6 +7,7 @@ import { switchMap, tap } from 'rxjs/operators';
 
 import * as UserActions from './../actions';
 import { UserDataService } from '../services';
+import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
 const toAction = UserActions.toAction();
 
@@ -15,7 +16,8 @@ export class UserEffects {
   constructor(
     private actions$: Actions,
     private translate: TranslateService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private errorHanlder: GlobalErrorHandler
   ) {}
 
   @Effect()

@@ -12,11 +12,12 @@ import {
 
 import { IAppointment } from '../../../models/IAppointment';
 import { IBookingInformation } from '../../../models/IBookingInformation';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 
 @Injectable()
 export class ReserveDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   reserveAppointment(
     bookingInformation: IBookingInformation,
@@ -30,20 +31,12 @@ export class ReserveDataService {
               + `/times/${bookingInformation.time}/reserve;`
               + `numberOfCustomers=${bookingInformation.numberOfCustomers}`, appointment
             )
-            .pipe(catchError(this.handleError()));
+            .pipe(catchError(this.errorHandler.handleError()));
   }
 
   unreserveAppointment(reservationPublicId: string) {
     return this.http
             .delete<IAppointment>(`${calendarPublicEndpoint}/appointments/${reservationPublicId}`)
-            .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+            .pipe(catchError(this.errorHandler.handleError()));
   }
 }

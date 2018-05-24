@@ -11,6 +11,7 @@ import { AppointmentDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
 const toAction = AppointmentActions.toAction();
 
@@ -21,7 +22,8 @@ export class AppointmentEffects {
     private appointmentDataService: AppointmentDataService,
     private toastService: ToastService,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
+    private errorHandler: GlobalErrorHandler
   ) { }
 
   @Effect()
@@ -67,9 +69,8 @@ export class AppointmentEffects {
   deleteAppointmentFailed$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.DELETE_APPOINTMENT_FAIL)
     .pipe(
-    tap(() => {
-      this.translateService.get('toast.cancel.booking.error').subscribe(
-        (label: string) => this.toastService.errorToast(label)
-      ).unsubscribe();
+    tap((action: AppointmentActions.DeleteAppointmentFail) => {
+      this.errorHandler
+      .showError('toast.cancel.booking.error', action.payload);
     }));
 }

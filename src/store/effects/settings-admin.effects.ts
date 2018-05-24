@@ -9,6 +9,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import * as SettingsAdminActions from './../actions';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../services/util/toast.service';
+import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
 const toAction = SettingsAdminActions.toAction();
 
@@ -20,7 +21,8 @@ export class SettingsAdminEffects {
       private settingsAdminDataService: SettingsAdminDataService,
       private translateService: TranslateService,
       private toastService: ToastService,
-      private settingsDispatchers: SettingsAdminDispatchers
+      private settingsDispatchers: SettingsAdminDispatchers,
+      private errorHandler: GlobalErrorHandler
     ) {}
 
     @Effect()
@@ -75,12 +77,10 @@ export class SettingsAdminEffects {
         saveSettingsFail$: Observable<Action> = this.actions$
           .ofType(SettingsAdminActions.SAVE_SETTINGS_FAIL)
           .pipe(
-            tap((action: SettingsAdminActions.SaveSettingsSuccess) =>
-              this.translateService.get('message.settings.save.fail').subscribe(
-                (label: string) => this.toastService.errorToast(label)
-              ).unsubscribe()
+            tap((action: SettingsAdminActions.SaveSettingsFail) =>
+              this.errorHandler.showError('message.settings.save.fail', action.payload)
             ),
-            switchMap((action: SettingsAdminActions.SaveSettingsSuccess) =>
+            switchMap((action: SettingsAdminActions.SaveSettingsFail) =>
               []
           )
           );

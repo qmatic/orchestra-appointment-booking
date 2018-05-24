@@ -11,6 +11,7 @@ import {
   ADMIN_ROLE,
   NO_ROLE
 } from '../../reducers/user-role.reducer';
+import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 const STAFF_BOOKING_ROLE = 'appointmentbooking';
 const STAFF_BOOKING_ADMIN_ROLE = 'appointmentbookingadmin';
@@ -18,7 +19,7 @@ const STAFF_SUPER_ADMIN_ROLE = '*';
 
 @Injectable()
 export class AccountDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getAccountInfo(): Observable<{ data: IAccount; userRole: string }> {
     return this.http
@@ -47,14 +48,6 @@ export class AccountDataService {
 
         return { data: res, userRole };
       })
-      .pipe(catchError(this.handleError()));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
+      .pipe(catchError(this.errorHandler.handleError()));
   }
 }

@@ -1,3 +1,4 @@
+import { GlobalErrorHandler } from './../../../services/util/global-error-handler.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +11,7 @@ import { ITimeslotResponse } from '../../../models/ITimeslotResponse';
 
 @Injectable()
 export class TimeslotDataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getTimeslots(bookingInformation: IBookingInformation): Observable<ITimeslotResponse> {
     return this.http
@@ -24,15 +25,7 @@ export class TimeslotDataService {
       )
       .pipe(
         retry(3),
-        catchError(this.handleError()
+        catchError(this.errorHandler.handleError()
       ));
-  }
-
-  private handleError<T>(requestData?: T) {
-    return (res: HttpErrorResponse) => {
-      const error = new DataServiceError(res.error, requestData);
-      console.error(error);
-      return new ErrorObservable(error);
-    };
   }
 }
