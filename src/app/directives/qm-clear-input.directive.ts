@@ -36,6 +36,9 @@ export class QmClearInputDirective implements OnInit  {
     });
     */
 
+    const event = document.createEvent('Event');
+    event.initEvent('input', true, true);
+
     const factory: ComponentFactory<QmClearInputButtonComponent> = this.resolver.resolveComponentFactory(QmClearInputButtonComponent);
     this.componentRef = factory.create(this.viewContainer.parentInjector);
     this.viewContainer.insert(this.componentRef.hostView);
@@ -43,7 +46,7 @@ export class QmClearInputDirective implements OnInit  {
     this.componentRef.instance.isSearchInput = this.isSearchInput;
     this.componentRef.instance.clear.subscribe(() =>  {
       this.control.control.setValue('');
-      // this.viewContainer.element.nativeElement.dispatchEvent(event);
+      this.viewContainer.element.nativeElement.dispatchEvent(event);
       this.updateButtonVisibility('');
      });
 
