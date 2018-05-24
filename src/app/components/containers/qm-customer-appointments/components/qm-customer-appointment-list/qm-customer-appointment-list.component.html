@@ -5,15 +5,12 @@
       <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline-container">
           <span class="qm-appointment-card__headline">
-          {{ appointment.start | date:'EEEE MMMM d, y' }}
+          {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat:'EEEE MMMM d, y' }}
           </span>
           <span class="qm-appointment-card__time">
             <i class="qm-appointment-card__time-icon icon-clock" aria-hidden="true"></i>
-            <span *ngIf="!isMilitaryTime" class="qm-appointment-card__time-text">
-              {{ appointment.start | date:'hh:mm a' }} - {{ appointment.end | date:'hh:mm a' }}
-            </span>
-            <span *ngIf="isMilitaryTime" class="qm-appointment-card__time-text">
-              {{ appointment.start | date:'HH:mm' }} - {{ appointment.end | date:'HH:mm' }}
+            <span class="qm-appointment-card__time-text">
+              {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}
             </span>
           </span>
         </span>

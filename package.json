@@ -37,6 +37,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "@types/jquery": "^3.3.1",
+    "angular-moment-timezone": "^1.7.1",
     "angular2-moment": "^1.9.0",
     "bootstrap": "^4.0.0",
     "classlist.js": "^1.1.20150312",

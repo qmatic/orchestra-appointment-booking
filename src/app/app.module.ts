@@ -14,6 +14,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Moment
+import { MomentModule } from 'angular2-moment';
+import { MomentTimezoneModule } from 'angular-moment-timezone';
+
 // A11y
 import { A11yModule } from '@angular/cdk/a11y';
 
@@ -118,7 +122,6 @@ import { QmIconItemComponent } from './components/presentational/qm-icon-item/qm
 import { QmResourceTextComponent } from './components/presentational/qm-resource-text/qm-resource-text.component';
 import { QmClearInputButtonComponent } from './directives/qm-clear-input-button/qm-clear-input-button.component';
 
-import { MomentModule } from 'angular2-moment';
 import { QmMaxLengthValidatorDirective } from './directives/qm-max-length-validator.directive';
 import { QmNotificationModalComponent } from './components/containers/qm-notification-modal/qm-notification-modal.component';
 import { QmStandardCheckboxComponent } from './components/presentational/qm-standard-checkbox/qm-standard-checkbox.component';
@@ -217,6 +220,7 @@ const toastrGlobalOptions = {
     QmTimeslotBookerComponent
   ],
   imports: [
+    MomentTimezoneModule,
     MomentModule,
     BrowserModule,
     FormsModule,
