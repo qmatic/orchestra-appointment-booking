@@ -99,6 +99,12 @@ export class QmCustomerAppointmentListComponent
     });
   }
 
+  getTimezoneOffset(apppointment: IAppointment) {
+    return moment()
+      .tz(apppointment.branch.fullTimeZone)
+      .format('Z');
+  }
+
   isNextAppointment(listAppointment: IAppointment) {
     const now = Math.round(new Date().getTime() / 1000);
     let proximity = Number.MAX_SAFE_INTEGER;
@@ -107,7 +113,7 @@ export class QmCustomerAppointmentListComponent
     if (this.appointments) {
       this.appointments.forEach(appointment => {
         const appointmentStart = Math.round(
-          new Date(appointment.start.split('.')[0]).getTime() / 1000
+          moment(appointment.start).valueOf() / 1000
         );
         const newProximity = Math.abs(appointmentStart - now);
         if (newProximity < proximity) {

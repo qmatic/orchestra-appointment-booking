@@ -5,7 +5,7 @@
       <a href="#" class="qm-appointment-card__content-container">
         <span class="qm-appointment-card__headline-container">
           <span class="qm-appointment-card__headline">
-          {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat:'EEEE MMMM d, y' }}
+          {{ appointment.start | date:'EEEE MMMM d, y': getTimezoneOffset(appointment) }}
           </span>
           <span class="qm-appointment-card__time">
             <i class="qm-appointment-card__time-icon icon-clock" aria-hidden="true"></i>

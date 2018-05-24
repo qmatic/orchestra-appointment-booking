@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import * as moment from 'moment';
 
 import {
   AppointmentSelectors,
@@ -86,8 +87,8 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   sortDate(appointment1: IAppointment, appointment2: IAppointment) {
-    const date1 = new Date(appointment1.start);
-    const date2 = new Date(appointment2.start);
+    const date1 = moment(appointment1.start).valueOf();
+    const date2 = moment(appointment2.start).valueOf();
 
     if (date1 > date2) {
       return 1;
