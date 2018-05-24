@@ -25,6 +25,10 @@ import {
   BookingHelperSelectors
 } from '../../../../../../store';
 
+interface IAppointmentScroll extends IAppointment {
+  scrollTo: boolean;
+}
+
 @Component({
   selector: 'qm-customer-appointment-list',
   templateUrl: './qm-customer-appointment-list.component.html',
@@ -72,20 +76,30 @@ export class QmCustomerAppointmentListComponent
 
     this.subscriptions.add(userLocalSubscription);
     this.subscriptions.add(settingsSubscription);
+
+    this.updateAppointmentList();
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.customCards.toArray().forEach((elem: ElementRef) => {
-        if (elem.nativeElement.getAttribute('data-scroll-to') === 'true') {
+      this.customCards.toArray().forEach((elem: ElementRef, index: number) => {
+        // if (elem.nativeElement.getAttribute('data-scroll-to') === 'true') {
+        //   elem.nativeElement.scrollIntoView(true);
+        // }
+        if ((this.appointments[index] as IAppointmentScroll).scrollTo) {
           elem.nativeElement.scrollIntoView(true);
         }
       });
     });
   }
 
+  updateAppointmentList() {
+    this.appointments.map((appointment: IAppointmentScroll) => {
+      appointment.scrollTo = this.isNextAppointment(appointment);
+    });
+  }
+
   isNextAppointment(listAppointment: IAppointment) {
-    console.log('dawdw');
     const now = Math.round(new Date().getTime() / 1000);
     let proximity = Number.MAX_SAFE_INTEGER;
     let closestAppointment: IAppointment = null;
@@ -93,7 +107,7 @@ export class QmCustomerAppointmentListComponent
     if (this.appointments) {
       this.appointments.forEach(appointment => {
         const appointmentStart = Math.round(
-          new Date(appointment.start).getTime() / 1000
+          new Date(appointment.start.split('.')[0]).getTime() / 1000
         );
         const newProximity = Math.abs(appointmentStart - now);
         if (newProximity < proximity) {
@@ -101,7 +115,10 @@ export class QmCustomerAppointmentListComponent
           closestAppointment = appointment;
         }
       });
-      return closestAppointment.publicId === listAppointment.publicId;
+      return (
+        closestAppointment &&
+        closestAppointment.publicId === listAppointment.publicId
+      );
     } else {
       return false;
     }
