@@ -38,7 +38,12 @@
   }
 
   &__input.clear-enabled-input {
-    padding-right: 25px;
+    padding-right: rem($standard-padding * 2);
+
+    @at-root [dir='rtl'] & {
+      padding-right: rem(12px);
+      padding-left: rem($standard-padding * 2);
+    }
   }
 
   &__error-message {
