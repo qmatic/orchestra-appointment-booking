@@ -89,12 +89,16 @@ import { QmAppPageNotFoundComponent } from './components/presentational/qm-app-p
 import { QmSearchBoxComponent } from './components/containers/qm-searchbox/qm-search-box.component';
 import { QmCustomerSearchComponent } from './components/containers/qm-customer-search/qm-customer-search.component';
 import { QmCustomerCardComponent } from './components/presentational/qm-customer-card/qm-customer-card.component';
-import { QmCustomerSearchResultsComponent } from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
+import {
+  QmCustomerSearchResultsComponent
+} from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
 import { QmTruncatePipe } from './pipes/qm-truncate.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
-import { QmCustomerAppointmentListComponent } from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
+import {
+  QmCustomerAppointmentListComponent
+} from './components/containers/qm-customer-appointments/components/qm-customer-appointment-list/qm-customer-appointment-list.component';
 import { QmAppointmentIconListComponent } from './components/presentational/qm-appointment-icon-list/qm-appointment-icon-list.component';
 import { QmNotesComponent } from './components/presentational/qm-notes/qm-notes.component';
 import { QmLoaderComponent } from './components/presentational/qm-loader/qm-loader.component';
@@ -131,20 +135,24 @@ import { AutoClose } from '../services/util/autoclose.service';
 import { QmServiceBookerComponent } from './components/containers/qm-service-booker/qm-service-booker.component';
 import { QmDateBookerComponent } from './components/containers/qm-date-booker/qm-date-booker.component';
 import { BookingHelperService } from '../services/util/bookingHelper.service';
-import { QmNumberOfCustomersBookerComponent } from './components/containers/qm-number-of-customers-booker/qm-number-of-customers-booker.component';
+import {
+  QmNumberOfCustomersBookerComponent
+} from './components/containers/qm-number-of-customers-booker/qm-number-of-customers-booker.component';
 import { QmBranchBookerComponent } from './components/containers/qm-branch-booker/qm-branch-booker.component';
 import { QmTimeslotBookerComponent } from './components/containers/qm-timeslot-booker/qm-timeslot-booker.component';
 import { GlobalErrorHandler } from '../services/util/global-error-handler.service';
+import { QmAppointmentCardComponent } from './components/presentational/qm-appointment-card/qm-appointment-card.component';
+import { AppUtils } from '../services/util/appUtils.service';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
-    if (
-      action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME'
-    ) {
-      console.log('state', state);
-      console.log('action', action);
-    }
+    // if (
+    //   action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME'
+    // ) {
+    //   console.log('state', state);
+    //   console.log('action', action);
+    // }
 
     return reducer(state, action);
   };
@@ -217,7 +225,8 @@ const toastrGlobalOptions = {
     QmDateBookerComponent,
     QmNumberOfCustomersBookerComponent,
     QmBranchBookerComponent,
-    QmTimeslotBookerComponent
+    QmTimeslotBookerComponent,
+    QmAppointmentCardComponent
   ],
   imports: [
     MomentTimezoneModule,
@@ -271,7 +280,8 @@ const toastrGlobalOptions = {
     AutoClose,
     Logout,
     BookingHelperService,
-    GlobalErrorHandler
+    GlobalErrorHandler,
+    AppUtils
   ],
   bootstrap: [AppComponent]
 })

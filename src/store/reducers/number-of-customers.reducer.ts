@@ -28,6 +28,12 @@ export function reducer (
         numberOfCustomers: null
       };
     }
+    case NumberOfCustomersActions.LOAD_SELECTED_NUMBER_OF_CUSTOMERS: {
+      return {
+        ...state,
+        numberOfCustomers: action.payload
+      };
+    }
     default: {
       return state;
     }

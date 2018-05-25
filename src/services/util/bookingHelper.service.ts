@@ -20,6 +20,7 @@ export class BookingHelperService implements OnInit, OnDestroy {
   private selectedTime$: Observable<string>;
   private title$: Observable<string>;
   private notes$: Observable<string>;
+  private bookingStarted$: Observable<boolean>;
 
   private currentCustomer: ICustomer;
   private selectedServices: IService[];
@@ -29,6 +30,7 @@ export class BookingHelperService implements OnInit, OnDestroy {
   private selectedTime: string;
   private title: string;
   private notes: string;
+  private bookingStarted: boolean;
 
   constructor(
     private bookingHelperSelectors: BookingHelperSelectors,
@@ -41,6 +43,7 @@ export class BookingHelperService implements OnInit, OnDestroy {
     this.selectedTime$ = this.bookingHelperSelectors.selectedTime$;
     this.title$ = this.bookingHelperSelectors.title$;
     this.notes$ = this.bookingHelperSelectors.notes$;
+    this.bookingStarted$ = this.bookingHelperSelectors.bookingStarted$;
     this.setupSubcriptions();
   }
 
@@ -93,6 +96,12 @@ export class BookingHelperService implements OnInit, OnDestroy {
       }
     );
 
+    const bookingStartedSubscription = this.bookingStarted$.subscribe(
+      (bookingStarted: boolean) => {
+        this.bookingStarted = bookingStarted;
+      }
+    );
+
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedNumberOfCustomersSubscription);
@@ -101,6 +110,7 @@ export class BookingHelperService implements OnInit, OnDestroy {
     this.subscriptions.add(selectedTimeSubscription);
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(bookingStartedSubscription);
   }
 
   ngOnInit() {
@@ -137,6 +147,10 @@ export class BookingHelperService implements OnInit, OnDestroy {
 
   getTitle() {
     return this.title;
+  }
+
+  getIsBookingStarted() {
+    return this.bookingStarted;
   }
 
   getServicesQueryString(): string {

@@ -18,7 +18,8 @@ import {
   CustomerDispatchers,
   AppointmentMetaDispatchers,
   AppointmentDispatchers,
-  ServiceSelectors
+  ServiceSelectors,
+  AppointmentSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
@@ -49,12 +50,15 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   public userDirection$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private numberOfCustomers$: Observable<number>;
+  private selectedAppointment$: Observable<IAppointment>;
 
   private numberOfCustomers: number;
   private emailEnabled: boolean;
   private smsEnabled: boolean;
   private emailAndSmsEnabled: boolean;
   private noNotificationEnabled: boolean;
+  private titleEnabled: boolean;
+  private notesEnabled: boolean;
   private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
   private selectedServices: IService[];
@@ -65,6 +69,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType: string;
   private title: string;
   private notes: string;
+  public selectedAppointment: IAppointment;
 
   constructor(
     private customerSelectors: CustomerSelectors,
@@ -84,6 +89,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private customerDispatchers: CustomerDispatchers,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
+    private appointmentSelectos: AppointmentSelectors,
     private toastService: ToastService,
     private translateService: TranslateService
   ) {
@@ -99,6 +105,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.numberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
+    this.selectedAppointment$ = this.appointmentSelectos.selectedAppointment$;
   }
 
   ngOnInit() {
@@ -150,6 +157,14 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.emailAndSmsEnabled = settingsMap.IncludeEmailAndSms.value;
         this.noNotificationEnabled = settingsMap.NoNotification.value;
         this.defaultPhoneCountryCode = settingsMap.CustomerPhoneDefaultCountry.value;
+        this.titleEnabled = settingsMap.Title.value;
+        this.notesEnabled = settingsMap.Notes.value;
+      }
+    );
+
+    const selectedAppointmentSubscription = this.selectedAppointment$.subscribe(
+      (selectedAppointment: IAppointment) => {
+        this.selectedAppointment = selectedAppointment;
       }
     );
 
@@ -164,6 +179,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(reservedAppointmentSubscription);
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(selectedAppointmentSubscription);
   }
 
   ngOnDestroy() {
@@ -194,27 +210,30 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
   handleClearAllFields () {
     this.promptUserIfOngoingBooking();
-
   }
 
   promptUserIfOngoingBooking() {
-    const bookingIsStarted = this.bookingStarted();
-    if (bookingIsStarted) {
-      this.qmModalService.openForTransKeys(
-        'label.clearBookingModal.headline',
-        '',
-        'button.clearBookingModal.cancel',
-        'button.clearBookingModal.ok',
-        (cancelClicked: Boolean) => {
-          if (!cancelClicked) {
-            this.clearAllFields();
-            this.translateService.get('label.successfully.cleared.fields').subscribe(
-              (label: string) => this.toastService.successToast(label)
-            ).unsubscribe();
-          }
-        },
-        () => {
-        });
+    if (!this.isInEditMode()) {
+      const bookingIsStarted = this.bookingStarted();
+      if (bookingIsStarted) {
+        this.qmModalService.openForTransKeys(
+          'label.clearBookingModal.headline',
+          '',
+          'button.clearBookingModal.cancel',
+          'button.clearBookingModal.ok',
+          (cancelClicked: Boolean) => {
+            if (!cancelClicked) {
+              this.clearAllFields();
+              this.translateService.get('label.successfully.cleared.fields').subscribe(
+                (label: string) => this.toastService.successToast(label)
+              ).unsubscribe();
+            }
+          },
+          () => {
+          });
+      }
+    } else {
+      this.clearAllFields();
     }
   }
 
@@ -225,11 +244,20 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
             || this.notes !== '';
   }
 
+  isInEditMode(): boolean {
+    return this.selectedAppointment !== null;
+  }
+
   clearAllFields() {
     this.serviceDispatchers.deselectServices();
-    this.customerDispatchers.resetCurrentCustomer();
     this.appointmentMetaDispatchers.resetAllAppointmentMeta();
-    this.appointmentDispatchers.resetAppointments();
+
+    if (this.isInEditMode()) {
+      this.appointmentDispatchers.resetAppointment();
+    } else {
+      this.customerDispatchers.resetCurrentCustomer();
+      this.appointmentDispatchers.resetAppointments();
+    }
   }
 
   bookAppointment(currentCustomer = this.currentCustomer) {
@@ -247,12 +275,20 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     const appointment: IAppointment = {
       ...this.reservedAppointment,
       customers: [this.currentCustomer],
-      notes: `${this.notes}`,
-      title: this.title,
+      notes: this.getNotes(),
+      title: this.getTitle(),
       custom: this.getAppointmentCustomJson(currentCustomer)
     };
 
     this.bookingDispatchers.bookAppointment(bookingInformation, appointment);
+  }
+
+  getTitle(): string {
+    return this.titleEnabled ? this.title : '';
+  }
+
+  getNotes(): string {
+    return this.notesEnabled ? `${this.notes}` : '';
   }
 
   hasNotificationOptionsEnabled(): boolean {
@@ -335,6 +371,12 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         return `{`
                 + `"phoneNumber":"${currentCustomer.phone}",`
                 + `"email":"${currentCustomer.email}",`
+                + `"notificationType":"${notificationType}",`
+                + `"appId":"generic"`
+              + `}`;
+      }
+      case 'none': {
+        return `{`
                 + `"notificationType":"${notificationType}",`
                 + `"appId":"generic"`
               + `}`;

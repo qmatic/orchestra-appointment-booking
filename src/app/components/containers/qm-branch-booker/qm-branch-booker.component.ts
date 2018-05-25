@@ -37,6 +37,9 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
     const selectedBranchSubscription = this.selectedBranches$.subscribe(
       (selectedBranches: IBranch[]) => {
         this.selectedBranches = selectedBranches;
+        if (selectedBranches.length !== 0) {
+          this.getDates();
+        }
       }
     );
 
@@ -99,7 +102,7 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
       this.branchDispatchers.deselectBranch();
     } else {
       this.branchDispatchers.selectBranch(branch);
-      this.getDates();
+      // this.getDates();
     }
   }
 

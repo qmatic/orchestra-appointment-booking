@@ -21,7 +21,7 @@
       </button>
     </div>
   </div>
-  <div class="qm-customer-card__btn-container">
+  <div class="qm-customer-card__btn-container" *ngIf="allowClearCustomer">
     <button type="button" class="qm-btn qm-btn--secondary qm-customer-card__btn" (click)="resetCurrentCustomer()">
         <span class="qm-btn__text" title="{{ 'button.customerCard.clear' | translate }}">{{ 'button.customerCard.clear' | translate }}</span>
     </button>

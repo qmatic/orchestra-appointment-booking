@@ -76,6 +76,18 @@ export function reducer (
         error: null
       };
     }
+    case AppointmentActions.SELECT_APPOINTMENT: {
+      return {
+        ...state,
+        selectedAppointment: action.payload
+      };
+    }
+    case AppointmentActions.RESET_APPOINTMENT: {
+      return {
+        ...state,
+        selectedAppointment: null
+      };
+    }
     default: {
         return state;
     }

@@ -38,7 +38,8 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const selectedServicesSubscription = this.selectedServices$.subscribe(
       (selectedServices: IService[]) => {
-          return this.selectedServices = selectedServices;
+          this.selectedServices = selectedServices;
+          this.updateServiceGroups();
         }
     );
 
@@ -90,7 +91,7 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
         : this.serviceDispatchers.selectService(service);
     }
 
-    this.updateServiceGroups();
+    // this.updateServiceGroups();
   }
 
   /**

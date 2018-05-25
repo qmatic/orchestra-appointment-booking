@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { BookingHelperSelectors, NumberOfCustomersSelectors, NumberOfCustomersDispatchers } from '../../../../store';
+import { BookingHelperSelectors, NumberOfCustomersSelectors, NumberOfCustomersDispatchers, AppointmentSelectors } from '../../../../store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Setting } from '../../../../models/Setting';
+import { IAppointment } from '../../../../models/IAppointment';
 
 @Component({
   selector: 'qm-number-of-customers-booker',
@@ -20,30 +21,51 @@ export class QmNumberOfCustomersBookerComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription = new Subscription();
   private selectedNumberOfCustomers$: Observable<number>;
+  private selectedAppointment$: Observable<IAppointment>;
 
   private selectedNumberOfCustomers: number;
+
+  private firstLoadOnEdit = false;
 
   constructor(
     private bookingHelperSelectors: BookingHelperSelectors,
     private numberOfCustomersSelectors: NumberOfCustomersSelectors,
-    private numberOfCustomersDispatchers: NumberOfCustomersDispatchers
+    private numberOfCustomersDispatchers: NumberOfCustomersDispatchers,
+    private appointmentSelectors: AppointmentSelectors
   ) {
     this.selectedNumberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
     this.numberOfCustomersArray$ = this.numberOfCustomersSelectors.numberOfCustomersArray$;
+    this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
   }
 
   ngOnInit() {
     const selectedNumberOfCustomersSubscription = this.selectedNumberOfCustomers$.subscribe(
       (selectedNumberOfCustomers: number) => {
         this.selectedNumberOfCustomers = selectedNumberOfCustomers;
-      });
+    });
+
+    const selectedAppointmentSubscription = this.selectedAppointment$.subscribe(
+      (selectedAppointment: IAppointment) => {
+        if (selectedAppointment !== null) {
+          this.firstLoadOnEdit = true;
+        } else {
+          this.firstLoadOnEdit = false;
+        }
+      }
+    );
 
     const numberOfCustomersArraySubscription = this.numberOfCustomersArray$.subscribe(
       (numberOfCustomersArray: number[]) => {
-        this.numberOfCustomersDispatchers.setNumberOfCustomers(1);
-      });
+        if (this.firstLoadOnEdit === true) {
+          this.numberOfCustomersDispatchers.loadNumberOfCustomers(1);
+          this.firstLoadOnEdit = false;
+        } else {
+          this.numberOfCustomersDispatchers.setNumberOfCustomers(1);
+        }
+    });
 
     this.subscriptions.add(selectedNumberOfCustomersSubscription);
+    this.subscriptions.add(selectedAppointmentSubscription);
     this.subscriptions.add(numberOfCustomersArraySubscription);
   }
 

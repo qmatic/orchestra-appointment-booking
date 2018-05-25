@@ -72,6 +72,12 @@ export function reducer (
         searchText: ''
       };
     }
+    case BranchActions.LOAD_SELECTED_BRANCH: {
+      return {
+        ...state,
+        selectedBranch: [action.payload]
+      };
+    }
     default: {
       return state;
     }

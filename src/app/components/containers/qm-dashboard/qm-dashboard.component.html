@@ -12,6 +12,10 @@
       <div class="col-sm-5">
         <div class="qm-full-height" *ngIf="customerAppointmentsAreVisible()">
           <qm-customer-appointments></qm-customer-appointments>
+
+        </div>
+        <div class="qm-full-height" *ngIf="selectedAppointment !== null">
+          <qm-appointment-card [appointment]="selectedAppointment"></qm-appointment-card>
         </div>
       </div>
       <div class="col-sm-2" *ngIf="(showExpiryReservationTime$ | async)">
@@ -27,7 +31,10 @@
       <div class="qm-dashboard-row">
         <div class="qm-dashboard-col-12">
           <div class="qm-booking-header">
-            <h2 class="qm-headline qm-headline--large">Create new appointment</h2>
+            <h2 class="qm-headline qm-headline--large" *ngIf="selectedAppointment === null; else editHeadline">{{ 'label.dashboard.create.appointment' | translate }}</h2>
+            <ng-template #editHeadline>
+              <h2 class="qm-headline qm-headline--large">{{ 'label.dashboard.edit.appointment' | translate }}</h2>
+            </ng-template>
           </div>
           <qm-booking-flow></qm-booking-flow>
         </div>

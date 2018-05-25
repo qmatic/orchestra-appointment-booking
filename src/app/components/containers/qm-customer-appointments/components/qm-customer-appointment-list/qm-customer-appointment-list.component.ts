@@ -24,6 +24,7 @@ import {
   SettingsAdminSelectors,
   BookingHelperSelectors
 } from '../../../../../../store';
+import { BookingHelperService } from '../../../../../../services/util/bookingHelper.service';
 
 interface IAppointmentScroll extends IAppointment {
   scrollTo: boolean;
@@ -53,7 +54,8 @@ export class QmCustomerAppointmentListComponent
     private bookingHelperSelectors: BookingHelperSelectors,
     private modalService: QmModalService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private bookingHelperService: BookingHelperService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.userLocale$ = this.userSelectors.userLocale$;
@@ -239,28 +241,53 @@ export class QmCustomerAppointmentListComponent
   }
 
   rescheduleClicked(appointment) {
-    const isBookingSubscription = this.bookingStarted$.subscribe(
-      isBookingStarted => {
-        if (isBookingStarted) {
-          const transSubscription = this.modalService.openForTransKeys(
-            'label.modal.reschedule',
-            'label.modal.prevent.reschedule',
-            'button.yes',
-            'button.no',
-            result => {
-              alert(result + 'Rescheduling!!!!');
-            },
-            err => {
-              console.log(err);
-            }
-          );
-          this.subscriptions.add(transSubscription);
-        } else {
-          // NEXT : CALL FUNCTION TO RESHEDULE WITH APPOINTMENT
+    const isBookingStarted = this.bookingHelperService.getIsBookingStarted();
+
+    if (isBookingStarted) {
+      const transSubscription = this.modalService.openForTransKeys(
+        'label.modal.reschedule',
+        'label.modal.prevent.reschedule',
+        'button.yes',
+        'button.no',
+        result => {
+          alert(result + 'Rescheduling!!!!');
+          this.appointmentDispatchers.selectAppointment(appointment);
+        },
+        err => {
+          console.log(err);
         }
-      }
-    );
-    this.subscriptions.add(isBookingSubscription);
+      );
+      this.subscriptions.add(transSubscription);
+    } else {
+      // NEXT : CALL FUNCTION TO RESHEDULE WITH APPOINTMENT
+      this.appointmentDispatchers.selectAppointment(appointment);
+    }
+
+    // const isBookingSubscription = this.bookingStarted$.subscribe(
+    //   isBookingStarted => {
+    //     if (isBookingStarted) {
+    //       const transSubscription = this.modalService.openForTransKeys(
+    //         'label.modal.reschedule',
+    //         'label.modal.prevent.reschedule',
+    //         'button.yes',
+    //         'button.no',
+    //         result => {
+    //           alert(result + 'Rescheduling!!!!');
+    //           console.log('this is the appointment to be loaded: ', appointment);
+    //         },
+    //         err => {
+    //           console.log(err);
+    //         }
+    //       );
+    //       this.subscriptions.add(transSubscription);
+    //     } else {
+    //       // NEXT : CALL FUNCTION TO RESHEDULE WITH APPOINTMENT
+    //       console.log('this is the appointment to be loaded without booking started: ', appointment);
+    //       this.appointmentDispatchers.selectAppointment(appointment);
+    //     }
+    //   }
+    // );
+    // this.subscriptions.add(isBookingSubscription);
   }
 
   ngOnDestroy() {

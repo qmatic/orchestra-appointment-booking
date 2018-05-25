@@ -5,11 +5,17 @@
       <span class="qm-booking-footer__required-text">{{ 'label.bookingFlow.required.fields' | translate }}</span>
     </div>
     <button class="qm-btn qm-btn--secondary" [disabled]="!bookingStarted()" (click)="handleClearAllFields()">
-      <span class="qm-btn__text" title="{{ 'button.bookingFooter.clear.all' | translate }}">{{ 'button.bookingFooter.clear.all' | translate }}</span>
+      <span *ngIf="selectedAppointment === null; else cancelAppointmentEdit" class="qm-btn__text" title="{{ 'button.bookingFooter.clear.all' | translate }}">{{ 'button.bookingFooter.clear.all' | translate }}</span>
+      <ng-template #cancelAppointmentEdit>
+        <span class="qm-btn__text" title="{{ 'button.bookingFooter.cancel' | translate }}">{{ 'button.bookingFooter.cancel' | translate }}</span>
+      </ng-template>
     </button>
 
     <button class="qm-btn qm-btn--primary" [disabled]="isConfirmDisabled()" (click)="handleBooking()">
-      <span class="qm-btn__text" title="{{ 'button.bookingFooter.confirm' | translate }}">{{ 'button.bookingFooter.confirm' | translate }}</span>
+      <span *ngIf="selectedAppointment === null; else confirmAppointmentEdit" class="qm-btn__text" title="{{ 'button.bookingFooter.confirm' | translate }}">{{ 'button.bookingFooter.confirm' | translate }}</span>
+      <ng-template #confirmAppointmentEdit>
+        <span class="qm-btn__text" title="{{ 'button.bookingFooter.confirm.changes' | translate }}">{{ 'button.bookingFooter.confirm.changes' | translate }}</span>
+      </ng-template>
     </button>
   </div>
 </div>

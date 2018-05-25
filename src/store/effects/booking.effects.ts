@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, withLatestFrom, catchError, mergeMap } from 'rxjs/operators';
+import { switchMap, tap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
@@ -88,7 +88,11 @@ export class BookingEffects {
           serviceQuery
         };
 
-        return [new BookingActions.DeselectTimeslot, new BookingActions.FetchTimeslots(bookingInformation)];
+        return [
+          new BookingActions.ResetReservedAppointment,
+          new BookingActions.DeselectTimeslot,
+          new BookingActions.FetchTimeslots(bookingInformation)
+        ];
       })
     );
 
@@ -102,17 +106,30 @@ export class BookingEffects {
           ).unsubscribe();
         }
       ),
+      withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
       switchMap((data: any) => {
+        const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;
+        const appointmentActions = this.getAppointmentActions(selectedAppointment);
+
         return [
+          ...appointmentActions,
           new BookingActions.ResetCurrentCustomer,
           new BookingActions.ResetAppointments,
           new BookingActions.ResetReservedAppointment,
           new BookingActions.DeselectServices,
-          new BookingActions.SetNumberOfCustomers(1),
           new BookingActions.ResetAppointmentNotificationType,
           new BookingActions.ResetAppointmentTitle,
           new BookingActions.ResetAppointmentNote
         ];
       })
     );
+
+  getAppointmentActions(appointment: IAppointment) {
+    return appointment !== null
+            ? [
+                new BookingActions.DeleteAppointment(appointment),
+                new BookingActions.ResetAppointment
+              ]
+            : [];
+  }
 }

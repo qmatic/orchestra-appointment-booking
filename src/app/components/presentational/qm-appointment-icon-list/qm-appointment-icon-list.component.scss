@@ -46,9 +46,9 @@
     color: $dark-transparent82;
     word-break: break-all;
     word-break: break-word;
-    & + & {
-      margin-top: rem($standard-margin / 2);
-    }
+    // & + & {
+    //   margin-top: rem($standard-margin / 2);
+    // }
     &--emphasis {
       font-weight: $font-weight-regular;
       color: $dark-transparent82;
@@ -56,6 +56,7 @@
     &--float {
       position: absolute;
       color: $dark-transparent82;
+      font-weight: $font-weight-light;
     }
     &--highlighted {
       position: relative;

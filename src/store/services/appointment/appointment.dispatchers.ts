@@ -20,4 +20,12 @@ export class AppointmentDispatchers {
   resetAppointments() {
     this.store.dispatch(new AppointmentActions.ResetAppointments);
   }
+
+  selectAppointment(appointment: IAppointment) {
+    this.store.dispatch(new AppointmentActions.SelectAppointment(appointment));
+  }
+
+  resetAppointment() {
+    this.store.dispatch(new AppointmentActions.ResetAppointment);
+  }
 }

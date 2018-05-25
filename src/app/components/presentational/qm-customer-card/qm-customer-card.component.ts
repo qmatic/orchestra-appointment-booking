@@ -8,12 +8,14 @@ import {
   AppointmentDispatchers,
   CustomerSelectors,
   SettingsAdminSelectors,
-  UserSelectors
+  UserSelectors,
+  AppointmentSelectors
 } from '../../../../store';
 import { ToastService } from '../../../../services/util/toast.service';
 import { ICustomer } from '../../../../models/ICustomer';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Setting } from '../../../../models/Setting';
+import { IAppointment } from '../../../../models/IAppointment';
 
 @Component({
   selector: 'qm-customer-card',
@@ -30,9 +32,13 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   phoneEnabled: boolean;
   emailEnabled: boolean;
 
+  private selectedAppointment$: Observable<IAppointment>;
+  public allowClearCustomer: boolean;
+
   constructor(
     private customerDispatchers: CustomerDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
+    private appointmentSelectors: AppointmentSelectors,
     private toastService: ToastService,
     private translateService: TranslateService,
     private modalService: ModalService,
@@ -41,6 +47,7 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
   }
 
   ngOnInit() {
@@ -59,8 +66,19 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
       }
     );
 
+    const selectedAppointmentSubscription = this.selectedAppointment$.subscribe(
+      (selectedAppointment: IAppointment) => {
+        if (selectedAppointment !== null) {
+          this.allowClearCustomer = false;
+        } else {
+          this.allowClearCustomer = true;
+        }
+      }
+    );
+
     this.subscriptions.add(toastMessageSubscription);
     this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(selectedAppointmentSubscription);
   }
 
   ngOnDestroy() {

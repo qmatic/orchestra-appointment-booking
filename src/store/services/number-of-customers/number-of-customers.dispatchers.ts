@@ -15,4 +15,8 @@ export class NumberOfCustomersDispatchers {
   resetNumberOfCustomers() {
     this.store.dispatch(new NumberOfCustomersActions.ResetNumberOfCustomers);
   }
+
+  loadNumberOfCustomers(numberOfCustomers: number) {
+    this.store.dispatch(new NumberOfCustomersActions.LoadSelectedNumberOfCustomers(numberOfCustomers));
+  }
 }

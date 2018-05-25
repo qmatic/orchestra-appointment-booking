@@ -10,7 +10,6 @@ import { ReserveDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
-import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/empty';
 import { IAppointment } from '../../models/IAppointment';

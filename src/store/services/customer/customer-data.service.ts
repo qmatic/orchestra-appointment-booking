@@ -17,7 +17,7 @@ export class CustomerDataService {
 
   getCustomers(searchText: string): Observable<ICustomerResponse> {
     return this.http
-      .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${encodeURIComponent(searchText)}`)
+      .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${searchText}`)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
@@ -25,7 +25,6 @@ export class CustomerDataService {
     return this.http
       .post<ICustomer>(`${calendarEndpoint}/customers`, customer)
       .pipe(
-        retry(3),
         catchError(this.errorHandler.handleError()
       ));
   }
@@ -34,7 +33,6 @@ export class CustomerDataService {
     return this.http
       .put<ICustomer>(`${calendarEndpoint}/customers/${customer.id}`, customer)
       .pipe(
-        retry(3),
         catchError(this.errorHandler.handleError())
       );
   }

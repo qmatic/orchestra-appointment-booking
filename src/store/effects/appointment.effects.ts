@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/observable/of';
-import { switchMap, mergeMap, catchError, tap } from 'rxjs/operators';
+import { switchMap, mergeMap, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import * as AppointmentActions from './../actions';
 import * as CustomerActions from './../actions';
 import { AppointmentDataService, DataServiceError } from '../services';
@@ -12,18 +12,26 @@ import { ToastService } from '../../services/util/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
+import { IAppointment } from '../../models/IAppointment';
+import { IService } from '../../models/IService';
+import { Store } from '@ngrx/store';
+import { IAppState } from '../index';
+import { Setting } from '../../models/Setting';
+import { AppUtils } from '../../services/util/appUtils.service';
 
 const toAction = AppointmentActions.toAction();
 
 @Injectable()
 export class AppointmentEffects {
   constructor(
+    private store$: Store<IAppState>,
     private actions$: Actions,
     private appointmentDataService: AppointmentDataService,
     private toastService: ToastService,
     private translateService: TranslateService,
     private router: Router,
-    private errorHandler: GlobalErrorHandler
+    private errorHandler: GlobalErrorHandler,
+    private appUtils: AppUtils
   ) { }
 
   @Effect()
@@ -73,4 +81,104 @@ export class AppointmentEffects {
       this.errorHandler
       .showError('toast.cancel.booking.error', action.payload);
     }));
+
+
+  @Effect()
+  selectAppointmentForEdit$: Observable<Action> = this.actions$
+    .ofType(AppointmentActions.SELECT_APPOINTMENT)
+    .pipe(
+      withLatestFrom(this.store$.select((state: IAppState) => state.settings.settings)),
+      switchMap((data: any) => {
+        const [ action, settings ]: [AppointmentActions.SelectAppointment, Setting[]] = data;
+        const appointmentToLoad: IAppointment = action.payload;
+        const settingsMap = this.appUtils.getSettingsAsMap(settings);
+        const appointmentMetaActions = this.getAppointmentMetaActions(appointmentToLoad, settingsMap);
+
+        return [
+          new AppointmentActions.LoadSelectedServices(appointmentToLoad.services),
+          new AppointmentActions.LoadSelectedBranch(appointmentToLoad.branch),
+          ...appointmentMetaActions
+        ];
+      })
+    );
+
+  getServicesQueryStringFromServices(services: IService[]): string {
+    return services.reduce((queryString, service: IService) => {
+      return queryString + `;servicePublicId=${service.publicId}`;
+    }, '');
+  }
+
+  getAppointmentMetaActions(appointment: IAppointment, settingsMap: { [name: string]: Setting }) {
+    const notifyAction = this.getNotifyAction(appointment, settingsMap);
+    const titleAction = this.getTitleAction(appointment);
+    const notesAction = this.getNotesAction(appointment);
+
+    return [
+      ...notifyAction,
+      ...titleAction,
+      ...notesAction
+    ];
+  }
+
+  getNotifyAction(appointment: IAppointment, settingsMap: { [name: string]: Setting }) {
+
+    if (appointment.custom && appointment.custom !== '') {
+      const parsedCustom = JSON.parse(appointment.custom);
+      if (parsedCustom && parsedCustom.notificationType) {
+        if (this.notificationTypeIsValid(parsedCustom.notificationType, settingsMap)) {
+          return [new AppointmentActions.SetAppointmentNotificationType(parsedCustom.notificationType)];
+        } else {
+          const notificationType = this.getNofificationTypeFromSettings(settingsMap);
+          return [new AppointmentActions.SetAppointmentNotificationType(notificationType)];
+        }
+
+      }
+    }
+    return [];
+  }
+
+  getNofificationTypeFromSettings(settingsMap: { [name: string]: Setting }): string {
+    if (settingsMap.OptionPreselect.value !== 'PreSelectNoOption') {
+      return settingsMap.OptionPreselect.value;
+    } else {
+      return '';
+    }
+  }
+
+  notificationTypeIsValid(notificationType: string, settingsMap: { [name: string]: Setting }): boolean {
+
+    switch (notificationType) {
+      case 'sms': {
+        return settingsMap.IncludeSms.value === true;
+      }
+      case 'email': {
+        return settingsMap.IncludeEmail.value === true;
+      }
+      case 'both': {
+        return settingsMap.IncludeEmailAndSms.value === true;
+      }
+      case 'none': {
+        return settingsMap.NoNotification.value === true;
+      }
+      default: {
+        return false;
+      }
+    }
+  }
+
+  getTitleAction(appointment: IAppointment) {
+    if (appointment.title && appointment.title !== '') {
+      return [new AppointmentActions.SetAppointmentTitle(appointment.title)];
+    } else {
+      return [];
+    }
+  }
+
+  getNotesAction(appointment: IAppointment) {
+    if (appointment.notes && appointment.notes !== '') {
+      return [new AppointmentActions.SetAppointmentNote(appointment.notes)];
+    } else {
+      return [];
+    }
+  }
 }

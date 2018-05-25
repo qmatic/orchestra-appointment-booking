@@ -12,6 +12,8 @@ export const DESELECT_BRANCH = '[Branch] DESELECT_BRANCH';
 export const FILTER_BRANCHES = '[Branch] FILTER_BRANCHES';
 export const RESET_FILTER_BRANCHES = '[Branch] RESET_FILTER_BRANCHES';
 
+export const LOAD_SELECTED_BRANCH = '[Branch] LOAD_SELECTED_BRANCH';
+
 export class FetchBranches implements Action {
   readonly type = FETCH_BRANCHES;
 }
@@ -44,6 +46,11 @@ export class ResetFilterBranches implements Action {
   readonly type = RESET_FILTER_BRANCHES;
 }
 
+export class LoadSelectedBranch implements Action {
+  readonly type = LOAD_SELECTED_BRANCH;
+  constructor(public payload: IBranch) {}
+}
+
 
 export type AllBranchActions = FetchBranches |
                                 FetchBranchesFail |
@@ -51,4 +58,5 @@ export type AllBranchActions = FetchBranches |
                                 FilterBranches |
                                 ResetFilterBranches |
                                 SelectBranch |
-                                DeselectBranch;
+                                DeselectBranch |
+                                LoadSelectedBranch;

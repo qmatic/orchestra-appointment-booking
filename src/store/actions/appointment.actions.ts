@@ -10,6 +10,9 @@ export const RESET_APPOINTMENTS = '[Appointment] RESET_APPOINTMENTS';
 export const DELETE_APPOINTMENT = '[Appointment] DELETE_APPOINTMENT';
 export const DELETE_APPOINTMENT_FAIL = '[Appointment] DELETE_APPOINTMENT_FAIL';
 export const DELETE_APPOINTMENT_SUCCESS = '[Appointment] DELETE_APPOINTMENT_SUCCESS';
+export const SELECT_APPOINTMENT = '[Appointment] SELECT_APPOINTMENT';
+export const RESET_APPOINTMENT = '[Appointment] RESET_APPOINTMENT';
+
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -45,11 +48,22 @@ export class DeleteAppointmentSuccess implements Action {
   constructor(public payload: IAppointment) {}
 }
 
+export class SelectAppointment implements Action {
+  readonly type = SELECT_APPOINTMENT;
+  constructor(public payload: IAppointment) {}
+}
+
+export class ResetAppointment implements Action {
+  readonly type = RESET_APPOINTMENT;
+}
+
 // Action types
 export type AllAppointmentActions = FetchAppointments |
-                                FetchAppointmentsFail |
-                                FetchAppointmentsSuccess |
-                                ResetAppointments |
-                                DeleteAppointment |
-                                DeleteAppointmentFail |
-                                DeleteAppointmentSuccess;
+                                    FetchAppointmentsFail |
+                                    FetchAppointmentsSuccess |
+                                    ResetAppointments |
+                                    DeleteAppointment |
+                                    DeleteAppointmentFail |
+                                    DeleteAppointmentSuccess |
+                                    SelectAppointment |
+                                    ResetAppointment;

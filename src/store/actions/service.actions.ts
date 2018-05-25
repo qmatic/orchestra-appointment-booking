@@ -19,6 +19,7 @@ export const DESELECT_SERVICES = '[Service] DESELECT_SERVICES';
 export const FILTER_SERVICES = '[Service] FILTER_SERVICES';
 export const RESET_FILTER_SERVICES = '[Service] RESET_FILTER_SERVICES';
 
+export const LOAD_SELECTED_SERVICES = '[Service] LOAD_SELECTED_SERVICES';
 
 export class FetchServices implements Action {
   readonly type = FETCH_SERVICES;
@@ -77,6 +78,11 @@ export class ResetFilterServices implements Action {
   readonly type = RESET_FILTER_SERVICES;
 }
 
+export class LoadSelectedServices implements Action {
+  readonly type = LOAD_SELECTED_SERVICES;
+  constructor(public payload: IService[]) {}
+}
+
 // Action types
 export type AllServiceActions = FetchServices |
                                 FetchServicesFail |
@@ -89,4 +95,5 @@ export type AllServiceActions = FetchServices |
                                 DeselectServices |
                                 SelectMultiService |
                                 FilterServices |
-                                ResetFilterServices;
+                                ResetFilterServices |
+                                LoadSelectedServices;

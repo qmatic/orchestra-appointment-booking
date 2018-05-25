@@ -115,6 +115,12 @@ export function reducer (
         searchText: ''
       };
     }
+    case ServiceActions.LOAD_SELECTED_SERVICES: {
+      return {
+        ...state,
+        selectedServices: action.payload
+      };
+    }
     default: {
         return state;
     }
