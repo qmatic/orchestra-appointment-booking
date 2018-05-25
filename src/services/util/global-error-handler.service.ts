@@ -20,7 +20,7 @@ export class GlobalErrorHandler {
             ...interpolationParams
         }).subscribe(
             (errorMsgs: string[]) => {
-                this.toastService.errorToast(`${errorMsgs[contextualErrorKey]}.${errorMsgs[this.genericErrorKey]}`);
+                this.toastService.errorToast(`${errorMsgs[contextualErrorKey]}. ${errorMsgs[this.genericErrorKey]}`);
             }
             ).unsubscribe();
         // break;
