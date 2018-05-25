@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';
@@ -7,6 +6,7 @@ import { IDatesState } from '../../reducers/date.reducer';
 import { Setting } from '../../../models/Setting';
 import { getSettingsAsMap } from '../settings-admin';
 import { getUserLocale } from '../user';
+import * as moment from 'moment';
 
 // selectors
 const getDatesState = createFeatureSelector<IDatesState>('dates');
@@ -20,7 +20,11 @@ const getVisibleDates = createSelector(
   getDatesState,
   getUserLocale,
   getSettingsAsMap,
-  (state: IDatesState, userLocale, settingsMap: { [name: string]: Setting }) => {
+  (
+    state: IDatesState,
+    userLocale,
+    settingsMap: { [name: string]: Setting }
+  ) => {
     return getFilteredDates(state, userLocale);
   }
 );
@@ -50,22 +54,26 @@ const getDatesError = createSelector(
   (state: IDatesState) => state.error
 );
 
-function getFilteredDates(state, userLocale, dateFormat = 'EEEE d MMMM'): Array<string> {
-  const datePipe = new DatePipe('en');
+function getFilteredDates(
+  state,
+  userLocale,
+  dateFormat = 'dddd DD MMMM'
+): Array<string> {
   return state.searchText === ''
     ? state.dates
-    : state.dates.filter(
-        (date: string) => {
-          return datePipe.transform(date, dateFormat, null, userLocale).toLowerCase().indexOf(state.searchText.toLowerCase()) !== -1;
-        }
-      );
+    : state.dates.filter((date: string) => {
+        return (
+          moment(date)
+            .format(dateFormat)
+            .toLowerCase()
+            .indexOf(state.searchText.toLowerCase()) !== -1
+        );
+      });
 }
 
 @Injectable()
 export class DateSelectors {
-  constructor(
-    private store: Store<IAppState>,
-  ) {}
+  constructor(private store: Store<IAppState>) {}
   // selectors$
   dates$ = this.store.select(getDates);
   visibleDates$ = this.store.select(getVisibleDates);
