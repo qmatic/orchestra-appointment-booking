@@ -8,9 +8,9 @@
           {{ appointment.services[0].name }}
         </span>
         <span class="qm-icon-list-item__text--highlighted" *ngIf="appointment.services.length > 1">
-        <span [ngbTooltip]="getAdditionalServices(appointment)" placement="bottom">
-        +{{ appointment.services.length - 1 }}&nbsp;{{ 'label.services' | translate }}
-        </span>
+          <span [ngbTooltip]="getAdditionalServices(appointment)" placement="bottom">
+          +{{ appointment.services.length - 1 }}&nbsp;{{ 'label.services' | translate }}
+          </span>
         </span>
         <!--<ng-template ngFor let-service [ngForOf]="appointment.services" let-isLast="last">
           {{ service.name }}<span *ngIf="!isLast">, </span>

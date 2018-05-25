@@ -13,8 +13,8 @@ import { Setting } from '../../../../models/Setting';
 })
 export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
+  public userDirection$: Observable<string>;
   public isMilitaryTime: boolean;
 
   @Input()
