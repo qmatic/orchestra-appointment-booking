@@ -1,7 +1,7 @@
-<div class="qm-dropdown__backdrop" *ngIf="isExpanded" (click)="toggleDropdown()"></div>
-<div class="qm-dropdown" dir="{{ userDirection$ | async }}">
+<div class="qm-dropdown" dir="userDirection$ | async">
   <button class="qm-dropdown__btn" [attr.aria-expanded]="isExpanded" aria-haspopup="true" (click)="toggleDropdown()">{{ text }}</button>
   <div class="qm-dropdown__body" [style.maxHeight]="maxHeight">
     <ng-content></ng-content>
   </div>
+  <div class="qm-dropdown__backdrop" *ngIf="isExpanded" (click)="toggleDropdown()"></div>
 </div>

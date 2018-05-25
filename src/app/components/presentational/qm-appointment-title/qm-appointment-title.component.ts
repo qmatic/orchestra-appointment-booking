@@ -6,7 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import {
   AppointmentMetaSelectors,
   AppointmentMetaDispatchers,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  UserSelectors
 } from '../../../../store';
 import { Setting } from '../../../../models/Setting';
 
@@ -20,6 +21,7 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   private titleInput$: Subject<string> = new Subject<string>();
   private title$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
+  public userDirection$: Observable<string>;
 
   private title: string;
 
@@ -30,10 +32,12 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private autoCloseService: AutoClose
+    private autoCloseService: AutoClose,
+    private userSelectors: UserSelectors
   ) {
     this.title$ = this.appointmentMetaSelectors.title$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() {

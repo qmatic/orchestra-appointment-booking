@@ -14,9 +14,9 @@ import { Setting } from '../../../../models/Setting';
 export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private settingsMap$: Observable<{ [name: string]: Setting }>;
-  public userDirection$: Observable<string>;
+  private userDirection$: Observable<string>;
   public isMilitaryTime: boolean;
-
+  public userDirection: string;
   @Input()
   appointment: IAppointment;
 
@@ -36,7 +36,14 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
       }
     );
 
+    const userDirectionSubscription = this.userDirection$.subscribe(
+      (userDirection: string) => {
+        this.userDirection = userDirection;
+      }
+    );
+
     this.subscriptions.add(settingsSubscription);
+    this.subscriptions.add(userDirectionSubscription);
   }
 
   ngOnDestroy() {

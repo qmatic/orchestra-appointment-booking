@@ -42,9 +42,10 @@ export class QmCustomerAppointmentListComponent
   private userLocale$: Observable<string>;
   private userLocale: string;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
-  private isMilitaryTime: boolean;
+  public isMilitaryTime: boolean;
   private bookingStarted$: Observable<boolean>;
-  userDirection$: Observable<string>;
+  private userDirection$: Observable<string>;
+  public userDirection: string;
   @ViewChildren('customCard') customCards;
 
   constructor(
@@ -70,6 +71,12 @@ export class QmCustomerAppointmentListComponent
       }
     );
 
+    const userDirectionSubscription = this.userDirection$.subscribe(
+      (userDirection: string) => {
+        this.userDirection = userDirection;
+      }
+    );
+
     const userLocalSubscription = this.userLocale$.subscribe(
       (userLocale: string) => {
         this.userLocale = userLocale;
@@ -77,6 +84,7 @@ export class QmCustomerAppointmentListComponent
     );
 
     this.subscriptions.add(userLocalSubscription);
+    this.subscriptions.add(userDirectionSubscription);
     this.subscriptions.add(settingsSubscription);
 
     this.updateAppointmentList();

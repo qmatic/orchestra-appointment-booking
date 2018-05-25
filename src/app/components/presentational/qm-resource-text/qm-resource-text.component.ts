@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class QmResourceTextComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
   private adminSettings$: Observable<{ [name: string]: Setting }>;
 
   private resourceEnabled: boolean;

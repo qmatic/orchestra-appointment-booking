@@ -16,6 +16,9 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class QmStandardRadioComponent implements OnInit, OnDestroy {
   @Input()
+  userDirection: string;
+
+  @Input()
   text: string;
 
   @Input()

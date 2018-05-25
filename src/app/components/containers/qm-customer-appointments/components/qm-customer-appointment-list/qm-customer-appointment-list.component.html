@@ -1,5 +1,5 @@
 
-<ul class="qm-appointment-list"  dir="{{ userDirection$ | async }}">
+<ul class="qm-appointment-list"  [dir]="userDirection">
   <li #customCard class="qm-appointment-list__item" *ngFor="let appointment of appointments">
     <div class="qm-appointment-card">
       <a href="#" class="qm-appointment-card__content-container">
@@ -14,7 +14,7 @@
             </span>
           </span>
         </span>
-        <qm-appointment-icon-list [appointment]="appointment"></qm-appointment-icon-list>
+        <qm-appointment-icon-list [userDirection]="userDirection" [appointment]="appointment"></qm-appointment-icon-list>
         <span class="qm-appointment-card__status-container" *ngIf="displayStatus(appointment).showStatus">
           <span class="qm-appointment-card__status-label">
             {{ 'label.appointment.status' | translate }}

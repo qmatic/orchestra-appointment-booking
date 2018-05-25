@@ -1,4 +1,4 @@
-<section class="qm-customer-card" dir="userDirection$ | async">
+<section class="qm-customer-card" [dir]="userDirection$ | async">
   <div class="qm-customer-card__content-container" tabindex="0" (click)="updateCustomer()">
     <h1 class="qm-customer-card__headline">
         <span href="#" class="qm-customer-card__name">{{ customer.name }}</span>

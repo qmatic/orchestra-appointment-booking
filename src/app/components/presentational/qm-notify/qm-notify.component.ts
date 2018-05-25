@@ -26,6 +26,7 @@ export class QmNotifyComponent implements OnInit, OnDestroy {
   private emailAndSmsEnabled: boolean;
   private noNotificationEnabled: boolean;
   private preselectedOption: string;
+  public userDirection: string;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -53,9 +54,15 @@ export class QmNotifyComponent implements OnInit, OnDestroy {
       }
     );
 
+    const userDirectionSubscription = this.userDirection$.subscribe(
+      (userDirection: string) => {
+        this.userDirection = userDirection;
+      }
+    );
+
     this.subscriptions.add(notificationTypeSubscription);
     this.subscriptions.add(settingsMapSubscription);
-
+    this.subscriptions.add(userDirectionSubscription);
   }
 
   setPreselectedOption() {

@@ -26,9 +26,9 @@
   }
   &__text-container {
     flex: 1 1 auto;
-    max-height: rem(200px);
-    overflow-x: hidden;
-    overflow-y: auto;
+    // max-height: rem(200px);
+    // overflow-x: hidden;
+    // overflow-y: auto;
     padding-right: rem($standard-padding);
     margin-right: rem($standard-margin);
     @at-root [dir='rtl'] & {
@@ -54,7 +54,7 @@
       color: $dark-transparent82;
     }
     &--float {
-      position: absolute;
+      // position: absolute;
       color: $dark-transparent82;
       font-weight: $font-weight-light;
     }

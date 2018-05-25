@@ -9,6 +9,8 @@ import { IAppointment } from '../../../../models/IAppointment';
 export class QmAppointmentIconListComponent implements OnInit {
   @Input() appointment: IAppointment;
 
+  @Input() userDirection: string;
+
   constructor() {}
 
   getAdditionalServices(appointment) {

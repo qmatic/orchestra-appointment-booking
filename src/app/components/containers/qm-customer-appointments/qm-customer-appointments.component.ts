@@ -7,7 +7,8 @@ import * as moment from 'moment';
 import {
   AppointmentSelectors,
   AppointmentDispatchers,
-  CustomerSelectors
+  CustomerSelectors,
+  UserSelectors
 } from '../../../../store';
 
 import { IAppointment } from '../../../../models/IAppointment';
@@ -30,16 +31,20 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   dropdownLabel: string;
   isExpand: boolean;
 
+  public userDirection$: Observable<string>;
+
   constructor(
     private appointmentSelectors: AppointmentSelectors,
     private customerSelectors: CustomerSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private userSelectors: UserSelectors
   ) {
     this.appointments$ = this.appointmentSelectors.appointments$;
     this.appointmentsLoaded$ = this.appointmentSelectors.appointmentsLoaded$;
     this.appointmentsLoading$ = this.appointmentSelectors.appointmentsLoading$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit() {
@@ -83,6 +88,7 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('calling on destroy');
     this.subscriptions.unsubscribe();
   }
 

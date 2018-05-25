@@ -12,24 +12,38 @@
 
 :host ::ng-deep .qm-clear-input-button {
   position: absolute;
-  right: 8px;
-  top: 15px;
+  right: rem($base-unit /2);
+  //top: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
   font-size: rem(16px);
 
+  @at-root [dir='rtl'] & {
+    right: auto;
+    left: rem($base-unit / 2);
+  }
+
   ::ng-deep .qm-action-btn__icon{
-    color: $dark-transparent42;   
+    color: $dark-transparent42;
     font-size: rem(18px);
   }
 }
 
 :host ::ng-deep .qm-clear-search-button {
   position: absolute;
-  right: 8px;
-  top: 9px;
+  right: rem($base-unit / 2);
+  top: 50%;
+  transform: translateY(-50%);
+  // top: 9px;
   cursor: pointer;
   color: $dark-transparent42;
-} 
+
+  @at-root [dir='rtl'] & {
+    right: auto;
+    left: rem($base-unit / 2);
+  }
+}
 
 .qm-booking {
     height: 100%;
@@ -44,38 +58,6 @@
         text-align: right;
       }
     }
-
-    // &__header-layout {
-    //     align-items: center;
-    // }
-
-    // &__header-left {
-    //   display: inline-block;
-    //   flex: 0 1 auto;
-    //   overflow: hidden;
-    // }
-
-    // &__header-right {
-    //   display: inline-block;
-    //   flex: 0 0 auto;
-    // }
-
-    // &__col {
-    //   &-hd {
-    //     flex: 0 0 auto;
-    //     overflow: hidden;
-    //     padding-right: rem($standard-padding);
-
-    //     @at-root [dir='rtl'] & {
-    //       padding-right: 0;
-    //       padding-left: rem($standard-padding);
-    //     }
-    //   }
-    //   &-inf {
-    //     flex: 0 2 auto;
-    //     overflow: hidden;
-    //   }
-    // }
 
     &__header-text {
       display: block;
@@ -135,8 +117,6 @@
     }
 
     &--nosearch {
-      // margin-top: rem(62px);
-      // height: calc(100% - 52px);
 
       .qm-booking__body {
         margin-top: rem(62px);

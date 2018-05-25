@@ -12,7 +12,8 @@ export class QmDropdownComponent implements OnInit {
   @Input() userDirection: string;
   @Input() isExpanded = false;
   @Input() maxHeight: string;
-  userDirection$: Observable<string>;
+
+  public userDirection$: Observable<string>;
 
   constructor(private userSelectors: UserSelectors) {
     this.userDirection$ = this.userSelectors.userDirection$;

@@ -48,7 +48,7 @@
     padding-right: rem($standard-padding * 2);
 
     @at-root [dir='rtl'] & {
-      padding-right: 0;
+      padding-right: rem(12px);
       padding-left: rem($standard-padding * 2);
     }
 

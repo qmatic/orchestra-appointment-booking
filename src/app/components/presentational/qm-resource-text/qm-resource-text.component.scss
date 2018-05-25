@@ -7,9 +7,17 @@
 }
 
 .qm-resource-text {
+  display: flex;
+
   &__label {
     font-size: rem(16px);
     color: $dark-transparent82;
+    margin-right: rem(4px);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem(4px);
+    }
   }
 
   &__text {

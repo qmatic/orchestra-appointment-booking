@@ -31,10 +31,7 @@
     overflow: hidden;
 
     @at-root [dir='rtl'] & {
-      padding-right: 0;
-      margin-right: 0;
-      padding-left: rem($standard-padding);
-      margin-left: rem($standard-margin);
+      text-align: right;
     }
   }
 

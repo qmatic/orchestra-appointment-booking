@@ -1,4 +1,4 @@
-<div class="qm-appointment-card" [dir]="userDirection$ | async">
+<div class="qm-appointment-card" [dir]="userDirection">
   <div class="qm-appointment-card__content-container">
     <span class="qm-appointment-card__headline-container">
       <span class="qm-appointment-card__headline">
@@ -11,6 +11,6 @@
         </span>
       </span>
     </span>
-    <qm-appointment-icon-list [appointment]="appointment"></qm-appointment-icon-list>
+    <qm-appointment-icon-list [userDirection]="userDirection" [appointment]="appointment"></qm-appointment-icon-list>
   </div>
 </div>
