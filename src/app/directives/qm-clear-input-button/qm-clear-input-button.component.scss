@@ -3,4 +3,8 @@
     right: 14px;
     top: 34px;
     cursor: pointer;
+    @at-root [dir='rtl'] & {
+        right: auto;
+        left: 14px;
+    }
 }
