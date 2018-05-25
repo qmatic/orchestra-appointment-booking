@@ -101,9 +101,9 @@ export class QmCustomerAppointmentListComponent
     });
   }
 
-  getTimezoneOffset(apppointment: IAppointment) {
+  getTimezoneOffset(appointment: IAppointment) {
     return moment()
-      .tz(apppointment.branch.fullTimeZone)
+      .tz(appointment.branch.fullTimeZone)
       .format('Z');
   }
 
