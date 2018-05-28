@@ -2,7 +2,7 @@
 <ul class="qm-appointment-list"  [dir]="userDirection">
   <li #customCard class="qm-appointment-list__item" *ngFor="let appointment of appointments">
     <div class="qm-appointment-card">
-      <a href="#" class="qm-appointment-card__content-container">
+      <div class="qm-appointment-card__content-container" tabindex="0" (click)="rescheduleClicked(appointment)" [ngClass]="{ 'qm-appointment-card__content-container--edit' : displayStatus(appointment).showEdit }">
         <span class="qm-appointment-card__headline-container">
           <span class="qm-appointment-card__headline">
           {{ appointment.start | date:'EEEE MMMM d, y': getTimezoneOffset(appointment) }}
@@ -23,7 +23,7 @@
             {{ getStatusLabel(appointment) | translate }}
           </span>
         </span>
-      </a>
+      </div>
 
       <div class="qm-appointment-card__action-container">
         <button *ngIf="displayStatus(appointment).showCancel" class="qm-action-btn qm-action-btn--only-icon qm-appointment-card__btn" (click)="deleteAppointment(appointment)">

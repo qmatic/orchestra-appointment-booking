@@ -88,7 +88,6 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('calling on destroy');
     this.subscriptions.unsubscribe();
   }
 

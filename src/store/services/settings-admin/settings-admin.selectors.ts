@@ -30,8 +30,6 @@ const getSettingsByCategory = createSelector(
       settingsByCategory.set(s.category.name, foundCat);
     });
 
-    console.log(settingsByCategory.values());
-
     return Array.from(settingsByCategory.values());
   }
 );

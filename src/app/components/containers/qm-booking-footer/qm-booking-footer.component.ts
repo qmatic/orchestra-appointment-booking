@@ -89,7 +89,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private customerDispatchers: CustomerDispatchers,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
-    private appointmentSelectos: AppointmentSelectors,
+    private appointmentSelectors: AppointmentSelectors,
     private toastService: ToastService,
     private translateService: TranslateService
   ) {
@@ -105,7 +105,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.numberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
-    this.selectedAppointment$ = this.appointmentSelectos.selectedAppointment$;
+    this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
   }
 
   ngOnInit() {
@@ -350,40 +350,43 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   }
 
   getAppointmentCustomJson(currentCustomer: ICustomer): string {
-    const notificationType: string = this.notificationType;
-
-    switch (notificationType) {
-      case 'sms': {
-        return `{`
-                + `"phoneNumber":"${currentCustomer.phone}",`
-                + `"notificationType":"${notificationType}",`
-                + `"appId":"generic"`
-              + `}`;
+    if (this.hasNotificationOptionsEnabled()) {
+      const notificationType: string = this.notificationType;
+      switch (notificationType) {
+        case 'sms': {
+          return `{`
+                  + `"phoneNumber":"${currentCustomer.phone}",`
+                  + `"notificationType":"${notificationType}",`
+                  + `"appId":"generic"`
+                + `}`;
+        }
+        case 'email': {
+          return `{`
+                  + `"email":"${currentCustomer.email}",`
+                  + `"notificationType":"${notificationType}",`
+                  + `"appId":"generic"`
+                + `}`;
+        }
+        case 'both': {
+          return `{`
+                  + `"phoneNumber":"${currentCustomer.phone}",`
+                  + `"email":"${currentCustomer.email}",`
+                  + `"notificationType":"${notificationType}",`
+                  + `"appId":"generic"`
+                + `}`;
+        }
+        case 'none': {
+          return `{`
+                  + `"notificationType":"${notificationType}",`
+                  + `"appId":"generic"`
+                + `}`;
+        }
+        default: {
+          return '';
+        }
       }
-      case 'email': {
-        return `{`
-                + `"email":"${currentCustomer.email}",`
-                + `"notificationType":"${notificationType}",`
-                + `"appId":"generic"`
-              + `}`;
-      }
-      case 'both': {
-        return `{`
-                + `"phoneNumber":"${currentCustomer.phone}",`
-                + `"email":"${currentCustomer.email}",`
-                + `"notificationType":"${notificationType}",`
-                + `"appId":"generic"`
-              + `}`;
-      }
-      case 'none': {
-        return `{`
-                + `"notificationType":"${notificationType}",`
-                + `"appId":"generic"`
-              + `}`;
-      }
-      default: {
-        return '';
-      }
+    } else {
+      return '';
     }
   }
 }

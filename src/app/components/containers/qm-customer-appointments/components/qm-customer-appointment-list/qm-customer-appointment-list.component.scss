@@ -80,15 +80,18 @@
         display: block;
         &:hover,
         &:focus {
-            text-decoration: none;
-            .qm-appointment-card__headline {
-                font-weight: $font-weight-regular;
-            }
+          .qm-appointment-card__headline {
+              font-weight: $font-weight-regular;
+          }
         }
         &:active {
-            .qm-appointment-card__headline {
-                color: $dark-transparent82;
-            }
+          .qm-appointment-card__headline {
+            color: $dark-transparent82;
+          }
+        }
+
+        &--edit {
+          cursor: pointer;
         }
     }
     &__action-container {
