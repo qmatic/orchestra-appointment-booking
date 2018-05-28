@@ -114,24 +114,33 @@
             color: $tertiary-color;
         }
     }
-    &__status-container {
+    &__text-container {
         display: block;
         margin-top: rem($standard-margin);
+
+        & + & {
+          margin-top: rem($standard-margin / 2);
+        }
     }
-    &__status-label {
+    &__text-label {
         display: inline-block;
         font-size: rem(16px);
         font-weight: $font-weight-light;
         line-height: rem(24px);
         color: $dark-transparent42;
     }
-    &__status {
+    &__text {
         display: inline-block;
         font-size: rem(18px);
         font-weight: $font-weight-medium;
         line-height: rem(24px);
         color: $dark-transparent82;
         margin-left: rem($standard-margin / 4);
+
+        &--light {
+          font-weight: $font-weight-light;
+        }
+
         &.success {
             color: $secondary-color;
         }

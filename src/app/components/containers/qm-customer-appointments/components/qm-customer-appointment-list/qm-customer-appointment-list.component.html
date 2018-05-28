@@ -15,11 +15,19 @@
           </span>
         </span>
         <qm-appointment-icon-list [userDirection]="userDirection" [appointment]="appointment"></qm-appointment-icon-list>
-        <span class="qm-appointment-card__status-container" *ngIf="displayStatus(appointment).showStatus">
-          <span class="qm-appointment-card__status-label">
+        <span class="qm-appointment-card__text-container" *ngIf="resourceEnabled()">
+          <span class="qm-appointment-card__text-label">
+            {{ 'label.customerAppointments.resource' | translate }}
+          </span>
+          <span class="qm-appointment-card__text qm-appointment-card__text--light">
+            {{ getResource(appointment) }}
+          </span>
+        </span>
+        <span class="qm-appointment-card__text-container" *ngIf="displayStatus(appointment).showStatus">
+          <span class="qm-appointment-card__text-label">
             {{ 'label.appointment.status' | translate }}
           </span>
-          <span class="qm-appointment-card__status" [ngClass]="getStatusClass(appointment)">
+          <span class="qm-appointment-card__text" [ngClass]="getStatusClass(appointment)">
             {{ getStatusLabel(appointment) | translate }}
           </span>
         </span>

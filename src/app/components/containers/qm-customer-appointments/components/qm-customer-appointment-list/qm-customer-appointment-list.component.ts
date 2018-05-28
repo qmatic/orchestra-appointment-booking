@@ -46,6 +46,7 @@ export class QmCustomerAppointmentListComponent
   private bookingStarted$: Observable<boolean>;
   private userDirection$: Observable<string>;
   public userDirection: string;
+  private settingsMap: { [name: string ]: Setting };
   @ViewChildren('customCard') customCards;
 
   constructor(
@@ -68,6 +69,7 @@ export class QmCustomerAppointmentListComponent
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
+        this.settingsMap = settingsMap;
       }
     );
 
@@ -113,6 +115,19 @@ export class QmCustomerAppointmentListComponent
     return moment()
       .tz(appointment.branch.fullTimeZone)
       .format('Z');
+  }
+
+  resourceEnabled(): boolean {
+    return this.settingsMap.ShowResource.value;
+  }
+
+  getResource(appointment: IAppointment) {
+    const resourceIsEnabled = this.resourceEnabled();
+    if (resourceIsEnabled) {
+      return appointment.resource && appointment.resource.name ? appointment.resource.name : '';
+    } else {
+      return '';
+    }
   }
 
   isNextAppointment(listAppointment: IAppointment) {

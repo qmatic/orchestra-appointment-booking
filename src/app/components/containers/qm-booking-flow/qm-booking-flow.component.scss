@@ -28,7 +28,7 @@
     // }
 
     &--time-col {
-      flex: 0 0 170px;
+      flex: 0 0 180px;
     }
   }
 
@@ -37,7 +37,7 @@
     right: 55px;
     top: 34px;
     cursor: pointer;
-}
+  }
 }
 
 @media screen and (min-width: #{map-get($grid-breakpoints, 'xl')}) {

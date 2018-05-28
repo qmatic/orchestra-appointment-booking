@@ -1,13 +1,4 @@
-<!--div id="qm-app">
-<div>{{ 'customer_served' | translate }}</div>
-<h3>Welcome - {{fullName$ | async}}</h3>
-<qm-list [header]="'Branches'">
-  <qm-list-item *ngFor="let b of (branchState | async).filteredBranchList">
-  {{b.name}}
-  </qm-list-item>
 
-</qm-list>
-</div-->
 <div class="qm-app" dir="{{ userDirection$ | async }}">
   <qm-page-header></qm-page-header>
   <qm-main>
@@ -17,11 +8,3 @@
 </div>
 
 <div class="qm-messages" toastContainer dir="{{ userDirection$ | async }}"></div>
-<!-- json2.js include for IE7 which does not have native JSON support, see http://www.json.org/js.html for source code and further info -->
-<!--[if lt IE 8]>
-<script type="text/javascript" src="scripts/core/json2.js"></script>
-<![endif]-->
-
-<!--[if lt IE 10]>
-<script type="text/javascript" src="scripts/core/rest-ie.js"></script>
-<![endif]-->
