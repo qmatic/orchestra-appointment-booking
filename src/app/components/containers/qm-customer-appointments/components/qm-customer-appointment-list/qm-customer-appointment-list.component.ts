@@ -159,7 +159,7 @@ export class QmCustomerAppointmentListComponent
     this.modalService.openForTransKeys(
       'modal.cancel.booking.message',
       '',
-      'modal.cancel.booking.cancel',
+      'modal.cancel.booking.no',
       'modal.cancel.booking.ok',
       (isCancelled: boolean) => {
         if (!isCancelled) {
