@@ -64,13 +64,16 @@ export class AppointmentEffects {
     .ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS)
     .pipe(
     tap((action: AppointmentActions.DeleteAppointment) => {
-      this.translateService.get('toast.cancel.booking.success', {date : moment(action.payload.start).format('DD MMM YYYY') }).subscribe(
-        (label: string) => this.toastService.successToast(label)
+      this.translateService.get('toast.cancel.booking.success',
+        {
+          name: action.payload.customers[0].name,
+          date: moment(action.payload.start).format('DD MMM YYYY')
+        }).subscribe(
+          (label: string) => this.toastService.successToast(label)
       ).unsubscribe();
-
     }
     )).pipe(switchMap((action: AppointmentActions.DeleteAppointment) => {
-      return [new CustomerActions.ResetCurrentCustomer()];
+      return [new CustomerActions.ResetCurrentCustomer];
     }));
 
   @Effect({ dispatch: false })

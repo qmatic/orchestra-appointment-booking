@@ -88,7 +88,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   resetCurrentCustomer () {
     this.toastService.successToast(this.toastMessage);
     this.customerDispatchers.resetCurrentCustomer();
-    this.appointmentDispatchers.resetAppointments();
   }
 
   updateCustomer() {

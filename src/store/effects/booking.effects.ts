@@ -114,7 +114,6 @@ export class BookingEffects {
         return [
           ...appointmentActions,
           new BookingActions.ResetCurrentCustomer,
-          new BookingActions.ResetAppointments,
           new BookingActions.ResetReservedAppointment,
           new BookingActions.DeselectServices,
           new BookingActions.ResetAppointmentNotificationType,

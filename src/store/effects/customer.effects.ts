@@ -117,4 +117,13 @@ export class CustomerEffects {
         )
       );
 
+    @Effect()
+    resetCurrentCustomer$: Observable<Action> = this.actions$
+      .ofType(CustomerActions.RESET_CURRENT_CUSTOMER)
+      .pipe(
+        switchMap((action: CustomerActions.ResetCurrentCustomer) =>
+            [new CustomerActions.ResetAppointments]
+        )
+      );
+
 }
