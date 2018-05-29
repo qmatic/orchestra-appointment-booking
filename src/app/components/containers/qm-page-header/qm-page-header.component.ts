@@ -21,10 +21,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   LOGOUT,
-  HELP,
   HOME,
   LOGOUT_URL,
-  HELP_URL,
   APP_URL,
   SETTINGS_URL
 } from './header-navigation';
@@ -118,17 +116,6 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     this.promptUserIfOngoingBooking(() => {
       this.router.navigateByUrl(SETTINGS_URL);
     });
-  }
-
-  helpClick($event) {
-    $event.preventDefault();
-    if (!this.isPreventHeaderNavigations) {
-      this.promptUserIfOngoingBooking(() => {
-        Object.assign(document.createElement('a'), { target: '_blank', href: HELP_URL}).click();
-      });
-    } else {
-      this.handleHeaderNavigations.emit(HELP);
-    }
   }
 
   homeClick($event) {

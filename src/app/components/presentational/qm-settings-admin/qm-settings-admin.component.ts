@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Subject } from 'rxjs/Subject';
 import { RouterEvent } from '@angular/router/src/events';
-import { LOGOUT, HOME, HELP } from '../../containers/qm-page-header/header-navigation';
+import { LOGOUT, HOME } from '../../containers/qm-page-header/header-navigation';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -219,8 +219,6 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       this.spService.logout().subscribe(() => {
         window.location.href = '/logout.jsp';
       });
-    } else if (navigationType === HELP) {
-      window.location.href = '/help';
     } else if (navigationType === HOME) {
       window.location.href = '/';
     }
