@@ -11,7 +11,8 @@ import {
   AfterViewInit,
   ViewChildren,
   QueryList,
-  ElementRef
+  ElementRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -33,7 +34,8 @@ interface IAppointmentScroll extends IAppointment {
 @Component({
   selector: 'qm-customer-appointment-list',
   templateUrl: './qm-customer-appointment-list.component.html',
-  styleUrls: ['./qm-customer-appointment-list.component.scss']
+  styleUrls: ['./qm-customer-appointment-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QmCustomerAppointmentListComponent
   implements OnInit, OnDestroy, AfterViewInit {
@@ -134,7 +136,6 @@ export class QmCustomerAppointmentListComponent
     const now = Math.round(new Date().getTime() / 1000);
     let proximity = Number.MAX_SAFE_INTEGER;
     let closestAppointment: IAppointment = null;
-
     if (this.appointments) {
       this.appointments.forEach(appointment => {
         const appointmentStart = Math.round(
@@ -179,8 +180,8 @@ export class QmCustomerAppointmentListComponent
       case 21: {
         // Rescheduled
         // if appointment start date in the past display Done status
-        const now = new Date();
-        const appointmentStart = new Date(appointment.start);
+        const now = moment();
+        const appointmentStart = moment(appointment.start);
         return appointmentStart < now
           ? {
               showStatus: true,

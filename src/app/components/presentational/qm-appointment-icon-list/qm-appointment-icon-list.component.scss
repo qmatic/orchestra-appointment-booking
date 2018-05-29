@@ -1,4 +1,8 @@
 @import '../../../../styles/base/_component-manifest.scss';
+:host {
+  display: block;
+}
+
 .qm-icon-list {
   padding: 0;
   margin: 0;
