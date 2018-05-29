@@ -19,7 +19,8 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
   public branches$: Observable<IBranch[]>;
   private selectedBranches$: Observable<IBranch[]>;
   public selectedBranches: IBranch[];
-  public branchesSearchText$: Observable<string>;
+  private branchesSearchText$: Observable<string>;
+  public branchesSearchText: string;
 
 
   constructor(
@@ -34,15 +35,24 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    const searchTextSubscription = this.branchesSearchText$.subscribe(
+      (searchText: string) => {
+        this.branchesSearchText = searchText;
+      }
+    );
+
     const selectedBranchSubscription = this.selectedBranches$.subscribe(
       (selectedBranches: IBranch[]) => {
         this.selectedBranches = selectedBranches;
         if (selectedBranches.length !== 0) {
           this.getDates();
         }
+        this.resetSearchText();
       }
     );
 
+    this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedBranchSubscription);
   }
 
@@ -102,7 +112,14 @@ export class QmBranchBookerComponent implements OnInit, OnDestroy {
       this.branchDispatchers.deselectBranch();
     } else {
       this.branchDispatchers.selectBranch(branch);
-      // this.getDates();
+    }
+  }
+
+  resetSearchText() {
+    const hasText = this.branchesSearchText.length > 0;
+
+    if (hasText === true) {
+      this.branchDispatchers.resetFilterBranches();
     }
   }
 

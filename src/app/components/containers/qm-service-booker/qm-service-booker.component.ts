@@ -21,9 +21,11 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
   settingsMap: { [name: string]: Setting };
 
   public services$: Observable<IService[]>;
-  public servicesSearchText$: Observable<string>;
+  public servicesSearchText: string;
+  private servicesSearchText$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
   private selectedServices: IService[];
+
 
   constructor(
     private serviceSelectors: ServiceSelectors,
@@ -36,13 +38,22 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    const searchTextSubscription = this.servicesSearchText$.subscribe(
+      (searchText: string) => {
+        this.servicesSearchText = searchText;
+      }
+    );
+
     const selectedServicesSubscription = this.selectedServices$.subscribe(
       (selectedServices: IService[]) => {
           this.selectedServices = selectedServices;
           this.updateServiceGroups();
+          this.resetSearchText();
         }
     );
 
+    this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedServicesSubscription);
   }
 
@@ -90,8 +101,13 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
         ? this.serviceDispatchers.selectMultiService(service)
         : this.serviceDispatchers.selectService(service);
     }
+  }
 
-    // this.updateServiceGroups();
+  resetSearchText() {
+    const hasText = this.servicesSearchText.length > 0;
+    if (hasText === true) {
+      this.serviceDispatchers.resetFilterServices();
+    }
   }
 
   /**

@@ -36,4 +36,8 @@ export class ServiceDispatchers {
   deselectServices() {
     this.store.dispatch(new ServiceActions.DeselectServices);
   }
+
+  resetFilterServices() {
+    this.store.dispatch(new ServiceActions.ResetFilterServices);
+  }
 }

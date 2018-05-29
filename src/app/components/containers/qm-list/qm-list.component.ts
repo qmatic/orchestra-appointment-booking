@@ -45,12 +45,15 @@ export class QmListComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription = new Subscription();
   private searchInput$: Subject<string> = new Subject<string>();
+  public uniqueId: string;
+
   constructor(private elRef: ElementRef, private autoCloseService: AutoClose) {}
 
   ngOnInit() {
+    this.setUniqueId();
+
     if (this.searchable === true) {
       const searchInputSubscription = this.searchInput$
-        .pipe(distinctUntilChanged())
         .subscribe((text: string) => {
           this.search.emit(text);
         });
@@ -79,6 +82,14 @@ export class QmListComponent implements OnInit, OnDestroy {
         this.subscriptions.add(scrollTimeSubscription);
       }
     }
+  }
+
+  setUniqueId() {
+    this.uniqueId = this.generateId();
+  }
+
+  generateId(): string {
+    return '_' + Math.random().toString(36).substr(2, 9);
   }
 
   handleSidebarClick(timeToScrollTo: string) {

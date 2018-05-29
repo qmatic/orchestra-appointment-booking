@@ -5,9 +5,17 @@
   <div class="qm-booking__body">
     <div *ngIf="searchable === true" class="qm-booking__search">
       <div class="qm-search">
-        <label for="" class="sr-only">{{ header }}</label>
-        <input qmClearInput isSearchInput="true" type="text" class="qm-search__input" (input)="filter(bookingFilter.value); autoCloseService.refreshAutoClose()"
+        <label for="{{ uniqueId }}" class="sr-only">{{ header }}</label>
+        <input id="{{ uniqueId }}" type="text" class="qm-search__input" (input)="filter(bookingFilter.value); autoCloseService.refreshAutoClose()"
                placeholder="{{ placeholder }}" [ngModel]="searchText" #bookingFilter/>
+        <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn" *ngIf="searchText.length === 0">
+          <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
+          <span class="sr-only">{{ placeholder }}</span>
+        </button>
+        <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear" *ngIf="searchText.length > 0" (click)="filter(''); autoCloseService.refreshAutoClose()">
+          <i class="qm-action-btn__icon icon-close qm-search__icon" aria-hidden="true"></i>
+          <span class="sr-only">{{ 'button.clear.search' | translate }}</span>
+        </button>
       </div>
     </div>
     <div class="qm-booking__list-container">

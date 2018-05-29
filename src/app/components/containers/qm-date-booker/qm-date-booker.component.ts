@@ -17,7 +17,8 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   @Input()
   userDirection: string;
 
-  public datesSearchText$: Observable<string>;
+  private datesSearchText$: Observable<string>;
+  public datesSearchText: string;
   public resourceName = '';
 
   public dates$: Observable<string[]>;
@@ -41,9 +42,16 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const searchTextSubscription = this.datesSearchText$.subscribe(
+      (searchText: string) => {
+        this.datesSearchText = searchText;
+      }
+    );
+
     const selectedDateSubscription = this.selectedDate$.subscribe(
       (selectedDate: string) => {
         this.selectedDate = selectedDate;
+        this.resetSearchText();
       }
     );
 
@@ -54,6 +62,7 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedDateSubscription);
     this.subscriptions.add(reservedAppointmentSubscription);
   }
@@ -93,20 +102,16 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
    * Populate timeslots when date is selected
    */
   getTimeslots() {
-    // const serviceQuery = this.bookingHelperService.getServicesQueryString();
-    // const branchPublicId = this.bookingHelperService.getSelectedBranches()[0].publicId;
-    // const numberOfCustomers = this.bookingHelperService.getSelectedNumberOfCustomers();
-    // const date = this.selectedDate.slice(0, 10);
-
-    // const bookingInformation: IBookingInformation = {
-    //   serviceQuery,
-    //   branchPublicId,
-    //   numberOfCustomers,
-    //   date
-    // };
-
     const bookingInformation: IBookingInformation = this.bookingHelperService.getBookingInformation();
     this.timeslotDispatchers.getTimeslots(bookingInformation);
+  }
+
+  resetSearchText() {
+    const hasText = this.datesSearchText.length > 0;
+
+    if (hasText === true) {
+      this.dateDispatchers.resetDatesFilter();
+    }
   }
 
   /**

@@ -162,5 +162,12 @@
       right: auto;
       left: rem($base-unit / 2);
     }
+
+    &--clear {
+      z-index: 3;
+      .qm-action-btn__icon {
+        font-size: rem(18px);
+      }
+    }
   }
 }
