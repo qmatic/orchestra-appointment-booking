@@ -134,10 +134,10 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
       this.qmModalService.openForTransKeys(
         'modal.navigate.booking.page.title',
         'modal.navigate.booking.page.message',
-        'modal.navigate.booking.button.ok',
         'modal.navigate.booking.button.cancel',
+        'modal.navigate.booking.button.ok',
         (okClicked: Boolean) => {
-          if (okClicked) {
+          if (!okClicked) {
             successAction();
             if (this.isTimeSlotSelected) {
               this.timeslotDispatchers.deselectTimeslot();
