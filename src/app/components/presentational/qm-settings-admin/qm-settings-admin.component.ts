@@ -19,6 +19,7 @@ import { ModalService } from '../../../../services/util/modal.service';
 import { Subject } from 'rxjs/Subject';
 import { RouterEvent } from '@angular/router/src/events';
 import { LOGOUT, HOME } from '../../containers/qm-page-header/header-navigation';
+import { Logout } from '../../../../services/util/logout.service';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -43,7 +44,9 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
     private translateService: TranslateService, private modalService: ModalService,
     private spService: SPService,
-    private router: Router) {
+    private router: Router,
+    private logoutService: Logout
+  ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
@@ -216,9 +219,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   navigateToLink(navigationType) {
     if (navigationType === LOGOUT) {
-      this.spService.logout().subscribe(() => {
-        window.location.href = '/logout.jsp';
-      });
+      this.logoutService.logout();
     } else if (navigationType === HOME) {
       window.location.href = '/';
     }
