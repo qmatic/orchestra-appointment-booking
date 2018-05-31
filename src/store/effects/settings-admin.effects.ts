@@ -1,13 +1,14 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Effect, Actions } from '@ngrx/effects';
+import { Action } from '@ngrx/store/src/models';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import { switchMap, tap } from 'rxjs/operators';
 import { SettingsAdminDispatchers } from './../services/settings-admin/settings-admin.dispatchers';
 import { SaveSettings } from './../actions/settings-admin.actions';
 import { SettingsAdminDataService } from './../services/settings-admin/settings-admin-data.service';
-import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { switchMap, tap } from 'rxjs/operators';
 import * as SettingsAdminActions from './../actions';
-import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../services/util/toast.service';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 
@@ -22,7 +23,8 @@ export class SettingsAdminEffects {
       private translateService: TranslateService,
       private toastService: ToastService,
       private settingsDispatchers: SettingsAdminDispatchers,
-      private errorHandler: GlobalErrorHandler
+      private errorHandler: GlobalErrorHandler,
+      private router: Router,
     ) {}
 
     @Effect()
@@ -56,14 +58,18 @@ export class SettingsAdminEffects {
         .ofType(SettingsAdminActions.SAVE_SETTINGS_SUCCESS)
         .pipe(
           tap((action: SettingsAdminActions.SaveSettingsSuccess) => {
-              this.translateService.get('message.settings.save.success').subscribe(
-              (label: string) =>  {
-                this.toastService.successToast(label);
-              }
-
-            ).unsubscribe();
 
             this.settingsDispatchers.updateSettingsStore(action.payload);
+
+            this.router.navigate(['/app']).then(() => {
+              setTimeout(() => {
+                this.translateService.get('message.settings.save.success').subscribe(
+                  (label: string) =>  {
+                    this.toastService.successToast(label);
+                  }
+                ).unsubscribe();
+              }, 200);
+            });
           }
           ),
 
