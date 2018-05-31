@@ -11,17 +11,21 @@
         <th>
           {{ 'label.customerSearch.results.phone' | translate }}
         </th>
+        <th>
+          {{ 'label.customerSearch.results.dob' | translate }}
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let customer of customers" tabindex="0" (keyup.enter)="selectCustomer(customer)" (click)="selectCustomer(customer)">
         <td [innerHTML]="customer.name | qmHighlight: searchText"></td>
-        <td [innerHTML]="customer.email | qmHighlight: searchText"></td>
-        <td [innerHTML]="customer.phone | qmHighlight: searchText"></td>
+        <td [innerHTML]="emailEnabled ? (customer.email | qmHighlight: searchText) : ''"></td>
+        <td [innerHTML]="phoneEnabled ? (customer.phone | qmHighlight: searchText) : ''"></td>
+        <td [innerHTML]="dobEnabled ? customer.dateOfBirthWithoutTime : ''"></td>
       </tr>
     </tbody>
   </table>
-  <p class="qm-customer-search-results__no-hits" *ngIf="showNoResults()">No results</p>
+  <p class="qm-customer-search-results__no-hits" *ngIf="showNoResults()">{{ 'label.customerSearch.no.results' | translate }}</p>
   <div class="qm-loader-container" *ngIf="showLoading()">
     <qm-loader></qm-loader>
   </div>

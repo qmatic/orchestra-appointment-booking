@@ -1,7 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { ICustomer } from '../../../../../../models/ICustomer';
-import { CustomerDispatchers, UserSelectors } from '../../../../../../store';
+import {
+  CustomerDispatchers,
+  UserSelectors,
+  SettingsAdminSelectors
+} from '../../../../../../store';
+import { Setting } from '../../../../../../models/Setting';
 
 @Component({
   selector: 'qm-customer-search-results',
@@ -9,21 +15,41 @@ import { CustomerDispatchers, UserSelectors } from '../../../../../../store';
   styleUrls: ['./qm-customer-search-results.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QmCustomerSearchResultsComponent implements OnInit {
+export class QmCustomerSearchResultsComponent implements OnInit, OnDestroy {
   @Input() customers: ICustomer[];
   @Input() customersLoading: boolean;
   @Input() customersLoaded: boolean;
   @Input() searchText: string;
+  private subscriptions: Subscription = new Subscription();
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
   userDirection$: Observable<string>;
+  public emailEnabled: boolean;
+  public phoneEnabled: boolean;
+  public dobEnabled: boolean;
 
   constructor(
     private userSelectors: UserSelectors,
-    private customerDispatchers: CustomerDispatchers
+    private customerDispatchers: CustomerDispatchers,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settings: {[name: string]: Setting}) => {
+        this.phoneEnabled = settings.CustomerIncludePhone.value;
+        this.emailEnabled = settings.CustomerIncludeEmail.value;
+        this.dobEnabled = settings.CustomerIncludeDateofBirth.value;
+      }
+    );
+
+    this.subscriptions.add(settingsMapSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   showResults() {
