@@ -1,15 +1,16 @@
-      <qm-list [userDirection]="userDirection" [searchText]="branchesSearchText" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
-        <qm-list-item
-          [text]="branch.name"
-          [userDirection]="userDirection"
-          [title]="getBranchAddressText(branch)"
-          [name]="'branch'"
-          [isSelected]="isBranchSelected(branch)"
-          [inputType]="'radio'"
-          *ngFor="let branch of branches$ | async"
-          (optionClicked)="handleBranchSelection(branch)">
-        </qm-list-item>
-      </qm-list>
-      <qm-icon-item icon="'icon-home'"
-        [text]="getBranchAddressText(selectedBranches[0])">
-      </qm-icon-item>
+<qm-list [userDirection]="userDirection" [searchText]="branchesSearchText" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
+  <li *ngFor="let branch of branches$ | async">
+    <qm-list-item
+      [text]="branch.name"
+      [userDirection]="userDirection"
+      [title]="getBranchAddressText(branch)"
+      [name]="'branch'"
+      [isSelected]="isBranchSelected(branch)"
+      [inputType]="'radio'"
+      (optionClicked)="handleBranchSelection(branch)">
+    </qm-list-item>
+  </li>
+</qm-list>
+<qm-icon-item icon="'icon-home'"
+  [text]="getBranchAddressText(selectedBranches[0])">
+</qm-icon-item>

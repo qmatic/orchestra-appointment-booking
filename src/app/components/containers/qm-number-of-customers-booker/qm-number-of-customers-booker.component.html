@@ -2,14 +2,15 @@
   [userDirection]="userDirection"
   [searchable]="false"
   [header]="'label.bookingFlow.customers.header' | translate">
-  <qm-list-item
-    [text]="number"
-    [userDirection]="userDirection"
-    [name]="'customer'"
-    [isSelected]="isNumberOfCustomerSelected(number)"
-    [inputType]="'radio'"
-    [centerText]="true"
-    *ngFor="let number of numberOfCustomersArray$ | async"
-    (optionClicked)="handleNumberOfCustomersSelection(number)">
-    </qm-list-item>
+  <li *ngFor="let number of numberOfCustomersArray$ | async">
+    <qm-list-item
+      [text]="number"
+      [userDirection]="userDirection"
+      [name]="'customer'"
+      [isSelected]="isNumberOfCustomerSelected(number)"
+      [inputType]="'radio'"
+      [centerText]="true"
+      (optionClicked)="handleNumberOfCustomersSelection(number)">
+      </qm-list-item>
+  </li>
 </qm-list>

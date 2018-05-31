@@ -5,15 +5,16 @@
   [searchable]="false"
   [sidebarEnabled]="true"
   [header]="'label.bookingFlow.time.header' | translate">
-  <qm-list-item
-    [text]="getTimeAsDate(timeslot) | date:getTimeFormat()"
-    [userDirection]="userDirection"
-    [name]="'time'"
-    [time]="timeslot"
-    [isSelected]="isTimeslotSelected(timeslot)"
-    [inputType]="'radio'"
-    [centerText]="true"
-    *ngFor="let timeslot of times$ | async"
-    (optionClicked)="handleTimeslotSelection(timeslot)">
-  </qm-list-item>
+  <li *ngFor="let timeslot of times$ | async">
+    <qm-list-item
+      [text]="getTimeAsDate(timeslot) | date:getTimeFormat()"
+      [userDirection]="userDirection"
+      [name]="'time'"
+      [time]="timeslot"
+      [isSelected]="isTimeslotSelected(timeslot)"
+      [inputType]="'radio'"
+      [centerText]="true"
+      (optionClicked)="handleTimeslotSelection(timeslot)">
+    </qm-list-item>
+  </li>
 </qm-list>

@@ -1,5 +1,6 @@
 <qm-list [userDirection]="userDirection" [searchText]="servicesSearchText" [placeholder]="'label.bookingFlow.services.search.placeholder' | translate" [header]="'label.bookingFlow.services.header' | translate" (search)="filterServices($event)">
-  <qm-list-item [text]="service.name" [userDirection]="userDirection" [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" *ngFor="let service of services$ | async" (optionClicked)="handleServiceSelection(service)">
-
-  </qm-list-item>
+  <li *ngFor="let service of services$ | async">
+    <qm-list-item [text]="service.name" [userDirection]="userDirection" [name]="'service'" [isSelected]="isServiceSelected(service)" [inputType]="getInputTypeForServices()" (optionClicked)="handleServiceSelection(service)">
+    </qm-list-item>
+  </li>
 </qm-list>
