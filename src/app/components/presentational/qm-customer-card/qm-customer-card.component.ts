@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,7 +10,6 @@ import {
   UserSelectors,
   AppointmentSelectors
 } from '../../../../store';
-import { ToastService } from '../../../../services/util/toast.service';
 import { ICustomer } from '../../../../models/ICustomer';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Setting } from '../../../../models/Setting';
@@ -26,8 +24,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   @Input() customer: ICustomer;
   subscriptions: Subscription = new Subscription();
   userDirection$: Observable<string>;
-  toastMessage$: Observable<string>;
-  toastMessage: string;
   settingsMap$: Observable<{ [name: string]: Setting }>;
   phoneEnabled: boolean;
   emailEnabled: boolean;
@@ -39,8 +35,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
     private customerDispatchers: CustomerDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
     private appointmentSelectors: AppointmentSelectors,
-    private toastService: ToastService,
-    private translateService: TranslateService,
     private modalService: ModalService,
     private settingsAdminSelectors: SettingsAdminSelectors,
     private userSelectors: UserSelectors
@@ -51,13 +45,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.toastMessage$
-      = this.translateService
-          .get('label.clear.customer.success', {0: this.customer.name});
-
-          const toastMessageSubscription = this.toastMessage$.subscribe(
-        (msg) => this.toastMessage = msg
-    );
 
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
@@ -76,7 +63,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.subscriptions.add(toastMessageSubscription);
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
   }
@@ -86,7 +72,6 @@ export class QmCustomerCardComponent implements OnInit, OnDestroy {
   }
 
   resetCurrentCustomer () {
-    this.toastService.successToast(this.toastMessage);
     this.customerDispatchers.resetCurrentCustomer();
   }
 
