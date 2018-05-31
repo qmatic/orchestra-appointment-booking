@@ -18,25 +18,25 @@
             <ul class="qm-settings-admin__option-list">
               <li class="qm-settings-admin__option-list-item" *ngFor="let s of toArray(sc.settings)" [ngSwitch]="s.outputType">
                 <ng-container  *ngSwitchCase="'Text'">
-                  <qm-settings-textbox 
+                  <qm-settings-textbox
                   [setting] = "s"
                     [settingControl]="settingsEditForm.controls[s.name]">
                   </qm-settings-textbox>
                 </ng-container>
                 <ng-container *ngSwitchCase="'Time'">
                   <qm-settings-timeformat settingLabel="{{s.name}}"
-                  [setting] = "s" 
+                  [setting] = "s"
                   [settingControl]="settingsEditForm.controls[s.name]"></qm-settings-timeformat>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'Select'">
-                    <qm-settings-listbox [settingName]="s.name" 
+                    <qm-settings-listbox [settingName]="s.name"
                     [setting] = "s"
                     [listCollection] = "['PreSelectNoOption', 'sms', 'email', 'both', 'none']"
                     [settingControl]="settingsEditForm.controls[s.name]"></qm-settings-listbox>
                 </ng-container>
                  <ng-container *ngSwitchCase="'Boolean'">
-                     <div  class="qm-option qm-option--checkbox" 
+                     <div  class="qm-option qm-option--checkbox"
                      qm-settings-checkbox (settingSelect)="handleSettingSelect($event)"
                         [setting] = "s"
                         [settingControl]="settingsEditForm.controls[s.name]">
@@ -47,7 +47,7 @@
                 <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child">
                   <li class="qm-settings-admin__option-list-item" *ngFor="let c of toArray(s.children)" [ngSwitch]="c.outputType">
                     <ng-container  *ngSwitchCase="'Text'">
-                      <qm-settings-textbox 
+                      <qm-settings-textbox
                         [setting] = "c"
                         [settingControl]="settingsEditForm.controls[c.name]">
                       </qm-settings-textbox>
@@ -76,8 +76,8 @@
         </div>
       </div>
       <div class="qm-settings-admin__action-container">
-        <button type="button" class="qm-btn qm-btn--secondary">
-          <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.settings.cancel' | translate }}">{{ 'button.settings.cancel' | translate }}</span>
+        <button type="button" class="qm-btn qm-btn--secondary" (click)="cancelEdit()">
+          <span class="qm-btn__text" title="{{ 'button.settings.cancel' | translate }}">{{ 'button.settings.cancel' | translate }}</span>
         </button>
         <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid">
           <span class="qm-btn__text" title="{{ 'button.settings.confirm' | translate }}">{{ 'button.settings.confirm' | translate }}</span>

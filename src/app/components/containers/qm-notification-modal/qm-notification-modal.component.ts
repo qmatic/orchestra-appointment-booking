@@ -118,7 +118,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
 
   buildCustomerForm() {
     const phoneValidators = [
-      Validators.pattern(/[0-9\-\+\s\(\)\.]/),
+      Validators.pattern(/^[0-9\-\+\s\(\)\.]+$/),
       Validators.required
     ];
     const emailValidators = [

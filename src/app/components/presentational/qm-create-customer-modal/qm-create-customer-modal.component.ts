@@ -152,7 +152,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
-      const phoneValidators = [Validators.pattern(/[0-9\-\+\s\(\)\.]/)];
+      const phoneValidators = [Validators.pattern(/^[0-9\-\+\s\(\)\.]+$/)];
       const phoneAsyncValidators = [];
       if (settings.CustomerPhoneRequired.value === true) {
         phoneValidators.push(Validators.required);

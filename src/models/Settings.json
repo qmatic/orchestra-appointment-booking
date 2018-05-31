@@ -56,34 +56,34 @@
                 "name": "IncludeSms",
                 "defaultValue": true,
                 "value": true,
-                
-                "outputType": "Boolean"                
+
+                "outputType": "Boolean"
             },
             {
                 "name": "IncludeEmail",
                 "defaultValue": true,
                 "value": true,
-                
-                "outputType": "Boolean"   
+
+                "outputType": "Boolean"
             },
             {
                 "name": "IncludeEmailAndSms",
                 "defaultValue": true,
                 "value": true,
-                
+
                 "outputType": "Boolean"
             },
             {
                 "name": "NoNotification",
                 "defaultValue": true,
                 "value": true,
-                
+
                 "outputType": "Boolean"
             },
             {
                 "name": "OptionPreselect",
                 "defaultValue": "PreSelectNoOption",
-                "value": "PreSelectNOption",                
+                "value": "PreSelectNOption",
                 "outputType": "Select"
             }
         ]
@@ -96,15 +96,15 @@
                 "name": "Title",
                 "defaultValue": false,
                 "value": false,
-                
-                "outputType": "Boolean"                
+
+                "outputType": "Boolean"
             },
             {
                 "name": "Notes",
                 "defaultValue": true,
                 "value": true,
-                
-                "outputType": "Boolean"   
+
+                "outputType": "Boolean"
             }
         ]
     },
@@ -114,53 +114,53 @@
         "settings": [
             {
                 "name": "CustomerIncludePhone",
-                "value": true,                
-                "outputType": "Boolean",                
+                "value": true,
+                "outputType": "Boolean",
                 "children" : [
                      {
                         "name": "CustomerPhoneRequired",
-                        "value": "",                
-                        "outputType": "Boolean"   
+                        "value": false,
+                        "outputType": "Boolean"
                     },
                     {
                         "name": "CustomerPhoneDefaultCountry",
-                        "value": "",                
+                        "value": "",
                         "outputType": "Text"  ,
                         "validators": {
                             "pattern": "^[0-9\\+]+$"
-                        }  
+                        }
                     }
                 ]
             },
 
             {
                 "name": "CustomerIncludeEmail",
-                "value": true,                
-                "outputType": "Boolean",                
+                "value": true,
+                "outputType": "Boolean",
                 "children" : [
                      {
                         "name": "CustomerIncludeEmailRequired",
-                        "value": false,                
-                        "outputType": "Boolean"   
+                        "value": false,
+                        "outputType": "Boolean"
                     }
                 ]
             },
 
-            
+
             {
                 "name": "CustomerIncludeDateofBirth",
-                "value": true,                
-                "outputType": "Boolean",                
+                "value": true,
+                "outputType": "Boolean",
                 "children" : [
                      {
                         "name": "CustomerIncludeDateofBirthRequired",
-                        "value": false,                
-                        "outputType": "Boolean"   
+                        "value": false,
+                        "outputType": "Boolean"
                     }
                 ]
             }
         ]
     }
 
-    
+
 ]
