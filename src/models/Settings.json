@@ -83,7 +83,7 @@
             {
                 "name": "OptionPreselect",
                 "defaultValue": "PreSelectNoOption",
-                "value": "PreSelectNOption",
+                "value": "PreSelectNoOption",
                 "outputType": "Select"
             }
         ]
