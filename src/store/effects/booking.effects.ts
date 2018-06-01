@@ -16,7 +16,7 @@ import { IAppointment } from '../../models/IAppointment';
 import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
-
+import { ERROR_CODE_TIMESLOT_TAKEN } from '../../app/shared/error-codes';
 const toAction = BookingActions.toAction();
 
 @Injectable()
@@ -75,9 +75,16 @@ export class BookingEffects {
     .ofType(BookingActions.BOOK_APPOINTMENT_FAIL)
     .pipe(
       tap((action: BookingActions.BookAppointmentFail) => {
+        if (action.payload.errorCode === ERROR_CODE_TIMESLOT_TAKEN) {
+          this.translateService.get('error.timeslot.taken').subscribe(
+            (label: string) => {
+              this.toastService.errorToast(label);
+            }
+          ).unsubscribe();
+        } else {
           this.errorHandler.showError('label.create.appointment.fail', action.payload);
         }
-      ),
+      }),
       switchMap((action: BookingActions.BookAppointmentFail) => {
         const serviceQuery = action.payload.appointment.services.reduce((queryString, service: IService) => {
           return queryString + `;servicePublicId=${service.publicId}`;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
+import { TranslateService } from '@ngx-translate/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { switchMap, tap, map, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
@@ -16,6 +17,7 @@ import { IAppointment } from '../../models/IAppointment';
 import { IService } from '../../models/IService';
 import { IBookingInformation } from '../../models/IBookingInformation';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
+import { ERROR_CODE_TIMESLOT_TAKEN } from '../../app/shared/error-codes';
 
 const toAction = ReserveActions.toAction();
 
@@ -26,7 +28,8 @@ export class ReserveEffects {
     private actions$: Actions,
     private reserveDataService: ReserveDataService,
     private toastService: ToastService,
-    private errorHandler: GlobalErrorHandler
+    private errorHandler: GlobalErrorHandler,
+    private translateService: TranslateService
   ) {}
 
   @Effect()
@@ -120,13 +123,21 @@ export class ReserveEffects {
         })
       );
 
-    @Effect(/* { dispatch: false } */)
+    @Effect()
     reserveAppointmentFailed$: Observable<Action> = this.actions$
       .ofType(ReserveActions.RESERVE_APPOINTMENT_FAIL)
       .pipe(
         tap(
           (action: ReserveActions.ReserveAppointmentFail) => {
-            this.errorHandler.showError('error.reserve.appointment.failed', action.payload);
+            if (action.payload.errorCode === ERROR_CODE_TIMESLOT_TAKEN) {
+              this.translateService.get('error.timeslot.taken').subscribe(
+                (label: string) => {
+                  this.toastService.errorToast(label);
+                }
+              ).unsubscribe();
+            } else {
+              this.errorHandler.showError('error.reserve.appointment.failed', action.payload);
+            }
           }
         ),
         switchMap((action: ReserveActions.ReserveAppointmentFail) => {

@@ -1,0 +1,1 @@
+export const ERROR_CODE_TIMESLOT_TAKEN = 'E440';
