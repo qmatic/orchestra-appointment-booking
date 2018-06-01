@@ -1,6 +1,13 @@
 @import '../../../../styles/base/_component-manifest.scss';
 
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
 .qm-appointment-card {
+  width: 100%;
   border-radius: $standard-border-radius;
   background: $white;
   color: $dark-transparent82;

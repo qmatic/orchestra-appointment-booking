@@ -1,7 +1,7 @@
 <section class="qm-customer-card" [dir]="userDirection$ | async">
   <div class="qm-customer-card__content-container" tabindex="0" (click)="updateCustomer()">
     <h1 class="qm-customer-card__headline">
-        <span href="#" class="qm-customer-card__name" title="{{ customer.name }}">{{ customer.name | truncate: 60}}</span>
+        <span class="qm-customer-card__name" title="{{ customer.name }}">{{ customer.name | truncate: 60}}</span>
     </h1>
     <div class="qm-customer-card__list-container" [ngClass]="{ 'qm-customer-card__list-container--justify-end' : !phoneEnabled && !emailEnabled }">
       <ul class="qm-customer-card__list" *ngIf="phoneEnabled || emailEnabled">
