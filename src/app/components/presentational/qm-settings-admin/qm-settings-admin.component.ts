@@ -41,7 +41,9 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   subscriptions: Subscription = new Subscription();
   isHeaderNavigationClicked: Boolean = false;
   isUserOptedBrowserNavigation: Boolean = false;
-  preselectValueCollection: Array<any> = [{ key: 'PreSelectNoOption', name: 'PreSelectNoOption' },
+  readonly unavalableSettingKey = 'unavailable';
+  preselectValueCollection: Array<any> = [{ key: this.unavalableSettingKey, name: this.unavalableSettingKey, isVisible: false },
+    { key: 'PreSelectNoOption', name: 'PreSelectNoOption' },
     {key: 'sms', name: 'IncludeSms'}, {key: 'email', name: 'IncludeEmail'}, {key: 'both', name: 'IncludeEmailAndSms'},
     {key: 'none', name: 'NoNotification'}];
 
@@ -163,11 +165,12 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   handleSettingSelect(settingObj: Setting) {
     const control: AbstractControl = this.settingsEditForm.get(settingObj.name);
     if (settingObj.category.name === 'Notification') {
+      const preselectControl: AbstractControl = this.settingsEditForm.get('OptionPreselect');
       if (control.value === false) {
-        const preselectControl: AbstractControl = this.settingsEditForm.get('OptionPreselect');
+
         const foundPreselectObj = this.preselectValueCollection.find(x => x.name === settingObj.name);
         if (preselectControl.value ===  foundPreselectObj.key) {
-          preselectControl.setValue(this.preselectValueCollection[0].key);
+          preselectControl.setValue(this.preselectValueCollection[1].key);
         }
       }
       const foundOption = this.preselectValueCollection[this.preselectValueCollection.findIndex((s => s.name === settingObj.name))];
@@ -175,8 +178,15 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
           foundOption.isVisible = control.value;
         }
 
-      if (this.preselectList && this.preselectList.listCollection) {
-        this.preselectList.listCollection  = this.preselectValueCollection.filter(s => s.isVisible !== false);
+      if (this.preselectValueCollection.filter(s => s.key !== 'PreSelectNoOption' && s.key !== this.unavalableSettingKey
+        && s.isVisible !== false).length < 1) {
+        this.preselectValueCollection[0].isVisible = true;
+        this.preselectValueCollection[1].isVisible = false;
+        preselectControl.setValue(this.preselectValueCollection[0].key);
+      } else if (preselectControl.value === this.unavalableSettingKey) {
+        this.preselectValueCollection[0].isVisible = false;
+        this.preselectValueCollection[1].isVisible = true;
+        preselectControl.setValue(this.preselectValueCollection[1].key);
       }
       this.preselectBoundCollection = this.preselectValueCollection.filter(s => s.isVisible !== false);
     }
