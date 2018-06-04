@@ -1,0 +1,84 @@
+<div class="qm-app qm-app--print">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="appointment-confirmation" class="qm-print">
+                    <div class="qm-print__header">
+                        <h1 class="qm-headline qm-print__headline">Appointment confirmation</h1>
+                    </div>
+                    <div class="qm-print__body">
+                        <div class="qm-print__section">
+                            <!-- {{ customerCard.render(name='Arne Elhagen', withActions=false) }} -->
+
+                            <section class="qm-customer-card {{ modifiers }}">
+                                    <h1 class="qm-customer-card__headline">
+                                        <a href="#" class="qm-customer-card__name">Arne Elhagen</a>
+                                    </h1>
+                                    <ul class="qm-customer-card__list">
+                                        <li class="qm-customer-card__list-item">
+                                            <i class="icon-phone qm-customer-card__list-item-icon" aria-hidden="true"></i>
+                                            <span class="qm-customer-card__list-item-text">073 8065521</span>
+                                        </li>
+                                        <li class="qm-customer-card__list-item">
+                                            <i class="icon-mail qm-customer-card__list-item-icon" aria-hidden="true"></i>
+                                            <span class="qm-customer-card__list-item-text">kalleolofsson@gmail.com</span>
+                                        </li>
+                                    </ul>
+                                </section>
+                        </div>
+                        <div class="qm-print__section">
+                            <h2 class="qm-headline qm-print__sub-headline">Appointment overview</h2>
+                            <table class="qm-print__table">
+                                <caption>Appointment overview:</caption>
+                                    <tr>
+                                        <th scope="row">Date</th>
+                                        <td>Wednesday 17 May 2018</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Time</th>
+                                        <td>3:00 pm - 3:30 pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Customers</th>
+                                        <td>1 customer</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Service</th>
+                                        <td>
+                                            Chromecast setup<br />
+                                            Service 2<br />
+                                            Another service
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Branch</th>
+                                        <td>Elgiganten</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Address</th>
+                                        <td>Neongatan 8, 123 45 Mölndal</td>
+                                    </tr>
+                            </table>
+                        </div>
+                        <div class="qm-print__section">
+                            <p class="qm-print__paragraph">For questions please contact our call centre under <span class="qm-emphasis">+0173 8385521</span> or send an email to <span class="qm-emphasis qm-underline">company@company.com</span></p>
+                        </div>
+                    </div>
+                    <div class="qm-print__footer">
+                        <div class="qm-generic-layout qm-generic-layout--justify-center">
+                           <!--  {{ button.render(id='closeBtn', modifiers='qm-btn--secondary qm-print__btn', text='Close') }}
+                            {{ button.render(id='printBtn', modifiers='qm-btn--primary qm-print__btn', text='Print') }} -->
+
+                            <button type="button" class="qm-btn qm-btn--secondary qm-print__btn">
+                                <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.print.cancel' | translate }}">{{ 'button.print.cancel' | translate }}</span>
+                              </button>
+                              <button class="qm-btn qm-btn--primary qm-print__btn" (click)="saveSettings()" >
+                                <span class="qm-btn__text" title="{{ 'button.print.confirm' | translate }}">{{ 'button.print.confirm' | translate }}</span>
+                              </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

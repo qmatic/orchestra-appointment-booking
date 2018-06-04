@@ -1,0 +1,11 @@
+
+  <label class="qm-option__checkbox-label">
+      <div class="qm-option__selection-container" >
+          <input  id="print-booking-checkbox" (change)="handleSelect()"  class="qm-option__checkbox" type="checkbox" name="print-booking-checkbox"
+            [checked]="printCheckBox.value" #printCheckBox />
+            <i class="qm-option__checkbox-icon" aria-hidden="true"></i>           
+        </div>
+        <span class="qm-printbox__print-text" for="print-booking-checkbox">Print customer copy</span>
+  </label>
+
+ 
