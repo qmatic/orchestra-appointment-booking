@@ -49,6 +49,8 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   preselectBoundCollection: Array<any> = [];
 
+  private readonly APP_URL: string = '/app';
+
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
     private translateService: TranslateService, private modalService: ModalService,
@@ -147,11 +149,11 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       const modal = this.modalService.openNavigateBackConfirmModal();
       modal.result.then((result) => {
         if (result === 'OK') {
-          this.router.navigateByUrl('/app');
+          this.router.navigateByUrl(this.APP_URL);
         }
       });
     }  else {
-      this.router.navigateByUrl('/app');
+      this.router.navigateByUrl(this.APP_URL);
     }
   }
 
@@ -240,6 +242,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   cancelEdit() {
     this.setEditForm();
+    this.router.navigateByUrl(this.APP_URL);
   }
 
   handleHeaderNavigations(navigationType) {
