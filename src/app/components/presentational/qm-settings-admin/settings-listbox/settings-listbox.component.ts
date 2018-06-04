@@ -29,7 +29,7 @@ export class SettingsListboxComponent implements OnInit {
   setting: Setting;
 
   @Input()
-  listCollection: string[] = [];
+  listCollection: {key: string, name: string, isVisible?: boolean }[] = [];
 
   constructor() {
   }

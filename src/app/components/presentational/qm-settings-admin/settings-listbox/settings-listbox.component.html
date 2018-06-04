@@ -4,7 +4,7 @@
   </label>
   <div class="qm-option__selection-container qm-option__selection-container--select-list">
     <ng-select  [clearable]="false" [formControl]="settingControl">
-      <ng-option *ngFor="let opt of listCollection" [value]="opt">{{'label.settings.preselect.' + opt.toLowerCase() | translate}}</ng-option>
+      <ng-option *ngFor="let opt of listCollection" [value]="opt.key">{{'label.settings.preselect.' + opt.key.toLowerCase() | translate}}</ng-option>
     </ng-select>
     <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-option__help-btn">
       <i class="qm-action-btn__icon icon-help" aria-hidden="true"></i>

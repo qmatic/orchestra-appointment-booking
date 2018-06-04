@@ -1,3 +1,4 @@
+import { SettingsListboxComponent } from './settings-listbox/settings-listbox.component';
 import { APP_URL, BOOKING_HOME_URL } from './../../containers/qm-page-header/header-navigation';
 import { SPService } from './../../../../services/rest/sp.service';
 import { CanComponentDeactivate } from './../../../../routes/can-deactivatet';
@@ -10,9 +11,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation, OnDestroy,
+  QueryList, AfterViewInit} from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { AbstractControl } from '@angular/forms/src/model';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
@@ -28,7 +29,7 @@ import { Logout } from '../../../../services/util/logout.service';
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None
 })
-export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponentDeactivate, AfterViewInit {
 
   userDirection$: Observable<string>;
   settingsByCategory$: Observable<SettingCategory[]>;
@@ -36,9 +37,15 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   settingsByCategory: SettingCategory[];
   settingsEditForm: FormGroup;
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
+  @ViewChild(SettingsListboxComponent) preselectList: SettingsListboxComponent;
   subscriptions: Subscription = new Subscription();
   isHeaderNavigationClicked: Boolean = false;
   isUserOptedBrowserNavigation: Boolean = false;
+  preselectValueCollection: Array<any> = [{ key: 'PreSelectNoOption', name: 'PreSelectNoOption' },
+    {key: 'sms', name: 'IncludeSms'}, {key: 'email', name: 'IncludeEmail'}, {key: 'both', name: 'IncludeEmailAndSms'},
+    {key: 'none', name: 'NoNotification'}];
+
+  preselectBoundCollection: Array<any> = [];
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -50,7 +57,6 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsByCategory$ = this.settingsAdminSelectors.settingsByCategory$;
     this.settings$ = this.settingsAdminSelectors.settings$;
-    this.setEditForm();
   }
 
   private preselectOptionKeys: string[] = [
@@ -70,6 +76,11 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
        this.preselectOptions = preselectOptions;
       }
     );
+    this.setEditForm();
+  }
+
+  ngAfterViewInit() {
+
   }
 
   ngOnDestroy(): void {
@@ -151,6 +162,24 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   handleSettingSelect(settingObj: Setting) {
     const control: AbstractControl = this.settingsEditForm.get(settingObj.name);
+    if (settingObj.category.name === 'Notification') {
+      if (control.value === false) {
+        const preselectControl: AbstractControl = this.settingsEditForm.get('OptionPreselect');
+        const foundPreselectObj = this.preselectValueCollection.find(x => x.name === settingObj.name);
+        if (preselectControl.value ===  foundPreselectObj.key) {
+          preselectControl.setValue(this.preselectValueCollection[0].key);
+        }
+      }
+      const foundOption = this.preselectValueCollection[this.preselectValueCollection.findIndex((s => s.name === settingObj.name))];
+        if (foundOption) {
+          foundOption.isVisible = control.value;
+        }
+
+      if (this.preselectList && this.preselectList.listCollection) {
+        this.preselectList.listCollection  = this.preselectValueCollection.filter(s => s.isVisible !== false);
+      }
+      this.preselectBoundCollection = this.preselectValueCollection.filter(s => s.isVisible !== false);
+    }
 
     this.settings$.subscribe((settings) => {
       const foundSetting = settings.find((x) => x.name === settingObj.name);
