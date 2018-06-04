@@ -21,7 +21,7 @@
         <td [innerHTML]="customer.name | qmHighlight: searchText"></td>
         <td [innerHTML]="emailEnabled ? (customer.email | qmHighlight: searchText) : ''"></td>
         <td [innerHTML]="phoneEnabled ? (customer.phone | qmHighlight: searchText) : ''"></td>
-        <td [innerHTML]="dobEnabled ? customer.dateOfBirthWithoutTime : ''"></td>
+        <td [innerHTML]="(dobEnabled && customer.dateOfBirthWithoutTime) ? customer.dateOfBirthWithoutTime : ''"></td>
       </tr>
     </tbody>
   </table>

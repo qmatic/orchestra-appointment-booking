@@ -39,6 +39,7 @@
         font-size: rem(18px);
         font-weight: $font-weight-light;
         padding: rem(12px);
+        white-space: nowrap;
 
         &:first-child {
           @at-root [dir='rtl'] {
