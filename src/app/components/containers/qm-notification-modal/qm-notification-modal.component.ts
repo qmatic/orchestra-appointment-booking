@@ -122,7 +122,7 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
       Validators.required
     ];
     const emailValidators = [
-      Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/),
+      Validators.pattern(/^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[A-Za-z]{2,4}$/),
       Validators.required
     ];
 
