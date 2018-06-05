@@ -106,6 +106,26 @@ gulp.task('create:artifactory:zip', function() {
   }
 });
 
+// Write to manifest file
+gulp.task('write:manifest', function() {
+  try {
+    var appData = JSON.parse(fs.readFileSync('./src/app.json'));
+    if (appData) {
+      var version = appData.version;
+      var fileContent = 'Build-Date: ' + new Date().toISOString().substring(0,10) + '\r\n';      
+      fileContent += 'Product-Name: Appointment Booking' + '\r\n';
+      fileContent += 'Build-Version: ' + version + '\r\n';
+      fs.writeFileSync('./src/META-INF/MANIFEST.MF', fileContent);
+      return true;
+    }
+  } catch (ex) {
+    console.log(
+      'There was an exception when trying to read the package.json! - ' + ex
+    );
+    return false;
+  }
+});
+
 // Deploy build to orchestra
 gulp.task('deploy:war', function() {
   return gulp.src('./dist/webapp/appointmentbooking-ui.war').pipe(
@@ -183,7 +203,8 @@ gulp.task(
     'create:release-notes',
     'clean:war',
     'create:artifactory:zip',
-    'clean:artifactory'
+    'clean:artifactory',
+    'write:manifest'
   ])
 );
 
