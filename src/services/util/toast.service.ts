@@ -30,6 +30,12 @@ export class ToastService {
     disableTimeOut: true
   };
 
+  private htmlSuccessOptions: Object = {
+    ...this.toastrOptions,
+    toastClass: 'toast qm-toast qm-toast--success',
+    enableHtml: true
+  };
+
   setToastContainer (toastContainer) {
     this.toastrService.overlayContainer = toastContainer;
     this.toastrService['overlay']['_paneElements'] = {};
@@ -41,6 +47,10 @@ export class ToastService {
 
   errorToast(text: string) {
     this.toastrService.error(text, '', this.errorOptions);
+  }
+
+  htmlSuccessToast(text: string) {
+    this.toastrService.success(text, '', this.htmlSuccessOptions);
   }
 
   // Create toast that does not expire

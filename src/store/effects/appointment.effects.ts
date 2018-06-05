@@ -69,7 +69,7 @@ export class AppointmentEffects {
           name: action.payload.customers[0].name,
           date: moment(action.payload.start).format('DD MMM YYYY')
         }).subscribe(
-          (label: string) => this.toastService.successToast(label)
+          (label: string) => this.toastService.htmlSuccessToast(`<span dir="auto">${label}</span>`)
       ).unsubscribe();
     }
     )).pipe(switchMap((action: AppointmentActions.DeleteAppointment) => {
