@@ -160,7 +160,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
 
       const emailValidators = [
-        Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+        Validators.email
       ];
       if (settings.CustomerIncludeEmailRequired.value === true) {
         emailValidators.push(Validators.required);

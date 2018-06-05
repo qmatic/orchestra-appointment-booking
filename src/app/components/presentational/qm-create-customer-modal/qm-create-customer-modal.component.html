@@ -190,7 +190,7 @@
                 {{ 'button.createCustomerForm.cancel' | translate }}
               </span>
             </button>
-            <button class="qm-btn qm-btn--primary" [disabled]="!createCustomerForm.valid">
+            <button class="qm-btn qm-btn--primary" [disabled]="!createCustomerForm.valid || (isOnUpdate && !createCustomerForm.dirty)">
               <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
                 {{ (isOnUpdate ? 'button.updateCustomerForm.save' : 'button.createCustomerForm.save') | translate }}
               </span>
