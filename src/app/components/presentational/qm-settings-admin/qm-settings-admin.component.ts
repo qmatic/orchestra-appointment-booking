@@ -212,7 +212,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   saveSettings() {
     const settingsUpdateRequest: ISettingsUpdateRequest = {
-      settingsList: this.settingsEditForm.value
+      settingsList: this.settingsEditForm.getRawValue()
     };
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
   }
