@@ -14,9 +14,9 @@
               <span class="qm-customer-card__list-item-text" title="{{ customer.email }}">{{ customer.email | truncate: 40 }}</span>
           </li>
       </ul>
-      <button class="qm-action-btn qm-action-btn--only-icon qm-customer-card__edit-btn">
+      <button class="qm-action-btn qm-action-btn--only-icon qm-customer-card__edit-btn" title="{{ 'button.customerCard.edit' | translate }}">
         <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
-        <span class="sr-only"></span>
+        <span class="sr-only">{{ 'button.customerCard.edit' | translate }}</span>
       </button>
     </div>
   </div>
