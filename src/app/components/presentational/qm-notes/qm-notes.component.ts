@@ -66,18 +66,30 @@ export class QmNotesComponent implements OnInit, OnDestroy {
       (notesLength: number) => (this.notesLength = notesLength)
     );
 
-    const buttonLabelSunscription = this.translateService
+    const buttonLabelSubscription = this.translateService
       .get('label.notes.presentational.placeholder')
       .subscribe(
         (buttonPlaceholderText: string) =>
           (this.buttonPlaceholderText = buttonPlaceholderText)
       );
 
+    const langChangeSubscription = this.translateService.onLangChange.subscribe(
+      () => {
+        this.translateService
+          .get('label.notes.presentational.placeholder')
+          .subscribe(
+            (buttonPlaceholderText: string) =>
+              (this.buttonPlaceholderText = buttonPlaceholderText)
+          ).unsubscribe();
+      }
+    );
+
     this.subscriptions.add(notesInputSubscription);
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(notesLengthSubscription);
     this.subscriptions.add(notesSubscription);
-    this.subscriptions.add(buttonLabelSunscription);
+    this.subscriptions.add(buttonLabelSubscription);
+    this.subscriptions.add(langChangeSubscription);
   }
 
   ngOnDestroy() {
