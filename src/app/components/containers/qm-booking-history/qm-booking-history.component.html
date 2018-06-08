@@ -11,17 +11,17 @@
       <div class="qm-booking-history-item__container justify-content-between" *ngIf="!appointment.deleted; else deletedHistoryTemplate">
         <div class="qm-booking-history-item__left">
           <span class="qm-booking-history-item__date" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | date:'EEEE MMMM d': getTimezoneOffset(appointment) }}</span>
-          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleEdit(appointment)">
+          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleEdit(appointment)" title="{{ 'button.bookingHistory.edit' | translate }}">
             <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
             <span class="sr-only">{{ 'button.bookingHistory.edit' | translate }}</span>
           </button>
         </div>
         <div class="qm-booking-history-item__right">
-          <button class="qm-action-btn qm-action-btn--only-icon">
+          <button class="qm-action-btn qm-action-btn--only-icon" title="{{ 'button.bookingHistory.print' | translate }}">
             <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
             <span class="sr-only">{{ 'button.bookingHistory.print' | translate }}</span>
           </button>
-          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleDelete(appointment)">
+          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleDelete(appointment)" title="{{ 'button.bookingHistory.delete' | translate }}">
             <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
             <span class="sr-only">{{ 'button.bookingHistory.delete' | translate }}</span>
           </button>
