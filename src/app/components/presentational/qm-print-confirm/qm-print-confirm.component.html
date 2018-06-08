@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div id="appointment-confirmation" class="qm-print">
                     <div class="qm-print__header">
-                        <h1 class="qm-headline qm-print__headline">Appointment confirmation</h1>
+                        <h1 class="qm-headline qm-print__headline">{{'label.print.appointment.confirmation' | translate}}</h1>
                     </div>
                     <div class="qm-print__body">
                         <div class="qm-print__section">
@@ -12,38 +12,38 @@
 
                             <section class="qm-customer-card {{ modifiers }}">
                                     <h1 class="qm-customer-card__headline">
-                                        <a href="#" class="qm-customer-card__name">Arne Elhagen</a>
+                                        <a href="#" class="qm-customer-card__name" [innerText]="currentCustomer?.name"></a>
                                     </h1>
                                     <ul class="qm-customer-card__list">
                                         <li class="qm-customer-card__list-item">
                                             <i class="icon-phone qm-customer-card__list-item-icon" aria-hidden="true"></i>
-                                            <span class="qm-customer-card__list-item-text">073 8065521</span>
+                                            <span class="qm-customer-card__list-item-text" [innerText]="currentCustomer?.phone"></span>
                                         </li>
                                         <li class="qm-customer-card__list-item">
                                             <i class="icon-mail qm-customer-card__list-item-icon" aria-hidden="true"></i>
-                                            <span class="qm-customer-card__list-item-text">kalleolofsson@gmail.com</span>
+                                            <span class="qm-customer-card__list-item-text" [innerText]="currentCustomer?.email"></span>
                                         </li>
                                     </ul>
                                 </section>
                         </div>
                         <div class="qm-print__section">
-                            <h2 class="qm-headline qm-print__sub-headline">Appointment overview</h2>
+                            <h2 class="qm-headline qm-print__sub-headline">{{'label.print.appointment.overview' | translate}}</h2>
                             <table class="qm-print__table">
-                                <caption>Appointment overview:</caption>
+                                <caption>{{'label.print.appointment.overview' | translate}}:</caption>
                                     <tr>
-                                        <th scope="row">Date</th>
+                                        <th scope="row">{{'label.print.appointment.date' | translate}}</th>
                                         <td>Wednesday 17 May 2018</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Time</th>
+                                        <th scope="row">{{'label.print.appointment.time' | translate}}</th>
                                         <td>3:00 pm - 3:30 pm</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Customers</th>
+                                        <th scope="row">{{'label.print.appointment.customers' | translate}}</th>
                                         <td>1 customer</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Service</th>
+                                        <th scope="row">{{'label.print.appointment.service' | translate}}</th>
                                         <td>
                                             Chromecast setup<br />
                                             Service 2<br />
