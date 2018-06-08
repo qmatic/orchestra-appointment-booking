@@ -19,4 +19,5 @@ export interface IAppointment {
   blocking?: boolean;
   end?: string;
   resource?: IResource;
+  deleted?: boolean;
 }

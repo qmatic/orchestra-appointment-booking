@@ -51,6 +51,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private numberOfCustomers$: Observable<number>;
   private selectedAppointment$: Observable<IAppointment>;
+  private appointments$: Observable<IAppointment[]>;
 
   private numberOfCustomers: number;
   private emailEnabled: boolean;
@@ -69,6 +70,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType: string;
   private title: string;
   private notes: string;
+  private appointments: IAppointment[];
   public selectedAppointment: IAppointment;
 
   constructor(
@@ -106,6 +108,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.numberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
     this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
+    this.appointments$ = this.appointmentSelectors.appointments$;
   }
 
   ngOnInit() {
@@ -150,6 +153,12 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       (currentCustomer: ICustomer) => this.currentCustomer = currentCustomer
     );
 
+    const appointmentSubscription = this.appointments$.subscribe(
+      (appointments: IAppointment[]) => {
+        this.appointments = appointments;
+      }
+    );
+
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: {[name: string]: Setting }) => {
         this.emailEnabled = settingsMap.IncludeEmail.value;
@@ -178,6 +187,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(selectedTimeSubscription);
     this.subscriptions.add(reservedAppointmentSubscription);
     this.subscriptions.add(currentCustomerSubscription);
+    this.subscriptions.add(appointmentSubscription);
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
   }
@@ -248,12 +258,20 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     return this.selectedAppointment !== null;
   }
 
+  hasLoadedAppointments(): boolean {
+    return this.appointments.length > 0;
+  }
+
   clearAllFields() {
     this.serviceDispatchers.deselectServices();
     this.appointmentMetaDispatchers.resetAllAppointmentMeta();
 
     if (this.isInEditMode()) {
       this.appointmentDispatchers.resetAppointment();
+      if (!this.hasLoadedAppointments()) {
+        // Entered edit mode from booking history
+        this.customerDispatchers.resetCurrentCustomer();
+      }
     } else {
       this.customerDispatchers.resetCurrentCustomer();
       this.appointmentDispatchers.resetAppointments();

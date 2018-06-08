@@ -10,6 +10,12 @@
     margin-bottom: rem($standard-margin);
   }
 
+  &--small {
+    font-size: rem(18px);
+    line-height: rem(21px);
+    color: $dark-transparent62;
+  }
+
   @at-root [dir='rtl'] & {
     text-align: right;
   }

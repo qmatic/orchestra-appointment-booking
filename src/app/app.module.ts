@@ -143,6 +143,7 @@ import { QmTimeslotBookerComponent } from './components/containers/qm-timeslot-b
 import { GlobalErrorHandler } from '../services/util/global-error-handler.service';
 import { QmAppointmentCardComponent } from './components/presentational/qm-appointment-card/qm-appointment-card.component';
 import { AppUtils } from '../services/util/appUtils.service';
+import { QmBookingHistoryComponent } from './components/containers/qm-booking-history/qm-booking-history.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -226,7 +227,8 @@ const toastrGlobalOptions = {
     QmNumberOfCustomersBookerComponent,
     QmBranchBookerComponent,
     QmTimeslotBookerComponent,
-    QmAppointmentCardComponent
+    QmAppointmentCardComponent,
+    QmBookingHistoryComponent
   ],
   imports: [
     MomentTimezoneModule,

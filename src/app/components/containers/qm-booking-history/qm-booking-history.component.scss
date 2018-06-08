@@ -1,0 +1,111 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.qm-booking-history {
+  width: 100%;
+  max-width: rem(580px);
+  border-radius: $standard-border-radius;
+  background: $booking-history-background;
+  color: $dark-transparent82;
+  padding: rem($standard-padding $standard-padding * 1.5);
+
+  &__headline {
+    display: block;
+    margin-bottom: rem(12px);
+  }
+}
+
+.qm-booking-history-item {
+  margin-right: -4px;
+  margin-left: -4px;
+
+  & + & {
+    margin-top: rem($standard-margin / 2);
+  }
+
+  &__name {
+    font-size: rem(16px);
+    line-height: rem(19px);
+    color: $secondary-color;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__date {
+    font-size: rem(16px);
+    line-height: rem(19px);
+    color: $dark-transparent82;
+    font-weight: $font-weight-light;
+    margin-right: rem($standard-margin / 2);
+
+    &--faded {
+      color: $dark-transparent42;
+    }
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 2);
+    }
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    background: $white;
+    border: 1px solid $dark-transparent12;
+    box-shadow: 0 0 4px 0 $dark-transparent04;
+    padding: rem(5px 8px);
+    height: 100%;
+  }
+
+  &__col {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__deleted-appointment-icon-container {
+    position: relative;
+    height: 26px;
+    width: 26px;
+    margin-right: rem(8px);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem(8px);
+    }
+  }
+
+  &__large-icon {
+    color: rgba(0, 0, 0, 0.22);
+    font-size: rem(26px);
+  }
+
+  &__small-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    color: $dark-transparent82;
+
+    @at-root [dir='rtl'] & {
+      right: auto;
+      left: -4px;
+    }
+  }
+}

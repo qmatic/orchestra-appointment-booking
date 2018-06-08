@@ -11,6 +11,7 @@ export const BOOK_APPOINTMENT = '[Booking] BOOK_APPOINTMENT';
 export const BOOK_APPOINTMENT_FAIL = '[Booking] BOOK_APPOINTMENT_FAIL';
 export const BOOK_APPOINTMENT_SUCCESS = '[Booking] BOOK_APPOINTMENT_SUCCESS';
 
+export const ADD_TO_BOOKING_HISTORY = '[Booking] ADD_TO_BOOKING_HISTORY';
 
 export class ConfirmAppointment implements Action {
   readonly type = CONFIRM_APPOINTMENT;
@@ -42,9 +43,15 @@ export class BookAppointmentSuccess implements Action {
   constructor(public payload: IAppointment) {}
 }
 
+export class AddToBookingHistory implements Action {
+  readonly type = ADD_TO_BOOKING_HISTORY;
+  constructor(public payload: { appointment: IAppointment, deleted: boolean }) {}
+}
+
 export type AllBookingActions = ConfirmAppointment |
                                 ConfirmAppointmentFail |
                                 ConfirmAppointmentSuccess |
                                 BookAppointment |
                                 BookAppointmentFail |
-                                BookAppointmentSuccess;
+                                BookAppointmentSuccess |
+                                AddToBookingHistory;

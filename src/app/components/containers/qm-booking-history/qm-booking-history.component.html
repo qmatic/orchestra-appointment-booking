@@ -1,0 +1,43 @@
+<div class="qm-booking-history" [dir]="userDirection$ | async">
+  <span class="qm-booking-history__headline qm-headline qm-headline--small">Recently booked</span>
+  <!-- first row -->
+  <div class="row qm-booking-history-item" *ngFor="let appointment of bookingHistory">
+    <div class="col-4 qm-booking-history-item__col">
+      <div class="qm-booking-history-item__container">
+        <a href="#" class="qm-booking-history-item__name" (click)="handleCustomerClick($event, appointment.customers[0])">{{ appointment.customers[0].name }}</a>
+      </div>
+    </div>
+    <div class="col-8 qm-booking-history-item__col">
+      <div class="qm-booking-history-item__container justify-content-between" *ngIf="!appointment.deleted; else deletedHistoryTemplate">
+        <div class="qm-booking-history-item__left">
+          <span class="qm-booking-history-item__date" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | date:'EEEE MMMM d': getTimezoneOffset(appointment) }}</span>
+          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleEdit(appointment)">
+            <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
+            <span class="sr-only">{{ 'button.bookingHistory.edit' | translate }}</span>
+          </button>
+        </div>
+        <div class="qm-booking-history-item__right">
+          <button class="qm-action-btn qm-action-btn--only-icon">
+            <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
+            <span class="sr-only">{{ 'button.bookingHistory.print' | translate }}</span>
+          </button>
+          <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleDelete(appointment)">
+            <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
+            <span class="sr-only">{{ 'button.bookingHistory.delete' | translate }}</span>
+          </button>
+        </div>
+      </div>
+      <ng-template #deletedHistoryTemplate>
+        <div class="qm-booking-history-item__container">
+          <div class="qm-booking-history-item__left">
+            <div class="qm-booking-history-item__deleted-appointment-icon-container">
+              <i class="qm-booking-history-item__large-icon icon-calendar" aria-hidden="true"></i>
+              <i class="qm-booking-history-item__small-icon icon-close-smaller" aria-hidden="true"></i>
+            </div>
+            <span class="qm-booking-history-item__date qm-booking-history-item__date--faded" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | date:'EEEE MMMM d': getTimezoneOffset(appointment) }}</span>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

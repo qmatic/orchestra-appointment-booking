@@ -120,6 +120,7 @@ export class BookingEffects {
 
         return [
           ...appointmentActions,
+          new BookingActions.AddToBookingHistory({ appointment: action.payload, deleted: false }),
           new BookingActions.ResetCurrentCustomer,
           new BookingActions.ResetReservedAppointment,
           new BookingActions.DeselectServices,

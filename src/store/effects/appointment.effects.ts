@@ -73,7 +73,10 @@ export class AppointmentEffects {
       ).unsubscribe();
     }
     )).pipe(switchMap((action: AppointmentActions.DeleteAppointment) => {
-      return [new CustomerActions.ResetCurrentCustomer];
+      return [
+        new CustomerActions.AddToBookingHistory({ appointment: action.payload, deleted: true }),
+        new CustomerActions.ResetCurrentCustomer
+      ];
     }));
 
   @Effect({ dispatch: false })
@@ -90,14 +93,16 @@ export class AppointmentEffects {
   selectAppointmentForEdit$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.SELECT_APPOINTMENT)
     .pipe(
-      withLatestFrom(this.store$.select((state: IAppState) => state.settings.settings)),
+      withLatestFrom(this.store$.select((state: IAppState) => state)),
       switchMap((data: any) => {
-        const [ action, settings ]: [AppointmentActions.SelectAppointment, Setting[]] = data;
+        const [ action, state ]: [AppointmentActions.SelectAppointment, IAppState] = data;
         const appointmentToLoad: IAppointment = action.payload;
-        const settingsMap = this.appUtils.getSettingsAsMap(settings);
+        const settingsMap = this.appUtils.getSettingsAsMap(state.settings.settings);
         const appointmentMetaActions = this.getAppointmentMetaActions(appointmentToLoad, settingsMap);
-
+        const customerAction = state.customers.currentCustomer !== null
+              ? [] : [new AppointmentActions.SelectCustomer(appointmentToLoad.customers[0])];
         return [
+          ...customerAction,
           new AppointmentActions.LoadSelectedServices(appointmentToLoad.services),
           new AppointmentActions.LoadSelectedBranch(appointmentToLoad.branch),
           ...appointmentMetaActions

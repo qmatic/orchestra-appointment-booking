@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ICustomer } from '../../../../models/ICustomer';
-import { CustomerSelectors, UserSelectors, BookingHelperSelectors, AppointmentSelectors } from '../../../../store';
+import { CustomerSelectors, UserSelectors, BookingHelperSelectors, AppointmentSelectors, BookingSelectors } from '../../../../store';
 import { IService } from '../../../../models/IService';
 import { IAppointment } from '../../../../models/IAppointment';
 
@@ -22,10 +22,12 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   private selectedServices$: Observable<IService[]>;
   private selectedServices: IService[];
   private selectedAppointment$: Observable<IAppointment>;
+  private bookingHistory$: Observable<IAppointment[]>;
   public currentCustomer: ICustomer;
   public showExpiryReservationTime$: Observable<Boolean>;
   public userDirection$: Observable<string>;
   public selectedAppointment: IAppointment;
+  private bookingHistory: IAppointment[];
 
   constructor(
     private customerSelectors: CustomerSelectors,
@@ -34,7 +36,8 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
     private calendarSettingsSelectors: CalendarSettingsSelectors,
     private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers,
     private bookingHelperSelectors: BookingHelperSelectors,
-    private appointmentSelectors: AppointmentSelectors
+    private appointmentSelectors: AppointmentSelectors,
+    private bookingSelectors: BookingSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
@@ -42,6 +45,7 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
     // Bing wheather to show or not the timer
     this.showExpiryReservationTime$ = this.reservationExpiryTimerSelectors.showReservationExpiryTime$;
     this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
+    this.bookingHistory$ = this.bookingSelectors.bookingHistory$;
   }
 
   ngOnInit() {
@@ -59,13 +63,24 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
       }
     );
 
+    const bookingHistorySubscription = this.bookingHistory$.subscribe(
+      (bookingHistory: IAppointment[]) => {
+        this.bookingHistory = bookingHistory;
+      }
+    );
+
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(selectedServicesSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
+    this.subscriptions.add(bookingHistorySubscription);
   }
 
   customerAppointmentsAreVisible(): boolean {
     return this.currentCustomer !== null && this.selectedServices.length === 0;
+  }
+
+  bookingHistoryIsVisible(): boolean {
+    return this.currentCustomer === null && this.selectedServices.length === 0 && this.bookingHistory.length !== 0;
   }
 
   ngOnDestroy() {

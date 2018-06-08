@@ -10,9 +10,11 @@
         </div>
       </div>
       <div class="col-sm-5">
+        <div class="qm-full-height" *ngIf="bookingHistoryIsVisible()">
+          <qm-booking-history [bookingHistory]="bookingHistory"></qm-booking-history>
+        </div>
         <div class="qm-full-height" *ngIf="customerAppointmentsAreVisible()">
           <qm-customer-appointments></qm-customer-appointments>
-
         </div>
         <div class="qm-full-height" *ngIf="selectedAppointment !== null">
           <qm-appointment-card [appointment]="selectedAppointment"></qm-appointment-card>
