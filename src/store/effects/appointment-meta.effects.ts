@@ -19,6 +19,7 @@ export class AppointmentMetaEffects {
   private PRESELECT_OPTION_NAME = 'OptionPreselect';
   private PRESELECT_NO_OPTION = 'PreSelectNoOption';
   private NO_OPTION = 'NoOption';
+  private OPTION_UNAVAILABLE = 'unavailable';
 
   constructor(
     private store$: Store<IAppState>,
@@ -34,7 +35,10 @@ export class AppointmentMetaEffects {
       ))),
       switchMap((data: any) => {
         const [ action, setting ]: [ AppointmentMetaActions.ResetAppointmentNotificationType, Setting[] ] = data;
-        if (setting && setting.length > 0 && setting[0].value !== this.PRESELECT_NO_OPTION && setting[0].value !== this.NO_OPTION) {
+        if (setting && setting.length > 0
+          && setting[0].value !== this.PRESELECT_NO_OPTION
+          && setting[0].value !== this.NO_OPTION
+          && setting[0].value !== this.OPTION_UNAVAILABLE) {
           return [new AppointmentMetaActions.SetAppointmentNotificationType(setting[0].value)];
         } else {
           return Observable.empty();

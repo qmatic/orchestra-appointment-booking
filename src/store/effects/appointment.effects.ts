@@ -146,7 +146,9 @@ export class AppointmentEffects {
   }
 
   getNofificationTypeFromSettings(settingsMap: { [name: string]: Setting }): string {
-    if (settingsMap.OptionPreselect.value !== 'PreSelectNoOption') {
+    if (settingsMap.OptionPreselect.value !== 'PreSelectNoOption'
+    && settingsMap.OptionPreselect.value !== 'unavailable'
+    && settingsMap.OptionPreselect.value !== 'NoOption' ) {
       return settingsMap.OptionPreselect.value;
     } else {
       return '';
