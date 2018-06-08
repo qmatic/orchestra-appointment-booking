@@ -76,11 +76,16 @@ export class QmDashboardComponent implements OnInit, OnDestroy {
   }
 
   customerAppointmentsAreVisible(): boolean {
-    return this.currentCustomer !== null && this.selectedServices.length === 0;
+    return this.currentCustomer !== null
+            && this.selectedServices.length === 0
+            && this.selectedAppointment === null;
   }
 
   bookingHistoryIsVisible(): boolean {
-    return this.currentCustomer === null && this.selectedServices.length === 0 && this.bookingHistory.length !== 0;
+    return this.currentCustomer === null
+          && this.selectedServices.length === 0
+          && this.bookingHistory.length !== 0
+          && this.selectedAppointment === null;
   }
 
   ngOnDestroy() {
