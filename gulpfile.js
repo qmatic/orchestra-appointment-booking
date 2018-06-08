@@ -209,11 +209,11 @@ gulp.task(
 gulp.task(
   'build:artifactory',
   gulpsync.sync([
+    'write:manifest',
     'create:war',
     'create:properties',
     'create:release-notes',
     'clean:war',
-    'write:manifest',
     'create:artifactory:zip',
     'clean:artifactory'
   ])

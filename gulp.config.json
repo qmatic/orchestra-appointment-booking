@@ -7,8 +7,8 @@
     "artifactory": {
         "host": "artifactory.qmatic.net",
         "protocol": "http",
-        "username": "",
-        "password": "",
-        "path": "/artifactory/list/mobile/counter"
+        "username": "nalhew",
+        "password": "AKCp5Z3BkxbH7nrLCGqvBRZCtwo3p1VFXSuqiM86YLdGgfdDrqm5Qdq7rzoTvTHBkpZMyT3eD",
+        "path": "/artifactory/list/qmatic/appointment-booking-ui"
     }
 }
