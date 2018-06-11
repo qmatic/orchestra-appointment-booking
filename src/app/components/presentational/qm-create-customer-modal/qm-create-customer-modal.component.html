@@ -114,6 +114,7 @@
                           placeholder=""
                           qmClearInput
                           maxlength="50"
+                          dir="ltr"
                           name="phone"
                           [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true"
                           formControlName="phone"

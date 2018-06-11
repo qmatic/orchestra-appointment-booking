@@ -27,6 +27,7 @@
                   autocomplete="tel"
                   placeholder=""
                   maxlength="50"
+                  dir="ltr"
                   name="notificationPhone"
                   required
                   formControlName="notificationPhone"
@@ -75,7 +76,7 @@
         </label>
       </div>
       <div class="qm-notification-modal__save-to-customer-option">
-        <qm-standard-checkbox [name]="'savetocustomer'" (optionChanged)="handleSaveToCustomerChange($event)">{{ 'label.notificationForm.save.to.customer.object' | translate }}</qm-standard-checkbox>
+        <qm-standard-checkbox [userDirection]="userDirection$ | async" [name]="'savetocustomer'" (optionChanged)="handleSaveToCustomerChange($event)">{{ 'label.notificationForm.save.to.customer.object' | translate }}</qm-standard-checkbox>
       </div>
     </div>
     <div class="qm-modal__footer qm-notification-modal__footer">

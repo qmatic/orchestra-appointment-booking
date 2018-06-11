@@ -1,6 +1,11 @@
 .qm-standard-text-field {
   @at-root [dir='rtl'] & {
     text-align: right;
+
+
+    [type="tel"] {
+      text-align: right;
+    }
   }
 
   &__label {

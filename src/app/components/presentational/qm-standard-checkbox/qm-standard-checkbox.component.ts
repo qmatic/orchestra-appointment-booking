@@ -15,6 +15,8 @@ export class QmStandardCheckboxComponent implements OnInit {
 
   @Input() title = '';
 
+  @Input() userDirection: string;
+
   @Output() optionChanged = new EventEmitter();
 
   constructor(public autoCloseService: AutoClose) {}
