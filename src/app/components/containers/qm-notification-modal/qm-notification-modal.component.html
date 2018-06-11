@@ -43,6 +43,9 @@
               <ng-container *ngIf="notificationPhone.errors?.allwhitespace">
                 {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
               </ng-container>
+              <ng-container *ngIf="notificationPhone.errors?.validateNotEqual">
+                {{ 'field.notificationForm.phone.error.not.equal.to.country.code' | translate }}
+              </ng-container>
             </ng-container>
           </span>
         </label>

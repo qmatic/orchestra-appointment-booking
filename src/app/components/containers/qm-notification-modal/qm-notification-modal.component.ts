@@ -14,7 +14,7 @@ import {
 import { ICustomer } from '../../../../models/ICustomer';
 // import { whiteSpaceValidator } from '../../../util/custom-form-validators';
 import { Setting } from '../../../../models/Setting';
-import { whiteSpaceValidator } from '../../../util/custom-form-validators';
+import { whiteSpaceValidator, validateNotEqualToFactory } from '../../../util/custom-form-validators';
 
 @Component({
   selector: 'qm-notification-modal',
@@ -121,6 +121,12 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
       Validators.pattern(/^[0-9\+\s]+$/),
       Validators.required
     ];
+
+    if (this.settingsMap.CustomerPhoneDefaultCountry.value !== '') {
+      const notEqualValidator = validateNotEqualToFactory(this.settingsMap.CustomerPhoneDefaultCountry.value);
+      phoneValidators.push(notEqualValidator);
+    }
+
     const emailValidators = [
       Validators.pattern(/^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[A-Za-z]{2,4}$/),
       Validators.required

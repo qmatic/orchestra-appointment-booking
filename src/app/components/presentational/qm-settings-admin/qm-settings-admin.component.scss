@@ -64,6 +64,11 @@
 
       .qm-option__error {
         left: 1.25em;
+
+        @at-root [dir='rtl'] & {
+          left: auto;
+          right: 1.25em;
+        }
       }
 
       label {
@@ -174,9 +179,15 @@
 
   &__error {
     position: absolute;
-    color: $qmatic-bordeaux;
+    color: $primary-color;
     font-size: rem(12px);
     top: rem(28px);
+    left: 0;
+
+    @at-root [dir='rtl'] & {
+      left: auto;
+      right: 0;
+    }
   }
 
   &--checkbox {

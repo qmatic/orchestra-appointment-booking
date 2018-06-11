@@ -20,7 +20,7 @@ import {
   UserSelectors,
   SettingsAdminSelectors
 } from '../../../../store';
-import { whiteSpaceValidator } from '../../../util/custom-form-validators';
+import { whiteSpaceValidator, validateNotEqualToFactory } from '../../../util/custom-form-validators';
 import { AutoClose } from '../../../../services/util/autoclose.service';
 
 @Component({
@@ -157,6 +157,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       if (settings.CustomerPhoneRequired.value === true) {
         phoneValidators.push(Validators.required);
         phoneAsyncValidators.push(whiteSpaceValidator);
+
+        if (settings.CustomerPhoneDefaultCountry.value !== '') {
+          const notEqualValidator = validateNotEqualToFactory(settings.CustomerPhoneDefaultCountry.value);
+          phoneValidators.push(notEqualValidator);
+        }
       }
 
       const emailValidators = [

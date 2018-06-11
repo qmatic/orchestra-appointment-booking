@@ -130,6 +130,9 @@
                       <ng-container *ngIf="phone.errors.allwhitespace">
                         {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
                       </ng-container>
+                      <ng-container *ngIf="phone.errors.validateNotEqual">
+                        {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
+                      </ng-container>
                     </ng-container>
                   </span>
                 </label>
