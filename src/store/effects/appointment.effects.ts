@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { of } from 'rxjs/observable/of';
-import { switchMap, mergeMap, catchError, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, mergeMap, catchError, tap, withLatestFrom, take } from 'rxjs/operators';
 import * as AppointmentActions from './../actions';
 import * as CustomerActions from './../actions';
 import { AppointmentDataService, DataServiceError } from '../services';
@@ -18,6 +18,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from '../index';
 import { Setting } from '../../models/Setting';
 import { AppUtils } from '../../services/util/appUtils.service';
+import { IBranch } from '../../models/IBranch';
 
 const toAction = AppointmentActions.toAction();
 
@@ -98,17 +99,43 @@ export class AppointmentEffects {
         const [ action, state ]: [AppointmentActions.SelectAppointment, IAppState] = data;
         const appointmentToLoad: IAppointment = action.payload;
         const settingsMap = this.appUtils.getSettingsAsMap(state.settings.settings);
-        const appointmentMetaActions = this.getAppointmentMetaActions(appointmentToLoad, settingsMap);
-        const customerAction = state.customers.currentCustomer !== null
-              ? [] : [new AppointmentActions.SelectCustomer(appointmentToLoad.customers[0])];
+        const selectAppointmentActions = this.getSelectAppointmentActions(state, settingsMap, appointmentToLoad);
+
         return [
-          ...customerAction,
-          new AppointmentActions.LoadSelectedServices(appointmentToLoad.services),
-          new AppointmentActions.LoadSelectedBranch(appointmentToLoad.branch),
-          ...appointmentMetaActions
+          ...selectAppointmentActions
         ];
       })
     );
+
+  getSelectAppointmentActions(
+    state: IAppState,
+    settingsMap: { [name: string]: Setting },
+    appointment: IAppointment
+  ) {
+    const isValid = this.validateAppointment(state, settingsMap, appointment);
+
+    if (isValid === true) {
+      const appointmentMetaActions = this.getAppointmentMetaActions(appointment, settingsMap);
+      const customerAction = state.customers.currentCustomer !== null
+              ? [] : [new AppointmentActions.SelectCustomer(appointment.customers[0])];
+      return [
+          ...customerAction,
+          new AppointmentActions.LoadSelectedServices(appointment.services),
+          new AppointmentActions.LoadSelectedBranch(appointment.branch),
+          ...appointmentMetaActions
+      ];
+    } else {
+      this.translateService.get('label.select.appointment.error').pipe(take(1)).subscribe(
+        (label) => {
+          this.toastService.errorToast(label);
+        }
+      );
+
+      return [
+        new AppointmentActions.ResetAppointment
+      ];
+    }
+  }
 
   getServicesQueryStringFromServices(services: IService[]): string {
     return services.reduce((queryString, service: IService) => {
@@ -189,6 +216,79 @@ export class AppointmentEffects {
       return [new AppointmentActions.SetAppointmentNote(appointment.notes)];
     } else {
       return [];
+    }
+  }
+
+  validateAppointment(
+    state: IAppState,
+    settingsMap: {[name: string]: Setting},
+    appointment: IAppointment
+  ): boolean {
+    const isValid = this.canLoadAppointment(state, settingsMap, appointment.services, appointment.branch);
+    return isValid;
+  }
+
+  servicesAreAvailable(state: IAppState, servicesToCheck: IService[]): boolean {
+    const serviceMap = state.services.services.reduce(
+      (allServices: { [publicId: string]: IService }, service: IService) => {
+        return {
+          ...allServices,
+          [service.publicId]: service
+        };
+      },
+      {}
+    );
+
+    return servicesToCheck.reduce(
+      (servicesArePresent: boolean, service: IService) => {
+        return servicesArePresent ? (serviceMap[service.publicId] !== undefined ? true : false) : servicesArePresent;
+      },
+      true
+    );
+  }
+
+  branchAreAvailable(state: IAppState, branchToCheck: IBranch): boolean {
+
+    return state.branches.branches.reduce(
+      (branchesArePresent: boolean, branch: IBranch) => {
+        return !branchesArePresent ? (branch.publicId === branchToCheck.publicId ? true : false) : branchesArePresent;
+      },
+      false
+    );
+  }
+
+  checkServices(state: IAppState, settingsMap: { [name: string]: Setting }, servicesToCheck: IService[]): boolean {
+    const settingsAreValid = this.hasValidSettings(settingsMap, servicesToCheck);
+    const servicesAvailable = this.servicesAreAvailable(state, servicesToCheck);
+    return settingsAreValid && servicesAvailable;
+  }
+
+  hasValidSettings(settingsMap: { [name: string]: Setting }, servicesToCheck: IService[]): boolean {
+    if (servicesToCheck.length > 1) {
+      const multiServiceEnabled = settingsMap.AllowMultiService.value;
+      if (multiServiceEnabled) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  canLoadAppointment(
+    state: IAppState,
+    settingsMap: { [name: string]: Setting},
+    servicesToCheck: IService[],
+    branchToCheck: IBranch
+  ): boolean {
+    const servicesAreValid = this.checkServices(state, settingsMap, servicesToCheck);
+    if (servicesAreValid) {
+      const branchAvailable = this.branchAreAvailable(state, branchToCheck);
+
+      return branchAvailable ? true : false;
+    } else {
+      return false;
     }
   }
 }
