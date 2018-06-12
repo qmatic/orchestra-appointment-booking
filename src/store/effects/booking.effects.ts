@@ -1,3 +1,5 @@
+import { AppointmentMetaSelectors } from './../services/appointment-meta/appointment-meta.selectors';
+import { NavigationService } from './../../app/util/navigation.service';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store, select } from '@ngrx/store';
@@ -16,6 +18,7 @@ import { IAppointment } from '../../models/IAppointment';
 import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
+import { PrintAppointment } from '../index';
 
 const toAction = BookingActions.toAction();
 
@@ -27,7 +30,9 @@ export class BookingEffects {
       private bookingDataService: BookingDataService,
       private toastService: ToastService,
       private translateService: TranslateService,
-      private errorHandler: GlobalErrorHandler
+      private errorHandler: GlobalErrorHandler,
+      private navigationService: NavigationService,
+      private appointmentMetaSelectors: AppointmentMetaSelectors
     ) {}
 
   @Effect()
@@ -104,6 +109,11 @@ export class BookingEffects {
           this.translateService.get('label.create.appointment.success').subscribe(
             (label: string) => this.toastService.successToast(label)
           ).unsubscribe();
+          this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
+            if (isPrint) {
+              this.navigationService.goToPrintConfirmPage();
+            }
+          }).unsubscribe();
         }
       ),
       withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
@@ -127,8 +137,7 @@ export class BookingEffects {
     return appointment !== null
             ? [
                 new BookingActions.DeleteAppointment(appointment),
-                new BookingActions.ResetAppointment
-              ]
+                new BookingActions.ResetAppointment             ]
             : [];
   }
 }

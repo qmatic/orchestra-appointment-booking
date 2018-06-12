@@ -4,12 +4,14 @@ export interface IAppointmentMetaState {
   notificationType: string;
   title: string;
   notes: string;
+  printAppointmentOption: boolean;
 }
 
 export const initialState: IAppointmentMetaState = {
   notificationType: '',
   title: '',
-  notes: ''
+  notes: '',
+  printAppointmentOption: false
 };
 
 export function reducer (
@@ -51,6 +53,12 @@ export function reducer (
       return {
         ...state,
         notes: ''
+      };
+    }
+    case AppointmentMetaActions.PRINT_APPOINTMENT_OPTION: {
+      return {
+        ...state,
+       printAppointmentOption: action.payload
       };
     }
     default: {

@@ -145,6 +145,7 @@ import { QmAppointmentCardComponent } from './components/presentational/qm-appoi
 import { AppUtils } from '../services/util/appUtils.service';
 import { QmPrintBoxComponent } from './components/presentational/qm-print-box/qm-print-box.component';
 import { QmPrintConfirmComponent } from './components/presentational/qm-print-confirm/qm-print-confirm.component';
+import { NavigationService } from './util/navigation.service';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -285,6 +286,7 @@ const toastrGlobalOptions = {
     Logout,
     BookingHelperService,
     GlobalErrorHandler,
+    NavigationService,
     AppUtils
   ],
   bootstrap: [AppComponent]

@@ -16,6 +16,10 @@ export class AppointmentMetaDispatchers {
     this.store.dispatch(new AppointmentMetaActions.SetAppointmentTitle(title));
   }
 
+  setPrintAppointment(print: boolean) {
+    this.store.dispatch(new AppointmentMetaActions.PrintAppointmentOption(print));
+  }
+
   setAppointmentNote(note: string) {
     this.store.dispatch(new AppointmentMetaActions.SetAppointmentNote(note));
   }

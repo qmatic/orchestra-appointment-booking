@@ -1,0 +1,19 @@
+.qm-customer-card {
+    &__list {
+        list-style-type: none;
+    }
+}
+
+.qm-print{
+    &__headline  {
+        font-size: 1.35rem;
+    }
+}
+
+@media print
+{    
+    .hide-in-print, .hide-in-print *
+    {
+        display: none !important;
+    }
+}

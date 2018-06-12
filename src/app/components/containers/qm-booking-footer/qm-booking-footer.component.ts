@@ -48,9 +48,11 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private selectedDate$: Observable<string>;
   private selectedTime$: Observable<string>;
   public userDirection$: Observable<string>;
+  private isPrintEnabled$: Observable<boolean>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private numberOfCustomers$: Observable<number>;
   private selectedAppointment$: Observable<IAppointment>;
+  private printAppointment$: Observable<boolean>;
 
   private numberOfCustomers: number;
   private emailEnabled: boolean;
@@ -59,6 +61,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private noNotificationEnabled: boolean;
   private titleEnabled: boolean;
   private notesEnabled: boolean;
+  private isPrintAppointment: boolean;
   private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
   private selectedServices: IService[];
@@ -106,6 +109,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.numberOfCustomers$ = this.bookingHelperSelectors.selectedNumberOfCustomers$;
     this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
+    this.printAppointment$ = this.appointmentMetaSelectors.printAppointmentOption$;
   }
 
   ngOnInit() {
@@ -168,6 +172,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       }
     );
 
+    const printAppointmentSubscription = this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint =>
+      this.isPrintAppointment = isPrint
+    );
+
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
     this.subscriptions.add(numberOfCustomersSubscription);
@@ -180,6 +188,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
+    this.subscriptions.add(printAppointmentSubscription);
   }
 
   ngOnDestroy() {
