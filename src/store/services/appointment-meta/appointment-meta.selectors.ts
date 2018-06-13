@@ -28,6 +28,11 @@ const getAppointmentMetaNotesLength = createSelector(
   (state: IAppointmentMetaState) => state.notes.length
 );
 
+const getPrintAppointmentOption = createSelector(
+  getAppointmentMetaState,
+  (state: IAppointmentMetaState) => state.printAppointmentOption
+);
+
 @Injectable()
 export class AppointmentMetaSelectors {
   constructor(private store: Store<IAppState>) {}
@@ -36,4 +41,5 @@ export class AppointmentMetaSelectors {
   title$ = this.store.select(getAppointmentMetaTitle);
   notes$ = this.store.select(getAppointmentMetaNotes);
   notesLength$ = this.store.select(getAppointmentMetaNotesLength);
+  printAppointmentOption$ = this.store.select(getPrintAppointmentOption);
 }

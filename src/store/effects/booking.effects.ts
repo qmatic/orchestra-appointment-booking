@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { AppointmentMetaSelectors } from './../services/appointment-meta/appointment-meta.selectors';
+import { NavigationService } from './../../app/util/navigation.service';
+import { Injectable, Pipe } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store, select } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, catchError, mergeMap, withLatestFrom, delay } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
@@ -17,6 +19,8 @@ import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 import { ERROR_CODE_TIMESLOT_TAKEN } from '../../app/shared/error-codes';
+import { PrintAppointment } from '../index';
+
 const toAction = BookingActions.toAction();
 
 @Injectable()
@@ -27,7 +31,9 @@ export class BookingEffects {
       private bookingDataService: BookingDataService,
       private toastService: ToastService,
       private translateService: TranslateService,
-      private errorHandler: GlobalErrorHandler
+      private errorHandler: GlobalErrorHandler,
+      private navigationService: NavigationService,
+      private appointmentMetaSelectors: AppointmentMetaSelectors
     ) {}
 
   @Effect()
@@ -108,11 +114,23 @@ export class BookingEffects {
     .ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS)
     .pipe(
       tap((action: BookingActions.BookAppointmentSuccess) => {
+
           this.translateService.get('label.create.appointment.success').subscribe(
-            (label: string) => this.toastService.successToast(label)
+            (label: string) =>  {
+              this.toastService.successToast(label).onHidden.subscribe(() => {
+                this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
+                  if (isPrint) {
+                    this.navigationService.goToPrintConfirmPage();
+                  }
+                }).unsubscribe();
+
+              }
+              );
+            }
           ).unsubscribe();
         }
       ),
+
       withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
       switchMap((data: any) => {
         const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;
@@ -135,8 +153,7 @@ export class BookingEffects {
     return appointment !== null
             ? [
                 new BookingActions.DeleteAppointment(appointment),
-                new BookingActions.ResetAppointment
-              ]
+                new BookingActions.ResetAppointment             ]
             : [];
   }
 }

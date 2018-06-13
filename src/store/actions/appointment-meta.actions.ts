@@ -6,6 +6,8 @@ export const SET_APPOINTMENT_NOTE = '[Appointment Meta] SET_APPOINTMENT_NOTE';
 export const RESET_APPOINTMENT_NOTIFICATION_TYPE = '[Appointment Meta] RESET_APPOINTMENT_NOTIFICATION_TYPE';
 export const RESET_APPOINTMENT_TITLE = '[Appointment Meta] RESET_APPOINTMENT_TITLE';
 export const RESET_APPOINTMENT_NOTE = '[Appointment Meta] RESET_APPOINTMENT_NOTE';
+export const PRINT_APPOINTMENT = '[Appointment Meta] PRINT_APPOINTMENT';
+export const PRINT_APPOINTMENT_OPTION = '[Appointment Meta] PRINT_APPOINTMENT_OPTION';
 
 export class SetAppointmentNotificationType implements Action {
   readonly type = SET_APPOINTMENT_NOTIFICATION_TYPE;
@@ -34,10 +36,19 @@ export class ResetAppointmentNote implements Action {
   readonly type = RESET_APPOINTMENT_NOTE;
 }
 
+export class PrintAppointment implements Action {
+  readonly type = PRINT_APPOINTMENT;
+}
+
+export class PrintAppointmentOption implements Action {
+  readonly type = PRINT_APPOINTMENT_OPTION;
+  constructor(public payload: boolean) {}
+}
+
 // Action types
 export type AllAppointmentMetaActions = SetAppointmentNotificationType |
                                         SetAppointmentTitle |
                                         SetAppointmentNote |
                                         ResetAppointmentNotificationType |
                                         ResetAppointmentTitle |
-                                        ResetAppointmentNote;
+                                        ResetAppointmentNote | PrintAppointmentOption | PrintAppointment;

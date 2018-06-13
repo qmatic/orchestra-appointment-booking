@@ -1,4 +1,4 @@
-<div class="qm-app qm-app--print">
+<div class="qm-app qm-app--print" [dir]="userDirection$ | async">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -32,36 +32,40 @@
                                 <caption>{{'label.print.appointment.overview' | translate}}:</caption>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.date' | translate}}</th>
-                                        <td>Wednesday 17 May 2018</td>
+                                        <td>{{ bookedAppointment?.start | amDateFormat: 'dddd DD MMMM'}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.time' | translate}}</th>
-                                        <td>3:00 pm - 3:30 pm</td>
+                                        <td>{{ bookedAppointment?.start | amDateFormat:getTimeFormat() }} - {{ bookedAppointment?.end | amDateFormat:getTimeFormat() }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.customers' | translate}}</th>
-                                        <td>1 customer</td>
+                                        <td> {{ this.bookedAppointment?.customers.length}} {{'label.print.appointment.customer.count' | translate}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.service' | translate}}</th>
                                         <td>
-                                            Chromecast setup<br />
-                                            Service 2<br />
-                                            Another service
+                                            <ng-container *ngFor="let svc of bookedAppointment?.services; let i = index">
+                                               {{svc.name}} <br *ngIf='i !== (bookedAppointment?.services.length-1)' />
+                                            </ng-container>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Branch</th>
-                                        <td>Elgiganten</td>
+                                        <th scope="row">{{'label.print.appointment.branch' | translate}}</th>
+                                        <td>{{ this.bookedAppointment?.branch.name}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Address</th>
-                                        <td>Neongatan 8, 123 45 Mölndal</td>
+                                        <th scope="row">{{'label.print.appointment.address' | translate}}</th>
+                                        <td>{{ this.getBranchAddressText(this.bookedAppointment?.branch)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{'label.print.appointment.resource' | translate}}</th>
+                                        <td>{{ this.bookedAppointment?.resource.name}}</td>
                                     </tr>
                             </table>
                         </div>
                         <div class="qm-print__section">
-                            <p class="qm-print__paragraph">For questions please contact our call centre under <span class="qm-emphasis">+0173 8385521</span> or send an email to <span class="qm-emphasis qm-underline">company@company.com</span></p>
+                            <p class="qm-print__paragraph">{{'label.print.appointment.thankyou' | translate}}</p>
                         </div>
                     </div>
                     <div class="qm-print__footer">
@@ -69,10 +73,10 @@
                            <!--  {{ button.render(id='closeBtn', modifiers='qm-btn--secondary qm-print__btn', text='Close') }}
                             {{ button.render(id='printBtn', modifiers='qm-btn--primary qm-print__btn', text='Print') }} -->
 
-                            <button type="button" class="qm-btn qm-btn--secondary qm-print__btn">
-                                <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.print.cancel' | translate }}">{{ 'button.print.cancel' | translate }}</span>
+                            <button type="button" class="qm-btn qm-btn--secondary qm-print__btn hide-in-print">
+                                <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.print.close' | translate }}">{{ 'button.print.close' | translate }}</span>
                               </button>
-                              <button class="qm-btn qm-btn--primary qm-print__btn" (click)="saveSettings()" >
+                              <button class="qm-btn qm-btn--primary qm-print__btn hide-in-print" (click)="printAppointment()" >
                                 <span class="qm-btn__text" title="{{ 'button.print.confirm' | translate }}">{{ 'button.print.confirm' | translate }}</span>
                               </button>
                         </div>

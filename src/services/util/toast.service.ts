@@ -42,7 +42,7 @@ export class ToastService {
   }
 
   successToast(text: string) {
-    this.toastrService.success(text, '', this.successOptions);
+    return this.toastrService.success(text, '', this.successOptions);
   }
 
   errorToast(text: string) {
