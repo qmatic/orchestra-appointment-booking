@@ -16,9 +16,9 @@ import { CustomerSelectors, BookingSelectors, UserSelectors, SettingsAdminSelect
 export class QmPrintConfirmComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription = new Subscription();
-  private currentCustomer: ICustomer;
-  private bookedAppointment: IAppointment;
-  private userDirection$: Observable<string>;
+  currentCustomer: ICustomer;
+  bookedAppointment: IAppointment;
+  userDirection$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private settingsMap: { [name: string ]: Setting };
 

@@ -15,8 +15,8 @@ export class QmPrintBoxComponent implements OnInit, OnDestroy {
   constructor(private appointmentMetaSelectors: AppointmentMetaSelectors,
               private appointMentMetaDispatchers: AppointmentMetaDispatchers) { }
   private subscriptions: Subscription = new Subscription();
-  private printCheckBox = false;
-  private printAppointmentOption$: Observable<boolean> = this.appointmentMetaSelectors.printAppointmentOption$;
+  printCheckBox = false;
+  printAppointmentOption$: Observable<boolean> = this.appointmentMetaSelectors.printAppointmentOption$;
 
   ngOnInit() {
     const printSubscription = this.printAppointmentOption$.subscribe((x) => this.printCheckBox = x);
