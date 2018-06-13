@@ -1,0 +1,132 @@
+body {
+  background: #D8D8D8;
+
+  @media print {
+    background: transparent;
+  }
+}
+
+.qm-print {
+  max-width: rem(595px);
+  width: 100%;
+  margin: 0 auto;
+  background: $white;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: rem(62px 54px 54px);
+
+  @media print {
+    max-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  &__header {
+    border-bottom: 2px solid $print-border-color;
+    margin-bottom: rem($standard-margin * 2);
+  }
+
+  &__headline {
+    font-size: rem(22px);
+    line-height: rem(32px);
+  }
+
+  &__sub-headline {
+    margin-bottom: rem($standard-margin* 1.5);
+  }
+
+  &__section {
+    margin-bottom: rem($standard-margin * 2.5);
+  }
+
+  &__table {
+
+    caption {
+      @extend .sr-only;
+    }
+
+    tr {
+
+    }
+
+    th {
+      font-size: rem(14px);
+      font-weight: $font-weight-medium;
+      padding-bottom: rem(12px);
+      vertical-align: top;
+    }
+
+    td {
+      font-size: rem(14px);
+      font-weight: $font-weight-light;
+      padding-bottom: rem(12px);
+      padding-left: rem($standard-padding * 2);
+
+      @at-root [dir='rtl'] & {
+        padding-left: 0;
+        padding-right: rem($standard-padding * 2);
+        text-align: right;
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: rem(120px);
+  }
+
+  &__paragraph {
+    font-size: rem(14px);
+    font-weight: $font-weight-light;
+    color: $dark-transparent82;
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+
+    @media print {
+      max-width: rem(560px);
+    }
+  }
+
+  &__btn {
+    min-width: 182px;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  // Overrides
+
+  .qm-customer-card {
+    &__headline {
+      margin-bottom: rem($standard-margin / 2);
+    }
+
+    &__name {
+      font-size: rem(18px);
+      color: $dark-transparent82;
+      pointer-events: none;
+    }
+
+    &__list-item-icon {
+      font-size: rem(22px);
+      margin-right: rem($standard-margin);
+
+      @at-root [dir='rtl'] & {
+        margin-right: 0;
+        margin-left: rem($standard-margin);
+      }
+    }
+
+    &__list-item-text {
+      font-size: rem(14px);
+    }
+  }
+
+  .qm-customer-card__list-item + .qm-customer-card__list-item {
+    margin-top: rem($standard-margin / 2);
+  }
+}

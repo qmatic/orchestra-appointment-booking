@@ -1,0 +1,213 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+:host {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+}
+
+.qm-printbox {
+    &__print-text {
+        margin-left:  rem(12px);
+    } 
+}
+
+.qm-option {
+    position: relative;
+    max-width: rem(390px);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    &__error {
+      position: absolute;
+      color: $qmatic-bordeaux;
+      font-size: rem(12px);
+      top: rem(28px);
+    }
+  
+    &--checkbox {
+      .qm-option__label {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
+      }
+
+      
+    }
+  
+    &--select {
+      max-width: rem(500px);
+  
+      .ng-select {
+        min-width: rem(190px);
+      }
+    }
+  
+    &__selector-label {
+      font-size: rem(18px);
+      line-height: rem(24px);
+      font-weight: $font-weight-light;
+      color: $dark-transparent82;
+      user-select: none;
+      cursor: pointer;
+    }
+  
+    &__label {
+      font-size: rem(18px);
+      line-height: rem(24px);
+      font-weight: $font-weight-light;
+      color: $dark-transparent82;
+      user-select: none;
+      cursor: pointer;
+    }
+  
+    &__selection-container {
+      display: flex;
+      align-items: center;
+    }
+  
+    &__input-box {
+      width: rem(72px);
+      padding: rem($standard-padding / 2 12px);
+      line-height: 1;
+      color: $dark-transparent62;
+      border: 1px solid $standard-border-color;
+      text-align: right;
+  
+      @at-root [dir='rtl'] & {
+        text-align: left;
+      }
+  
+      &.ng-invalid {
+        border: 2px solid $errorinput-border;
+      }
+    }
+  
+    &__checkbox {
+      @include sr-only;
+  
+      &:focus {
+        & ~ .qm-option__checkbox-icon {
+          outline-offset: -2px;
+          outline: -webkit-focus-ring-color auto 5px;
+        }
+      }
+  
+      &:checked {
+        & ~ .qm-option__checkbox-icon {
+          color: $secondary-color;
+  
+          &:before {
+            content: "\e95e";
+  
+            @at-root [dir='rtl'] & {
+              content: "\e960";
+            }
+          }
+        }
+  
+        &[disabled] {
+          & ~ .qm-option__checkbox-icon {
+            color: $dark-transparent12;
+          }
+        }
+      }
+
+      &-label {
+        display: flex;
+      }
+
+      
+    }
+  
+    &__checkbox-icon {
+      display: inline-flex;
+      font-size: rem(24px);
+      width: rem(24px);
+      height: rem(24px);
+      color: $dark-transparent12;
+  
+      &:before {
+        content: "\e961";
+        @include icomoon-styles;
+      }
+    }
+  
+    &__help-btn {
+      margin-left: rem($standard-margin);
+  
+      @at-root [dir='rtl'] & {
+        margin-left: 0;
+        margin-right: rem($standard-margin);
+      }
+  
+      .qm-action-btn__icon {
+        color: $dark-transparent42;
+      }
+  
+      &:hover,
+      &:focus {
+        .qm-action-btn__icon {
+          color: $dark-transparent82;
+        }
+      }
+    }
+  
+    &__radio {
+      @include sr-only;
+  
+      &:focus {
+        &+ .qm-option__toggle-box {
+          outline-offset: -2px;
+          outline: -webkit-focus-ring-color auto 5px;
+        }
+      }
+  
+      &:checked {
+        &+ .qm-option__toggle-box {
+          background: $secondary-color;
+          color: $white;
+        }
+      }
+    }
+  
+    &__toggle-container {
+      display: flex;
+    }
+  
+    &__toggle-label {
+      display: inline-flex;
+      flex: 0 0 auto;
+      margin-bottom: 0;
+  
+      & + & {
+        .qm-option__toggle-box {
+          border-left: 0;
+          border-radius: rem(0 $standard-border-radius $standard-border-radius 0);
+  
+          @at-root [dir='rtl'] & {
+            border-left: 1px solid $dark-transparent42;
+            border-right: 0;
+            border-radius: rem($standard-border-radius 0 0 $standard-border-radius);
+          }
+        }
+      }
+    }
+  
+    &__toggle-box {
+      border-radius: rem($standard-border-radius 0 0 $standard-border-radius);
+      padding: rem($standard-padding / 2 $standard-padding);
+      color: $dark-transparent42;
+      border: 1px solid $dark-transparent42;
+      cursor: pointer;
+  
+      @at-root [dir='rtl'] & {
+        border-radius: rem(0 $standard-border-radius $standard-border-radius 0);
+      }
+    }
+  }
+  
