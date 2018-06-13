@@ -1,5 +1,5 @@
 <div class="qm-booking-history" [dir]="userDirection$ | async">
-  <span class="qm-booking-history__headline qm-headline qm-headline--small">Recently booked</span>
+  <span class="qm-booking-history__headline qm-headline qm-headline--small">{{ 'label.bookingHistory.headline' | translate }}</span>
   <!-- first row -->
   <div class="row qm-booking-history-item" *ngFor="let appointment of bookingHistory">
     <div class="col-4 qm-booking-history-item__col">
