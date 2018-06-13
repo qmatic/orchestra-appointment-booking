@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, catchError, mergeMap, withLatestFrom, delay } from 'rxjs/operators';
+import { switchMap, tap, catchError, mergeMap, withLatestFrom, delay, timeout } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
@@ -117,15 +117,14 @@ export class BookingEffects {
 
           this.translateService.get('label.create.appointment.success').subscribe(
             (label: string) =>  {
-              this.toastService.successToast(label).onHidden.subscribe(() => {
-                this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
-                  if (isPrint) {
-                    this.navigationService.goToPrintConfirmPage();
-                  }
-                }).unsubscribe();
-
-              }
-              );
+              this.toastService.successToast(label);
+                  this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
+                    if (isPrint) {
+                     setTimeout(() => {
+                      this.navigationService.goToPrintConfirmPage();
+                     }, 1000);
+                    }
+                  }).unsubscribe();
             }
           ).unsubscribe();
         }
@@ -144,7 +143,8 @@ export class BookingEffects {
           new BookingActions.DeselectServices,
           new BookingActions.ResetAppointmentNotificationType,
           new BookingActions.ResetAppointmentTitle,
-          new BookingActions.ResetAppointmentNote
+          new BookingActions.ResetAppointmentNote,
+          new BookingActions.PrintAppointmentOption(false)
         ];
       })
     );

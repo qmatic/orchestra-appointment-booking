@@ -70,11 +70,8 @@
                     </div>
                     <div class="qm-print__footer">
                         <div class="qm-generic-layout qm-generic-layout--justify-center">
-                           <!--  {{ button.render(id='closeBtn', modifiers='qm-btn--secondary qm-print__btn', text='Close') }}
-                            {{ button.render(id='printBtn', modifiers='qm-btn--primary qm-print__btn', text='Print') }} -->
-
-                            <button type="button" class="qm-btn qm-btn--secondary qm-print__btn hide-in-print">
-                                <span class="qm-btn__text" (click)="cancelEdit()" title="{{ 'button.print.close' | translate }}">{{ 'button.print.close' | translate }}</span>
+                              <button type="button" (click)="cancelEdit()" class="qm-btn qm-btn--secondary qm-print__btn hide-in-print">
+                                <span class="qm-btn__text"  title="{{ 'button.print.close' | translate }}">{{ 'button.print.close' | translate }}</span>
                               </button>
                               <button class="qm-btn qm-btn--primary qm-print__btn hide-in-print" (click)="printAppointment()" >
                                 <span class="qm-btn__text" title="{{ 'button.print.confirm' | translate }}">{{ 'button.print.confirm' | translate }}</span>
@@ -85,4 +82,7 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="qm-messages" toastContainer dir="{{ userDirection$ | async }}">
 </div>
