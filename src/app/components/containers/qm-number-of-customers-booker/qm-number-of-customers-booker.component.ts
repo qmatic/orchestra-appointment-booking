@@ -24,6 +24,7 @@ export class QmNumberOfCustomersBookerComponent implements OnInit, OnDestroy {
   private selectedAppointment$: Observable<IAppointment>;
 
   private selectedNumberOfCustomers: number;
+  private selectedAppointment: IAppointment;
 
   private firstLoadOnEdit = false;
 
@@ -51,13 +52,20 @@ export class QmNumberOfCustomersBookerComponent implements OnInit, OnDestroy {
         } else {
           this.firstLoadOnEdit = false;
         }
+        this.selectedAppointment = selectedAppointment;
       }
     );
 
     const numberOfCustomersArraySubscription = this.numberOfCustomersArray$.subscribe(
       (numberOfCustomersArray: number[]) => {
         if (this.firstLoadOnEdit === true) {
-          this.numberOfCustomersDispatchers.loadNumberOfCustomers(1);
+          if (this.selectedAppointment
+            && this.selectedAppointment['numberOfCustomers'] !== undefined
+            && this.selectedAppointment.numberOfCustomers !== null) {
+            this.numberOfCustomersDispatchers.loadNumberOfCustomers(this.selectedAppointment.numberOfCustomers);
+          } else {
+            this.numberOfCustomersDispatchers.loadNumberOfCustomers(1);
+          }
           this.firstLoadOnEdit = false;
         } else {
           this.numberOfCustomersDispatchers.setNumberOfCustomers(1);

@@ -9,6 +9,7 @@ export interface IAppointment {
   created?: number;
   updated?: number;
   start?: string;
+  numberOfCustomers?: number;
   custom?: string;
   customers?: ICustomer[];
   branch?: IBranch;
