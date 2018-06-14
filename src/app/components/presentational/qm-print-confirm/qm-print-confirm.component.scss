@@ -2,6 +2,10 @@
     &__list {
         list-style-type: none;
     }
+
+    &__list-item {
+        word-wrap: break-word;
+    }
 }
 
 .qm-print{
@@ -9,6 +13,8 @@
         font-size: 1.35rem;
     }
 }
+
+
 
 @media print
 {    

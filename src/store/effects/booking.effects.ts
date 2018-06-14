@@ -1,3 +1,4 @@
+import { PrintDispatchers } from './../services/print/print.dispatchers';
 import { AppointmentMetaSelectors } from './../services/appointment-meta/appointment-meta.selectors';
 import { NavigationService } from './../../app/util/navigation.service';
 import { Injectable, Pipe } from '@angular/core';
@@ -19,7 +20,7 @@ import { IBookingInformation } from '../../models/IBookingInformation';
 import { IService } from '../../models/IService';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 import { ERROR_CODE_TIMESLOT_TAKEN } from '../../app/shared/error-codes';
-import { PrintAppointment } from '../index';
+import { BookAppointmentSuccess } from '../index';
 
 const toAction = BookingActions.toAction();
 
@@ -33,7 +34,8 @@ export class BookingEffects {
       private translateService: TranslateService,
       private errorHandler: GlobalErrorHandler,
       private navigationService: NavigationService,
-      private appointmentMetaSelectors: AppointmentMetaSelectors
+      private appointmentMetaSelectors: AppointmentMetaSelectors,
+      private printDispatchers: PrintDispatchers
     ) {}
 
   @Effect()
@@ -113,13 +115,13 @@ export class BookingEffects {
   bookAppointmentSuccess$: Observable<Action> = this.actions$
     .ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS)
     .pipe(
-      tap((action: BookingActions.BookAppointmentSuccess) => {
-
+      tap((action: BookAppointmentSuccess) => {
           this.translateService.get('label.create.appointment.success').subscribe(
             (label: string) =>  {
               this.toastService.successToast(label);
                   this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
                     if (isPrint) {
+                      this.printDispatchers.setPrintedAppointment(action.payload);
                      setTimeout(() => {
                       this.navigationService.goToPrintConfirmPage();
                      }, 1000);
@@ -129,7 +131,6 @@ export class BookingEffects {
           ).unsubscribe();
         }
       ),
-
       withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
       switchMap((data: any) => {
         const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;

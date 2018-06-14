@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { IBranch } from './../../../../models/IBranch';
 import { Setting } from './../../../../models/Setting';
 import { NavigationService } from './../../../util/navigation.service';
@@ -7,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CustomerSelectors, BookingSelectors, UserSelectors, SettingsAdminSelectors } from '../../../../store/index';
+import { PrintSelectors } from '../../../../store/services/print/index';
 
 @Component({
   selector: 'qm-qm-print-confirm',
@@ -19,23 +21,30 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   currentCustomer: ICustomer;
   bookedAppointment: IAppointment;
   userDirection$: Observable<string>;
+  printedAppointment$: Observable<IAppointment>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private settingsMap: { [name: string ]: Setting };
 
   constructor(private customerSelectors: CustomerSelectors, private bookingSelectors: BookingSelectors,
               private navigationService: NavigationService, private userSelectors: UserSelectors,
-              private settingsMapSelectors: SettingsAdminSelectors) {
+              private settingsMapSelectors: SettingsAdminSelectors, private route: ActivatedRoute,
+              private printSelectors: PrintSelectors) {
       this.userDirection$ = this.userSelectors.userDirection$;
       this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
+      this.printedAppointment$ = this.printSelectors.printedAppointment$;
   }
 
   ngOnInit() {
-    const bookedAppointmentSubscription = this.bookingSelectors.bookedAppointment$.subscribe(bapp => {
+
+    const printAppointmentSubscription = this.printedAppointment$.subscribe(bapp => {
       this.bookedAppointment = bapp;
-      if (bapp && bapp.customers && bapp.customers.length > 0) {
-        this.currentCustomer = bapp.customers[0];
-      }
     });
+
+    this.subscriptions.add(printAppointmentSubscription);
+
+    if (this.bookedAppointment && this.bookedAppointment.customers && this.bookedAppointment.customers.length > 0) {
+      this.currentCustomer = this.bookedAppointment.customers[0];
+    }
 
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
@@ -43,7 +52,6 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
       }
     );
 
-   this.subscriptions.add(bookedAppointmentSubscription);
    this.subscriptions.add(settingsSubscription);
   }
 

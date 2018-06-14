@@ -17,7 +17,7 @@
           </button>
         </div>
         <div class="qm-booking-history-item__right">
-          <button class="qm-action-btn qm-action-btn--only-icon" title="{{ 'button.bookingHistory.print' | translate }}">
+          <button class="qm-action-btn qm-action-btn--only-icon" (click)="printAppointment(appointment)" title="{{ 'button.bookingHistory.print' | translate }}">
             <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
             <span class="sr-only">{{ 'button.bookingHistory.print' | translate }}</span>
           </button>

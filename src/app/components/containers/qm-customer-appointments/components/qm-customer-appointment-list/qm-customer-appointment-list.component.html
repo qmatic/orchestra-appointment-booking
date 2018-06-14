@@ -41,7 +41,7 @@
           </span>
         </button>
 
-        <button *ngIf="displayStatus(appointment).showPrint" class="qm-action-btn qm-action-btn qm-appointment-card__btn" title="{{ 'button.customerAppointments.print' | translate }}">
+        <button *ngIf="displayStatus(appointment).showPrint" (click)="printAppointment(appointment)" class="qm-action-btn qm-action-btn qm-appointment-card__btn" title="{{ 'button.customerAppointments.print' | translate }}">
           <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
           <span class="sr-only">
             {{ 'button.customerAppointments.print' | translate }}

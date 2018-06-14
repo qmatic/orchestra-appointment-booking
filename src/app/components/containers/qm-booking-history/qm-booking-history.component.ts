@@ -1,14 +1,17 @@
+import { PrintDispatchers } from './../../../../store/services/print/print.dispatchers';
+import { NavigationService } from './../../../util/navigation.service';
+import { IAppointment } from './../../../../models/IAppointment';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
-import { IAppointment } from '../../../../models/IAppointment';
 import { ICustomer } from '../../../../models/ICustomer';
 import {
   CustomerDispatchers,
   AppointmentDispatchers,
   UserSelectors,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  PrintDispatchers
 } from '../../../../store';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { Setting } from '../../../../models/Setting';
@@ -30,7 +33,9 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     private appointmentDispatchers: AppointmentDispatchers,
     private userSelectors: UserSelectors,
     private modalService: QmModalService,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private navigationService: NavigationService,
+    private printDispatchers: PrintDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
@@ -81,5 +86,10 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     return moment()
       .tz(appointment.branch.fullTimeZone)
       .format('Z');
+  }
+
+  printAppointment(appointment: IAppointment) {
+    this.printDispatchers.setPrintedAppointment(appointment);
+    this.navigationService.goToPrintConfirmPage();
   }
 }

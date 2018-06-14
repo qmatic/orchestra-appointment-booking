@@ -1,3 +1,4 @@
+import { NavigationService } from './../../../../../util/navigation.service';
 import { element } from 'protractor';
 import { IAppointment } from './../../../../../../models/IAppointment';
 import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
@@ -26,6 +27,7 @@ import {
   BookingHelperSelectors
 } from '../../../../../../store';
 import { BookingHelperService } from '../../../../../../services/util/bookingHelper.service';
+import { PrintDispatchers } from '../../../../../../store/services/print/index';
 
 interface IAppointmentScroll extends IAppointment {
   scrollTo: boolean;
@@ -59,7 +61,9 @@ export class QmCustomerAppointmentListComponent
     private modalService: QmModalService,
     private translate: TranslateService,
     private router: Router,
-    private bookingHelperService: BookingHelperService
+    private bookingHelperService: BookingHelperService,
+    private navigationService: NavigationService,
+    private printDispatchers: PrintDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.userLocale$ = this.userSelectors.userLocale$;
@@ -295,5 +299,10 @@ export class QmCustomerAppointmentListComponent
   ngOnDestroy() {
     // window.location.hash = '';
     this.subscriptions.unsubscribe();
+  }
+
+  printAppointment(appointment: IAppointment) {
+    this.printDispatchers.setPrintedAppointment(appointment);
+    this.navigationService.goToPrintConfirmPage();
   }
 }

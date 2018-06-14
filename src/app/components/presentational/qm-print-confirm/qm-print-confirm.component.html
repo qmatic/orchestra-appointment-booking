@@ -40,7 +40,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.customers' | translate}}</th>
-                                        <td> {{ this.bookedAppointment?.customers.length}} {{'label.print.appointment.customer.count' | translate}}</td>
+                                        <td> {{ bookedAppointment?.numberOfCustomers}} {{ (bookedAppointment?.numberOfCustomers > 1 ? 'label.print.appointment.customers' : 'label.print.appointment.customer') | translate }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">{{'label.print.appointment.service' | translate}}</th>

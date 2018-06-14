@@ -56,7 +56,9 @@ import {
   ReservationExpiryTimerDispatchers,
   ReservationExpiryTimerSelectors,
   ShiroDataService,
-  ShiroDispatchers
+  ShiroDispatchers,
+  PrintDispatchers,
+  PrintSelectors
 } from './services';
 
 export const storeServices = [
@@ -67,7 +69,7 @@ export const storeServices = [
   AppointmentMetaSelectors,
   AppointmentDataService,
   AppointmentDispatchers,
-  AppointmentSelectors,
+   AppointmentSelectors,
   NumberOfCustomersDispatchers,
   NumberOfCustomersSelectors,
   CustomerDataService,
@@ -112,5 +114,7 @@ export const storeServices = [
   ReservationExpiryTimerDispatchers,
   ReservationExpiryTimerSelectors,
   ShiroDispatchers,
-  ShiroDataService
+  ShiroDataService,
+  PrintDispatchers,
+  PrintSelectors
 ];
