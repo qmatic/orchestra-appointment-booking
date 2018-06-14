@@ -5,7 +5,7 @@
     }
 
     &__list-item {
-        word-wrap: break-word;
+        word-break: break-all;
     }
 }
 
@@ -36,5 +36,6 @@
       margin-left: rem($standard-margin);
       display: flex;
       text-align: right;
+      word-break: break-all;
     }
 }
