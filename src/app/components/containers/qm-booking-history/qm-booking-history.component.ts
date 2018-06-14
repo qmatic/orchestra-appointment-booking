@@ -1,4 +1,3 @@
-import { PrintDispatchers } from './../../../../store/services/print/print.dispatchers';
 import { NavigationService } from './../../../util/navigation.service';
 import { IAppointment } from './../../../../models/IAppointment';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
