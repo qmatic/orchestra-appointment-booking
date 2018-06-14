@@ -89,6 +89,7 @@ body {
     @media print {
       max-width: rem(560px);
     }
+    word-break: break-all;
   }
 
   &__btn {
