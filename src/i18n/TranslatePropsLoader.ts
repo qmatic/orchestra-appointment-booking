@@ -24,8 +24,9 @@ export class TranslatePropsLoader implements TranslateLoader {
 	 * @returns {any}
 	 */
   public getTranslation(lang: string): Observable<any> {
+    const cacheBust = new Date().getTime();
     return this.http
-      .get(`${this.prefix}/${lang}${this.suffix}`, { responseType: 'text' })
+      .get(`${this.prefix}/${lang}${this.suffix}?_=${cacheBust}`, { responseType: 'text' })
       .pipe(map((contents: string) => this.parse(contents))).catch(err => {
         console.log(err);
         return of({});
