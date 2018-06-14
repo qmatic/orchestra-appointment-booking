@@ -13,7 +13,7 @@
 
   <div class="qm-header__right">
     <a (click)="navigateToSettings($event)" href="/settings-admin"
-      *ngIf="userIsAdmin$ | async as userIsAdmin"
+      *ngIf="(userIsAdmin$ | async) && hasValidLicense()"
       [ngClass]="{'qm-header__settings-admin-active' : isPreventHeaderNavigations}"
       class="qm-action-btn qm-action-btn--only-icon qm-header__settings-btn">
       <i class="qm-action-btn__icon icon-gears" aria-hidden="true"></i>

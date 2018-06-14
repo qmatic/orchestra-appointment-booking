@@ -1,7 +1,11 @@
-<div class="qm-bg">
+<div class="qm-app" dir="{{ userDirection$ | async }}">
+  <qm-page-header></qm-page-header>
+  <qm-main>
     <div class="license-message">
       <div class="license-message__invalid-text">
           {{ 'label.invalidLicense' | translate }}
       </div>
     </div>
+  </qm-main>
+  <qm-page-footer></qm-page-footer>
 </div>

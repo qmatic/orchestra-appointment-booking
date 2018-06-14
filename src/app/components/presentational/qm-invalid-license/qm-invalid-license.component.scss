@@ -1,22 +1,15 @@
 @import '../../../../styles/base/_component-manifest.scss';
 
-.qm-bg{
-    background: linear-gradient(254.96deg, #32405C 0%, #40526E 34.9%, #374561 62.87%, #394561 77.12%, #484766 100%);
-    height: 100vh;
-    display: flex;
-    overflow: hidden;
-    .license-message {
-        margin: 0 auto;
-        display: flex;
-        &__invalid-text{
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            color: $white;
-            text-align: center;
-            font-size: rem(22px);
-            font-weight: normal;
-        }
-    }
-}
+.license-message {
+  display: flex;
+  margin: 0 auto;
 
+  &__invalid-text {
+    display: inline-flex;
+    align-items: center;
+    font-size: rem(22px);
+    color: $white;
+    font-weight: $font-weight-regular;
+    text-align: center;
+  }
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISystemInfo } from './../../../../models/ISystemInfo';
-import { SystemInfoSelectors } from '../../../../store';
+import { SystemInfoSelectors, LicenseInfoSelectors } from '../../../../store';
 
 @Component({
   selector: 'qm-page-footer',
@@ -10,12 +10,15 @@ import { SystemInfoSelectors } from '../../../../store';
 })
 export class QmPageFooterComponent implements OnInit {
 
-  systemInformation$: Observable<ISystemInfo>;
+  public systemInformation$: Observable<ISystemInfo>;
+  public licenseIsValid$: Observable<boolean>;
 
   constructor(
-    private systemInfoSelectors: SystemInfoSelectors
+    private systemInfoSelectors: SystemInfoSelectors,
+    private licenseInfoSelectors: LicenseInfoSelectors
   ) {
     this.systemInformation$ = this.systemInfoSelectors.systemInfo$;
+    this.licenseIsValid$ = this.licenseInfoSelectors.isValidLicense$;
   }
 
   ngOnInit() { }

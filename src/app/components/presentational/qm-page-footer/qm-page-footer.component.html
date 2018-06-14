@@ -1,7 +1,7 @@
 <footer class="qm-footer">
     <div *ngIf="systemInformation$ | async as systemInformation" class="qm-footer__content">
         <p class="qm-footer__text"
-           *ngIf="hasValidLicense(systemInformation.licenseCompanyName); else notLicensed">
+           *ngIf="(licenseIsValid$ | async); else notLicensed">
           {{ 'label.poweredBy' | translate }} QMATIC
           {{ systemInformation.productName }}
           {{ systemInformation.releaseName }}
@@ -10,7 +10,7 @@
           {{ systemInformation.licenseCompanyName }}
         </p>
         <ng-template #notLicensed>
-          <p class="qm-footer__text">{{ 'label.notLicensed' }}</p>
+          <p class="qm-footer__text">{{ 'label.notLicensed' | translate }}</p>
         </ng-template>
     </div>
 </footer>

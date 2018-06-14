@@ -15,7 +15,7 @@ import {
   Input
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UserSelectors } from '../../../../store';
+import { UserSelectors, SystemInfoSelectors, LicenseInfoSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +27,7 @@ import {
   SETTINGS_URL
 } from './header-navigation';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
+import { ISystemInfo } from '../../../../models/ISystemInfo';
 
 @Component({
   selector: 'qm-page-header',
@@ -43,6 +44,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   headerSubscriptions: Subscription = new Subscription();
   isTimeSlotSelected: boolean;
   selectedTime$: Observable<string>;
+  private isValidLicense$: Observable<boolean>;
+  private isValidLicense: boolean;
 
   @Output()
   clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
@@ -63,13 +66,15 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     private timeslotDispatchers: TimeslotDispatchers,
     public autoCloseService: AutoClose,
     private router: Router,
-    private logoutService: Logout
+    private logoutService: Logout,
+    private licenseInfoSelectors: LicenseInfoSelectors
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.selectedServices$ = this.bookingHelperSelectors.selectedServices$;
     this.selectedTime$ = this.bookingHelperSelectors.selectedTime$;
+    this.isValidLicense$ = this.licenseInfoSelectors.isValidLicense$;
   }
 
   ngOnInit() {
@@ -88,6 +93,14 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
         }
       })
     );
+
+    const licenseSubscription = this.isValidLicense$.subscribe(
+      (licenseIsValid: boolean) => {
+        this.isValidLicense = licenseIsValid;
+      }
+    );
+
+    this.headerSubscriptions.add(licenseSubscription);
   }
   ngOnDestroy() {
     this.headerSubscriptions.unsubscribe();
@@ -149,5 +162,9 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     } else {
       successAction();
     }
+  }
+
+  hasValidLicense(): boolean {
+    return this.isValidLicense;
   }
 }
