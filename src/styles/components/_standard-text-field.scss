@@ -31,6 +31,11 @@
     color: $secondary-color;
   }
 
+  &__input-container {
+    display: block;
+    position: relative;
+  }
+
   &__input {
     width: 100%;
     font-size: rem(18px);
@@ -86,17 +91,6 @@
 
     .qm-standard-text-field__error-message {
       visibility: visible;
-    }
-  }
-
-  .qm-clear-input-button {
-    position: absolute;
-    right: 14px;
-    top: 34px;
-    cursor: pointer;
-    .qm-action-btn__icon {
-      color: $dark-transparent42;
-      font-size: rem(16px);
     }
   }
 }

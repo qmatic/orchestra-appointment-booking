@@ -22,16 +22,8 @@
     &:focus {
         background: $dark-transparent04;
         text-decoration: none;
-        .qm-appointment-card__headline {
-            color: $primary-color;
-        }
-        .qm-appointment-card__time-icon {
-            color: $dark-transparent82;
-        }
-        .qm-appointment-card__time-text {
-            color: $dark-transparent82;
-        }
     }
+
     @at-root [dir='rtl'] & {
         text-align: right;
     }
@@ -71,27 +63,34 @@
         display: inline-block;
         font-size: rem(18px);
         line-height: rem(24px);
-        font-weight: $font-weight-light;
+        font-weight: $font-weight-regular;
         color: $dark-transparent42;
         word-break: break-all;
         word-break: break-word;
     }
     &__content-container {
         display: block;
-        &:hover,
-        &:focus {
-          .qm-appointment-card__headline {
-              font-weight: $font-weight-regular;
-          }
-        }
-        &:active {
-          .qm-appointment-card__headline {
-            color: $dark-transparent82;
-          }
-        }
 
         &--edit {
           cursor: pointer;
+
+          &:active {
+            .qm-appointment-card__headline {
+              color: $dark-transparent82;
+            }
+          }
+
+          .qm-appointment-card__headline {
+            color: $primary-color;
+          }
+
+          .qm-appointment-card__time-icon {
+              color: $dark-transparent82;
+          }
+
+          .qm-appointment-card__time-text {
+            color: $dark-transparent82;
+          }
         }
     }
     &__action-container {
@@ -107,7 +106,7 @@
             }
         }
         .qm-action-btn__icon {
-            font-size: rem($base-unit * 2);
+            font-size: rem($base-unit * 2.5);
         }
         &:hover,
         &:focus {
@@ -125,7 +124,7 @@
     &__text-label {
         display: inline-block;
         font-size: rem(16px);
-        font-weight: $font-weight-light;
+        font-weight: $font-weight-regular;
         line-height: rem(24px);
         color: $dark-transparent42;
     }
@@ -134,12 +133,8 @@
         font-size: rem(18px);
         font-weight: $font-weight-medium;
         line-height: rem(24px);
-        color: $dark-transparent82;
+        color: $dark-transparent62;
         margin-left: rem($standard-margin / 4);
-
-        &--light {
-          font-weight: $font-weight-light;
-        }
 
         &.success {
             color: $secondary-color;

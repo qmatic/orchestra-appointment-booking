@@ -65,13 +65,19 @@
 
 
   &__settings-back-btn {
-    display: inherit;
-    align-items: flex-start;
-    font-size: 16px;
+    display: inline-flex;
+    font-size: rem(16px);
+    font-weight: $font-weight-regular;
+    align-items: center;
+    margin-right: rem($standard-margin* 2);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin * 2);
+    }
+
     span {
-      padding: 0px 7px;
-      align-self: center;
-      min-width: 169px;
+      display: block;
     }
   }
 

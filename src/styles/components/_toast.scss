@@ -4,7 +4,11 @@
 }
 
 .toast-close-button {
-  flex: 0 0 20px;
+  height: 24px;
+  width: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
   color: $light-transparent42;
   border: 0;
   background: transparent;
@@ -33,13 +37,17 @@
 // Block
 .qm-toast {
   display: flex;
-  padding: rem($standard-padding 24px $standard-padding);
+  padding: rem($standard-padding $standard-padding / 2 $standard-padding $standard-padding * 1.5);
   color: $toast-text-color;
   background: $tertiary-color;
   max-width: 570px;
   width: 100%;
   z-index: 3;
   margin: 0 auto;
+
+  @at-root [dir='rtl'] & {
+    padding: rem($standard-padding $standard-padding * 1.5 $standard-padding $standard-padding / 2);
+  }
 
   & + & {
     border-top: 1px solid $light-transparent42;

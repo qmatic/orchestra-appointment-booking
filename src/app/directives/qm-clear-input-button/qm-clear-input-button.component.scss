@@ -1,10 +1,22 @@
+
 .qm-clear-input-button {
-    position: absolute;
-    right: 14px;
-    top: 34px;
-    cursor: pointer;
-    @at-root [dir='rtl'] & {
-        right: auto;
-        left: 14px;
-    }
+  position: absolute;
+  color: rgba(0, 0, 0, 0.42);
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.62);
+  }
+
+  @at-root [dir='rtl'] & {
+      right: auto;
+      left: 0.5rem;
+  }
+
+  .qm-action-btn__icon {
+    font-size: 1rem;
+  }
 }
