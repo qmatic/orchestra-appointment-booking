@@ -103,6 +103,9 @@ body {
   .qm-customer-card {
     &__headline {
       margin-bottom: rem($standard-margin / 2);
+      @at-root [dir='rtl'] & {
+        text-align: right;
+      }
     }
 
     &__name {
@@ -124,9 +127,5 @@ body {
     &__list-item-text {
       font-size: rem(14px);
     }
-  }
-
-  .qm-customer-card__list-item + .qm-customer-card__list-item {
-    margin-top: rem($standard-margin / 2);
   }
 }
