@@ -24,6 +24,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   printedAppointment$: Observable<IAppointment>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private settingsMap: { [name: string ]: Setting };
+  phoneEnabled = true;
+  emailEnabled = true;
 
   constructor(private customerSelectors: CustomerSelectors, private bookingSelectors: BookingSelectors,
               private navigationService: NavigationService, private userSelectors: UserSelectors,
@@ -49,6 +51,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
+        this.phoneEnabled = settingsMap.CustomerIncludePhone.value;
+        this.emailEnabled = settingsMap.CustomerIncludeEmail.value;
       }
     );
 

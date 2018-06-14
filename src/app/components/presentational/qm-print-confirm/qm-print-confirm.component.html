@@ -15,11 +15,11 @@
                                         <a href="#" class="qm-customer-card__name" [innerText]="currentCustomer?.name"></a>
                                     </h1>
                                     <ul class="qm-customer-card__list">
-                                        <li class="qm-customer-card__list-item">
+                                        <li class="qm-customer-card__list-item"  *ngIf="phoneEnabled">
                                             <i class="icon-phone qm-customer-card__list-item-icon" aria-hidden="true"></i>
                                             <span class="qm-customer-card__list-item-text" [innerText]="currentCustomer?.phone"></span>
                                         </li>
-                                        <li class="qm-customer-card__list-item">
+                                        <li class="qm-customer-card__list-item" *ngIf="emailEnabled">
                                             <i class="icon-mail qm-customer-card__list-item-icon" aria-hidden="true"></i>
                                             <span class="qm-customer-card__list-item-text" [innerText]="currentCustomer?.email"></span>
                                         </li>
