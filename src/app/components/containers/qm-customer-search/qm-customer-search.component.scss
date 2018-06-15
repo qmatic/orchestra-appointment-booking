@@ -42,8 +42,25 @@
 
   &__btn {
     color: $secondary-color;
+
+    &:active {
+      color: $dark-transparent82;
+    }
+
     .qm-action-btn__icon {
       font-size: rem(36px);
+    }
+
+    .qm-btn__text {
+      font-size: rem(18px);
+      line-height: rem(21px);
+      font-weight: $font-weight-regular;
+      padding-right: rem($standard-padding / 4);
+
+      @at-root [dir='rtl'] & {
+        padding-right: 0;
+        padding-left: rem($standard-padding / 4);
+      }
     }
   }
 
