@@ -34,10 +34,10 @@ export class SettingsAdminDataService {
       .buildDefaultSettings();
 
     return this.http
-      .get<{ name, value }>
-      (`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}`).map((setting) => {
+      .get
+      (`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}`).map((settings: any) => {
         outputSettings.settingsList = settingsBuilder
-          .merge(setting.value)
+          .merge(settings)
           .toArray();
         return outputSettings;
       })

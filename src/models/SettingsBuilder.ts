@@ -29,21 +29,22 @@ export class SettingsBuilder {
         return this;
     }
 
-    merge(settingsJson: string): SettingsBuilder {
-        if (settingsJson && settingsJson.length > 0) {
-            const parsedSettings  = JSON.parse(settingsJson);
+    merge(settings: Array<any>): SettingsBuilder {
+        if (settings && settings.length > 0) {
 
-            for (const [name, value] of Object.entries(parsedSettings)) {
-                const targetSetting = this._defaultSettings.get(name);
+            for (const st of settings) {
+                const key = st.key;
+                const value = JSON.parse(st.value);
+                const targetSetting = this._defaultSettings.get(key);
                 if (targetSetting) {
-                    targetSetting.value = value;
-                    this._defaultSettings.set(name, targetSetting);
+                    targetSetting.value = JSON.parse(value);
+                    this._defaultSettings.set(key, targetSetting);
                 } else {
                     this._defaultSettings.forEach((ds: Setting) => {
-                        if (ds.children && ds.children.has(name) ) {
-                            const childSetting = ds.children.get(name);
-                            childSetting.value = value;
-                            ds.children.set(name, childSetting);
+                        if (ds.children && ds.children.has(key) ) {
+                            const childSetting = ds.children.get(key);
+                            childSetting.value = JSON.parse(value);
+                            ds.children.set(key, childSetting);
                         }
                     });
                 }
