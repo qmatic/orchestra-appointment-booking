@@ -50,8 +50,15 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
 
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
+
         this.settingsMap = settingsMap;
-        this.phoneEnabled = settingsMap.CustomerIncludePhone.value;
+
+        this.printedAppointment$.subscribe(bapp => {
+          this.phoneEnabled = settingsMap.CustomerIncludePhone.value && (
+            (settingsMap.CustomerPhoneDefaultCountry.value || '').trim() !== (this.currentCustomer ?
+              (this.currentCustomer.phone || '').trim() : '')) ;
+        }).unsubscribe();
+
         this.emailEnabled = settingsMap.CustomerIncludeEmail.value;
       }
     );
