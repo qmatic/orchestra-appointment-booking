@@ -37,6 +37,7 @@
 // Block
 .qm-toast {
   display: flex;
+  align-items: center;
   padding: rem($standard-padding $standard-padding / 2 $standard-padding $standard-padding * 1.5);
   color: $toast-text-color;
   background: $tertiary-color;
