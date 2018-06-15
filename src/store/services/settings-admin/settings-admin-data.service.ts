@@ -41,7 +41,6 @@ export class SettingsAdminDataService {
           .toArray();
         return outputSettings;
       })
-
       .pipe(catchError(this.errorHandler.handleError()));
   }
 

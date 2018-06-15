@@ -1,14 +1,14 @@
 @import '../../../../styles/base/_component-manifest.scss';
 
 :host {
-    position: absolute;
     bottom: 0;
     display: flex;
+    padding-top: rem(60px)
 }
 
 .qm-printbox {
     &__print-text {
-        margin-left:  rem(12px);
+        margin-left: rem(12px);
     } 
 }
 
