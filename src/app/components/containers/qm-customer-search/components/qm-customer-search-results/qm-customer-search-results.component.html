@@ -1,4 +1,4 @@
-<div class="qm-customer-search-results" dir="{{ userDirection$ | async }}">
+<div class="qm-customer-search-results" dir="{{ userDirection$ | async }}" *ngIf="showComponent()">
   <table class="qm-customer-search-results__table" *ngIf="showResults()">
     <thead>
       <tr>

@@ -64,6 +64,10 @@ export class QmCustomerSearchResultsComponent implements OnInit, OnDestroy {
     return !this.customersLoaded && this.customersLoading;
   }
 
+  showComponent() {
+    return this.showResults() || this.showNoResults() || this.showLoading();
+  }
+
   selectCustomer(customer: ICustomer) {
     this.customerDispatchers.selectCustomer(customer);
     this.resetSearch();

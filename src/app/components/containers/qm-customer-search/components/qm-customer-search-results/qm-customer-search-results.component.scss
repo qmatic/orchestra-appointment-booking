@@ -3,14 +3,22 @@
   position: absolute;
   top: 100%;
   left: 0;
-  right: 0;
+  // right: 0;
   background: $white;
   box-shadow: $heavy-box-shadow;
+  max-width: 740px;
+  min-width: 100%;
+
+  @at-root [dir='rtl'] & {
+    right: 0;
+    left: auto;
+  }
 }
 
 .qm-customer-search-results {
   max-height: 220px;
   overflow: auto;
+  border: 1px solid $standard-border-color;
 
   &__no-hits {
     font-size: rem(18px);
