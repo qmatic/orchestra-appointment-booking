@@ -48,7 +48,7 @@ export class SettingsBuilder {
 
             for (const st of settings) {
                 const key = st.key;
-                const value = st.value === this.NULL ? null : st.value; // orchestra server do not allow null
+                const value = st.value === this.NULL ? null : this.parseJson(st.value); // orchestra server do not allow null
                 const targetSetting = this._defaultSettings.get(key);
                 if (targetSetting) {
                     targetSetting.value = value;
@@ -57,7 +57,7 @@ export class SettingsBuilder {
                     this._defaultSettings.forEach((ds: Setting) => {
                         if (ds.children && ds.children.has(key) ) {
                             const childSetting = ds.children.get(key);
-                            childSetting.value = value;
+                            childSetting.value = this.parseJson(value);
                             ds.children.set(key, childSetting);
                         }
                     });
@@ -66,6 +66,14 @@ export class SettingsBuilder {
         }
 
         return this;
+    }
+
+    parseJson(target) {
+        try {
+            target = JSON.parse(target);
+        } catch (e) {
+        }
+        return target;
     }
 
     mergeSettingsForUpdate(parsedSettings: any): SettingsBuilder {
