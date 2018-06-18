@@ -6,4 +6,5 @@ export interface ISettingsResponse {
 
 export interface ISettingsUpdateRequest {
     settingsList: any;
+    updateSilently: boolean;
 }

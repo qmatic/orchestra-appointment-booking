@@ -1,5 +1,4 @@
 import { forkJoin } from 'rxjs/observable/forkJoin';
-
 import { Setting } from './../../../models/Setting';
 import { ISettingsResponse, ISettingsUpdateRequest } from './../../../models/ISettingsResponse';
 import { Injectable } from '@angular/core';
@@ -7,26 +6,29 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError, merge, mergeMap, debounceTime } from 'rxjs/operators';
+import { catchError, merge, mergeMap, debounceTime, delay, tap } from 'rxjs/operators';
 import { calendarEndpoint, restEndpoint, DataServiceError, qsystemEndpoint, applicationId } from '../data.service';
 import { SettingsBuilder } from '../../../models/SettingsBuilder';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
-import { bufferWhen } from 'rxjs/operators/bufferWhen';
 import { pipe } from 'rxjs/util/pipe';
-import { take } from 'rxjs/operator/take';
-import { concatAll } from 'rxjs/operator/concatAll';
-import { concatMap } from 'rxjs/operator/concatMap';
-import { delay } from 'q';
 import { from } from 'rxjs/observable/from';
-import { mergeAll } from 'rxjs/operator/mergeAll';
 import { Observer } from 'rxjs/Observer';
-import { combineAll } from 'rxjs/operators/combineAll';
+import { concat } from 'rxjs/operator/concat';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/observable/concat';
+
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { withLatestFrom } from 'rxjs/operator/withLatestFrom';
 
 @Injectable()
 export class SettingsAdminDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) { }
 
-  private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings';
+  private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings6';
 
   getSettings(): Observable<ISettingsResponse> {
     const outputSettings: ISettingsResponse = { settingsList: [] };
@@ -37,7 +39,7 @@ export class SettingsAdminDataService {
       .get
       (`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}`).map((settings: any) => {
         outputSettings.settingsList = settingsBuilder
-          .merge(settings)
+          .mergeSettingsWithGet(settings)
           .toArray();
         return outputSettings;
       })
@@ -47,24 +49,50 @@ export class SettingsAdminDataService {
   getMergedSettings(settingsToMerge) {
     const settingsList = new SettingsBuilder()
       .buildDefaultSettings()
-      .merge(settingsToMerge)
+      .mergeSettingsWithGet(settingsToMerge)
       .toArray();
     return settingsList;
   }
 
   updateSettings(settigsUpdateRequest: ISettingsUpdateRequest) {
-    const updateRequests = Object.keys(settigsUpdateRequest.settingsList).map((key, index) => {
-      return this.http.put(`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}/${key}`,
+
+    const updateRequests =  settigsUpdateRequest.settingsList.map((sett, index) => {
+      return this.http.put(`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}/${sett.key}`,
         {
-          key: key,
-          value: JSON.stringify(settigsUpdateRequest.settingsList[key])
+          key: sett.key,
+          value: String(sett.value === '') ? '-1' : sett.value
+          // orchestra issue for new api does not allow empty strings
         }
       );
     });
 
-    return forkJoin(updateRequests).map((x: any) => {
-      return settigsUpdateRequest;
-    }).pipe(catchError(this.errorHandler.handleError()));
+    return Observable.forkJoin(
+      Observable.concat(
+        updateRequests[0],
+        // Observable.timer(500),
+        forkJoin(updateRequests.slice(1))
+      ))
+      .map(
+        () => {
+          return settigsUpdateRequest;
+        }
+      )
+      .pipe(
+        catchError(this.errorHandler.handleError())
+      );
 
+    /*
+      return Observable.forkJoin(Observable.concat(combineLatest([updateRequests[0]]), Observable.timer(500),
+      combineLatest(updateRequests.slice(1))))
+      .map(
+      () => {
+        return settigsUpdateRequest;
+      }
+      ).pipe(catchError(this.errorHandler.handleError()));
+      ------------------------------------
+    return Observable.concat(combineLatest([updateRequests[0]]), Observable.timer(100), combineLatest(updateRequests.slice(1)))
+.zipAll()
+.pipe(catchError(this.errorHandler.handleError()));
+    */
   }
 }

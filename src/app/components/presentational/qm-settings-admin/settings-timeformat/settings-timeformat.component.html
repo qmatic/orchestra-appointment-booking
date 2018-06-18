@@ -6,14 +6,14 @@
     <div class="qm-option__toggle-container">
       <label class="qm-option__toggle-label" for="24">
         <input id="24" class="qm-option__radio" type="radio" [formControl]="settingControl" name="setting.name"
-        [value]="'24'" [checked]="setting.value === '24'" />
+        [value]="'24'" [checked]="setting.value == '24'" />
         <span class="qm-option__toggle-box">
           24 Hour
         </span>
       </label>
       <label class="qm-option__toggle-label" for="AMPM">
           <input id="AMPM" class="qm-option__radio" type="radio" [formControl]="settingControl" name="setting.name"
-          [value]="'AMPM'" [checked]="setting.value === 'AMPM'" />
+          [value]="'AMPM'" [checked]="setting.value == 'AMPM'" />
         <span class="qm-option__toggle-box">
           AM/PM
         </span>

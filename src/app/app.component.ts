@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.accountDispatchers.fetchAccountInfo();
     this.systemInfoDispatchers.fetchSystemInfo();
-    this.settingsAdminDispatchers.fetchSettings();
     this.serviceDispachers.fetchServices();
     this.branchDispatchers.fetchBranches();
     this.calendarSettingsDispatchers.fetchCalendarSettingsInfo();

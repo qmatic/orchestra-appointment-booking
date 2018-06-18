@@ -7,20 +7,20 @@ import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { ToastService } from './../../../../services/util/toast.service';
 import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation, OnDestroy,
   QueryList, AfterViewInit} from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
-import { AbstractControl } from '@angular/forms/src/model';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Subject } from 'rxjs/Subject';
 import { RouterEvent } from '@angular/router/src/events';
 import { LOGOUT, HOME } from '../../containers/qm-page-header/header-navigation';
 import { Logout } from '../../../../services/util/logout.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -50,6 +50,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   preselectBoundCollection: Array<any> = [];
 
   private readonly APP_URL: string = '/app';
+  private readonly NULL: string = 'null';
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -199,8 +200,9 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
         foundSetting.children.forEach((childSetting) => {
           const childControl = this.settingsEditForm.get(childSetting.name);
           if (control.value === false) {
-            childControl.setValue(null);
+            childControl.setValue(null); // orchestra does not accept null
             childControl.disable();
+            childControl.markAsDirty();
           } else {
             childControl.enable();
           }
@@ -211,9 +213,32 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   }
 
   saveSettings() {
+    /*const changedSettingsList = {};
+
+    Object.keys(this.settingsEditForm.controls).forEach(key => {
+      const formCtrl = this.settingsEditForm.get(key);
+      if (formCtrl.dirty) {
+        changedSettingsList[key] = formCtrl.value;
+      }
+    });*/
+
+    const changedSettingsList = [];
+
+    Object.keys(this.settingsEditForm.controls).forEach(key => {
+      const formCtrl = this.settingsEditForm.get(key);
+      if (formCtrl.dirty) {
+        changedSettingsList.push( {
+          key: key,
+          value: formCtrl.value
+        });
+      }
+    });
+
     const settingsUpdateRequest: ISettingsUpdateRequest = {
-      settingsList: this.settingsEditForm.getRawValue()
+      settingsList: changedSettingsList,
+      updateSilently: false
     };
+
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
   }
 

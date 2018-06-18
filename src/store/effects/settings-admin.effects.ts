@@ -58,18 +58,18 @@ export class SettingsAdminEffects {
         .ofType(SettingsAdminActions.SAVE_SETTINGS_SUCCESS)
         .pipe(
           tap((action: SettingsAdminActions.SaveSettingsSuccess) => {
-
             this.settingsDispatchers.updateSettingsStore(action.payload);
-
-            this.router.navigate(['/app']).then(() => {
-              setTimeout(() => {
-                this.translateService.get('message.settings.save.success').subscribe(
-                  (label: string) =>  {
-                    this.toastService.successToast(label);
-                  }
-                ).unsubscribe();
-              }, 200);
-            });
+            if (action.payload.updateSilently !== true) {
+              this.router.navigate(['/app']).then(() => {
+                setTimeout(() => {
+                  this.translateService.get('message.settings.save.success').subscribe(
+                    (label: string) =>  {
+                      this.toastService.successToast(label);
+                    }
+                  ).unsubscribe();
+                }, 200);
+              });
+            }
           }
           ),
 

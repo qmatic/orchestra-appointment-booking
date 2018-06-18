@@ -1,3 +1,5 @@
+import { ISettingsUpdateRequest } from './../models/ISettingsResponse';
+import { CONFIG_NOT_FOUND } from './util/orchestra-error-codes';
 import { Logout } from './../services/util/logout.service';
 import { TimeUtils } from './../services/util/timeUtils.service';
 import { QmClearInputDirective } from './directives/qm-clear-input.directive';
@@ -59,7 +61,8 @@ import {
   BranchDispatchers,
   ServiceDispatchers,
   SettingsAdminDispatchers,
-  ShiroDispatchers
+  ShiroDispatchers,
+  SettingsAdminSelectors
 } from '../store';
 
 // Components
@@ -147,10 +150,11 @@ import { QmPrintBoxComponent } from './components/presentational/qm-print-box/qm
 import { QmBookingHistoryComponent } from './components/containers/qm-booking-history/qm-booking-history.component';
 import { QmPrintConfirmComponent } from './components/presentational/qm-print-confirm/qm-print-confirm.component';
 import { NavigationService } from './util/navigation.service';
+import { SettingsBuilder } from '../models/SettingsBuilder';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     // if (
     //   action.type !== '[reservation-expiry-timer] SET_RESERVATION_EXPIRY_TIME'
     // ) {
@@ -304,7 +308,8 @@ export class AppModule {
     private userRoleDispatchers: UserRoleDispatchers,
     private router: Router,
     private settingsAdminDispatchers: SettingsAdminDispatchers,
-    private shiroDispatchers: ShiroDispatchers
+    private shiroDispatchers: ShiroDispatchers,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');
@@ -312,5 +317,22 @@ export class AppModule {
     this.router.navigate(['/loading']);
     this.settingsAdminDispatchers.fetchSettings();
     this.shiroDispatchers.startRefresh();
+    this.settingsAdminSelectors
+      .settingsError$
+      .subscribe((errorPayLoad: any) => {
+        if (errorPayLoad && errorPayLoad.errorCode === CONFIG_NOT_FOUND) {
+          const sb = new SettingsBuilder();
+          sb.buildDefaultSettings();
+
+
+          const settingsUpdateRequest: ISettingsUpdateRequest = {
+            settingsList: sb.toObject(),
+            updateSilently: true
+          };
+
+          this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
+        }
+      }
+    );
   }
 }

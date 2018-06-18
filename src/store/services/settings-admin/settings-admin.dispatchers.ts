@@ -22,8 +22,9 @@ export class SettingsAdminDispatchers {
   updateSettingsStore(updateRequest: ISettingsUpdateRequest) {
     const settingsList = new SettingsBuilder()
     .buildDefaultSettings()
-    .mergeSettingObj(updateRequest.settingsList)
+    .mergeSettingsWithGet(updateRequest.settingsList)
     .toArray();
+    console.log(settingsList);
     this.store.dispatch(new SettingsAdminActions.UpdateSettingsStore(settingsList));
   }
 }

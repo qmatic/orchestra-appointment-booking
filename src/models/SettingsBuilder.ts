@@ -5,6 +5,7 @@ const settingsConfig = require('./settings.json');
 export class SettingsBuilder {
 
     private _defaultSettings: Map<string, Setting> = new Map<string, Setting>();
+    private readonly NULL = ' '; // temp fix to work with orchestra restriction
     constructor() {
     }
 
@@ -29,21 +30,21 @@ export class SettingsBuilder {
         return this;
     }
 
-    merge(settings: Array<any>): SettingsBuilder {
+    mergeSettingsWithGet(settings: Array<any>): SettingsBuilder {
         if (settings && settings.length > 0) {
 
             for (const st of settings) {
                 const key = st.key;
-                const value = JSON.parse(st.value);
+                const value = st.value === this.NULL ? null : JSON.parse(st.value); // orchestra server do not allow null
                 const targetSetting = this._defaultSettings.get(key);
                 if (targetSetting) {
-                    targetSetting.value = JSON.parse(value);
+                    targetSetting.value = value;
                     this._defaultSettings.set(key, targetSetting);
                 } else {
                     this._defaultSettings.forEach((ds: Setting) => {
                         if (ds.children && ds.children.has(key) ) {
                             const childSetting = ds.children.get(key);
-                            childSetting.value = JSON.parse(value);
+                            childSetting.value = value;
                             ds.children.set(key, childSetting);
                         }
                     });
@@ -54,9 +55,10 @@ export class SettingsBuilder {
         return this;
     }
 
-    mergeSettingObj(parsedSettings: any): SettingsBuilder {
+    mergeSettingsForUpdate(parsedSettings: any): SettingsBuilder {
         if (parsedSettings) {
-            for (const [name, value] of Object.entries(parsedSettings)) {
+            for (let [name, value] of Object.entries(parsedSettings)) {
+                value = value === null ? this.NULL : value;
                 const targetSetting = this._defaultSettings.get(name);
                 if (targetSetting) {
                     targetSetting.value = value;
@@ -82,5 +84,29 @@ export class SettingsBuilder {
 
     toArray(): Setting[] {
         return Array.from(this._defaultSettings.values());
+    }
+
+    toObject(): Object {
+        const settings = Array.from(this._defaultSettings.values())
+        .reduce(
+            (allSettings: { [name: string]: any }, setting: Setting) => {
+              const childSettings = {};
+
+              if (setting.children && setting.children.size > 0) {
+                setting.children.forEach((v, k) => {
+                  childSettings[k] = v.value;
+                });
+              }
+
+              return {
+                ...allSettings,
+                [setting.name]: setting.value,
+                ...childSettings
+              };
+            },
+            {}
+          );
+
+          return settings;
     }
 }

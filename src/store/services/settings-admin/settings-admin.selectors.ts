@@ -34,6 +34,11 @@ const getSettingsByCategory = createSelector(
   }
 );
 
+const getSettingsError =  createSelector(
+  getSettingsAdminState,
+  (state: ISettingsAdminState) =>  state.error
+);
+
 export const getSettingsAsMap = createSelector(
   getSettingsAdminState,
   (state: ISettingsAdminState) => {
@@ -68,4 +73,5 @@ export class SettingsAdminSelectors {
   settings$ = this.store.select(getAllSettings);
   settingsByCategory$ = this.store.select(getSettingsByCategory);
   settingsAsMap$ = this.store.select(getSettingsAsMap);
+  settingsError$ = this.store.select(getSettingsError);
 }
