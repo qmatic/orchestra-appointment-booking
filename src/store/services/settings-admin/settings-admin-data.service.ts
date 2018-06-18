@@ -28,7 +28,7 @@ import { withLatestFrom } from 'rxjs/operator/withLatestFrom';
 export class SettingsAdminDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) { }
 
-  private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings6';
+  private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings';
 
   getSettings(): Observable<ISettingsResponse> {
     const outputSettings: ISettingsResponse = { settingsList: [] };
