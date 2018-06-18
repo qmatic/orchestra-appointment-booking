@@ -56,11 +56,11 @@ export class SettingsAdminDataService {
 
   updateSettings(settigsUpdateRequest: ISettingsUpdateRequest) {
 
-    const updateRequests =  settigsUpdateRequest.settingsList.map((sett, index) => {
-      return this.http.put(`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}/${sett.key}`,
+    const updateRequests = Object.keys(settigsUpdateRequest.settingsList).map((key, index) => {
+      return this.http.put(`${qsystemEndpoint}/config/applications/${applicationId}/variables/groups/${this.ADMIN_VAR_NAME}/${key}`,
         {
-          key: sett.key,
-          value: String(sett.value === '') ? '-1' : sett.value
+          key: key,
+          value: String(settigsUpdateRequest.settingsList[key]) === '' ? '-1' : settigsUpdateRequest.settingsList[key]
           // orchestra issue for new api does not allow empty strings
         }
       );

@@ -222,17 +222,14 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       }
     });*/
 
-    const changedSettingsList = [];
-
-    Object.keys(this.settingsEditForm.controls).forEach(key => {
-      const formCtrl = this.settingsEditForm.get(key);
-      if (formCtrl.dirty) {
-        changedSettingsList.push( {
-          key: key,
-          value: formCtrl.value
-        });
-      }
-    });
+    const changedSettingsList = Object.keys(this.settingsEditForm.controls)
+      .reduce((obj, key) => {
+        const formCtrl = this.settingsEditForm.get(key);
+        if (formCtrl.dirty) {
+          obj[key] = formCtrl.value;
+        }
+        return obj;
+    }, {});
 
     const settingsUpdateRequest: ISettingsUpdateRequest = {
       settingsList: changedSettingsList,

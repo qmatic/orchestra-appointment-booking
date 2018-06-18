@@ -30,12 +30,25 @@ export class SettingsBuilder {
         return this;
     }
 
-    mergeSettingsWithGet(settings: Array<any>): SettingsBuilder {
+    mergeSettingsWithGet(settings: any): SettingsBuilder {
+
+        if (!Array.isArray(settings)) {
+            const projected = [];
+              Object.keys(settings).map((key, index) => {
+                projected.push( {
+                    key : key ,
+                    value: settings[key]
+                });
+            });
+
+            settings = projected;
+        }
+
         if (settings && settings.length > 0) {
 
             for (const st of settings) {
                 const key = st.key;
-                const value = st.value === this.NULL ? null : JSON.parse(st.value); // orchestra server do not allow null
+                const value = st.value === this.NULL ? null : st.value; // orchestra server do not allow null
                 const targetSetting = this._defaultSettings.get(key);
                 if (targetSetting) {
                     targetSetting.value = value;
