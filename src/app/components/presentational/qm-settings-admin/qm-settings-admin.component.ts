@@ -41,6 +41,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   subscriptions: Subscription = new Subscription();
   isHeaderNavigationClicked: Boolean = false;
   isUserOptedBrowserNavigation: Boolean = false;
+  onSaveClick: Boolean = false;
   readonly unavalableSettingKey = 'unavailable';
   preselectValueCollection: Array<any> = [{ key: this.unavalableSettingKey, name: this.unavalableSettingKey, isVisible: false },
     { key: 'PreSelectNoOption', name: 'PreSelectNoOption' },
@@ -50,7 +51,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   preselectBoundCollection: Array<any> = [];
 
   private readonly APP_URL: string = '/app';
-  private readonly NULL: string = 'null';
+  private readonly NULL: string = '-1';
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -118,7 +119,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
         this.settingsEditForm = this.formBuilder.group(ctrlConfig);
         settings.forEach((set) => {
-          this.handleSettingSelect(set);
+          this.handleSettingSelect(set, true);
         });
       }
     });
@@ -165,7 +166,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
     return Array.from(map.values());
   }
 
-  handleSettingSelect(settingObj: Setting) {
+  handleSettingSelect(settingObj: Setting, onFormLoad = false) {
     const control: AbstractControl = this.settingsEditForm.get(settingObj.name);
     if (settingObj.category.name === 'Notification') {
       const preselectControl: AbstractControl = this.settingsEditForm.get('OptionPreselect');
@@ -202,7 +203,11 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
           if (control.value === false) {
             childControl.setValue(null); // orchestra does not accept null
             childControl.disable();
-            childControl.markAsDirty();
+            if (!onFormLoad) {
+              childControl.markAsDirty();
+            } else {
+              childControl.markAsPristine();
+            }
           } else {
             childControl.enable();
           }
@@ -226,7 +231,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       .reduce((obj, key) => {
         const formCtrl = this.settingsEditForm.get(key);
         if (formCtrl.dirty) {
-          obj[key] = formCtrl.value;
+          obj[key] = formCtrl.value === null ? this.NULL : formCtrl.value;
         }
         return obj;
     }, {});
@@ -237,10 +242,11 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
     };
 
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
+    this.onSaveClick = true;
   }
 
   canDeactivate (): boolean | Observable<boolean> | Promise<boolean> {
-    if (!this.isHeaderNavigationClicked && !this.isUserOptedBrowserNavigation) {
+    if (!this.isHeaderNavigationClicked && !this.isUserOptedBrowserNavigation && !this.onSaveClick) {
       if (this.settingsEditForm.dirty) {
         const modal = this.modalService.openNavigateBackConfirmModal();
         modal.result.then((result: string) => {

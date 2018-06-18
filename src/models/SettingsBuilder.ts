@@ -5,7 +5,7 @@ const settingsConfig = require('./settings.json');
 export class SettingsBuilder {
 
     private _defaultSettings: Map<string, Setting> = new Map<string, Setting>();
-    private readonly NULL = ' '; // temp fix to work with orchestra restriction
+    private readonly NULL = '-1'; // temp fix to work with orchestra restriction
     constructor() {
     }
 

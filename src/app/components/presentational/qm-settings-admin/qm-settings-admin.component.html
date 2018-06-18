@@ -78,7 +78,7 @@
         <button type="button" class="qm-btn qm-btn--secondary" (click)="cancelEdit()">
           <span class="qm-btn__text" title="{{ 'button.settings.cancel' | translate }}">{{ 'button.settings.cancel' | translate }}</span>
         </button>
-        <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid">
+        <button class="qm-btn qm-btn--primary" (click)="saveSettings()" [disabled]="!settingsEditForm.valid || !settingsEditForm.dirty">
           <span class="qm-btn__text" title="{{ 'button.settings.confirm' | translate }}">{{ 'button.settings.confirm' | translate }}</span>
         </button>
       </div>
