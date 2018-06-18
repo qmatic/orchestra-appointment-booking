@@ -28,6 +28,7 @@ import {
 } from './header-navigation';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { ISystemInfo } from '../../../../models/ISystemInfo';
+import { BookingHelperDispatchers } from '../../../../store/services/booking-helper/booking-helper.dispatchers';
 
 @Component({
   selector: 'qm-page-header',
@@ -67,7 +68,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     public autoCloseService: AutoClose,
     private router: Router,
     private logoutService: Logout,
-    private licenseInfoSelectors: LicenseInfoSelectors
+    private licenseInfoSelectors: LicenseInfoSelectors,
+    private bookingHelperDispatchers: BookingHelperDispatchers
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -128,6 +130,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.promptUserIfOngoingBooking(() => {
       this.router.navigateByUrl(SETTINGS_URL);
+      this.bookingHelperDispatchers.resetAll();
     });
   }
 
