@@ -80,19 +80,5 @@ export class SettingsAdminDataService {
       .pipe(
         catchError(this.errorHandler.handleError())
       );
-
-    /*
-      return Observable.forkJoin(Observable.concat(combineLatest([updateRequests[0]]), Observable.timer(500),
-      combineLatest(updateRequests.slice(1))))
-      .map(
-      () => {
-        return settigsUpdateRequest;
-      }
-      ).pipe(catchError(this.errorHandler.handleError()));
-      ------------------------------------
-    return Observable.concat(combineLatest([updateRequests[0]]), Observable.timer(100), combineLatest(updateRequests.slice(1)))
-.zipAll()
-.pipe(catchError(this.errorHandler.handleError()));
-    */
   }
 }
