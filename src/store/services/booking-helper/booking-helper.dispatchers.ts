@@ -19,5 +19,6 @@ export class BookingHelperDispatchers {
     this.customerDispatchers.resetCurrentCustomer();
     this.appointmentDispatchers.resetAppointment();
     this.serviceDispatchers.deselectServices();
+    this.appointmentMetaDispatchers.setPrintAppointment(false);
   }
 }
