@@ -274,6 +274,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   clearAllFields() {
     this.serviceDispatchers.deselectServices();
     this.appointmentMetaDispatchers.resetAllAppointmentMeta();
+    this.appointmentMetaDispatchers.setPrintAppointment(false);
 
     if (this.isInEditMode()) {
       this.appointmentDispatchers.resetAppointment();
