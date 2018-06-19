@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CustomerSelectors, BookingSelectors, UserSelectors, SettingsAdminSelectors } from '../../../../store/index';
 import { PrintSelectors } from '../../../../store/services/print/index';
+import { BOOKING_HOME_URL } from '../../containers/qm-page-header/header-navigation';
+import { Router } from '@angular/router';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'qm-qm-print-confirm',
@@ -30,7 +33,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   constructor(private customerSelectors: CustomerSelectors, private bookingSelectors: BookingSelectors,
               private navigationService: NavigationService, private userSelectors: UserSelectors,
               private settingsMapSelectors: SettingsAdminSelectors, private route: ActivatedRoute,
-              private printSelectors: PrintSelectors) {
+              private printSelectors: PrintSelectors, private router: Router) {
       this.userDirection$ = this.userSelectors.userDirection$;
       this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
       this.printedAppointment$ = this.printSelectors.printedAppointment$;
@@ -112,6 +115,14 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   }
 
   printAppointment() {
+
+    window['onafterprint'] = () => {
+      setTimeout(() => {
+        this.router.navigateByUrl(BOOKING_HOME_URL);
+        window['onafterprint'] = null;
+      }, 3000);
+    };
+
     window.print();
   }
 }
