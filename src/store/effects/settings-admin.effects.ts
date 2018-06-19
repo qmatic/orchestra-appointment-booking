@@ -1,3 +1,5 @@
+import { AppointmentMetaDispatchers } from './../services/appointment-meta/appointment-meta.dispatchers';
+import { AppointmentMetaSelectors } from './../services/appointment-meta/appointment-meta.selectors';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Effect, Actions } from '@ngrx/effects';
@@ -25,6 +27,7 @@ export class SettingsAdminEffects {
       private settingsDispatchers: SettingsAdminDispatchers,
       private errorHandler: GlobalErrorHandler,
       private router: Router,
+      private appointmentMetaDispatchers: AppointmentMetaDispatchers;
     ) {}
 
     @Effect()
@@ -59,6 +62,7 @@ export class SettingsAdminEffects {
         .pipe(
           tap((action: SettingsAdminActions.SaveSettingsSuccess) => {
             this.settingsDispatchers.updateSettingsStore(action.payload);
+            this.appointmentMetaDispatchers.resetAppointmentNotificationType();
             if (action.payload.updateSilently !== true) {
               this.router.navigate(['/app']).then(() => {
                 setTimeout(() => {
