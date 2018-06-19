@@ -27,7 +27,7 @@ export class SettingsAdminEffects {
       private settingsDispatchers: SettingsAdminDispatchers,
       private errorHandler: GlobalErrorHandler,
       private router: Router,
-      private appointmentMetaDispatchers: AppointmentMetaDispatchers;
+      private appointmentMetaDispatchers: AppointmentMetaDispatchers
     ) {}
 
     @Effect()
