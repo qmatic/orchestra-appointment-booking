@@ -3,7 +3,7 @@
     <button type="button" class="qm-booking-sidebar__btn" title="AM" (click)="handleClick('AM')">AM</button>
     <button type="button" class="qm-booking-sidebar__btn" title="PM" (click)="handleClick('PM')">PM</button>
   </ng-container>
-  <ng-container *ngIf="getTimeformat() === 24">
+  <ng-container *ngIf="getTimeformat() == '24'">
     <button type="button" class="qm-booking-sidebar__btn" title="08" (click)="handleClick('08')">08</button>
     <button type="button" class="qm-booking-sidebar__btn" title="12" (click)="handleClick('12')">12</button>
     <button type="button" class="qm-booking-sidebar__btn" title="16" (click)="handleClick('16')">16</button>
