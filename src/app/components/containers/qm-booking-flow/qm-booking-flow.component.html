@@ -3,7 +3,7 @@
     <div class="col qm-booking-flow__col">
       <qm-service-booker [userDirection]="userDirection" [settingsMap]="settingsMap"></qm-service-booker>
     </div>
-    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" *ngIf="shouldShowCustomerColumn()">
+    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" [ngClass]="{'qm-hide' : !shouldShowCustomerColumn()}">
       <qm-number-of-customers-booker [userDirection]="userDirection" [settingsMap]="settingsMap"></qm-number-of-customers-booker>
     </div>
     <div class="col qm-booking-flow__col">
