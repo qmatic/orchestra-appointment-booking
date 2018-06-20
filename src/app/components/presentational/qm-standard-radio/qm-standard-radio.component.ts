@@ -30,6 +30,9 @@ export class QmStandardRadioComponent implements OnInit, OnDestroy {
   @Input()
   isSelected = false;
 
+  @Input()
+  tooltip = '';
+
   @Output()
   optionClickeda = new EventEmitter();
 

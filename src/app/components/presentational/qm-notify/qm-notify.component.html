@@ -9,6 +9,7 @@
         value="email"
         [userDirection]="userDirection"
         [text]="'label.appointmentNotify.email' | translate"
+        [tooltip]="'label.appointmentNotify.email.tooltip' | translate"
         [isSelected]="isSelected('email')"
         (optionClickeda)="handleClick($event)">
       </qm-standard-radio>
@@ -19,6 +20,7 @@
         value="sms"
         [userDirection]="userDirection"
         [text]="'label.appointmentNotify.sms' | translate"
+        [tooltip]="'label.appointmentNotify.sms.tooltip' | translate"
         [isSelected]="isSelected('sms')"
         (optionClickeda)="handleClick($event)">
       </qm-standard-radio>
@@ -29,6 +31,7 @@
         value="both"
         [userDirection]="userDirection"
         [text]="'label.appointmentNotify.smsAndEmail' | translate"
+        [tooltip]="'label.appointmentNotify.smsAndEmail.tooltip' | translate"
         [isSelected]="isSelected('both')"
         (optionClickeda)="handleClick($event)">
       </qm-standard-radio>
@@ -39,6 +42,7 @@
         value="none"
         [userDirection]="userDirection"
         [text]="'label.appointmentNotify.noNotification' | translate"
+        [tooltip]="'label.appointmentNotify.noNotification.tooltip' | translate"
         [isSelected]="isSelected('none')"
         (optionClickeda)="handleClick($event)">
       </qm-standard-radio>
