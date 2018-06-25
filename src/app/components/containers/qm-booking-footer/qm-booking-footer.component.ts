@@ -243,9 +243,6 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
           (cancelClicked: Boolean) => {
             if (!cancelClicked) {
               this.clearAllFields();
-              this.translateService.get('label.successfully.cleared.fields').subscribe(
-                (label: string) => this.toastService.successToast(label)
-              ).unsubscribe();
             }
           },
           () => {
