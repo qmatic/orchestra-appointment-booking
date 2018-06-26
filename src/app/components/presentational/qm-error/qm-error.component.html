@@ -1,0 +1,11 @@
+<div class="qm-app" dir="{{ userDirection$ | async }}">
+  <qm-page-header></qm-page-header>
+  <qm-main>
+    <div class="error-message">
+      <div class="error-message__error-text">
+          {{ errorTextKey | translate }}
+      </div>
+    </div>
+  </qm-main>
+  <qm-page-footer></qm-page-footer>
+</div>
