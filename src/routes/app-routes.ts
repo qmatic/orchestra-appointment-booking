@@ -1,3 +1,6 @@
+import { SettingsErrorGuard } from './settings-error-guard';
+// tslint:disable-next-line:max-line-length
+import { QmErrorComponent } from './../app/components/presentational/qm-error/qm-error.component';
 import { QmPrintConfirmComponent } from './../app/components/presentational/qm-print-confirm/qm-print-confirm.component';
 import { CanDeactivateGuard } from './can-deactivatet';
 import { QmSettingsAdminComponent } from './../app/components/presentational/qm-settings-admin/qm-settings-admin.component';
@@ -14,8 +17,9 @@ export const appRoutes: Routes = [
     path: '',
     children: [
       { path: 'loading', component: QmAppLoaderComponent },
-      { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard] },
+      { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
       { path: 'invalid-license', component: QmInvalidLicenseComponent },
+      { path: 'error', component: QmErrorComponent },
       { path: 'print-appointment', component: QmPrintConfirmComponent},
       { path: 'settings-admin', component: QmSettingsAdminComponent, canDeactivate: [CanDeactivateGuard]},
       { path: '**', component: QmAppPageNotFoundComponent }
