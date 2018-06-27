@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
-import { calendarEndpoint, DataServiceError } from '../data.service';
+import { calendarEndpoint } from '../data.service';
 import { ICustomerResponse } from '../../../models/ICustomerResponse';
-import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { ICustomer } from '../../../models/ICustomer';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
@@ -16,6 +14,9 @@ export class CustomerDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
   getCustomers(searchText: string): Observable<ICustomerResponse> {
+    if (searchText.indexOf('+') > -1) {
+      searchText = encodeURIComponent(searchText);
+    }
     return this.http
       .get<ICustomerResponse>(`${calendarEndpoint}/customers/searchcustomer?text=${searchText}`)
       .pipe(catchError(this.errorHandler.handleError()));

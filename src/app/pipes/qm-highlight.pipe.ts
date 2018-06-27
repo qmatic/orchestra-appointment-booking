@@ -9,8 +9,16 @@ export class QmHighlightPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
 
   transform(value: any, args?: any): any {
+    if (value === null) {
+      return null;
+    }
+
     if (!args) {
       return value;
+    }
+    // replace plus sign in phone number
+    if (args.indexOf('+') > -1) {
+      args = args.replace('+', '\\+');
     }
     // Match in a case insensitive manner
     const re = new RegExp(args, 'gi');
