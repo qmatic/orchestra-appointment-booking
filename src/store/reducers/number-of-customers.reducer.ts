@@ -3,12 +3,10 @@ import * as NumberOfCustomersActions from '../actions';
 
 export interface INumberOfCustomersState {
   numberOfCustomers: number;
-  maxNumberOfCustomers: number;
 }
 
 export const initialState: INumberOfCustomersState = {
   numberOfCustomers: null,
-  maxNumberOfCustomers: null
 };
 
 export function reducer (
