@@ -332,15 +332,15 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     switch (notificationType) {
       case 'sms': {
-        return this.currentCustomer.phone !== '' && this.currentCustomer.phone !== this.defaultPhoneCountryCode;
+        return this.currentCustomer.phone && this.currentCustomer.phone !== this.defaultPhoneCountryCode;
       }
       case 'email': {
-        return this.currentCustomer.email !== '';
+        return !!this.currentCustomer.email;
       }
       case 'both': {
-        return this.currentCustomer.phone !== ''
-              && this.currentCustomer.phone !== this.defaultPhoneCountryCode
-              && this.currentCustomer.email !== '';
+        return this.currentCustomer.phone
+              && this.currentCustomer.email
+              && this.currentCustomer.phone !== this.defaultPhoneCountryCode;
       }
       default: {
         return true;
@@ -359,10 +359,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         return notificationType;
       }
       case 'both': {
-        if ((this.currentCustomer.phone === '' || this.currentCustomer.phone === this.defaultPhoneCountryCode)
-              && this.currentCustomer.email === '') {
+        if ((!this.currentCustomer.phone || this.currentCustomer.phone === this.defaultPhoneCountryCode)
+              && !this.currentCustomer.email) {
           return notificationType;
-        } else if (this.currentCustomer.phone === '' || this.currentCustomer.phone === this.defaultPhoneCountryCode) {
+        } else if (!this.currentCustomer.phone || this.currentCustomer.phone === this.defaultPhoneCountryCode) {
           return 'sms';
         } else {
           return 'email';

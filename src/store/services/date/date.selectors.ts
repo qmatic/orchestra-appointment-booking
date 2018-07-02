@@ -19,11 +19,9 @@ const getDates = createSelector(
 const getVisibleDates = createSelector(
   getDatesState,
   getUserLocale,
-  getSettingsAsMap,
   (
     state: IDatesState,
-    userLocale,
-    settingsMap: { [name: string]: Setting }
+    userLocale
   ) => {
     return getFilteredDates(state, userLocale);
   }
@@ -56,7 +54,6 @@ const getDatesError = createSelector(
 
 function getFilteredDates(
   state,
-  userLocale,
   dateFormat = 'dddd DD MMMM'
 ): Array<string> {
   return state.searchText === ''

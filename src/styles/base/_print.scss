@@ -118,6 +118,15 @@ body {
       word-break: break-all;
     }
 
+    &__list {
+      padding: 0;
+    }
+
+    &__list-item {
+      display: flex;
+      align-items: center;
+    }
+
     &__list-item-icon {
       font-size: rem(22px);
       margin-right: rem($standard-margin);
@@ -130,6 +139,8 @@ body {
 
     &__list-item-text {
       font-size: rem(14px);
+      color: $dark-transparent82;
+      font-weight: $font-weight-light;
     }
   }
 }

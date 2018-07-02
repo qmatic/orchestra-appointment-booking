@@ -34,8 +34,7 @@
                 </tr>
                 <tr>
                   <th scope="row">{{'label.print.appointment.time' | translate}}</th>
-                  <td>{{ bookedAppointment?.start | amDateFormat:getTimeFormat() }} - {{ bookedAppointment?.end | amDateFormat:getTimeFormat()
-                    }}
+                  <td>{{ bookedAppointment?.start | amTz: bookedAppointment.branch.fullTimeZone | amDateFormat:getTimeFormat() }} - {{ bookedAppointment?.end | amTz: bookedAppointment.branch.fullTimeZone | amDateFormat:getTimeFormat() }}
                   </td>
                 </tr>
                 <tr>
