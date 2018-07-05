@@ -115,23 +115,41 @@ export class BookingEffects {
   bookAppointmentSuccess$: Observable<Action> = this.actions$
     .ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS)
     .pipe(
-      tap((action: BookAppointmentSuccess) => {
+      withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
+      tap((data: any) => {
+        const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;
+        // If not a reschedule
+        if (selectedAppointment === null) {
           this.translateService.get('label.create.appointment.success').subscribe(
             (label: string) =>  {
               this.toastService.successToast(label);
                   this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
                     if (isPrint) {
                       this.printDispatchers.setPrintedAppointment(action.payload);
-                     setTimeout(() => {
+                      setTimeout(() => {
                       this.navigationService.goToPrintConfirmPage();
-                     }, 1000);
+                      }, 1000);
+                    }
+                  }).unsubscribe();
+            }
+          ).unsubscribe();
+        } else {
+          // If reschedule
+          this.translateService.get('label.create.appointment.reschedule').subscribe(
+            (label: string) =>  {
+              this.toastService.successToast(label);
+                  this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint => {
+                    if (isPrint) {
+                      this.printDispatchers.setPrintedAppointment(action.payload);
+                      setTimeout(() => {
+                      this.navigationService.goToPrintConfirmPage();
+                      }, 1000);
                     }
                   }).unsubscribe();
             }
           ).unsubscribe();
         }
-      ),
-      withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
+      }),
       switchMap((data: any) => {
         const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;
         const appointmentActions = this.getAppointmentActions(selectedAppointment);
@@ -154,7 +172,8 @@ export class BookingEffects {
     return appointment !== null
             ? [
                 new BookingActions.DeleteAppointment(appointment),
-                new BookingActions.ResetAppointment             ]
+                // new BookingActions.ResetAppointment
+              ]
             : [];
   }
 }

@@ -19,6 +19,7 @@ import { IAppState } from '../index';
 import { Setting } from '../../models/Setting';
 import { AppUtils } from '../../services/util/appUtils.service';
 import { IBranch } from '../../models/IBranch';
+import { IAppointmentState } from '../reducers/appointment.reducer';
 
 const toAction = AppointmentActions.toAction();
 
@@ -52,33 +53,42 @@ export class AppointmentEffects {
   deleteAppointment$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.DELETE_APPOINTMENT)
     .pipe(
-    switchMap((action: AppointmentActions.DeleteAppointment) =>
-      this.appointmentDataService.deleteAppointment(action.payload).pipe(
-        mergeMap(() => [new AppointmentActions.DeleteAppointmentSuccess(action.payload)]),
-        catchError((err: DataServiceError<any>) => of(new AppointmentActions.DeleteAppointmentFail(err))),
+      switchMap((action: AppointmentActions.DeleteAppointment) =>
+        this.appointmentDataService.deleteAppointment(action.payload).pipe(
+          mergeMap(() => [new AppointmentActions.DeleteAppointmentSuccess(action.payload)]),
+          catchError((err: DataServiceError<any>) => of(new AppointmentActions.DeleteAppointmentFail(err))),
+        )
       )
-    )
     );
 
   @Effect()
   deleteAppointmentSuccess$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS)
     .pipe(
-    tap((action: AppointmentActions.DeleteAppointment) => {
-      this.translateService.get('toast.cancel.booking.success',
-        {
-          name: action.payload.customers[0].name,
-          date: moment(action.payload.start).format('DD MMM YYYY')
-        }).subscribe(
-          (label: string) => this.toastService.htmlSuccessToast(`<span dir="auto">${label}</span>`)
-      ).unsubscribe();
-    }
-    )).pipe(switchMap((action: AppointmentActions.DeleteAppointment) => {
-      return [
-        new CustomerActions.AddToBookingHistory({ appointment: action.payload, deleted: true }),
-        new CustomerActions.ResetCurrentCustomer
-      ];
-    }));
+      withLatestFrom(this.store$.select((state: IAppState) => state.appointments)),
+      tap((data: any) => {
+        const [ action, state ]: [AppointmentActions.DeleteAppointment, IAppointmentState] = data;
+        if (state.selectedAppointment === null) {
+          this.translateService.get('toast.cancel.booking.success',
+            {
+              name: action.payload.customers[0].name,
+              date: moment(action.payload.start).format('DD MMM YYYY')
+            }).subscribe(
+              (label: string) => this.toastService.htmlSuccessToast(`<span dir="auto">${label}</span>`)
+          ).unsubscribe();
+        }
+      }),
+      switchMap((data: any) => {
+        const [ action, state ]: [AppointmentActions.DeleteAppointment, IAppointmentState] = data;
+        // If reschedule reset appointment
+        const resetActions = state.selectedAppointment ? [new CustomerActions.ResetAppointment] : [];
+        return [
+          new CustomerActions.AddToBookingHistory({ appointment: action.payload, deleted: true }),
+          new CustomerActions.ResetCurrentCustomer,
+          ...resetActions
+        ];
+      })
+    );
 
   @Effect({ dispatch: false })
   deleteAppointmentFailed$: Observable<Action> = this.actions$
