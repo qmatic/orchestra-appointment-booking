@@ -5,6 +5,10 @@
         <div id="appointment-confirmation" class="qm-print">
           <div class="qm-print__header">
             <h1 class="qm-headline qm-print__headline">{{'label.print.appointment.confirmation' | translate}}</h1>
+            <button (click)="cancelEdit()" class="qm-action-btn qm-action-btn--only-icon qm-print__close-container">
+              <i class="qm-print__close-icon icon-close" aria-hidden="true"></i>
+              <span class="sr-only">{{ 'button.print.close' | translate }}</span>
+            </button>
           </div>
           <div class="qm-print__body">
             <div class="qm-print__section">
