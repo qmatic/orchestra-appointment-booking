@@ -257,7 +257,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     return this.currentCustomer !== null
             || this.selectedServices.length > 0
             || this.title !== ''
-            || this.notes !== '';
+            || this.notes !== ''
+            || this.isPrintAppointment !== false;
   }
 
   isInEditMode(): boolean {
