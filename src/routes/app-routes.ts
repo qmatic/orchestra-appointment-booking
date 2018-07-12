@@ -15,14 +15,14 @@ import { AppComponent } from './../app/app.component';
 export const appRoutes: Routes = [
   {
     path: '',
-    children: [
-      { path: 'loading', component: QmAppLoaderComponent },
-      { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
-      { path: 'invalid-license', component: QmInvalidLicenseComponent },
-      { path: 'error', component: QmErrorComponent },
-      { path: 'print-appointment', component: QmPrintConfirmComponent},
-      { path: 'settings-admin', component: QmSettingsAdminComponent, canDeactivate: [CanDeactivateGuard]},
-      { path: '**', component: QmAppPageNotFoundComponent }
-    ]
-  }
+    redirectTo: '/app',
+    pathMatch: 'full'
+  },
+  { path: 'loading', component: QmAppLoaderComponent },
+  { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
+  { path: 'invalid-license', component: QmInvalidLicenseComponent },
+  { path: 'error', component: QmErrorComponent },
+  { path: 'print-appointment', component: QmPrintConfirmComponent},
+  { path: 'settings-admin', component: QmSettingsAdminComponent, canDeactivate: [CanDeactivateGuard]},
+  { path: '**', component: QmAppPageNotFoundComponent }
 ];

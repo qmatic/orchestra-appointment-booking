@@ -321,7 +321,7 @@ export class AppModule {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');
     this.licenseInfoDispatchers.fetchLicenseInfo();
-    this.router.navigate(['/loading']);
+    this.router.navigate(['/loading'], { skipLocationChange: true });
     this.settingsAdminDispatchers.fetchSettings();
     this.shiroDispatchers.startRefresh();
     this.settingsAdminSelectors
