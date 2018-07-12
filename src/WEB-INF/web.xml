@@ -3,18 +3,6 @@
 
 	<display-name>Appointment Booking Terminal</display-name>
 	<description>Appointment Booking Terminal Web App</description>
-    
-    <!-- Resource bundle exposure to get the workstationTerminalMessages.properties through a get request -->
-    <servlet>
-        <servlet-name>bundleServlet</servlet-name>
-        <servlet-class>com.qmatic.qp.common.servlet.BundleServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>bundleServlet</servlet-name>
-        <url-pattern>/bundle/*</url-pattern>
-    </servlet-mapping>
-    <!-- bundleServlet end -->
 
     <!-- Start page -->
     <welcome-file-list>
