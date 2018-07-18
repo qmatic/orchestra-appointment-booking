@@ -29,7 +29,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 
 <h3>Known issues</h3>
-**Staff Booking App**
+**Appointment Booking App**
 
 | **Id/Jira** | **Description** |
 | --- | --- |
@@ -38,11 +38,11 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Upgrade Instructions</h3>
 
 
-<h2>Update 4.0.0.007</h2>
+<h2>Update 4.0.0.008</h2>
 
-**Date: 26/02/2018**
+**Date: 18/07/2018**
  
-**Build number: 007**
+**Build number: 008**
 
 <h3>Stories</h3>
 
@@ -54,7 +54,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 | **Id** | **Release notes** |
 | --- | --- |
-| **xxx** | **Bug header** Bug text |
+| **159063060** | **Print customer copy shows incorrect time for a booking in a different timezone** Print customer copy shows incorrect time for a booking in a different timezone |
 
 <h3>Known issues</h3>
 
