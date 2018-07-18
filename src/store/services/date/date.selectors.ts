@@ -23,7 +23,7 @@ const getVisibleDates = createSelector(
     state: IDatesState,
     userLocale
   ) => {
-    return getFilteredDates(state, userLocale);
+    return getFilteredDates(state);
   }
 );
 
