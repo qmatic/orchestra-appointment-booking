@@ -54,7 +54,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 | **Id** | **Release notes** |
 | --- | --- |
-| **159063060** | **Print customer copy shows incorrect time for a booking in a different timezone** Print customer copy shows incorrect time for a booking in a different timezone |
+| **AB-42** | **Print customer copy shows incorrect time for a booking in a different timezone** |
 
 <h3>Known issues</h3>
 
