@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ServiceSelectors, ServiceDispatchers } from '../../../../store';
+import { ServiceSelectors, ServiceDispatchers, BookingSelectors } from '../../../../store';
 import { Setting } from '../../../../models/Setting';
 import { IService } from '../../../../models/IService';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
+import { IAppointment } from '../../../../models/IAppointment';
 
 @Component({
   selector: 'qm-service-booker',
@@ -25,16 +26,19 @@ export class QmServiceBookerComponent implements OnInit, OnDestroy {
   private servicesSearchText$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
   private selectedServices: IService[];
+  public bookedAppointment$: Observable<IAppointment>;
 
 
   constructor(
     private serviceSelectors: ServiceSelectors,
     private serviceDispatchers: ServiceDispatchers,
-    private bookingHelperService: BookingHelperService
+    private bookingHelperService: BookingHelperService,
+    private bookingSelectors: BookingSelectors
   ) {
     this.services$ = this.serviceSelectors.visibleServices$;
     this.servicesSearchText$ = this.serviceSelectors.searchText$;
     this.selectedServices$ = this.serviceSelectors.selectedServices$;
+    this.bookedAppointment$ = this.bookingSelectors.bookedAppointment$;
   }
 
   ngOnInit() {
