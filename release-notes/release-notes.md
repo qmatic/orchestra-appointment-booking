@@ -61,6 +61,33 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Upgrade instructions</h3> 
 ----------
 
+<h2>Update 4.0.0.009</h2>
+
+**Date: 19/07/2018**
+ 
+**Build number: 009**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **158717542** | **Remove jar files from web app** |
+| **158450685** | **Edit Appointment - One toast instead of two** |
+| **158351475** | **Add x to close the print view** |
+| **158212709** | **Back button in browser shall redirect to HOME page** |
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-36** | **Clear all button not available if only print icon and notificaiton method checked** |
+| **AB-37** | **Settings page > "Max no of customers" should be validated.** |
+
+<h3>Known issues</h3>
+
+<h3>Upgrade instructions</h3> 
+----------
+
 <h3>Copyright notice</h3>
 
 The information in this document is subject to change without prior notice and does not represent a commitment on the part of Q-MATIC AB. All efforts have been made to ensure the accuracy of this manual, but Q-MATIC AB cannot assume any responsibility for any errors and their consequences. 
