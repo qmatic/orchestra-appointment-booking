@@ -10,7 +10,7 @@
     <div class="col-8 qm-booking-history-item__col">
       <div class="qm-booking-history-item__container justify-content-between" *ngIf="!appointment.deleted; else deletedHistoryTemplate">
         <div class="qm-booking-history-item__left">
-          <span class="qm-booking-history-item__date" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | date:'EEEE MMMM d': getTimezoneOffset(appointment) }}</span>
+          <span class="qm-booking-history-item__date" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: 'dddd DD MMMM' }}</span>
           <button class="qm-action-btn qm-action-btn--only-icon" (click)="handleEdit(appointment)" title="{{ 'button.bookingHistory.edit' | translate }}">
             <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
             <span class="sr-only">{{ 'button.bookingHistory.edit' | translate }}</span>
@@ -34,7 +34,7 @@
               <i class="qm-booking-history-item__large-icon icon-calendar" aria-hidden="true"></i>
               <i class="qm-booking-history-item__small-icon icon-close-smaller" aria-hidden="true"></i>
             </div>
-            <span class="qm-booking-history-item__date qm-booking-history-item__date--faded" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | date:'EEEE MMMM d': getTimezoneOffset(appointment) }}</span>
+            <span class="qm-booking-history-item__date qm-booking-history-item__date--faded" title="{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}">{{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: 'dddd DD MMMM' }}</span>
           </div>
         </div>
       </ng-template>
