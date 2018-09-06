@@ -88,6 +88,32 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Upgrade instructions</h3> 
 ----------
 
+----------
+
+<h2>Update 4.0.0.010</h2>
+
+**Date: 06/09/2018**
+ 
+**Build number: 010**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **xxx** | **xxx** |
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-44** | **Issues with visual counting down reservation time in appointment manager** |
+| **AB-47** | **The days in Appointment History does not take the localisationinto account** | Changed date printing in booking history, booking dropdown and appointment edit card |
+
+<h3>Known issues</h3>
+
+<h3>Upgrade instructions</h3> 
+----------
+
 <h3>Copyright notice</h3>
 
 The information in this document is subject to change without prior notice and does not represent a commitment on the part of Q-MATIC AB. All efforts have been made to ensure the accuracy of this manual, but Q-MATIC AB cannot assume any responsibility for any errors and their consequences. 
