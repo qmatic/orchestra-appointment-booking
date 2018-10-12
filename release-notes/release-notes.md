@@ -112,7 +112,32 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Known issues</h3>
 
 <h3>Upgrade instructions</h3> 
+
 ----------
+
+<h2>Update 4.0.0.011</h2>
+
+**Date: 12/10/2018**
+ 
+**Build number: 011**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **161047690** | **Make workstationterminal.war compatible between current Orchestra 7.0 (4.0.0.418) and future 7.1** Update web.xml |
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **xxx** | **xxx** |
+
+<h3>Known issues</h3>
+
+<h3>Upgrade instructions</h3> 
+----------
+
 
 <h3>Copyright notice</h3>
 
