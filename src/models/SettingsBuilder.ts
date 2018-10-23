@@ -1,6 +1,6 @@
 import { Setting, SettingCategoryEnum, SettingOutputType, SettingCategory } from './Setting';
 declare var require: any;
-const settingsConfig = require('./settings.json');
+const settingsConfig = require('./Settings.json');
 
 export class SettingsBuilder {
 
