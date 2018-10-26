@@ -1,9 +1,3 @@
-import { NavigationService } from './../../../../../util/navigation.service';
-import { element } from 'protractor';
-import { IAppointment } from './../../../../../../models/IAppointment';
-import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
-import { Setting } from './../../../../../../models/Setting';
-import * as moment from 'moment';
 import {
   Component,
   OnInit,
@@ -11,21 +5,26 @@ import {
   OnDestroy,
   AfterViewInit,
   ViewChildren,
-  QueryList,
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import * as moment from 'moment';
+
+import { NavigationService } from './../../../../../util/navigation.service';
+import { IAppointment } from './../../../../../../models/IAppointment';
+import { QmModalService } from './../../../../presentational/qm-modal/qm-modal.service';
+import { Setting } from './../../../../../../models/Setting';
 
 import {
   UserSelectors,
   AppointmentDispatchers,
   SettingsAdminSelectors,
-  BookingHelperSelectors
+  SystemInfoSelectors
 } from '../../../../../../store';
+
 import { BookingHelperService } from '../../../../../../services/util/bookingHelper.service';
 import { PrintDispatchers } from '../../../../../../store/services/print/index';
 
@@ -43,11 +42,9 @@ export class QmCustomerAppointmentListComponent
   implements OnInit, OnDestroy, AfterViewInit {
   @Input() appointments: IAppointment[];
   private subscriptions: Subscription = new Subscription();
-  private userLocale$: Observable<string>;
-  private userLocale: string;
+  private timeConvention$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   public isMilitaryTime: boolean;
-  private bookingStarted$: Observable<boolean>;
   private userDirection$: Observable<string>;
   public userDirection: string;
   private settingsMap: { [name: string ]: Setting };
@@ -57,24 +54,20 @@ export class QmCustomerAppointmentListComponent
     private userSelectors: UserSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private bookingHelperSelectors: BookingHelperSelectors,
     private modalService: QmModalService,
-    private translate: TranslateService,
-    private router: Router,
     private bookingHelperService: BookingHelperService,
     private navigationService: NavigationService,
-    private printDispatchers: PrintDispatchers
+    private printDispatchers: PrintDispatchers,
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.userLocale$ = this.userSelectors.userLocale$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
-    this.bookingStarted$ = this.bookingHelperSelectors.bookingStarted$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
-        this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
         this.settingsMap = settingsMap;
       }
     );
@@ -85,15 +78,13 @@ export class QmCustomerAppointmentListComponent
       }
     );
 
-    const userLocalSubscription = this.userLocale$.subscribe(
-      (userLocale: string) => {
-        this.userLocale = userLocale;
-      }
+    const timeConventionSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.isMilitaryTime = timeConvention !== 'AMPM'
     );
 
-    this.subscriptions.add(userLocalSubscription);
-    this.subscriptions.add(userDirectionSubscription);
     this.subscriptions.add(settingsSubscription);
+    this.subscriptions.add(userDirectionSubscription);
+    this.subscriptions.add(timeConventionSubscription);
 
     this.updateAppointmentList();
   }
@@ -101,9 +92,6 @@ export class QmCustomerAppointmentListComponent
   ngAfterViewInit() {
     setTimeout(() => {
       this.customCards.toArray().forEach((elem: ElementRef, index: number) => {
-        // if (elem.nativeElement.getAttribute('data-scroll-to') === 'true') {
-        //   elem.nativeElement.scrollIntoView(true);
-        // }
         if ((this.appointments[index] as IAppointmentScroll).scrollTo) {
           elem.nativeElement.scrollIntoView(true);
         }
@@ -281,7 +269,7 @@ export class QmCustomerAppointmentListComponent
           'label.modal.prevent.reschedule',
           'button.yes',
           'button.no',
-          result => {
+          () => {
             this.appointmentDispatchers.selectAppointment(appointment);
           },
           err => {
@@ -297,7 +285,6 @@ export class QmCustomerAppointmentListComponent
   }
 
   ngOnDestroy() {
-    // window.location.hash = '';
     this.subscriptions.unsubscribe();
   }
 

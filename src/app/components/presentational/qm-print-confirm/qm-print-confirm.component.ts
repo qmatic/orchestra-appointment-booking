@@ -1,17 +1,15 @@
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import { IBranch } from './../../../../models/IBranch';
 import { Setting } from './../../../../models/Setting';
 import { NavigationService } from './../../../util/navigation.service';
 import { IAppointment } from './../../../../models/IAppointment';
 import { ICustomer } from './../../../../models/ICustomer';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CustomerSelectors, BookingSelectors, UserSelectors, SettingsAdminSelectors } from '../../../../store/index';
+import { UserSelectors, SettingsAdminSelectors, SystemInfoSelectors } from '../../../../store/index';
 import { PrintSelectors } from '../../../../store/services/print/index';
 import { BOOKING_HOME_URL } from '../../containers/qm-page-header/header-navigation';
-import { Router } from '@angular/router';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'qm-qm-print-confirm',
@@ -24,19 +22,25 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   currentCustomer: ICustomer;
   bookedAppointment: IAppointment;
   userDirection$: Observable<string>;
+  private timeConvention$: Observable<string>;
+  private timeConvention: string;
   printedAppointment$: Observable<IAppointment>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
-  private settingsMap: { [name: string ]: Setting };
   phoneEnabled = true;
   emailEnabled = true;
 
-  constructor(private customerSelectors: CustomerSelectors, private bookingSelectors: BookingSelectors,
-              private navigationService: NavigationService, private userSelectors: UserSelectors,
-              private settingsMapSelectors: SettingsAdminSelectors, private route: ActivatedRoute,
-              private printSelectors: PrintSelectors, private router: Router) {
+  constructor(
+    private router: Router,
+    private navigationService: NavigationService,
+    private userSelectors: UserSelectors,
+    private settingsMapSelectors: SettingsAdminSelectors,
+    private printSelectors: PrintSelectors,
+    private systemInfoSelectors: SystemInfoSelectors
+    ) {
       this.userDirection$ = this.userSelectors.userDirection$;
       this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
       this.printedAppointment$ = this.printSelectors.printedAppointment$;
+      this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
@@ -45,7 +49,9 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
       this.bookedAppointment = bapp;
     });
 
-    this.subscriptions.add(printAppointmentSubscription);
+    const timeConventionSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.timeConvention = timeConvention
+    );
 
     if (this.bookedAppointment && this.bookedAppointment.customers && this.bookedAppointment.customers.length > 0) {
       this.currentCustomer = this.bookedAppointment.customers[0];
@@ -54,9 +60,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
 
-        this.settingsMap = settingsMap;
-
-        this.printedAppointment$.subscribe(bapp => {
+        this.printedAppointment$.subscribe(() => {
           this.phoneEnabled = settingsMap.CustomerIncludePhone.value && (
             (settingsMap.CustomerPhoneDefaultCountry.value || '').trim() !== (this.currentCustomer ?
               (this.currentCustomer.phone || '').trim() : '')) ;
@@ -66,7 +70,9 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
       }
     );
 
-   this.subscriptions.add(settingsSubscription);
+    this.subscriptions.add(printAppointmentSubscription);
+    this.subscriptions.add(timeConventionSubscription);
+    this.subscriptions.add(settingsSubscription);
   }
 
   ngOnDestroy() {
@@ -74,8 +80,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   }
 
   getTimeFormat(): string {
-    if (this.settingsMap.TimeFormat.value === 'AMPM') {
-      return 'h:mm a';
+    if (this.timeConvention === 'AMPM') {
+      return 'hh:mm A';
     } else {
       return 'HH:mm';
     }

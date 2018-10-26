@@ -1,9 +1,6 @@
-import { CustomerSelectors } from './../../../../store/services/customer/customer.selectors';
-import { reducers } from './../../../../store/reducers/index';
-import { Setting } from './../../../../models/Setting';
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
-  FormControl,
   FormGroup,
   FormBuilder,
   Validators
@@ -14,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
+import { CustomerSelectors } from './../../../../store/services/customer/customer.selectors';
+import { Setting } from './../../../../models/Setting';
 import { ICustomer } from '../../../../models/ICustomer';
 import {
   CustomerDispatchers,
@@ -54,9 +53,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     'label.december'
   ];
 
-  private months: NgOption[];
-  private isShowDobError = false;
-  private isShowDobRequiredError = false;
+  public months: NgOption[];
 
   constructor(
     private fb: FormBuilder,
@@ -69,7 +66,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     public autoCloseService: AutoClose
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.settingsMap$ = settingAdminSelectors.settingsAsMap$;
+    this.settingsMap$ = this.settingAdminSelectors.settingsAsMap$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     if (!this.isOnUpdate) {
       this.buildCustomerForm();

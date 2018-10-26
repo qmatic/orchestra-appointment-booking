@@ -23,7 +23,7 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   public userDirection$: Observable<string>;
 
-  private title: string;
+  public title: string;
 
   public titleEnabled: boolean;
   public titleMaxLength = 100;
@@ -32,7 +32,7 @@ export class QmAppointmentTitleComponent implements OnInit, OnDestroy {
     private appointmentMetaSelectors: AppointmentMetaSelectors,
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private autoCloseService: AutoClose,
+    public autoCloseService: AutoClose,
     private userSelectors: UserSelectors
   ) {
     this.title$ = this.appointmentMetaSelectors.title$;

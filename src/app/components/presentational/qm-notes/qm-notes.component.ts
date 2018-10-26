@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { debounceTime } from 'rxjs/operators';
 
 import {
   UserSelectors,
@@ -23,14 +22,14 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private notesInput$: Subject<string> = new Subject<string>();
   private notesLength$: Observable<number>;
-  private userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
   private notes$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
 
   private notes: string;
-  private notesLength: number;
-  private notesMaxLength = 255;
-  private notesInputOpened = false;
+  public notesLength: number;
+  public notesMaxLength = 255;
+  public notesInputOpened = false;
   private buttonPlaceholderText: string;
   notesEnabled: boolean;
 
@@ -40,7 +39,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
     private appointmentMetaDispatchers: AppointmentMetaDispatchers,
     private translateService: TranslateService,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private autoCloseService: AutoClose
+    public autoCloseService: AutoClose
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.notesLength$ = this.appointmentMetaSelectors.notesLength$;

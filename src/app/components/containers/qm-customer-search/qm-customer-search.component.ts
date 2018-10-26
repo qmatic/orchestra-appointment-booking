@@ -1,5 +1,4 @@
-import { AutoClose } from './../../../../services/util/autoclose.service';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -17,8 +16,8 @@ import {
   SettingsAdminSelectors
 } from '../../../../store';
 
+import { AutoClose } from './../../../../services/util/autoclose.service';
 import { ICustomer } from '../../../../models/ICustomer';
-import { ToastService } from '../../../../services/util/toast.service';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Setting } from '../../../../models/Setting';
 

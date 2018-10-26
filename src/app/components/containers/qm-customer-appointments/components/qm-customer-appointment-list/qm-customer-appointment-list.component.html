@@ -10,7 +10,7 @@
           <span class="qm-appointment-card__time">
             <i class="qm-appointment-card__time-icon icon-clock" aria-hidden="true"></i>
             <span class="qm-appointment-card__time-text">
-              {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm a') }}
+              {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}
             </span>
           </span>
         </span>

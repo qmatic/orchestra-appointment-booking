@@ -35,12 +35,6 @@
                 }
             },
             {
-                "name": "TimeFormat",
-                "defaultValue": "24",
-                "value": "24",
-                "outputType": "Time"
-            },
-            {
                 "name": "ShowResource",
                 "defaultValue": true,
                 "value": true,

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
-import { calendarEndpoint, DataServiceError } from '../data.service';
+import { qsystemEndpoint } from '../data.service';
 
 import { ISystemInfo } from '../../../models/ISystemInfo';
-import { ILicenseInfo } from '../../../models/ILicenseInfo';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
 @Injectable()
@@ -16,7 +14,24 @@ export class SystemInfoDataService {
 
   getSystemInfo(): Observable<ISystemInfo> {
     return this.http
-      .get<ISystemInfo>(`${calendarEndpoint}/settings/systemInformation`)
-      .pipe(catchError(this.errorHandler.handleError()));
+      .get<ISystemInfo>(`${qsystemEndpoint}/servicepoint/systemInformation`)
+      .pipe(map(
+        (data) => {
+            if (data['timeConvention']) {
+              if (data['timeConvention'] === 'AM/PM') {
+                data = {
+                  ...data,
+                  timeConvention: 'AMPM'
+                };
+              } else if (data['timeConvention'] === '24 hour') {
+                data = {
+                  ...data,
+                  timeConvention: '24'
+                };
+              }
+            }
+            return data;
+        }
+      ), catchError(this.errorHandler.handleError()));
   }
 }

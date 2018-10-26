@@ -1,7 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

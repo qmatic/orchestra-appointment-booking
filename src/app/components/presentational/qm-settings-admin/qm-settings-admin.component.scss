@@ -62,6 +62,11 @@
     &--child {
       padding-top: rem($standard-padding);
 
+      .qm-settings-admin__option-list-item + .qm-settings-admin__option-list-item {
+        margin-top: rem($standard-margin * 1.5)
+      }
+
+
       .qm-option__error {
         left: 1.25em;
 
@@ -85,7 +90,7 @@
   &__option-list-item {
 
     & + & {
-      margin-top: rem($standard-margin * 1.5)
+      margin-top: rem($standard-margin * 2.5)
     }
 
     button:hover &__tooltip {
@@ -130,23 +135,30 @@
     }
   }
 
-  &__footer-information-container {
+  &__information-container {
     display: flex;
     align-items: center;
     max-width: rem(654px);
     width: 100%;
-    margin: rem($standard-margin * 2 auto 0);
+
+    &--centered {
+      margin: rem($standard-margin * 2 auto 0);
+    }
   }
 
-  &__changes-icon {
+  &__information-icon {
     width: rem(28px);
     height: rem(28px);
     font-size: rem(28px);
     flex: 0 0 auto;
     color: $dark-transparent82;
+
+    &--alert {
+      color: $primary-color;
+    }
   }
 
-  &__footer-information {
+  &__information-paragraph {
     flex: 1 1 auto;
     font-size: rem(18px);
     line-height: rem(27px);
@@ -154,6 +166,10 @@
     color: $dark-transparent82;
     margin-left: rem(12px);
     margin-bottom: 0;
+
+    &--alert {
+      color: $primary-color;
+    }
 
     @at-root [dir='rtl'] & {
       margin-left: 0;

@@ -1,8 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { SettingsAdminSelectors } from '../../../../store';
-import { Setting } from '../../../../models/Setting';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
+
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { SystemInfoSelectors } from '../../../../store';
 
 @Component({
   selector: 'qm-booking-sidebar',
@@ -11,35 +17,28 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class QmBookingSidebarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
-
-  private timeFormat: string;
+  private timeConvention$: Observable<string>;
+  public timeConvention: string;
 
   @Output()
   optionClicked = new EventEmitter();
 
   constructor(
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
-    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
-    const settingsMapSubscription = this.settingsMap$.subscribe(
-      (settingsMap: { [name: string]: Setting }) => {
-        this.timeFormat = settingsMap.TimeFormat.value;
-      }
+    const timeConventionSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.timeConvention = timeConvention
     );
 
-    this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(timeConventionSubscription);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  getTimeformat() {
-    return this.timeFormat;
   }
 
   handleClick($event) {

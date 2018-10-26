@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AppointmentSelectors, UserSelectors, SettingsAdminSelectors } from '../../../../store';
-import { IAppointment } from '../../../../models/IAppointment';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
-import { Setting } from '../../../../models/Setting';
+import { UserSelectors, SystemInfoSelectors } from '../../../../store';
+import { IAppointment } from '../../../../models/IAppointment';
 
 @Component({
   selector: 'qm-appointment-card',
@@ -13,7 +12,7 @@ import { Setting } from '../../../../models/Setting';
 })
 export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private timeConvention$: Observable<string>;
   private userDirection$: Observable<string>;
   public isMilitaryTime: boolean;
   public userDirection: string;
@@ -21,19 +20,16 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   appointment: IAppointment;
 
   constructor(
-    private appointmentSelectors: AppointmentSelectors,
     private userSelectors: UserSelectors,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
-    const settingsSubscription = this.settingsMap$.subscribe(
-      (settingsMap: { [name: string]: Setting }) => {
-        this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
-      }
+    const timeConventionSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.isMilitaryTime = timeConvention !== 'AMPM'
     );
 
     const userDirectionSubscription = this.userDirection$.subscribe(
@@ -42,7 +38,7 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.subscriptions.add(settingsSubscription);
+    this.subscriptions.add(timeConventionSubscription);
     this.subscriptions.add(userDirectionSubscription);
   }
 

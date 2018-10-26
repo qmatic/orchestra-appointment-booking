@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IAppointment } from '../../../../models/IAppointment';
 
 @Component({
@@ -6,7 +6,7 @@ import { IAppointment } from '../../../../models/IAppointment';
   templateUrl: './qm-appointment-icon-list.component.html',
   styleUrls: ['./qm-appointment-icon-list.component.scss']
 })
-export class QmAppointmentIconListComponent implements OnInit {
+export class QmAppointmentIconListComponent {
   @Input() appointment: IAppointment;
 
   @Input() userDirection: string;
@@ -25,6 +25,4 @@ export class QmAppointmentIconListComponent implements OnInit {
         .join(', ')
     );
   }
-
-  ngOnInit() {}
 }

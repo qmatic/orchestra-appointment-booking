@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { TimeslotDispatchers, ReserveDispatchers, TimeslotSelectors } from '../../../../store';
+import { TimeslotDispatchers, ReserveDispatchers, TimeslotSelectors, SystemInfoSelectors } from '../../../../store';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { IAppointment } from '../../../../models/IAppointment';
@@ -22,6 +22,8 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private selectedTime$: Observable<string>;
   private selectedTime: string;
+  private timeConvention$: Observable<string>;
+  private timeConvention: string;
 
   public times$: Observable<string[]>;
   public times: string[];
@@ -31,10 +33,12 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
     private timeslotDispatchers: TimeslotDispatchers,
     private reserveDispatchers: ReserveDispatchers,
     private bookingHelperService: BookingHelperService,
-    private timeslotSelectors: TimeslotSelectors
+    private timeslotSelectors: TimeslotSelectors,
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.times$ = this.timeslotSelectors.times$;
     this.selectedTime$ = this.timeslotSelectors.selectedTime$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
@@ -50,8 +54,13 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
       }
     );
 
+    const timeConventionSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.timeConvention = timeConvention
+    );
+
     this.subscriptions.add(timesSubsciption);
     this.subscriptions.add(selectedTimeSubscription);
+    this.subscriptions.add(timeConventionSubscription);
   }
 
   ngOnDestroy() {
@@ -97,7 +106,7 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
   }
 
   getTimeFormat(): string {
-    if (this.settingsMap.TimeFormat.value === 'AMPM') {
+    if (this.timeConvention === 'AMPM') {
       return 'shortTime';
     } else {
       return 'HH:mm';
@@ -118,7 +127,7 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
   }
 
   getNextClosestTime(time: string): string {
-    const timeFormat = this.settingsMap.TimeFormat.value;
+    const timeFormat = this.timeConvention;
 
     if (timeFormat === 'AMPM') {
       return this.getNextClosestTimeAMPM(time);
@@ -128,9 +137,9 @@ export class QmTimeslotBookerComponent implements OnInit, OnDestroy {
   }
 
   getNextClosestTime24Hours(time: string): string {
+    const clickedTime: number = parseInt(time, 10);
     const timeToScrollTo = this.times.reduce(
       (nextClosestTime: string, currTime: string) => {
-        const clickedTime: number = parseInt(time, 10);
         const currentHour: string = currTime.split(':')[0];
         const currentIterTime = parseInt(currentHour, 10);
 

@@ -17,7 +17,8 @@ const initialState = {
     defaultLanguage: '',
     protocol: '',
     host: '',
-    port: ''
+    port: '',
+    timeConvention: '24',
   },
   loading: false,
   loaded: false,

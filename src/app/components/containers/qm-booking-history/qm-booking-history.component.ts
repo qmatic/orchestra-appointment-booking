@@ -1,19 +1,19 @@
-import { NavigationService } from './../../../util/navigation.service';
-import { IAppointment } from './../../../../models/IAppointment';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
+
+import { NavigationService } from './../../../util/navigation.service';
+import { IAppointment } from './../../../../models/IAppointment';
 import { ICustomer } from '../../../../models/ICustomer';
 import {
   CustomerDispatchers,
   AppointmentDispatchers,
   UserSelectors,
-  SettingsAdminSelectors,
-  PrintDispatchers
+  PrintDispatchers,
+  SystemInfoSelectors
 } from '../../../../store';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
-import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-booking-history',
@@ -24,7 +24,7 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   @Input() bookingHistory: IAppointment[];
   private subscriptions: Subscription = new Subscription();
   public userDirection$: Observable<string>;
-  public settingsMap$: Observable<{ [name: string]: Setting }>;
+  private timeConvention$: Observable<string>;
   public isMilitaryTime: boolean;
 
   constructor(
@@ -32,22 +32,20 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     private appointmentDispatchers: AppointmentDispatchers,
     private userSelectors: UserSelectors,
     private modalService: QmModalService,
-    private settingsAdminSelectors: SettingsAdminSelectors,
     private navigationService: NavigationService,
-    private printDispatchers: PrintDispatchers
+    private printDispatchers: PrintDispatchers,
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
-    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
-    const settingsMapSubscription = this.settingsMap$.subscribe(
-      (settingsMap: { [name: string]: Setting }) => {
-        this.isMilitaryTime = settingsMap['TimeFormat'].value !== 'AMPM';
-      }
+    const systemInformationSubscription = this.timeConvention$.subscribe(
+      timeConvention => this.isMilitaryTime = timeConvention !== 'AMPM'
     );
 
-    this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(systemInformationSubscription);
   }
 
   ngOnDestroy() {

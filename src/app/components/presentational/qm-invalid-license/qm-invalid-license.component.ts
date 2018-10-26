@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserSelectors } from '../../../../store';
 
@@ -8,12 +7,9 @@ import { UserSelectors } from '../../../../store';
   templateUrl: './qm-invalid-license.component.html',
   styleUrls: ['./qm-invalid-license.component.scss']
 })
-export class QmInvalidLicenseComponent implements OnInit {
+export class QmInvalidLicenseComponent {
   public userDirection$: Observable<string>;
-  constructor(private translate: TranslateService, private userSelectors: UserSelectors) {
+  constructor(private userSelectors: UserSelectors) {
     this.userDirection$ = this.userSelectors.userDirection$;
-  }
-
-  ngOnInit() {
   }
 }

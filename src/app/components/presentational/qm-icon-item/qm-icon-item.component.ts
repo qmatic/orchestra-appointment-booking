@@ -8,7 +8,7 @@ import { UserSelectors } from '../../../../store';
   styleUrls: ['./qm-icon-item.component.scss']
 })
 export class QmIconItemComponent implements OnInit {
-  private userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
 
   @Input()
   icon = '';

@@ -7,4 +7,5 @@ export interface ISystemInfo {
   protocol: string;
   host: string;
   port: string;
+  timeConvention: string;
 }

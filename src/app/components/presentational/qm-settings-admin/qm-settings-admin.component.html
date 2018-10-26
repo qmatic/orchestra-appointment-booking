@@ -8,6 +8,12 @@
           <p class="qm-settings-admin__description">
             {{'label.settings.page.sub.title' | translate}}
           </p>
+          <div class="qm-settings-admin__information-container">
+            <i class="qm-settings-admin__information-icon qm-settings-admin__information-icon--alert icon-info" aria-hidden="true"></i>
+            <p class="qm-settings-admin__information-paragraph qm-settings-admin__information-paragraph--alert">
+              {{ 'label.settings.page.update.notification' | translate }}
+            </p>
+          </div>
         </div>
         <div class="qm-settings-admin__body">
           <div class="qm-settings-admin__section" *ngFor="let sc of settingsByCategory$ | async">
@@ -43,7 +49,7 @@
                      </div>
                     </ng-container>
 
-                <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child">
+                <ul class="qm-settings-admin__option-list qm-settings-admin__option-list--child" *ngIf="s.children">
                   <li class="qm-settings-admin__option-list-item" *ngFor="let c of toArray(s.children)" [ngSwitch]="c.outputType">
                     <ng-container  *ngSwitchCase="'Text'">
                       <qm-settings-textbox
@@ -66,9 +72,9 @@
         </div>
         <div class="qm-settings-admin__footer">
           <hr class="qm-settings-admin__divider" />
-          <div class="qm-settings-admin__footer-information-container">
-            <i class="qm-settings-admin__changes-icon icon-info" aria-hidden="true"></i>
-            <p class="qm-settings-admin__footer-information">
+          <div class="qm-settings-admin__information-container qm-settings-admin__information-container--centered">
+            <i class="qm-settings-admin__information-icon icon-info" aria-hidden="true"></i>
+            <p class="qm-settings-admin__information-paragraph">
               {{ 'label.settings.admin.warning' | translate }}
             </p>
           </div>

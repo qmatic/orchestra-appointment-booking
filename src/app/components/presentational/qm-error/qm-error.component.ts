@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { UserSelectors } from '../../../../store';
 

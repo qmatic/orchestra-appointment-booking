@@ -1,17 +1,14 @@
 import { SettingsErrorGuard } from './../routes/settings-error-guard';
 import { SettingsErrorMediator } from './components/presentational/qm-settings-admin/settings-error-mediator.service';
-import { ISettingsUpdateRequest } from './../models/ISettingsResponse';
-import { CONFIG_NOT_FOUND } from './util/orchestra-error-codes';
 import { Logout } from './../services/util/logout.service';
 import { TimeUtils } from './../services/util/timeUtils.service';
 import { QmClearInputDirective } from './directives/qm-clear-input.directive';
-import { SettingsAdminDataService } from './../store/services/settings-admin/settings-admin-data.service';
 import { ErrorInterceptor } from './../services/util/ErrorInterceptor.service';
 import { UserRoleDispatchers } from './../store/services/user-role/user-role.dispatchers';
 import { LicenseAuthGuard } from './../routes/license-auth-guard';
 import { LicenseDispatchers } from './../store/services/license/license.dispatchers';
 // Angular
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 
 // NGRX Store
-import { StoreModule, Store, ActionReducer, MetaReducer } from '@ngrx/store';
+import { StoreModule, ActionReducer, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -85,8 +82,6 @@ import { environment } from '../environments/environment';
 
 // Actions
 import { UserDispatchers, SystemInfoDispatchers } from '../store';
-import { FetchSystemInfo } from './../store/actions/system-info.actions';
-import { FetchUserInfo } from '../store/actions/user.actions';
 import { QmInvalidLicenseComponent } from './components/presentational/qm-invalid-license/qm-invalid-license.component';
 import { QmAppComponent } from './components/containers/qm-app/qm-app.component';
 import { QmAppLoaderComponent } from './components/containers/qm-app-loader/qm-app-loader.component';
@@ -152,7 +147,6 @@ import { QmPrintBoxComponent } from './components/presentational/qm-print-box/qm
 import { QmBookingHistoryComponent } from './components/containers/qm-booking-history/qm-booking-history.component';
 import { QmPrintConfirmComponent } from './components/presentational/qm-print-confirm/qm-print-confirm.component';
 import { NavigationService } from './util/navigation.service';
-import { SettingsBuilder } from '../models/SettingsBuilder';
 import { QmErrorComponent } from './components/presentational/qm-error/qm-error.component';
 
 // Console.log all actions
