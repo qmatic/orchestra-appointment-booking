@@ -1,14 +1,14 @@
 {
     "/rest/*": {
-      "target": "http://localhost:8080",
+      "target": "https://test.fr.qmatic.cloud",
       "secure": false
     },
     "/calendar-backend/*": {
-      "target": "http://localhost:8080",
+      "target": "https://test.fr.qmatic.cloud",
       "secure": false
     },
     "/qsystem/rest/*": {
-      "target": "http://localhost:8080",
+      "target": "https://test.fr.qmatic.cloud",
       "secure": false
     },
     "/bundle/*":{
