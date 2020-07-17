@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, merge, mergeMap, debounceTime, delay, tap } from 'rxjs/operators';
-import { calendarEndpoint, restEndpoint, DataServiceError, qsystemEndpoint, applicationId } from '../data.service';
+import { calendarEndpoint, restEndpoint, DataServiceError, qsystemEndpoint, applicationId, notificationApplicationId } from '../data.service';
 import { SettingsBuilder } from '../../../models/SettingsBuilder';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 import { pipe } from 'rxjs/util/pipe';
@@ -23,12 +23,14 @@ import 'rxjs/add/observable/concat';
 
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { withLatestFrom } from 'rxjs/operator/withLatestFrom';
+import { ILanguageSetting } from '../../../models/ILanguageSettings';
 
 @Injectable()
 export class SettingsAdminDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) { }
 
   private readonly ADMIN_VAR_NAME = 'appointmentAdminSettings';
+  private readonly NOTI_LANG_GROUP = 'languages';
 
   getSettings(): Observable<ISettingsResponse> {
     const outputSettings: ISettingsResponse = { settingsList: [] };
@@ -43,6 +45,13 @@ export class SettingsAdminDataService {
           .toArray();
         return outputSettings;
       })
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+
+  getLanguages(): Observable<ILanguageSetting[]> {
+    let path = `${qsystemEndpoint}/config/applications/${notificationApplicationId}/variables/groups/${this.NOTI_LANG_GROUP}`;
+    return this.http
+      .get(path)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 

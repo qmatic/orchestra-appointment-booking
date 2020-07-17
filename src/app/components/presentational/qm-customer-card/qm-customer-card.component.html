@@ -13,6 +13,10 @@
               <i class="icon-mail qm-customer-card__list-item-icon" aria-hidden="true"></i>
               <span class="qm-customer-card__list-item-text" title="{{ customer.email }}">{{ customer.email | truncate: 40 }}</span>
           </li>
+          <li class="qm-customer-card__list-item" *ngIf="emailEnabled">
+            <span class="qm-customer-card__list-item-text"><b>{{'label.customer.language' | translate}}</b>&nbsp;&nbsp;</span>
+            <span class="qm-customer-card__list-item-text" title="{{ customer.email }}">{{ language | truncate: 40 }}</span>
+          </li>
       </ul>
       <button class="qm-action-btn qm-action-btn--only-icon qm-customer-card__edit-btn" title="{{ 'button.customerCard.edit' | translate }}">
         <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>

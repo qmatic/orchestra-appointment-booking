@@ -130,37 +130,19 @@
             </div>
           </div>
 
-          <div class="qm-modal-col-6" *ngIf="(settingsMap$ | async)?.CustomerIncludePhone?.value === true">
-            <div class="qm-standard-text-field"
-              [ngClass]="{'qm-standard-text-field--error': phone.invalid && (phone.dirty || phone.touched)}">
+          <div class="qm-modal-col-6" *ngIf="(languages$ | async)?.length > 0">
+            <div class="qm-standard-text-field">
               <label class="qm-standard-text-field__label">
                 <span class="qm-standard-text-field__top-container">
-                  <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.phone' | translate }}</span>
-                  <span class="qm-standard-text-field__required"
-                    *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+                  <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.language' | translate }}</span>
+                  <!--<span class="qm-standard-text-field__required"
+                    *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>-->
                 </span>
                 <span class="qm-standard-text-field__input-container">
-                  <input type="tel" class="qm-input qm-standard-text-field__input" autocomplete="tel" placeholder=""
-                    qmClearInput maxlength="50" dir="ltr" name="phone"
-                    [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true" formControlName="phone"
-                    (input)="autoCloseService.refreshAutoClose()" />
-                </span>
-                <span class="qm-standard-text-field__error-message">
-                  <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)">
-                    <ng-container
-                      *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
-                      {{ 'error.form.phone.required' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
-                      {{ 'error.form.phone.invalid' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="phone.errors.allwhitespace">
-                      {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="phone.errors.validateNotEqual">
-                      {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
-                    </ng-container>
-                  </ng-container>
+                  <ng-select [items]="selectableLanguages" [selectOnTab]="true" [clearable]="false"
+                  notFoundText="{{ 'label.no.items.found' | translate }}" bindLabel="value" bindValue="key"
+                  placeholder="{{ 'field.createCustomerForm.language' | translate }}" formControlName="lang" >
+                </ng-select>                            
                 </span>
               </label>
             </div>
@@ -180,7 +162,7 @@
                       class="qm-standard-number-field__text">{{ 'field.createCustomerForm.month' | translate }}</span>
                   </span>
                   <ng-select #monthSelect [items]="months" [selectOnTab]="true" [clearable]="false"
-                    notFoundText="{{ 'label.no.items.found' | translate }}" bindValue="value"
+                    notFoundText="{{ 'label.no.items.found' | translate }}" bindValue="value" markFirst="true"
                     placeholder="{{ 'field.createCustomerForm.month' | translate }}" formControlName="month">
                   </ng-select>
                 </label>

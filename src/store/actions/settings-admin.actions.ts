@@ -1,7 +1,7 @@
 import { Setting } from './../../models/Setting';
-import { ISettingsResponse, ISettingsUpdateRequest } from './../../models/ISettingsResponse';
-import { IBranch } from './../../models/IBranch';
+import { ISettingsUpdateRequest } from './../../models/ISettingsResponse';
 import { Action } from '@ngrx/store';
+import { SettingsWithLanguages } from '../../models/SettingsWithLanguages';
 
 // Settings admin list actions
 export const FETCH_SETTINGS = '[Settings] FETCH_SETTINGS';
@@ -23,7 +23,7 @@ export class FetchSettingsFail implements Action {
 
 export class FetchSettingsSuccess implements Action {
   readonly type = FETCH_SETTINGS_SUCCESS;
-  constructor(public payload: ISettingsResponse) {}
+  constructor(public payload: SettingsWithLanguages) {}
 }
 
 export class SaveSettings implements Action {
