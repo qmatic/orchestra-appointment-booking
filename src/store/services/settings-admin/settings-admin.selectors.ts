@@ -71,6 +71,11 @@ export const getSettingsAsMap = createSelector(
   }
 );
 
+export const getLanguages = createSelector(
+  getSettingsAdminState,
+  (state: ISettingsAdminState) => state.languages
+);
+
 @Injectable()
 export class SettingsAdminSelectors {
   constructor(private store: Store<IAppState>) {}
@@ -80,4 +85,5 @@ export class SettingsAdminSelectors {
   settingsAsMap$ = this.store.select(getSettingsAsMap);
   settingsError$ = this.store.select(getSettingsError);
   settingsLoaded$ = this.store.select(getSettingsLoadedState);
+  languages$ = this.store.select(getLanguages);
 }

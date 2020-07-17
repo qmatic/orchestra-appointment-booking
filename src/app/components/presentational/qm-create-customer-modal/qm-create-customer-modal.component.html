@@ -1,214 +1,229 @@
 <qm-auto-close>
-<div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" [dir]="userDirection$ | async" cdkTrapFocus>
+  <div class="qm-modal qm-add-customer-modal qm-form-modal qm-modal--md" [dir]="userDirection$ | async" cdkTrapFocus>
     <form class="qm-modal__box-container" [formGroup]="createCustomerForm" (ngSubmit)="onSubmit()">
-        <div class="qm-modal__header">
-          <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-modal__close-btn" (click)="activeModal.close()">
-            <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
-            <span class="sr-only">{{ 'label.modal.close' | translate }}</span>
-          </button>
-          <span class="qm-modal__headline">{{ (isOnUpdate ? 'label.updateCustomerForm.heading' : 'label.createCustomerForm.heading') | translate }}</span>
-        </div>
-        <div class="qm-modal__body">
-          <div class="qm-modal-row">
-            <div class="qm-modal-col-6">
-              <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': firstName.invalid && (firstName.dirty || firstName.touched)}">
-                <label class="qm-standard-text-field__label">
-                  <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.firstName' | translate }}</span>
-                    <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
-                  </span>
-                  <span class="qm-standard-text-field__input-container">
-                    <input type="text"
-                          class="qm-input qm-standard-text-field__input"
-                          autocomplete="given-name"
-                          placeholder=""
-                          name="firstName"
-                          qmClearInput
-                          maxlength="50"
-                          required
-                          autoFocus
-                          formControlName="firstName"
-                          (input)="autoCloseService.refreshAutoClose()" />
-                  </span>
+      <div class="qm-modal__header">
+        <button type="button" class="qm-action-btn qm-action-btn--only-icon qm-modal__close-btn"
+          (click)="activeModal.close()">
+          <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
+          <span class="sr-only">{{ 'label.modal.close' | translate }}</span>
+        </button>
+        <span
+          class="qm-modal__headline">{{ (isOnUpdate ? 'label.updateCustomerForm.heading' : 'label.createCustomerForm.heading') | translate }}</span>
+      </div>
+      <div class="qm-modal__body">
+        <div class="qm-modal-row">
+          <div class="qm-modal-col-6">
+            <div class="qm-standard-text-field"
+              [ngClass]="{'qm-standard-text-field--error': firstName.invalid && (firstName.dirty || firstName.touched)}">
+              <label class="qm-standard-text-field__label">
+                <span class="qm-standard-text-field__top-container">
                   <span
-                  class="qm-standard-text-field__error-message">
-                    <ng-container *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
-                      <ng-container *ngIf="firstName.errors.required">
-                        {{ 'error.form.firstName.required' | translate }}
-                      </ng-container>
+                    class="qm-standard-text-field__text">{{ 'field.createCustomerForm.firstName' | translate }}</span>
+                  <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
+                </span>
+                <span class="qm-standard-text-field__input-container">
+                  <input type="text" class="qm-input qm-standard-text-field__input" autocomplete="given-name"
+                    placeholder="" name="firstName" qmClearInput maxlength="50" required autoFocus
+                    formControlName="firstName" (input)="autoCloseService.refreshAutoClose()" />
+                </span>
+                <span class="qm-standard-text-field__error-message">
+                  <ng-container *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+                    <ng-container *ngIf="firstName.errors.required">
+                      {{ 'error.form.firstName.required' | translate }}
+                    </ng-container>
                     <ng-container *ngIf="firstName.errors.allwhitespace">
                       {{ 'field.createCustomerForm.firstName.error.allwhitespace' | translate }}
                     </ng-container>
-                    </ng-container>
-                  </span>
-                </label>
-              </div>
+                  </ng-container>
+                </span>
+              </label>
             </div>
-            <div class="qm-modal-col-6">
-              <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': lastName.invalid && (lastName.dirty || lastName.touched)}">
-                <label class="qm-standard-text-field__label">
-                  <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.lastName' | translate }}</span>
-                    <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
-                  </span>
-                  <span class="qm-standard-text-field__input-container">
-                    <input type="text"
-                          class="qm-input qm-standard-text-field__input"
-                          autocomplete="family-name"
-                          placeholder=""
-                          maxlength="50"
-                          name="lastName"
-                          qmClearInput
-                          required
-                          formControlName="lastName"
-                          (input)="autoCloseService.refreshAutoClose()" />
-                  </span>
-                  <span class="qm-standard-text-field__error-message">
-                    <ng-container *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
-                      <ng-container *ngIf="lastName.errors.required">
-                        {{ 'error.form.lastName.required' | translate }}
-                      </ng-container>
-                      <ng-container *ngIf="lastName.errors.allwhitespace">
-                        {{ 'field.createCustomerForm.lastName.error.allwhitespace' | translate }}
-                      </ng-container>
+          </div>
+          <div class="qm-modal-col-6">
+            <div class="qm-standard-text-field"
+              [ngClass]="{'qm-standard-text-field--error': lastName.invalid && (lastName.dirty || lastName.touched)}">
+              <label class="qm-standard-text-field__label">
+                <span class="qm-standard-text-field__top-container">
+                  <span
+                    class="qm-standard-text-field__text">{{ 'field.createCustomerForm.lastName' | translate }}</span>
+                  <span class="qm-standard-text-field__required">{{ 'label.form.required' | translate }}</span>
+                </span>
+                <span class="qm-standard-text-field__input-container">
+                  <input type="text" class="qm-input qm-standard-text-field__input" autocomplete="family-name"
+                    placeholder="" maxlength="50" name="lastName" qmClearInput required formControlName="lastName"
+                    (input)="autoCloseService.refreshAutoClose()" />
+                </span>
+                <span class="qm-standard-text-field__error-message">
+                  <ng-container *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+                    <ng-container *ngIf="lastName.errors.required">
+                      {{ 'error.form.lastName.required' | translate }}
                     </ng-container>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeEmail?.value === true">
-              <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': email.invalid && (email.dirty || email.touched)}">
-                <label class="qm-standard-text-field__label">
-                  <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.email' | translate }}</span>
-                    <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true">{{ 'label.form.required' | translate }}</span>
-                  </span>
-                  <span class="qm-standard-text-field__input-container">
-                    <input type="email"
-                          class="qm-input qm-standard-text-field__input"
-                          autocomplete="email"
-                          placeholder=""
-                          qmClearInput
-                          [required]="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true"
-                          name="email"
-                          formControlName="email"
-                          (input)="autoCloseService.refreshAutoClose()" />
-                  </span>
-                  <span class="qm-standard-text-field__error-message">
-                    <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
-                      <ng-container *ngIf="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true && email.errors.required">
-                        {{ 'error.form.email.required' | translate }}
-                      </ng-container>
-                      <ng-container *ngIf="email.errors.pattern && !email.errors.required">
-                        {{ 'error.form.email.invalid' | translate }}
-                      </ng-container>
+                    <ng-container *ngIf="lastName.errors.allwhitespace">
+                      {{ 'field.createCustomerForm.lastName.error.allwhitespace' | translate }}
                     </ng-container>
-                  </span>
-                </label>
-              </div>
+                  </ng-container>
+                </span>
+              </label>
             </div>
-            <div class="qm-modal-col-6" *ngIf="(settingsMap$ | async)?.CustomerIncludePhone?.value === true">
-              <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': phone.invalid && (phone.dirty || phone.touched)}">
-                <label class="qm-standard-text-field__label">
-                  <span class="qm-standard-text-field__top-container">
-                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.phone' | translate }}</span>
-                    <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>
-                  </span>
-                  <span class="qm-standard-text-field__input-container">
-                    <input type="tel"
-                          class="qm-input qm-standard-text-field__input"
-                          autocomplete="tel"
-                          placeholder=""
-                          qmClearInput
-                          maxlength="50"
-                          dir="ltr"
-                          name="phone"
-                          [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true"
-                          formControlName="phone"
-                          (input)="autoCloseService.refreshAutoClose()" />
-                  </span>
-                  <span class="qm-standard-text-field__error-message">
-                    <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)">
-                      <ng-container *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
-                        {{ 'error.form.phone.required' | translate }}
-                      </ng-container>
-                      <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
-                        {{ 'error.form.phone.invalid' | translate }}
-                      </ng-container>
-                      <ng-container *ngIf="phone.errors.allwhitespace">
-                        {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
-                      </ng-container>
-                      <ng-container *ngIf="phone.errors.validateNotEqual">
-                        {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
-                      </ng-container>
+          </div>
+          <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeEmail?.value === true">
+            <div class="qm-standard-text-field"
+              [ngClass]="{'qm-standard-text-field--error': email.invalid && (email.dirty || email.touched)}">
+              <label class="qm-standard-text-field__label">
+                <span class="qm-standard-text-field__top-container">
+                  <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.email' | translate }}</span>
+                  <span class="qm-standard-text-field__required"
+                    *ngIf="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+                </span>
+                <span class="qm-standard-text-field__input-container">
+                  <input type="email" class="qm-input qm-standard-text-field__input" autocomplete="email" placeholder=""
+                    qmClearInput [required]="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true"
+                    name="email" formControlName="email" (input)="autoCloseService.refreshAutoClose()" />
+                </span>
+                <span class="qm-standard-text-field__error-message">
+                  <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <ng-container
+                      *ngIf="(settingsMap$ | async)?.CustomerIncludeEmailRequired?.value === true && email.errors.required">
+                      {{ 'error.form.email.required' | translate }}
                     </ng-container>
-                  </span>
-                </label>
-              </div>
+                    <ng-container *ngIf="email.errors.pattern && !email.errors.required">
+                      {{ 'error.form.email.invalid' | translate }}
+                    </ng-container>
+                  </ng-container>
+                </span>
+              </label>
             </div>
-            <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirth?.value === true">
-              <span class="qm-modal__sub-header qm-modal__sub-header-dob">{{ 'label.createCustomerForm.dob' | translate }}
-              <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirthRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+          </div>
+          <div class="qm-modal-col-6" *ngIf="(settingsMap$ | async)?.CustomerIncludePhone?.value === true">
+            <div class="qm-standard-text-field"
+              [ngClass]="{'qm-standard-text-field--error': phone.invalid && (phone.dirty || phone.touched)}">
+              <label class="qm-standard-text-field__label">
+                <span class="qm-standard-text-field__top-container">
+                  <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.phone' | translate }}</span>
+                  <span class="qm-standard-text-field__required"
+                    *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+                </span>
+                <span class="qm-standard-text-field__input-container">
+                  <input type="tel" class="qm-input qm-standard-text-field__input" autocomplete="tel" placeholder=""
+                    qmClearInput maxlength="50" dir="ltr" name="phone"
+                    [required]="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true" formControlName="phone"
+                    (input)="autoCloseService.refreshAutoClose()" />
+                </span>
+                <span class="qm-standard-text-field__error-message">
+                  <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+                    <ng-container
+                      *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
+                      {{ 'error.form.phone.required' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
+                      {{ 'error.form.phone.invalid' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="phone.errors.allwhitespace">
+                      {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="phone.errors.validateNotEqual">
+                      {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
+                    </ng-container>
+                  </ng-container>
+                </span>
+              </label>
+            </div>
+          </div>
 
-              </span>
-              <div class="qm-dob" formArrayName="dateOfBirth">
-                <div class="qm-dob__month">
+          <div class="qm-modal-col-6" *ngIf="(languages$ | async)?.length > 0">
+            <div class="qm-standard-text-field">
+              <label class="qm-standard-text-field__label">
+                <span class="qm-standard-text-field__top-container">
+                  <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.language' | translate }}</span>
+                  <!--<span class="qm-standard-text-field__required"
+                    *ngIf="(settingsMap$ | async)?.CustomerPhoneRequired?.value === true">{{ 'label.form.required' | translate }}</span>-->
+                </span>
+                <span class="qm-standard-text-field__input-container">
+                  <ng-select [items]="selectableLanguages" [selectOnTab]="true" [clearable]="false"
+                  notFoundText="{{ 'label.no.items.found' | translate }}" bindLabel="value" bindValue="key"
+                  placeholder="{{ 'field.createCustomerForm.language' | translate }}" formControlName="lang" >
+                </ng-select>                            
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirth?.value === true">
+            <span class="qm-modal__sub-header qm-modal__sub-header-dob">{{ 'label.createCustomerForm.dob' | translate }}
+              <span class="qm-standard-text-field__required"
+                *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirthRequired?.value === true">{{ 'label.form.required' | translate }}</span>
+
+            </span>
+            <div class="qm-dob" formArrayName="dateOfBirth">
+              <div class="qm-dob__month">
                 <label class="qm-standard-number-field__label">
                   <span class="qm-standard-number-field__top-container">
-                    <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.month' | translate }}</span>
+                    <span
+                      class="qm-standard-number-field__text">{{ 'field.createCustomerForm.month' | translate }}</span>
                   </span>
-                  <ng-select #monthSelect [items]="months"
-                    [selectOnTab]="true"
-                    [clearable]="false"
-                    notFoundText="{{ 'label.no.items.found' | translate }}"
-                    bindValue="value"
-                    placeholder="{{ 'field.createCustomerForm.month' | translate }}"
-                    formControlName="month">
+                  <ng-select #monthSelect [items]="months" [selectOnTab]="true" [clearable]="false"
+                    notFoundText="{{ 'label.no.items.found' | translate }}" bindValue="value" markFirst="true"
+                    placeholder="{{ 'field.createCustomerForm.month' | translate }}" formControlName="month">
                   </ng-select>
                 </label>
-                </div>
-                <div class="qm-dob__day">
-                  <div class="qm-standard-number-field qm-standard-number-field--day">
-                    <label class="qm-standard-number-field__label">
-                      <span class="qm-standard-number-field__top-container">
-                        <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.day' | translate }}</span>
-                      </span>
-                      <input formControlName="day" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day" (input)="autoCloseService.refreshAutoClose()" />
-                    </label>
-                  </div>
-                </div>
-                <div class="qm-dob__year">
-                  <div class="qm-standard-number-field qm-standard-number-field--year">
-                    <label class="qm-standard-number-field__label">
-                      <span class="qm-standard-number-field__top-container">
-                        <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.year' | translate }}</span>
-                      </span>
-                      <input formControlName="year" (keypress)="restrictNumbers($event)" type="text" class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year" (input)="autoCloseService.refreshAutoClose()" />
-                    </label>
-                  </div>
-                </div>
-                   <div class="qm-dob__error-message" *ngIf="!createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob') && isDOBRequired()">{{ 'error.form.dob.required' | translate }}</div>
-                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth']?.errors?.invalidDay">{{ 'error.form.dob.invalidDay' | translate }}</div>
-                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('min')">{{ 'error.form.dob.invalidYear' | translate }}</div>
-                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob')">{{ 'error.form.dob.incompleteDob' | translate }}</div>
               </div>
+              <div class="qm-dob__day">
+                <div class="qm-standard-number-field qm-standard-number-field--day">
+                  <label class="qm-standard-number-field__label">
+                    <span class="qm-standard-number-field__top-container">
+                      <span
+                        class="qm-standard-number-field__text">{{ 'field.createCustomerForm.day' | translate }}</span>
+                    </span>
+                    <input formControlName="day" (keypress)="restrictNumbers($event)" type="text"
+                      class="qm-input qm-standard-number-field__input" maxlength="2" placeholder="DD" name="day"
+                      (input)="autoCloseService.refreshAutoClose()" />
+                  </label>
+                </div>
+              </div>
+              <div class="qm-dob__year">
+                <div class="qm-standard-number-field qm-standard-number-field--year">
+                  <label class="qm-standard-number-field__label">
+                    <span class="qm-standard-number-field__top-container">
+                      <span
+                        class="qm-standard-number-field__text">{{ 'field.createCustomerForm.year' | translate }}</span>
+                    </span>
+                    <input formControlName="year" (keypress)="restrictNumbers($event)" type="text"
+                      class="qm-input qm-standard-number-field__input" maxlength="4" placeholder="YYYY" name="year"
+                      (input)="autoCloseService.refreshAutoClose()" />
+                  </label>
+                </div>
+              </div>
+              <div class="qm-dob__error-message"
+                *ngIf="!createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob') && isDOBRequired()">
+                {{ 'error.form.dob.required' | translate }}</div>
+              <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth']?.errors?.invalidDay">
+                {{ 'error.form.dob.invalidDay' | translate }}</div>
+              <div class="qm-dob__error-message"
+                *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('min')">
+                {{ 'error.form.dob.invalidYear' | translate }}</div>
+              <div class="qm-dob__error-message"
+                *ngIf="createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob')">
+                {{ 'error.form.dob.incompleteDob' | translate }}</div>
             </div>
           </div>
         </div>
-        <div class="qm-modal__footer">
-          <div class="qm-generic-layout qm-generic-layout--align-right">
-            <button type="button" class="qm-btn qm-btn--secondary" (click)="activeModal.close(); autoCloseService.refreshAutoClose()">
-              <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
-                {{ 'button.createCustomerForm.cancel' | translate }}
-              </span>
-            </button>
-            <button class="qm-btn qm-btn--primary" [disabled]="!createCustomerForm.valid || (isOnUpdate && !createCustomerForm.dirty)">
-              <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
-                {{ (isOnUpdate ? 'button.updateCustomerForm.save' : 'button.createCustomerForm.save') | translate }}
-              </span>
-            </button>
-          </div>
+      </div>
+      <div class="qm-modal__footer">
+        <div class="qm-generic-layout qm-generic-layout--align-right">
+          <button type="button" class="qm-btn qm-btn--secondary"
+            (click)="activeModal.close(); autoCloseService.refreshAutoClose()">
+            <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
+              {{ 'button.createCustomerForm.cancel' | translate }}
+            </span>
+          </button>
+          <button class="qm-btn qm-btn--primary"
+            [disabled]="!createCustomerForm.valid || (isOnUpdate && !createCustomerForm.dirty)">
+            <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
+              {{ (isOnUpdate ? 'button.updateCustomerForm.save' : 'button.createCustomerForm.save') | translate }}
+            </span>
+          </button>
         </div>
+      </div>
     </form>
-</div>
+  </div>
 </qm-auto-close>

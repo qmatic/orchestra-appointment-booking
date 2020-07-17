@@ -1,10 +1,11 @@
-import { ISettingsAdminState } from './settings-admin.reducer';
 import * as SettingsAdminActions from '../actions';
 import { Setting, SettingCategoryEnum } from '../../models/Setting';
 import { SettingsBuilder } from '../../models/SettingsBuilder';
+import { ILanguageSetting } from '../../models/ILanguageSettings';
 
 export interface ISettingsAdminState {
   settings: Setting[];
+  languages: ILanguageSetting[];
   settingsByCategory: SettingCategoryEnum[];
   loading: boolean;
   loaded: boolean;
@@ -13,6 +14,7 @@ export interface ISettingsAdminState {
 
 export const initialState: ISettingsAdminState = {
   settings: new SettingsBuilder().buildDefaultSettings().toArray(),
+  languages: [],
   settingsByCategory: [],
   loading: false,
   loaded: false,
@@ -34,7 +36,8 @@ export function reducer (
     case SettingsAdminActions.FETCH_SETTINGS_SUCCESS: {
       return {
         ...state,
-        settings: action.payload.settingsList,
+        settings: action.payload.settings,
+        languages: action.payload.languages || [],
         loading: false,
         loaded: true,
         error: null

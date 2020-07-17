@@ -21,6 +21,8 @@ import {
 } from '../../../../store';
 import { whiteSpaceValidator, validateNotEqualToFactory } from '../../../util/custom-form-validators';
 import { AutoClose } from '../../../../services/util/autoclose.service';
+import { ILanguageSetting } from '../../../../models/ILanguageSettings';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'qm-create-customer-modal',
@@ -32,6 +34,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   userDirection$: Observable<string>;
   createCustomerForm: FormGroup;
   settingsMap$: Observable<{ [name: string]: Setting }>;
+  languages$: Observable<ILanguageSetting[]>;
   isOnUpdate: Boolean = false;
 
   currentCustomer$: Observable<ICustomer>;
@@ -54,6 +57,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   ];
 
   public months: NgOption[];
+  public selectableLanguages: ILanguageSetting[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +71,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingAdminSelectors.settingsAsMap$;
+    this.languages$ = this.settingAdminSelectors.languages$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     if (!this.isOnUpdate) {
       this.buildCustomerForm();
@@ -106,7 +111,20 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         ];
       });
 
+    const languagesSubscriptions = this.languages$.subscribe(
+      (langs) => {
+        let defaultLanguage = langs.find(lang => lang.key == "defaultLanguage");
+        if(!defaultLanguage) defaultLanguage = {"key": "defaultLanguage", "value": "default"};
+        this.selectableLanguages = langs.filter(lang => lang.key != "defaultLanguage");
+        if(this.createCustomerForm.controls["lang"].value == ""){
+          this.createCustomerForm.controls["lang"].setValue(defaultLanguage.value);
+        }
+      } 
+    )
+
     this.subscriptions.add(translateSubscription);
+    this.subscriptions.add(languagesSubscriptions);
+
     if (currentCustomerSubscription) {
       this.subscriptions.add(currentCustomerSubscription);
     }
@@ -188,6 +206,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
           phoneValidators,
           ...phoneAsyncValidators
         ],
+        lang: [''],
         dateOfBirth: this.fb.group(
           {
             month: [null, monthValidators],
@@ -212,7 +231,6 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     if (this.currentCustomer.dateOfBirth) {
       const dob: any = this.currentCustomer.dateOfBirth;
       const dobDate = new Date(dob);
-      const test = dobDate.getMonth();
       date = this.formatDate(
         dobDate.getDate(),
         dobDate.getMonth(),
@@ -231,6 +249,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         year: date.year ? date.year : ''
       }
     });
+    this.createCustomerForm.controls["lang"].setValue(this.extractCustomerLang(this.currentCustomer) || "");
   }
 
   formatDate(day, month, year) {
@@ -288,6 +307,19 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   prepareSaveCustomer(): ICustomer {
     const formModel = this.createCustomerForm.value;
 
+    let customJson = {};
+    if(this.isOnUpdate && this.currentCustomer && this.currentCustomer.custom){
+      try{
+        customJson = JSON.parse(this.currentCustomer.custom);
+      }catch(e){
+        // If we find that there is already a value in the custom field, which is not in json format. Then move it to a sub-property called extra.
+        customJson = {"extra": this.currentCustomer.custom};
+      }
+    }
+    if(formModel.lang){
+      customJson["lang"] = formModel.lang;
+    }
+
     const customerToSave: ICustomer = {
       id: this.isOnUpdate ? this.currentCustomer.id : undefined,
       firstName: formModel.firstName as string,
@@ -295,6 +327,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       name: ((formModel.firstName as string) +
         ' ' +
         formModel.lastName) as string,
+      custom: JSON.stringify(customJson),
       email: formModel.email as string,
       phone: formModel.phone as string,
       dateOfBirth: this.getDateOfBirth() || null
@@ -364,5 +397,18 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   }
   get year() {
     return this.createCustomerForm.get('dateOfBirth').get('year');
+  }
+
+  extractCustomerLang(customer: ICustomer) : String{
+    if(!customer) return null;
+    let lang = null;
+    let custom = customer.custom;
+    if(custom){
+      try{
+        let customJson = JSON.parse(custom);
+        if(customJson["lang"]) lang = customJson["lang"]
+      }catch(e){}
+    }
+    return lang;
   }
 }
