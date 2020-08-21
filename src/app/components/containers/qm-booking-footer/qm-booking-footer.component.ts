@@ -19,7 +19,8 @@ import {
   AppointmentMetaDispatchers,
   AppointmentDispatchers,
   ServiceSelectors,
-  AppointmentSelectors
+  AppointmentSelectors,
+  BookingSelectors
 } from '../../../../store';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { ICustomer } from '../../../../models/ICustomer';
@@ -74,6 +75,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private title: string;
   private notes: string;
   private appointments: IAppointment[];
+  private isAppointmentStatEventEnable: boolean;
+  private bookedAppointment: Observable<IAppointment>;
   public selectedAppointment: IAppointment;
 
   constructor(
@@ -96,7 +99,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private appointmentDispatchers: AppointmentDispatchers,
     private appointmentSelectors: AppointmentSelectors,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private bookingSelectors: BookingSelectors
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -113,6 +117,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.selectedAppointment$ = this.appointmentSelectors.selectedAppointment$;
     this.appointments$ = this.appointmentSelectors.appointments$;
     this.printAppointment$ = this.appointmentMetaSelectors.printAppointmentOption$;
+    //this.bookedAppointment$ = this.bookingSelectors.bookedAppointment$;
   }
 
   ngOnInit() {
@@ -172,6 +177,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.defaultPhoneCountryCode = settingsMap.CustomerPhoneDefaultCountry.value;
         this.titleEnabled = settingsMap.Title.value;
         this.notesEnabled = settingsMap.Notes.value;
+        this.isAppointmentStatEventEnable = settingsMap.SetAppointmentStatEvent.value;
       }
     );
 
@@ -184,6 +190,18 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     const printAppointmentSubscription = this.appointmentMetaSelectors.printAppointmentOption$.subscribe(isPrint =>
       this.isPrintAppointment = isPrint
     );
+
+    const bookedAppointmentSubscription = this.bookingSelectors.bookedAppointment$.subscribe(appointment => {
+      if (appointment && this.isAppointmentStatEventEnable) {
+        this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
+      }
+    });
+
+    const qpAppointmentSubscription = this.appointmentSelectors.qpAppointment$.subscribe(appointment => {
+      if (appointment && appointment.qpId && this.isAppointmentStatEventEnable) {
+        this.appointmentDispatchers.setAppointmentStatEvent(appointment);
+      }
+    });
 
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
@@ -199,6 +217,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
     this.subscriptions.add(printAppointmentSubscription);
+    this.subscriptions.add(bookedAppointmentSubscription);
   }
 
   ngOnDestroy() {

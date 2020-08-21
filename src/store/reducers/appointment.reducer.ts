@@ -4,6 +4,7 @@ import * as AppointmentActions from '../actions';
 export interface IAppointmentState {
   appointments: IAppointment[];
   selectedAppointment: IAppointment;
+  qpAppointment: IAppointment;
   loading: boolean;
   loaded: boolean;
   error: Object;
@@ -12,6 +13,7 @@ export interface IAppointmentState {
 export const initialState: IAppointmentState = {
   appointments: [],
   selectedAppointment: null,
+  qpAppointment: null,
   loading: false,
   loaded: false,
   error: null
@@ -41,6 +43,53 @@ export function reducer (
     case AppointmentActions.FETCH_APPOINTMENTS_FAIL: {
       return {
         ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_QP: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_QP_SUCCESS: {
+      return {
+        ...state,
+        qpAppointment: (action.payload as any).appointment,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_QP_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case AppointmentActions.SET_APPOINTMENT_STAT_EVENT: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.SET_APPOINTMENT_STAT_EVENT_SUCCESS: {
+      return {
+        ...state,
+        qpAppointment: null,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.SET_APPOINTMENT_STAT_EVENT_FAIL: {
+      return {
+        ...state,
+        qpAppointment: null,
         loading: false,
         error: action.payload
       };

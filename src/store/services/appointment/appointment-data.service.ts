@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarPublicEndpoint, DataServiceError } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
@@ -24,5 +24,26 @@ export class AppointmentDataService {
     return this.http
       .delete(`${calendarPublicEndpoint}/appointments/${appointment.publicId}`)
       .pipe(catchError(this.errorHandler.handleError()));
+  }
+
+  fetchAppointmentQP(appointmentId: string) {
+    return this.http
+     .get(`${calendarEndpoint}/appointments/publicid/${appointmentId}`).pipe(
+        catchError(this.errorHandler.handleError(true))
+      );
+  }
+
+  setAppointmentStatEvent(appointment: IAppointment) {
+    const statEventBody = {
+      'applicationName': 'AppointmentBooking',
+      'event': 'CREATE/UPDATE/DELETE'
+    };
+    return this.http
+        .post
+        (`${appointmentEndPoint}/branches/${appointment.branch.id}/appointments/${appointment.qpId}/events/APP_ORIGIN`,
+        statEventBody)
+        .pipe(
+            catchError(this.errorHandler.handleError())
+        );
   }
 }

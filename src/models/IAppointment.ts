@@ -21,4 +21,5 @@ export interface IAppointment {
   end?: string;
   resource?: IResource;
   deleted?: boolean;
+  qpId?: number;
 }

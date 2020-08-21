@@ -12,6 +12,12 @@ export const DELETE_APPOINTMENT_FAIL = '[Appointment] DELETE_APPOINTMENT_FAIL';
 export const DELETE_APPOINTMENT_SUCCESS = '[Appointment] DELETE_APPOINTMENT_SUCCESS';
 export const SELECT_APPOINTMENT = '[Appointment] SELECT_APPOINTMENT';
 export const RESET_APPOINTMENT = '[Appointment] RESET_APPOINTMENT';
+export const FETCH_APPOINTMENT_QP = '[Appointment] FETCH_APPOINTMENT_QP';
+export const FETCH_APPOINTMENT_QP_FAIL = '[Appointment] FETCH_APPOINTMENT_QP_FAIL';
+export const FETCH_APPOINTMENT_QP_SUCCESS = '[Appointment] FETCH_APPOINTMENT_QP_SUCCESS';
+export const SET_APPOINTMENT_STAT_EVENT = '[Appointment] SET_APPOINTMENT_STAT_EVENT';
+export const SET_APPOINTMENT_STAT_EVENT_FAIL = '[Appointment] SET_APPOINTMENT_STAT_EVENT_FAIL';
+export const SET_APPOINTMENT_STAT_EVENT_SUCCESS = '[Appointment] SET_APPOINTMENT_STAT_EVENT_SUCCESS';
 
 
 export class FetchAppointments implements Action {
@@ -27,6 +33,36 @@ export class FetchAppointmentsFail implements Action {
 export class FetchAppointmentsSuccess implements Action {
   readonly type = FETCH_APPOINTMENTS_SUCCESS;
   constructor(public payload: IAppointmentResponse) {}
+}
+
+export class FetchAppointmentQP implements Action {
+  readonly type = FETCH_APPOINTMENT_QP;
+  constructor(public payload: string) {}
+}
+
+export class FetchAppointmentQPFail implements Action {
+  readonly type = FETCH_APPOINTMENT_QP_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchAppointmentQPSuccess implements Action {
+  readonly type = FETCH_APPOINTMENT_QP_SUCCESS;
+  constructor(public payload: Object) {}
+}
+
+export class SetAppointmentStatEvent implements Action {
+  readonly type = SET_APPOINTMENT_STAT_EVENT;
+  constructor(public payload: IAppointment) {}
+}
+
+export class SetAppointmentStatEventFail implements Action {
+  readonly type = SET_APPOINTMENT_STAT_EVENT_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class SetAppointmentStatEventSuccess implements Action {
+  readonly type = SET_APPOINTMENT_STAT_EVENT_SUCCESS;
+  constructor(public payload: IAppointment) {}
 }
 
 export class ResetAppointments implements Action {
@@ -66,4 +102,10 @@ export type AllAppointmentActions = FetchAppointments |
                                     DeleteAppointmentFail |
                                     DeleteAppointmentSuccess |
                                     SelectAppointment |
-                                    ResetAppointment;
+                                    ResetAppointment |
+                                    FetchAppointmentQP |
+                                    FetchAppointmentQPFail |
+                                    FetchAppointmentQPSuccess |
+                                    SetAppointmentStatEvent |
+                                    SetAppointmentStatEventFail |
+                                    SetAppointmentStatEventSuccess;

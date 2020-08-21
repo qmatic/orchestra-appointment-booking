@@ -28,4 +28,12 @@ export class AppointmentDispatchers {
   resetAppointment() {
     this.store.dispatch(new AppointmentActions.ResetAppointment);
   }
+
+  fetchAppointmentQP(appointmentId: string) {
+    this.store.dispatch(new AppointmentActions.FetchAppointmentQP(appointmentId));
+  }
+
+  setAppointmentStatEvent(appointment: IAppointment) {
+    this.store.dispatch(new AppointmentActions.SetAppointmentStatEvent(appointment));
+  }
 }

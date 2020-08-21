@@ -5,4 +5,5 @@ export class IBranch {
   addressLine1: string;
   isSelected: boolean;
   fullTimeZone: string;
+  id: number;
 }

@@ -50,6 +50,32 @@ export class AppointmentEffects {
     );
 
   @Effect()
+  getAppointmentQP$: Observable<Action> = this.actions$
+      .ofType(AppointmentActions.FETCH_APPOINTMENT_QP)
+      .pipe(
+      switchMap((action: AppointmentActions.FetchAppointmentQP) =>
+        toAction(
+          this.appointmentDataService.fetchAppointmentQP(action.payload),
+          AppointmentActions.FetchAppointmentQPSuccess,
+          AppointmentActions.FetchAppointmentQPFail
+        )
+      )
+      );
+
+  @Effect()
+  setAppointmentStatEvent$: Observable<Action> = this.actions$
+      .ofType(AppointmentActions.SET_APPOINTMENT_STAT_EVENT)
+      .pipe(
+      switchMap((action: AppointmentActions.SetAppointmentStatEvent) =>
+        toAction(
+            this.appointmentDataService.setAppointmentStatEvent(action.payload),
+              AppointmentActions.SetAppointmentStatEventSuccess,
+              AppointmentActions.SetAppointmentStatEventFail
+            )
+          )
+  );
+
+  @Effect()
   deleteAppointment$: Observable<Action> = this.actions$
     .ofType(AppointmentActions.DELETE_APPOINTMENT)
     .pipe(
