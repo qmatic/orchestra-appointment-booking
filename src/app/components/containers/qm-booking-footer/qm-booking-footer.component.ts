@@ -218,6 +218,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(selectedAppointmentSubscription);
     this.subscriptions.add(printAppointmentSubscription);
     this.subscriptions.add(bookedAppointmentSubscription);
+    this.subscriptions.add(qpAppointmentSubscription);
   }
 
   ngOnDestroy() {
