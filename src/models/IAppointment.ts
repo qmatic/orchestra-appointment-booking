@@ -22,4 +22,5 @@ export interface IAppointment {
   resource?: IResource;
   deleted?: boolean;
   qpId?: number;
+  invokeStatEvent?: boolean;
 }

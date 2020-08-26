@@ -77,6 +77,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private appointments: IAppointment[];
   private isAppointmentStatEventEnable: boolean;
   private bookedAppointment: Observable<IAppointment>;
+  private qpAppointment: IAppointment;
   public selectedAppointment: IAppointment;
 
   constructor(
@@ -191,15 +192,17 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       this.isPrintAppointment = isPrint
     );
 
-    const bookedAppointmentSubscription = this.bookingSelectors.bookedAppointment$.subscribe(appointment => {
-      if (appointment && this.isAppointmentStatEventEnable) {
-        this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
+    const qpAppointmentSubscription = this.appointmentSelectors.qpAppointment$.subscribe(appointment => {
+      if (appointment && appointment.qpId && this.isAppointmentStatEventEnable && !appointment.invokeStatEvent) {
+        this.appointmentDispatchers.setAppointmentStatEvent(appointment);
       }
+      this.qpAppointment = appointment;
     });
 
-    const qpAppointmentSubscription = this.appointmentSelectors.qpAppointment$.subscribe(appointment => {
-      if (appointment && appointment.qpId && this.isAppointmentStatEventEnable) {
-        this.appointmentDispatchers.setAppointmentStatEvent(appointment);
+    const bookedAppointmentSubscription = this.bookingSelectors.bookedAppointment$.subscribe(appointment => {
+      if (appointment && this.isAppointmentStatEventEnable && (!this.qpAppointment ||
+         ((this.qpAppointment && this.qpAppointment.publicId !== appointment.publicId)))) {
+        this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
       }
     });
 
@@ -217,8 +220,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(selectedAppointmentSubscription);
     this.subscriptions.add(printAppointmentSubscription);
-    this.subscriptions.add(bookedAppointmentSubscription);
     this.subscriptions.add(qpAppointmentSubscription);
+    this.subscriptions.add(bookedAppointmentSubscription);
   }
 
   ngOnDestroy() {
