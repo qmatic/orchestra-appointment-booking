@@ -1,5 +1,7 @@
 import { ICustomer } from '../../models/ICustomer';
 import * as CustomerActions from '../actions';
+import { ILanguage } from '../../models/ILanguage';
+import { ILanguageResponse } from '../../models/ILanguageResponse';
 
 export interface ICustomerState {
   customers: ICustomer[];
@@ -8,6 +10,7 @@ export interface ICustomerState {
   loading: boolean;
   loaded: boolean;
   error: Object;
+  languages: ILanguage[];
 }
 
 export const initialState: ICustomerState = {
@@ -16,7 +19,8 @@ export const initialState: ICustomerState = {
   searchText: '',
   loaded: false,
   loading: false,
-  error: null
+  error: null,
+  languages: null
 };
 
 export function reducer (
@@ -84,6 +88,31 @@ export function reducer (
         customers: [],
         loading: false,
         loaded: false
+      };
+    }
+    case CustomerActions.FETCH_LANGUAGES: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        error: null
+      };
+    }
+    case CustomerActions.FETCH_LANGUAGES_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: action.payload
+      };
+    }
+    case CustomerActions.FETCH_LANGUAGES_SUCCESS: {
+      return {
+        ...state,
+        languages: action.payload,
+        loading: false,
+        loaded: false,
+        error: null
       };
     }
     default: {

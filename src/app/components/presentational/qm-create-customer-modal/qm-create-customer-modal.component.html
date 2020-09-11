@@ -146,6 +146,25 @@
                 </label>
               </div>
             </div>
+            <!-- sa -->
+            <!-- <div class="qm-modal-col-6" *ngIf="(settingsMap$ | async)?.CustomerIncludePhone?.value === true">
+              <div class="qm-standard-text-field" [ngClass]="{'qm-standard-text-field--error': phone.invalid && (phone.dirty || phone.touched)}">
+                <label class="qm-standard-text-field__label">
+                  <span class="qm-standard-text-field__top-container">
+                    <span class="qm-standard-text-field__text">{{ 'field.createCustomerForm.language' | translate }}</span>
+                  </span>
+                  <ng-select #languageSelect [items]="languages"
+                  [selectOnTab]="true"
+                  [clearable]="false"
+                  notFoundText="{{ 'label.no.items.found' | translate }}"
+                  bindValue="value"
+                  placeholder="{{ 'field.createCustomerForm.language' | translate }}"
+                  formControlName="language">
+                </ng-select>
+                </label>
+              </div>
+            </div> -->
+            <!--  -->
             <div class="qm-modal-col-12" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirth?.value === true">
               <span class="qm-modal__sub-header qm-modal__sub-header-dob">{{ 'label.createCustomerForm.dob' | translate }}
               <span class="qm-standard-text-field__required" *ngIf="(settingsMap$ | async)?.CustomerIncludeDateofBirthRequired?.value === true">{{ 'label.form.required' | translate }}</span>

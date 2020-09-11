@@ -32,6 +32,11 @@ const getCustomersLoaded = createSelector(
   (state: ICustomerState) => state.loaded
 );
 
+const getLanguages = createSelector(
+  getCustomerState,
+  (state: ICustomerState) => state.languages
+);
+
 @Injectable()
 export class CustomerSelectors {
   constructor(private store: Store<IAppState>) {}
@@ -41,4 +46,5 @@ export class CustomerSelectors {
   customersLoaded$ = this.store.select(getCustomersLoaded);
   currentCustomer$ = this.store.select(getCurrentCustomer);
   searchText$ = this.store.select(getSearchText);
+  languages$ = this.store.select(getLanguages);
 }
