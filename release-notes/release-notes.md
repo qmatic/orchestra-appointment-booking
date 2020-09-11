@@ -55,6 +55,20 @@ This document describes the new features, bug corrections, known issues and reco
 
 ----------
 
+<h2>Update 4.0.0.014</h2>
+
+**Date: 11/09/2020**
+ 
+**Build number: 014**
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-49** | **Month selection hiding issue fixed** |
+
+----------
+
 <h2>Update 4.0.0.013</h2>
 
 **Date: 26/08/2020**
