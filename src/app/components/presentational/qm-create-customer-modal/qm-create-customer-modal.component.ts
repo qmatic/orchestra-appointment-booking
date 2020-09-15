@@ -73,27 +73,12 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingAdminSelectors.settingsAsMap$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
-    this.languages$ = this.customerSelectors.languages$;
     if (!this.isOnUpdate) {
       this.buildCustomerForm();
     }
   }
 
   ngOnInit() {
-// Get languages
-    this.customerDispatchers.fetchLanguages();
-    let languagesSubscription = this.languages$.subscribe((languages) => {
-      this.supportedLanguagesArray = languages;
-      if (this.supportedLanguagesArray && (this.languages.length !== languages.length)) {
-        this.languages = this.supportedLanguagesArray
-          .map(language => ({
-            value: language.key,
-            label: language.value
-          }));
-      }
-    })
-    this.subscriptions.add(languagesSubscription);
-// Get Current customer
     let currentCustomerSubscription = null;
     if (this.isOnUpdate) {
       currentCustomerSubscription = this.currentCustomer$.subscribe(

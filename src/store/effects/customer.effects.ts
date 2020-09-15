@@ -125,18 +125,6 @@ export class CustomerEffects {
             [new CustomerActions.ResetAppointments]
         )
       );
-    @Effect()
-    getLanguages$: Observable<Action> = this.actions$
-       .ofType(CustomerActions.FETCH_LANGUAGES)
-       .pipe(
-        switchMap((action: CustomerActions.FetchLanguages) => {
-            return toAction(
-               this.customerDataService.getLanguage(),
-               CustomerActions.FetchLanguagesSuccess,
-               CustomerActions.FetchLanguagesFail
-            );
-           }
-         )
-      );
+
 
 }

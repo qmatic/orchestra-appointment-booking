@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { ICustomerResponse } from '../../models/ICustomerResponse';
 import { ICustomer } from '../../models/ICustomer';
 import { ILanguage } from '../../models/ILanguage';
-import { ILanguageResponse } from '../../models/ILanguageResponse';
 
 // Customer actions
 export const UPDATE_CUSTOMER_SEARCH_TEXT = '[Customer] UPDATE_CUSTOMER_SEARCH_TEXT';
@@ -19,17 +18,6 @@ export const CREATE_CUSTOMER_SUCCESS = '[Customer] CREATE_CUSTOMER_SUCCESS';
 export const UPDATE_CUSTOMER = '[Customer] UPDATE_CUSTOMER';
 export const UPDATE_CUSTOMER_FAIL = '[Customer] UPDATE_CUSTOMER_FAIL';
 export const UPDATE_CUSTOMER_SUCCESS = '[Customer] UPDATE_CUSTOMER_SUCCESS';
-export const FETCH_LANGUAGES = '[Customer] FETCH_LANGUAGES';
-export const FETCH_LANGUAGES_FAIL = '[Customer] FETCH_LANGUAGES_FAIL';
-export const FETCH_LANGUAGES_SUCCESS = '[Customer] FETCH_LANGUAGES_SUCCESS';
-export const UPDATE_LANGUAGE = '[Customer] UPDATE_LANGUAGE';
-export const UPDATE_LANGUAGE_FAIL = '[Customer] UPDATE_LANGUAGE_FAIL';
-export const UPDATE_LANGUAGE_SUCCESS = '[Customer] UPDATE_LANGUAGE_SUCCESS';
-export const SET_LANGUAGE = '[Customer] SET_LANGUAGE';
-export const SET_LANGUAGE_FAIL = '[Customer] SET_LANGUAGE_FAIL';
-export const SET_LANGUAGE_SUCCESS = '[Customer] SET_LANGUAGE_SUCCESS';
-
-
 
 export class UpdateCustomerSearchText implements Action {
   readonly type = UPDATE_CUSTOMER_SEARCH_TEXT;
@@ -98,35 +86,6 @@ export class UpdateCustomerSuccess implements Action {
   constructor(public payload: ICustomer) {}
 }
 
-export class FetchLanguages implements Action {
-  readonly type = FETCH_LANGUAGES;
-}
-export class FetchLanguagesFail implements Action {
-  readonly type = FETCH_LANGUAGES_FAIL;
-  constructor(public payload: Object) {}
-}
-export class FetchLanguagesSuccess implements Action {
-  readonly type = FETCH_LANGUAGES_SUCCESS;
-  constructor(public payload: ILanguage[]) {}
-}
-
-export class UpdateLanguage implements Action {
-  readonly type = UPDATE_LANGUAGE;
-  constructor(public payload: {language: string, branchId: string, visitId: string}) {}
-}
-
-export class UpdateLanguageFail implements Action {
-  readonly type = UPDATE_LANGUAGE_FAIL;
-  constructor(public payload: Object) {}
-}
-
-export class UpdateLanguageSuccess implements Action {
-  readonly type = UPDATE_LANGUAGE_SUCCESS;
-  // constructor(public payload: ICustomer) {}
-}
-
-
-
 // Action types
 export type AllCustomerActions = UpdateCustomerSearchText |
                                   ResetCustomerSearchText |
@@ -141,11 +100,4 @@ export type AllCustomerActions = UpdateCustomerSearchText |
                                   CreateCustomerSuccess |
                                   UpdateCustomer |
                                   UpdateCustomerFail |
-                                  UpdateCustomerSuccess |
-                                  FetchLanguages |
-                                  FetchLanguagesFail |
-                                  FetchLanguagesSuccess |
-                                  UpdateLanguage |
-                                  UpdateLanguageFail |
-                                  UpdateLanguageSuccess
-                                  ;
+                                  UpdateCustomerSuccess;
