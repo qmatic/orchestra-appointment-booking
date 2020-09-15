@@ -40,11 +40,4 @@ export class CustomerDispatchers {
   resetCustomerSearchText() {
     this.store.dispatch(new CustomerActions.ResetCustomerSearchText);
   }
-  fetchLanguages() {
-    this.store.dispatch(new CustomerActions.FetchLanguages);
-  }
-  updateLanguage(language: string, branchId: string, visitId: string) {
-    let payload = {language, branchId , visitId};
-    this.store.dispatch(new CustomerActions.UpdateLanguage(payload));
-  }
 }

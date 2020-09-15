@@ -148,6 +148,7 @@ import { QmBookingHistoryComponent } from './components/containers/qm-booking-hi
 import { QmPrintConfirmComponent } from './components/presentational/qm-print-confirm/qm-print-confirm.component';
 import { NavigationService } from './util/navigation.service';
 import { QmErrorComponent } from './components/presentational/qm-error/qm-error.component';
+import { QmLanguageSelectComponent } from './components/presentational/qm-language-select/qm-language-select.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -235,7 +236,8 @@ const toastrGlobalOptions = {
     QmPrintBoxComponent,
     QmBookingHistoryComponent,
     QmPrintConfirmComponent,
-    QmErrorComponent
+    QmErrorComponent,
+    QmLanguageSelectComponent
   ],
   imports: [
     MomentTimezoneModule,
@@ -310,7 +312,7 @@ export class AppModule {
     private settingsAdminDispatchers: SettingsAdminDispatchers,
     private shiroDispatchers: ShiroDispatchers,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private settingsErrorMediator: SettingsErrorMediator
+    private settingsErrorMediator: SettingsErrorMediator,
   ) {
     // No Suffix for english language file (appointmentBookingMessages.properties)
     this.translate.setDefaultLang('appointmentBookingMessages');

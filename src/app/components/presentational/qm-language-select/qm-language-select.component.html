@@ -1,0 +1,17 @@
+<div>
+  <div>
+    {{ 'label.language.heading' | translate }}
+  </div>
+  <br>
+  <div class="qm-standard-text-field">
+    <form [formGroup]="languageForm">
+      <label class="qm-standard-text-field__label">
+        <ng-select #languageSelect [items]="languages" [selectOnTab]="true" [clearable]="false"
+          notFoundText="{{ 'label.no.items.found' | translate }}" bindValue="value"
+          placeholder="{{ 'label.language.heading' | translate }}" formControlName="language">
+        </ng-select>
+      </label>
+    </form>
+
+  </div>
+</div>

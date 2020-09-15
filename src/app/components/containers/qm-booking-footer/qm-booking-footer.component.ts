@@ -31,6 +31,7 @@ import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { IService } from '../../../../models/IService';
 import { ToastService } from '../../../../services/util/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageSelectors } from '../../../../store/services/language';
 
 @Component({
   selector: 'qm-booking-footer',
@@ -55,6 +56,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private selectedAppointment$: Observable<IAppointment>;
   private appointments$: Observable<IAppointment[]>;
   private printAppointment$: Observable<boolean>;
+  private selectedLanguage$: Observable<string>;
 
   private numberOfCustomers: number;
   private emailEnabled: boolean;
@@ -63,6 +65,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private noNotificationEnabled: boolean;
   private titleEnabled: boolean;
   private notesEnabled: boolean;
+  private languageSelectEnabled: boolean;
   private isPrintAppointment: boolean;
   private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
@@ -79,6 +82,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private bookedAppointment: Observable<IAppointment>;
   private qpAppointment: IAppointment;
   public selectedAppointment: IAppointment;
+  public selectedLanguage: string;
+  
 
   constructor(
     private customerSelectors: CustomerSelectors,
@@ -101,7 +106,8 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     private appointmentSelectors: AppointmentSelectors,
     private toastService: ToastService,
     private translateService: TranslateService,
-    private bookingSelectors: BookingSelectors
+    private bookingSelectors: BookingSelectors,
+    private languageSeletors: LanguageSelectors
   ) {
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -119,6 +125,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.appointments$ = this.appointmentSelectors.appointments$;
     this.printAppointment$ = this.appointmentMetaSelectors.printAppointmentOption$;
     //this.bookedAppointment$ = this.bookingSelectors.bookedAppointment$;
+    this.selectedLanguage$ = this.languageSeletors.selectedLanguage$;
   }
 
   ngOnInit() {
@@ -169,6 +176,12 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       }
     );
 
+    const selectedLanguageSubscription = this.selectedLanguage$.subscribe(
+      (lang : string) => {
+        this.selectedLanguage = lang;
+      }
+    )
+
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: {[name: string]: Setting }) => {
         this.emailEnabled = settingsMap.IncludeEmail.value;
@@ -179,6 +192,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.titleEnabled = settingsMap.Title.value;
         this.notesEnabled = settingsMap.Notes.value;
         this.isAppointmentStatEventEnable = settingsMap.SetAppointmentStatEvent.value;
+        this.languageSelectEnabled = settingsMap.languageSelect.value;
       }
     );
 
@@ -222,6 +236,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(printAppointmentSubscription);
     this.subscriptions.add(qpAppointmentSubscription);
     this.subscriptions.add(bookedAppointmentSubscription);
+    this.subscriptions.add(selectedLanguageSubscription);
   }
 
   ngOnDestroy() {
@@ -401,12 +416,14 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   getAppointmentCustomJson(currentCustomer: ICustomer): string {
     if (this.hasNotificationOptionsEnabled()) {
       const notificationType: string = this.notificationType;
+      const selectedLanguage : string = this.selectedLanguage;
       switch (notificationType) {
         case 'sms': {
           return `{`
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
+                  +   ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                 + `}`;
         }
         case 'email': {
@@ -414,6 +431,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"email":"${currentCustomer.email}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                 + `}`;
         }
         case 'both': {
@@ -421,12 +439,14 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"email":"${currentCustomer.email}",`
                   + `"notificationType":"${notificationType}",`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + `"appId":"generic"`
                 + `}`;
         }
         case 'none': {
           return `{`
                   + `"notificationType":"${notificationType}",`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + `"appId":"generic"`
                 + `}`;
         }

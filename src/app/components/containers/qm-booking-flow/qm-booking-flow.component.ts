@@ -27,6 +27,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   public settingsMap: { [name: string]: Setting };
   private settingReservationExpiryTime: number;
   private getExpiryReservationTime$: Observable<Number>;
+  private isLanguageSelectEnabled: boolean;
 
   constructor(
     private settingsAdminSelectors: SettingsAdminSelectors,
@@ -70,6 +71,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
+        this.isLanguageSelectEnabled = settingsMap.languageSelect.value;
       }
     );
 

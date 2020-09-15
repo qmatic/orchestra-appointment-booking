@@ -24,7 +24,6 @@ export class SettingsAdminDispatchers {
     .buildDefaultSettings()
     .mergeSettingsWithGet(updateRequest.settingsList)
     .toArray();
-    console.log(settingsList);
     this.store.dispatch(new SettingsAdminActions.UpdateSettingsStore(settingsList));
   }
 }

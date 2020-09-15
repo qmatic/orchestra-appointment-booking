@@ -173,7 +173,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       if (control.value === false) {
 
         const foundPreselectObj = this.preselectValueCollection.find(x => x.name === settingObj.name);
-        if (preselectControl.value ===  foundPreselectObj.key) {
+        if ( foundPreselectObj && (preselectControl.value ===  foundPreselectObj.key)) {
           preselectControl.setValue(this.preselectValueCollection[1].key);
         }
       }

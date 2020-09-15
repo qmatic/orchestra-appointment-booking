@@ -59,8 +59,9 @@ import {
   ShiroDataService,
   ShiroDispatchers,
   PrintDispatchers,
-  PrintSelectors
+  PrintSelectors,
 } from './services';
+import { LanguageDispatchers, LanguageDataService, LanguageSelectors } from './services/language';
 
 export const storeServices = [
   ServiceDataService,
@@ -118,5 +119,8 @@ export const storeServices = [
   ShiroDispatchers,
   ShiroDataService,
   PrintDispatchers,
-  PrintSelectors
+  PrintSelectors,
+  LanguageDispatchers,
+  LanguageDataService,
+  LanguageSelectors
 ];
