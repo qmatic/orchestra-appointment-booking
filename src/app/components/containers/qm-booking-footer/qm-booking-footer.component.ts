@@ -439,15 +439,15 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"email":"${currentCustomer.email}",`
                   + `"notificationType":"${notificationType}",`
-                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + `"appId":"generic"`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                 + `}`;
         }
         case 'none': {
           return `{`
                   + `"notificationType":"${notificationType}",`
-                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + `"appId":"generic"`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                 + `}`;
         }
         default: {
