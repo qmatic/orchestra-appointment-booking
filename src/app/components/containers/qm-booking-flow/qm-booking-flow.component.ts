@@ -27,7 +27,7 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   public settingsMap: { [name: string]: Setting };
   private settingReservationExpiryTime: number;
   private getExpiryReservationTime$: Observable<Number>;
-  private isLanguageSelectEnabled: boolean;
+  public isLanguageSelectEnabled: boolean;
 
   constructor(
     private settingsAdminSelectors: SettingsAdminSelectors,

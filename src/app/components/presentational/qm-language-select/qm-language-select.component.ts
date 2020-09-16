@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class QmLanguageSelectComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
   private languages$: Observable<ILanguage[]>
-  private supportedLanguagesArray: ILanguage[];
+  public supportedLanguagesArray: ILanguage[];
   
   public languages: NgOption[] = [];
   languageForm: FormGroup;
