@@ -36,6 +36,10 @@ export class CustomerDispatchers {
   updateCustomerSearchText(searchText: string) {
     this.store.dispatch(new CustomerActions.UpdateCustomerSearchText(searchText));
   }
+  
+  getCustomerById(publicId: string) {
+    this.store.dispatch(new CustomerActions.GetCustomerById(publicId));
+  }
 
   resetCustomerSearchText() {
     this.store.dispatch(new CustomerActions.ResetCustomerSearchText);

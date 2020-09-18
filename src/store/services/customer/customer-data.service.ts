@@ -35,4 +35,9 @@ export class CustomerDataService {
         catchError(this.errorHandler.handleError())
       );
   }
+  getCustomerByPublicId(publicId: string): Observable<ICustomerResponse> {
+    return this.http
+      .get<ICustomerResponse>(`${calendarEndpoint}/customers/search?publicId=${publicId}`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
 }

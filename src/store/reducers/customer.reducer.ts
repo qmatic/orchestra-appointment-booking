@@ -89,6 +89,33 @@ export function reducer (
         loaded: false
       };
     }
+    case CustomerActions.GET_CUSTOMER_BY_ID: {
+      return {
+        ...state,
+        loading: true,
+        loaded: false,
+        error: null
+      };
+    }
+    case CustomerActions.GET_CUSTOMER_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        currentCustomer: [
+          ...action.payload.customerList
+        ][0],
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case CustomerActions.GET_CUSTOMER_BY_ID_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error: action.payload
+      };
+    }
     default: {
       return state;
     }
