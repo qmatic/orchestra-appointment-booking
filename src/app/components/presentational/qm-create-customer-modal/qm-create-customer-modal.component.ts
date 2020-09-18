@@ -84,6 +84,10 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       currentCustomerSubscription = this.currentCustomer$.subscribe(
         (currentCustomer: ICustomer) => {
           this.currentCustomer = currentCustomer;
+          console.log(this.currentCustomer)
+          if (currentCustomer.publicId && !currentCustomer.id) {
+            this.customerDispatchers.getCustomerById(currentCustomer.publicId);
+          }
           this.buildCustomerForm();
           this.setUpdatingCustomerFields();
         }

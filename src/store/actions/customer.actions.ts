@@ -18,6 +18,10 @@ export const CREATE_CUSTOMER_SUCCESS = '[Customer] CREATE_CUSTOMER_SUCCESS';
 export const UPDATE_CUSTOMER = '[Customer] UPDATE_CUSTOMER';
 export const UPDATE_CUSTOMER_FAIL = '[Customer] UPDATE_CUSTOMER_FAIL';
 export const UPDATE_CUSTOMER_SUCCESS = '[Customer] UPDATE_CUSTOMER_SUCCESS';
+export const GET_CUSTOMER_BY_ID = '[Customer] GET_CUSTOMER_BY_ID';
+export const GET_CUSTOMER_BY_ID_FAIL = '[Customer] GET_CUSTOMER_BY_ID_FAIL';
+export const GET_CUSTOMER_BY_ID_SUCCESS = '[Customer] GET_CUSTOMER_BY_ID_SUCCESS';
+
 
 export class UpdateCustomerSearchText implements Action {
   readonly type = UPDATE_CUSTOMER_SEARCH_TEXT;
@@ -86,6 +90,21 @@ export class UpdateCustomerSuccess implements Action {
   constructor(public payload: ICustomer) {}
 }
 
+export class GetCustomerById implements Action {
+  readonly type = GET_CUSTOMER_BY_ID;
+  constructor(public payload: string) {}
+}
+
+export class GetCustomerByIdFail implements Action {
+  readonly type = GET_CUSTOMER_BY_ID_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class GetCustomerByIdSuccess implements Action {
+  readonly type = GET_CUSTOMER_BY_ID_SUCCESS;
+  constructor(public payload: ICustomerResponse) {}
+}
+
 // Action types
 export type AllCustomerActions = UpdateCustomerSearchText |
                                   ResetCustomerSearchText |
@@ -100,4 +119,7 @@ export type AllCustomerActions = UpdateCustomerSearchText |
                                   CreateCustomerSuccess |
                                   UpdateCustomer |
                                   UpdateCustomerFail |
-                                  UpdateCustomerSuccess;
+                                  UpdateCustomerSuccess|
+                                  GetCustomerById |
+                                  GetCustomerByIdFail |
+                                  GetCustomerByIdSuccess;
