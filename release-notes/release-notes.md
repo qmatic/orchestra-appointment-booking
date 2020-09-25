@@ -9,33 +9,49 @@ This document describes the new features, bug corrections, known issues and reco
 **Note:** Several of the remarks refer to a Jira number (Jira is Qmatic&#39;s internal registration system for bugs), or Pivotal Tracker (internal system for improvements and other issues).
 
 
-<h2>Original release</h2>
+<!--Add new update section after each release
 
-**Date: 10/01/2018** 
+<h2>Version UPDATE_VERSION_NUMBER</h2>
+
+**Date:**
  
-**Build number: 001** 
+**Build number:**
 
 <h3>Stories</h3>
 
 | **Id** | **Release notes** |
-| :--- | :--- |
-| **xxx** | **Story header** Story text |
+| --- | --- |
+| **xxx** | **Story header** Solution text |
 
 <h3>Bug fixes</h3>
 
 | **Id** | **Release notes** |
 | --- | --- |
-| **xxx** | **Bug header** Bug text |
-
+| **xxx** | **Bug header** Solution text |
 
 <h3>Known issues</h3>
-**Appointment Booking App**
 
 | **Id/Jira** | **Description** |
 | --- | --- |
 | **xxx** | **Bug header** Bug text |
----
-<h3>Upgrade Instructions</h3>
+
+<h3>Upgrade instructions</h3> 
+
+------------>
+
+----------
+
+<h2>Update 4.0.0.014</h2>
+
+**Date: 25/09/2020**
+ 
+**Build number: 014**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-61** | **Addning customer langugage selection** |
 
 ----------
 
@@ -175,6 +191,14 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Known issues</h3>
 
 <h3>Upgrade instructions</h3> 
+
+----------
+
+<h2>Original release</h2>
+
+**Date: 10/01/2018** 
+ 
+**Build number: 001** 
 
 ----------
 
