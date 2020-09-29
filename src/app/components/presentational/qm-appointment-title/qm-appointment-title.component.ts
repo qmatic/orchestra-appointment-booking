@@ -1,8 +1,6 @@
 import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import {
   AppointmentMetaSelectors,
   AppointmentMetaDispatchers,

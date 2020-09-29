@@ -2,8 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ServiceSelectors, ServiceDispatchers, BookingSelectors } from '../../../../store';
 import { Setting } from '../../../../models/Setting';
 import { IService } from '../../../../models/IService';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IAppointment } from '../../../../models/IAppointment';
 

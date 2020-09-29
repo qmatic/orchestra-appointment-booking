@@ -5,8 +5,7 @@ import { ReservationExpiryTimerDispatchers } from './../../../../store/services/
 import { CalendarSettingsSelectors } from './../../../../store/services/calendar-settings/calendar-settings.selectors';
 import { ReservationExpiryTimerSelectors } from './../../../../store/services/reservation-expiry-timer/reservation-expiry-timer.selectors';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { ICustomer } from '../../../../models/ICustomer';
 import { CustomerSelectors, UserSelectors } from '../../../../store';
 import { registerLocaleData } from '@angular/common';

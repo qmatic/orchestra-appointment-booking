@@ -2,7 +2,7 @@ import { ToastService } from './toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SPService } from '../rest/sp.service';
 import { UserSelectors } from '../../store/index';
 import { LOGOUT_URL } from '../../app/components/containers/qm-page-header/header-navigation';

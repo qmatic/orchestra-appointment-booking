@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { CalendarSettingsDispatchers } from './../store/services/calendar-settings/calendar-settings.dispatcher';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import * as moment from 'moment';

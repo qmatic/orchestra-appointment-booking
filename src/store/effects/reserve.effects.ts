@@ -1,18 +1,18 @@
+
+import {empty as observableEmpty, forkJoin as observableForkJoin,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { TranslateService } from '@ngx-translate/core';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, tap, map, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import * as ReserveActions from './../actions';
 import { ReserveDataService, DataServiceError } from '../services';
 import { ToastService } from '../../services/util/toast.service';
 import { IAppState } from '../reducers/index';
 
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/observable/empty';
+
+
 import { IAppointment } from '../../models/IAppointment';
 import { IService } from '../../models/IService';
 import { IBookingInformation } from '../../models/IBookingInformation';
@@ -34,14 +34,14 @@ export class ReserveEffects {
 
   @Effect()
   reserveAppointment$: Observable<Action> = this.actions$
-    .ofType(ReserveActions.RESERVE_APPOINTMENT)
     .pipe(
+      ofType(ReserveActions.RESERVE_APPOINTMENT),
       withLatestFrom(this.store$.select((state: IAppState) => state.reserved.reservedAppointment)),
       switchMap((data: any) => {
         const [ action, reservedAppointment ]: [ReserveActions.ReserveAppointment, IAppointment] = data;
         if (reservedAppointment) {
           // Previously reserved appointment. Try to delete before continuing
-          return Observable.forkJoin([
+          return observableForkJoin([
             of(action),
             toAction(
               this.reserveDataService.unreserveAppointment(reservedAppointment.publicId),
@@ -106,8 +106,8 @@ export class ReserveEffects {
 
     @Effect()
     unreserveAppointment$: Observable<Action> = this.actions$
-      .ofType(ReserveActions.DESELECT_TIMESLOT)
       .pipe(
+        ofType(ReserveActions.DESELECT_TIMESLOT),
         withLatestFrom(this.store$.select((state: IAppState) => state.reserved.reservedAppointment)),
         switchMap((data: any) => {
           const [ action, reservedAppointment ] = data;
@@ -118,15 +118,15 @@ export class ReserveEffects {
               ReserveActions.UnreserveAppointmentFail
             );
           } else {
-            return Observable.empty();
+            return observableEmpty();
           }
         })
       );
 
     @Effect()
     reserveAppointmentFailed$: Observable<Action> = this.actions$
-      .ofType(ReserveActions.RESERVE_APPOINTMENT_FAIL)
       .pipe(
+        ofType(ReserveActions.RESERVE_APPOINTMENT_FAIL),
         tap(
           (action: ReserveActions.ReserveAppointmentFail) => {
             if (action.payload.errorCode === ERROR_CODE_TIMESLOT_TAKEN) {

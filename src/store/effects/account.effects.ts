@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import * as AccountActions from './../actions';
@@ -20,8 +20,8 @@ export class AccountEffects {
 
   @Effect()
   getAccountInfo$: Observable<Action> = this.actions$
-    .ofType(AccountActions.FETCH_ACCOUNT_INFO)
     .pipe(
+      ofType(AccountActions.FETCH_ACCOUNT_INFO),
       switchMap(() =>
         toAction(
           this.accountDataService.getAccountInfo(),
@@ -33,8 +33,8 @@ export class AccountEffects {
 
   @Effect({ dispatch: false })
   setLanguage$: Observable<Action> = this.actions$
-    .ofType(AccountActions.FETCH_ACCOUNT_INFO_SUCCESS)
     .pipe(
+      ofType(AccountActions.FETCH_ACCOUNT_INFO_SUCCESS),
       tap((action: AccountActions.FetchAccountInfoSuccess) => {
         this.translate.use(
           'appointmentBookingMessages' +

@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import 'rxjs/add/operator/catch';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 // Declare native methods in window object
 declare function unescape(s: string): string;

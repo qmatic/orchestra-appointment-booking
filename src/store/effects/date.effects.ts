@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import * as AllActions from './../actions';
@@ -22,8 +22,8 @@ export class DateEffects {
 
     @Effect()
     getDates$: Observable<Action> = this.actions$
-      .ofType(AllActions.FETCH_DATES)
       .pipe(
+        ofType(AllActions.FETCH_DATES),
         switchMap((action: AllActions.FetchDates) =>
           toAction(
             this.dateDataService.getDates(action.payload),
@@ -35,8 +35,8 @@ export class DateEffects {
 
     @Effect( { dispatch: false })
     checkIfAvailableDates$: Observable<Action> = this.actions$
-      .ofType(AllActions.FETCH_DATES_SUCCESS)
       .pipe(
+        ofType(AllActions.FETCH_DATES_SUCCESS),
         tap((action: AllActions.FetchDatesSuccess) => {
           if (action.payload.dates.length === 0) {
             this.translateService.get('label.no.dates.available').subscribe(
@@ -48,8 +48,8 @@ export class DateEffects {
 
     @Effect()
     resetDatesOnBranchChange$: Observable<Action> = this.actions$
-      .ofType(AllActions.SELECT_DATE, AllActions.DESELECT_DATE)
       .pipe(
+        ofType(AllActions.SELECT_DATE, AllActions.DESELECT_DATE),
         switchMap(() => {
           return [
             new AllActions.DeselectTimeslot,

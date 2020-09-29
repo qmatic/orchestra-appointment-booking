@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { GlobalErrorHandler } from '../../../services/util/global-error-handler.
 export class DateDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
-  getDates(bookingInformation: IBookingInformation): Observable<IDatesResponse> {
+  getDates(bookingInformation: IBookingInformation): Observable<IDatesResponse | any> {
     return this.http
       .get<IDatesResponse>(
         `${calendarPublicEndpointV2}/branches/`

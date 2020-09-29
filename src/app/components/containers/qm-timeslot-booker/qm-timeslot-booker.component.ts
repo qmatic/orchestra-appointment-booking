@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable ,  Subscription } from 'rxjs';
 import { TimeslotDispatchers, ReserveDispatchers, TimeslotSelectors, SystemInfoSelectors } from '../../../../store';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { IAppointment } from '../../../../models/IAppointment';
 import { Setting } from '../../../../models/Setting';
-import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'qm-timeslot-booker',
   templateUrl: './qm-timeslot-booker.component.html',

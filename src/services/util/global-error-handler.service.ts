@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from './toast.service';
 import { DataServiceError } from './../../store/services/data.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
@@ -27,11 +27,11 @@ export class GlobalErrorHandler {
         // }
     }
 
-    handleError<T>(requestData?: T) {
+    handleError<T>(requestData?: T ) {
         return (res: HttpErrorResponse) => {
           const error = new DataServiceError(res, requestData);
           console.error(error);
-          return new ErrorObservable(error);
+          return throwError(error);
         };
       }
 

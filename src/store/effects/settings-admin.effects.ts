@@ -2,10 +2,10 @@ import { AppointmentMetaDispatchers } from './../services/appointment-meta/appoi
 import { AppointmentMetaSelectors } from './../services/appointment-meta/appointment-meta.selectors';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store/src/models';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { SettingsAdminDispatchers } from './../services/settings-admin/settings-admin.dispatchers';
 import { SaveSettings } from './../actions/settings-admin.actions';
@@ -32,8 +32,8 @@ export class SettingsAdminEffects {
 
     @Effect()
     getSettings$: Observable<Action> = this.actions$
-      .ofType(SettingsAdminActions.FETCH_SETTINGS)
       .pipe(
+        ofType(SettingsAdminActions.FETCH_SETTINGS),
         switchMap(() =>
           toAction(
             this.settingsAdminDataService.getSettings(),
@@ -45,8 +45,8 @@ export class SettingsAdminEffects {
 
       @Effect()
       saveSettings$: Observable<Action> = this.actions$
-      .ofType(SettingsAdminActions.SAVE_SETTINGS)
       .pipe(
+        ofType(SettingsAdminActions.SAVE_SETTINGS),
         switchMap((action: SaveSettings) =>
           toAction(
             this.settingsAdminDataService.updateSettings(action.payload),
@@ -58,8 +58,8 @@ export class SettingsAdminEffects {
 
       @Effect({dispatch : false})
       saveSettingsSuccess$: Observable<Action> = this.actions$
-        .ofType(SettingsAdminActions.SAVE_SETTINGS_SUCCESS)
         .pipe(
+          ofType(SettingsAdminActions.SAVE_SETTINGS_SUCCESS),
           tap((action: SettingsAdminActions.SaveSettingsSuccess) => {
             this.settingsDispatchers.updateSettingsStore(action.payload);
             this.appointmentMetaDispatchers.resetAppointmentNotificationType();
@@ -85,8 +85,8 @@ export class SettingsAdminEffects {
 
         @Effect()
         saveSettingsFail$: Observable<Action> = this.actions$
-          .ofType(SettingsAdminActions.SAVE_SETTINGS_FAIL)
           .pipe(
+            ofType(SettingsAdminActions.SAVE_SETTINGS_FAIL),
             tap((action: SettingsAdminActions.SaveSettingsFail) =>
               this.errorHandler.showError('message.settings.save.fail', action.payload)
             ),

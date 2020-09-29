@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable, throwError } from 'rxjs';
 import { switchMap, mergeMap, catchError } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { UserSelectors, DataServiceError } from '../../store';
+
 
 @Injectable()
 export class SPService implements OnDestroy {
@@ -88,7 +88,7 @@ export class SPService implements OnDestroy {
     return (res: HttpErrorResponse) => {
       const error = new DataServiceError(res.error, requestData);
       console.error(error);
-      return new ErrorObservable(error);
+      return throwError(error);
     };
-  }
+  } 
 }

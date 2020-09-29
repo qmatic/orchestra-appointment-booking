@@ -1,8 +1,7 @@
 // General purpose entity action stuff, good for any entity type
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 import { DataServiceError } from '../services';
 

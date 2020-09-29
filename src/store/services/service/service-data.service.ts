@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ export class ServiceDataService {
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
-  getServiceGroups(servicePublicIds: string): Observable<IServiceGroup[]> {
+  getServiceGroups(servicePublicIds: string): Observable<any> {
     return this.http
       .get<IServiceGroup[]>(`${calendarPublicEndpoint}/services/groups${servicePublicIds}`)
       .pipe(catchError(this.errorHandler.handleError()));

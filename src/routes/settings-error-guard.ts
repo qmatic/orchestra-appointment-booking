@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LicenseInfoSelectors } from './../store/services/license/license.selectors';
 import { SettingsAdminSelectors } from '../store/index';
 import { filter, map, switchMap } from 'rxjs/operators';

@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Moment
 import { MomentModule } from 'angular2-moment';
-import { MomentTimezoneModule } from 'angular-moment-timezone';
+import {MomentTimezoneModule} from 'angular-moment-timezone';
 
 // A11y
 import { A11yModule } from '@angular/cdk/a11y';
@@ -251,7 +251,7 @@ const toastrGlobalOptions = {
     ReactiveFormsModule,
     NgSelectModule,
     A11yModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
     ...(!environment.production

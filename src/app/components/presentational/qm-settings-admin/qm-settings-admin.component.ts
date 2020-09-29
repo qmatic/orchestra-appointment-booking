@@ -2,7 +2,7 @@ import { SettingsListboxComponent } from './settings-listbox/settings-listbox.co
 import { APP_URL, BOOKING_HOME_URL } from './../../containers/qm-page-header/header-navigation';
 import { SPService } from './../../../../services/rest/sp.service';
 import { CanComponentDeactivate } from './../../../../routes/can-deactivatet';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription ,  Observable ,  Subject } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { ToastService } from './../../../../services/util/toast.service';
@@ -10,17 +10,15 @@ import { ISettingsUpdateRequest } from './../../../../models/ISettingsResponse';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Setting, SettingCategory } from './../../../../models/Setting';
 import { UserSelectors } from './../../../../store/services/user/user.selectors';
-import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ViewEncapsulation, OnDestroy,
   QueryList, AfterViewInit} from '@angular/core';
 import { SettingsAdminSelectors, SettingsAdminDispatchers } from '../../../../store/index';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../../../services/util/modal.service';
-import { Subject } from 'rxjs/Subject';
-import { RouterEvent } from '@angular/router/src/events';
+import { RouterEvent } from '@angular/router';
 import { LOGOUT, HOME } from '../../containers/qm-page-header/header-navigation';
 import { Logout } from '../../../../services/util/logout.service';
-import { forEach } from '@angular/router/src/utils/collection';
+// import { forEach } from '@angular/router';
 
 @Component({
   selector: 'qm-settings-admin',
@@ -36,8 +34,8 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
   settings$: Observable<Setting[]>;
   settingsByCategory: SettingCategory[];
   settingsEditForm: FormGroup;
-  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
-  @ViewChild(SettingsListboxComponent) preselectList: SettingsListboxComponent;
+  @ViewChild(ToastContainerDirective, {static: false}) toastContainer: ToastContainerDirective;
+  @ViewChild(SettingsListboxComponent,  {static: false}) preselectList: SettingsListboxComponent;
   subscriptions: Subscription = new Subscription();
   isHeaderNavigationClicked: Boolean = false;
   isUserOptedBrowserNavigation: Boolean = false;

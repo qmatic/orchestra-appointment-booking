@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import * as UserActions from './../actions';
@@ -22,8 +22,8 @@ export class UserEffects {
 
   @Effect()
   getUserInfo$: Observable<Action> = this.actions$
-    .ofType(UserActions.FETCH_USER_INFO)
     .pipe(
+      ofType(UserActions.FETCH_USER_INFO),
       switchMap(() =>
         toAction(
           this.userDataService.getUserInfo(),
@@ -35,8 +35,8 @@ export class UserEffects {
 
   @Effect({ dispatch: false })
   setLanguage$: Observable<Action> = this.actions$
-    .ofType(UserActions.FETCH_USER_INFO_SUCCESS)
     .pipe(
+      ofType(UserActions.FETCH_USER_INFO_SUCCESS),
       tap((action: UserActions.FetchUserInfoSuccess) => {
         this.translate.use(
           'appointmentBookingMessages' +

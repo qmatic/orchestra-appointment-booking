@@ -2,9 +2,9 @@ import { GlobalErrorHandler } from './../../services/util/global-error-handler.s
 import { DataServiceError } from './../services/data.service';
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import * as CustomerActions from './../actions';
@@ -25,8 +25,8 @@ export class CustomerEffects {
 
   @Effect()
   getCustomers$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.FETCH_CUSTOMERS)
     .pipe(
+      ofType(CustomerActions.FETCH_CUSTOMERS),
       switchMap((action: CustomerActions.FetchCustomers) => {
         return toAction(
           this.customerDataService.getCustomers(action.payload),
@@ -39,8 +39,8 @@ export class CustomerEffects {
 
   @Effect()
   createCustomer$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.CREATE_CUSTOMER)
     .pipe(
+      ofType(CustomerActions.CREATE_CUSTOMER),
       switchMap((action: CustomerActions.CreateCustomer) => {
         return toAction(
           this.customerDataService.createCustomer(action.payload),
@@ -53,8 +53,8 @@ export class CustomerEffects {
 
   @Effect()
   selectCustomerAfterCreation$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.CREATE_CUSTOMER_SUCCESS)
     .pipe(
+      ofType(CustomerActions.CREATE_CUSTOMER_SUCCESS),
       tap((action: CustomerActions.CreateCustomerSuccess) =>
         this.translateService.get('label.customer.created', { 0: action.payload.name }).subscribe(
           (label: string) => this.toastService.successToast(label)
@@ -67,8 +67,8 @@ export class CustomerEffects {
 
   @Effect({ dispatch: false })
   createCustomerFailed$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.CREATE_CUSTOMER_FAIL)
     .pipe(
+      ofType(CustomerActions.CREATE_CUSTOMER_FAIL),
       tap((action: CustomerActions.CreateCustomerFail) => {
         this.globalErrorHandler
           .showError('label.customer.created.error', action.payload);
@@ -80,8 +80,8 @@ export class CustomerEffects {
 
   @Effect()
   updateCustomer$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.UPDATE_CUSTOMER)
     .pipe(
+      ofType(CustomerActions.UPDATE_CUSTOMER),
       switchMap((action: CustomerActions.UpdateCustomer) => {
         return toAction(
           this.customerDataService.updateCustomer(action.payload),
@@ -94,8 +94,8 @@ export class CustomerEffects {
 
   @Effect()
   selectCustomerAfterUpdate$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.UPDATE_CUSTOMER_SUCCESS)
     .pipe(
+      ofType(CustomerActions.UPDATE_CUSTOMER_SUCCESS),
       tap((action: CustomerActions.UpdateCustomerSuccess) =>
         this.translateService.get('label.customer.updated').subscribe(
           (label: string) => this.toastService.successToast(`${label} ${action.payload.name}`)
@@ -108,8 +108,8 @@ export class CustomerEffects {
 
   @Effect({ dispatch: false })
   updateCustomerFailed$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.UPDATE_CUSTOMER_FAIL)
     .pipe(
+      ofType(CustomerActions.UPDATE_CUSTOMER_FAIL),
       tap((action: CustomerActions.UpdateCustomerFail) => {
         this.globalErrorHandler
           .showError('label.customer.updated.error', action.payload);
@@ -119,8 +119,8 @@ export class CustomerEffects {
 
   @Effect()
   resetCurrentCustomer$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.RESET_CURRENT_CUSTOMER)
     .pipe(
+      ofType(CustomerActions.RESET_CURRENT_CUSTOMER),
       switchMap((action: CustomerActions.ResetCurrentCustomer) =>
         [new CustomerActions.ResetAppointments]
       )
@@ -128,8 +128,8 @@ export class CustomerEffects {
 
   @Effect()
   getCutsomerById$: Observable<Action> = this.actions$
-    .ofType(CustomerActions.GET_CUSTOMER_BY_ID)
     .pipe(
+      ofType(CustomerActions.GET_CUSTOMER_BY_ID),
       switchMap((action: CustomerActions.GetCustomerById) => {
         return toAction(
           this.customerDataService.getCustomerByPublicId(action.payload),
