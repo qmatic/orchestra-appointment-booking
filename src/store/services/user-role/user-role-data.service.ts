@@ -1,8 +1,9 @@
+
+import {map,  catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
 
 import { IAccount } from './../../../models/IAccount';
 import { restEndpoint, DataServiceError } from './../data.service';
@@ -21,10 +22,10 @@ const STAFF_SUPER_ADMIN_ROLE = '*';
 export class UserRoleDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
-  getUserRoleInfo(): Observable<string> {
+  getUserRoleInfo(): Observable<any> {
     return this.http
-      .get<IAccount>(`${restEndpoint}/account`)
-      .map((res: { modules: string[] }) => {
+      .get<IAccount>(`${restEndpoint}/account`).pipe(
+      map((res: { modules: string[] }) => {
         const isStaffUser =
           res.modules.filter(module => module === STAFF_BOOKING_ROLE).length > 0
             ? true
@@ -43,7 +44,7 @@ export class UserRoleDataService {
         userRole = isStaffUser ? USER_ROLE : userRole;
         userRole = isStaffAdminUser || isSuperAdminUser ? ADMIN_ROLE : userRole;
         return userRole;
-      })
+      }))
       .pipe(catchError(this.errorHandler.handleError()));
   }
 }

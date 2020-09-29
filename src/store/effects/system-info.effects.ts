@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import * as SystemInfoActions from './../actions';
@@ -18,8 +18,8 @@ export class SystemInfoEffects {
 
   @Effect()
   getSystemInfo$: Observable<Action> = this.actions$
-    .ofType(SystemInfoActions.FETCH_SYSTEM_INFO)
     .pipe(
+      ofType(SystemInfoActions.FETCH_SYSTEM_INFO),
       switchMap(() =>
         toAction(
           this.systemInfoDataService.getSystemInfo(),

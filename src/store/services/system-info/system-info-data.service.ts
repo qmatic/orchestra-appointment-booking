@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { qsystemEndpoint } from '../data.service';
@@ -12,7 +12,7 @@ import { GlobalErrorHandler } from '../../../services/util/global-error-handler.
 export class SystemInfoDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
-  getSystemInfo(): Observable<ISystemInfo> {
+  getSystemInfo(): Observable<any> {
     return this.http
       .get<ISystemInfo>(`${qsystemEndpoint}/servicepoint/systemInformation`)
       .pipe(map(

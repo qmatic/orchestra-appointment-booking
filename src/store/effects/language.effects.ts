@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 
 import * as LanguageActions from './../actions';
@@ -20,8 +20,8 @@ export class LanguageEffects {
 
     @Effect()
     getLanguages$: Observable<Action> = this.actions$
-       .ofType(LanguageActions.FETCH_LANGUAGES)
        .pipe(
+        ofType(LanguageActions.FETCH_LANGUAGES),
         switchMap((action: LanguageActions.FetchLanguages) => {
             return toAction(
                this.languageDataService.getLanguage(),

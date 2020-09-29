@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LanguageDispatchers, LanguageSelectors } from '../../../../store/services/language';
 import { ILanguage } from '../../../../models/ILanguage';
 import { NgOption } from '@ng-select/ng-select';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 

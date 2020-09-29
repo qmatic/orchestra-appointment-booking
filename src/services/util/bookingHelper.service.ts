@@ -1,6 +1,5 @@
 import { Injectable, Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { BookingHelperSelectors } from '../../store';
 import { IService } from '../../models/IService';
 import { IBranch } from '../../models/IBranch';

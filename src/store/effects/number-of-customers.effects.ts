@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import * as AllActions from './../actions';
@@ -17,8 +17,8 @@ export class NumberOfCustomersEffects {
 
     @Effect()
     resetBranchesOnNumberOfCustomerChange$: Observable<Action> = this.actions$
-      .ofType(AllActions.SET_NUMBER_OF_CUSTOMERS, AllActions.RESET_NUMBER_OF_CUSTOMERS)
       .pipe(
+        ofType(AllActions.SET_NUMBER_OF_CUSTOMERS, AllActions.RESET_NUMBER_OF_CUSTOMERS),
         switchMap(() => {
           return [
             new AllActions.DeselectBranch

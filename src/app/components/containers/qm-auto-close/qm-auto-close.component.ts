@@ -2,8 +2,7 @@ import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SettingsAdminSelectors } from '../../../../store/index';
 import { Setting } from '../../../../models/Setting';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { SPService } from '../../../../services/rest/sp.service';
 import { LOGOUT_URL } from '../qm-page-header/header-navigation';
 

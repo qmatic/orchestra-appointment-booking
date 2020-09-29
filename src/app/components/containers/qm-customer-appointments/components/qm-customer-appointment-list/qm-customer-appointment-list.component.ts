@@ -9,9 +9,9 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import * as moment from 'moment';
+import { tz } from 'moment-timezone';
 
 import { NavigationService } from './../../../../../util/navigation.service';
 import { IAppointment } from './../../../../../../models/IAppointment';

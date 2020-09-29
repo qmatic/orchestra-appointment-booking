@@ -8,8 +8,7 @@ import {
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgOption } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 
 import { CustomerSelectors } from './../../../../store/services/customer/customer.selectors';
 import { Setting } from './../../../../models/Setting';

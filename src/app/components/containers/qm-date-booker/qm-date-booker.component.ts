@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { DateSelectors, DateDispatchers, BookingHelperSelectors, TimeslotDispatchers, ReserveSelectors } from '../../../../store';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IBookingInformation } from '../../../../models/IBookingInformation';

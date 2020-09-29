@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { IBranch } from './../../../../models/IBranch';
 import { Setting } from './../../../../models/Setting';
 import { NavigationService } from './../../../util/navigation.service';

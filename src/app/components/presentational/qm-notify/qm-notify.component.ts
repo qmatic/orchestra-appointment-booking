@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import {
   UserSelectors,
   AppointmentMetaSelectors,
   AppointmentMetaDispatchers,
   SettingsAdminSelectors
 } from '../../../../store';
-import { Subscription } from 'rxjs/Subscription';
 import { Setting } from '../../../../models/Setting';
 
 @Component({

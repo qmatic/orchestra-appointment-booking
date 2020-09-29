@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription } from 'rxjs';
 import { UserSelectors, SettingsAdminSelectors } from '../../../../store';
 import { Setting } from '../../../../models/Setting';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'qm-resource-text',

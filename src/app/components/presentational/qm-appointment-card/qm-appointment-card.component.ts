@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { UserSelectors, SystemInfoSelectors } from '../../../../store';
 import { IAppointment } from '../../../../models/IAppointment';

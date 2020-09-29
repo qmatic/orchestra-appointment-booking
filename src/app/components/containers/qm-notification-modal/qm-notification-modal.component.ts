@@ -2,9 +2,7 @@ import { AutoClose } from './../../../../services/util/autoclose.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Subscription ,  Observable ,  Subject } from 'rxjs';
 import {
   CustomerSelectors,
   UserSelectors,

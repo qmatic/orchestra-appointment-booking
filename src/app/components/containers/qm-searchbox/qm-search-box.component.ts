@@ -1,7 +1,7 @@
 import { AutoClose } from './../../../../services/util/autoclose.service';
 import { FormControl } from '@angular/forms';
 import { tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { EventEmitter, Input } from '@angular/core';
 import {
   Component,

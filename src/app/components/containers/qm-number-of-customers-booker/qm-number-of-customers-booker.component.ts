@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { BookingHelperSelectors, NumberOfCustomersSelectors, NumberOfCustomersDispatchers, AppointmentSelectors } from '../../../../store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { Setting } from '../../../../models/Setting';
 import { IAppointment } from '../../../../models/IAppointment';
 

@@ -6,8 +6,7 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject ,  Subscription } from 'rxjs';
 
 @Component({
   selector: 'qm-standard-radio',

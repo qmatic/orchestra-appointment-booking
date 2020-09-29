@@ -6,8 +6,7 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { SystemInfoSelectors } from '../../../../store';
 
 @Component({
@@ -17,7 +16,7 @@ import { SystemInfoSelectors } from '../../../../store';
 })
 export class QmBookingSidebarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private timeConvention$: Observable<string>;
+  private timeConvention$: Observable<any>;
   public timeConvention: string;
 
   @Output()

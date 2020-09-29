@@ -1,11 +1,11 @@
+
+import {empty as observableEmpty,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
-import 'rxjs/add/observable/empty';
+
 
 import * as AppointmentMetaActions from './../actions';
 import { IAppState } from '../index';
@@ -28,8 +28,8 @@ export class AppointmentMetaEffects {
 
   @Effect()
   resetAppointmentMetaNotificationType$: Observable<Action> = this.actions$
-    .ofType(AppointmentMetaActions.RESET_APPOINTMENT_NOTIFICATION_TYPE)
     .pipe(
+      ofType(AppointmentMetaActions.RESET_APPOINTMENT_NOTIFICATION_TYPE),
       withLatestFrom(this.store$.select((state: IAppState) => state.settings.settings.filter(
         (setting: Setting) => setting.name === this.PRESELECT_OPTION_NAME
       ))),
@@ -41,7 +41,7 @@ export class AppointmentMetaEffects {
           && setting[0].value !== this.OPTION_UNAVAILABLE) {
           return [new AppointmentMetaActions.SetAppointmentNotificationType(setting[0].value)];
         } else {
-          return Observable.empty();
+          return observableEmpty();
         }
       })
     );

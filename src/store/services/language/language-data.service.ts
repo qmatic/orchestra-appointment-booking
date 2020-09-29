@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { calendarEndpoint, qsystemEndpoint, restEndpoint } from '../data.service';
@@ -11,7 +11,7 @@ import { ILanguage } from '../../../models/ILanguage';
 export class LanguageDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
  
-  getLanguage(): Observable<ILanguage[]> {
+  getLanguage(): Observable<any> {
     return this.http
       .get<ILanguage[]>(`${qsystemEndpoint}/config/applications/notificationservice/variables/groups/languages`)
       .pipe(

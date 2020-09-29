@@ -1,8 +1,8 @@
 import { tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { of ,  Observable } from 'rxjs';
 import { NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
-import { map } from 'rxjs/operator/map';
+import 'rxjs/add/operator/map'
+
 export function whiteSpaceValidator(control: FormControl) {
     const whiteSpaceErrorObject = { 'allwhitespace': true };
     return of(control.value).

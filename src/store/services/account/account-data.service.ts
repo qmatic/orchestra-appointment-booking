@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ const STAFF_SUPER_ADMIN_ROLE = '*';
 export class AccountDataService {
   constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
 
-  getAccountInfo(): Observable<{ data: IAccount; userRole: string }> {
+  getAccountInfo(): Observable<{ data: IAccount; userRole: string }  | any> {
     return this.http
       .get<IAccount>(`${restEndpoint}/account`)
       .map((res: IAccount) => {

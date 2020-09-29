@@ -4,7 +4,7 @@ import { TimeslotDispatchers } from './../../../../store/services/timeslot/times
 import { ReserveDataService } from './../../../../store/services/reserve/reserve-data.service';
 import { IService } from './../../../../models/IService';
 import { BookingHelperSelectors } from './../../../../store/services/booking-helper/booking-helper.selectors';
-import { Subject } from 'rxjs/Subject';
+import { Subject ,  Observable ,  Subscription } from 'rxjs';
 import { UserRoleSelectors } from './../../../../store/services/user-role/user-role.selectors';
 import {
   Component,
@@ -14,10 +14,8 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { UserSelectors, SystemInfoSelectors, LicenseInfoSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
-import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   LOGOUT,

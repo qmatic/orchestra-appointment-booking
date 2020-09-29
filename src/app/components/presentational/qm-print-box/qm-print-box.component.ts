@@ -1,8 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Subject ,  Subscription } from 'rxjs';
 import { AppointmentMetaSelectors } from './../../../../store/services/appointment-meta/appointment-meta.selectors';
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { AppointmentMetaDispatchers } from '../../../../store/index';
 
 @Component({

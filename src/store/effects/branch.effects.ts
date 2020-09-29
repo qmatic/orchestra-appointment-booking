@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import * as AllActions from './../actions';
@@ -18,8 +18,8 @@ export class BranchEffects {
 
     @Effect()
     getBranches$: Observable<Action> = this.actions$
-      .ofType(AllActions.FETCH_BRANCHES)
       .pipe(
+        ofType(AllActions.FETCH_BRANCHES),
         switchMap(() =>
           toAction(
             this.branchDataService.getBranches(),
@@ -31,8 +31,8 @@ export class BranchEffects {
 
     @Effect()
     resetDatesOnBranchChange$: Observable<Action> = this.actions$
-      .ofType(AllActions.SELECT_BRANCH, AllActions.DESELECT_BRANCH)
       .pipe(
+        ofType(AllActions.SELECT_BRANCH, AllActions.DESELECT_BRANCH),
         switchMap(() => {
           return [
             new AllActions.DeselectDate,

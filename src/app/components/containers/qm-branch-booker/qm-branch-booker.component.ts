@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { BranchDispatchers, DateDispatchers, BranchSelectors } from '../../../../store';
 import { IBranch } from '../../../../models/IBranch';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';

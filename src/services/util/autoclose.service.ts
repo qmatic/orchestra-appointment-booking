@@ -4,8 +4,7 @@ import { TimeslotDispatchers } from './../../store/services/timeslot/timeslot.di
 import { SettingsAdminSelectors } from './../../store/services/settings-admin/settings-admin.selectors';
 import { Injectable } from '@angular/core';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { LOGOUT_URL } from '../../app/components/containers/qm-page-header/header-navigation';
 import { Setting } from '../../models/Setting';
 import { SPService } from '../rest/sp.service';

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable ,  of } from 'rxjs';
 import { Router } from '@angular/router';
-import { of } from 'rxjs/observable/of';
 import { switchMap, mergeMap, catchError, tap, withLatestFrom, take } from 'rxjs/operators';
 import * as AppointmentActions from './../actions';
 import * as CustomerActions from './../actions';
@@ -38,8 +37,8 @@ export class AppointmentEffects {
 
   @Effect()
   getAppointments$: Observable<Action> = this.actions$
-    .ofType(AppointmentActions.FETCH_APPOINTMENTS)
     .pipe(
+    ofType(AppointmentActions.FETCH_APPOINTMENTS),
     switchMap((action: AppointmentActions.FetchAppointments) =>
       toAction(
         this.appointmentDataService.getAppointments(action.payload),
@@ -51,8 +50,8 @@ export class AppointmentEffects {
 
   @Effect()
   getAppointmentQP$: Observable<Action> = this.actions$
-      .ofType(AppointmentActions.FETCH_APPOINTMENT_QP)
       .pipe(
+      ofType(AppointmentActions.FETCH_APPOINTMENT_QP),
       switchMap((action: AppointmentActions.FetchAppointmentQP) =>
         toAction(
           this.appointmentDataService.fetchAppointmentQP(action.payload),
@@ -64,8 +63,8 @@ export class AppointmentEffects {
 
   @Effect()
   setAppointmentStatEvent$: Observable<Action> = this.actions$
-      .ofType(AppointmentActions.SET_APPOINTMENT_STAT_EVENT)
       .pipe(
+      ofType(AppointmentActions.SET_APPOINTMENT_STAT_EVENT),
       switchMap((action: AppointmentActions.SetAppointmentStatEvent) =>
         toAction(
             this.appointmentDataService.setAppointmentStatEvent(action.payload),
@@ -77,8 +76,8 @@ export class AppointmentEffects {
 
   @Effect()
   deleteAppointment$: Observable<Action> = this.actions$
-    .ofType(AppointmentActions.DELETE_APPOINTMENT)
     .pipe(
+      ofType(AppointmentActions.DELETE_APPOINTMENT),
       switchMap((action: AppointmentActions.DeleteAppointment) =>
         this.appointmentDataService.deleteAppointment(action.payload).pipe(
           mergeMap(() => [new AppointmentActions.DeleteAppointmentSuccess(action.payload)]),
@@ -89,8 +88,8 @@ export class AppointmentEffects {
 
   @Effect()
   deleteAppointmentSuccess$: Observable<Action> = this.actions$
-    .ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS)
     .pipe(
+      ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS),
       withLatestFrom(this.store$.select((state: IAppState) => state.appointments)),
       tap((data: any) => {
         const [ action, state ]: [AppointmentActions.DeleteAppointment, IAppointmentState] = data;
@@ -118,8 +117,8 @@ export class AppointmentEffects {
 
   @Effect({ dispatch: false })
   deleteAppointmentFailed$: Observable<Action> = this.actions$
-    .ofType(AppointmentActions.DELETE_APPOINTMENT_FAIL)
     .pipe(
+    ofType(AppointmentActions.DELETE_APPOINTMENT_FAIL),
     tap((action: AppointmentActions.DeleteAppointmentFail) => {
       this.errorHandler
       .showError('toast.cancel.booking.error', action.payload);
@@ -128,8 +127,8 @@ export class AppointmentEffects {
 
   @Effect()
   selectAppointmentForEdit$: Observable<Action> = this.actions$
-    .ofType(AppointmentActions.SELECT_APPOINTMENT)
     .pipe(
+      ofType(AppointmentActions.SELECT_APPOINTMENT),
       withLatestFrom(this.store$.select((state: IAppState) => state)),
       switchMap((data: any) => {
         const [ action, state ]: [AppointmentActions.SelectAppointment, IAppState] = data;

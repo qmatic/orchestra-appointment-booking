@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { ICustomer } from '../../../../../../models/ICustomer';
 import {
   CustomerDispatchers,

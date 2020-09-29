@@ -5,10 +5,9 @@ import { Injectable, Pipe } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store, select } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
-import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Observable ,  of } from 'rxjs';
 import { switchMap, tap, catchError, mergeMap, withLatestFrom, delay, timeout } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 import * as BookingActions from './../actions';
 import { BookingDataService, DataServiceError } from '../services';
@@ -21,6 +20,7 @@ import { IService } from '../../models/IService';
 import { GlobalErrorHandler } from '../../services/util/global-error-handler.service';
 import { ERROR_CODE_TIMESLOT_TAKEN } from '../../app/shared/error-codes';
 import { BookAppointmentSuccess } from '../index';
+import {forkJoin} from 'rxjs';
 
 const toAction = BookingActions.toAction();
 
@@ -40,10 +40,10 @@ export class BookingEffects {
 
   @Effect()
   bookAppointment$: Observable<Action> = this.actions$
-    .ofType(BookingActions.BOOK_APPOINTMENT)
     .pipe(
+      ofType(BookingActions.BOOK_APPOINTMENT),
       switchMap((action: BookingActions.BookAppointment) => {
-        return Observable.forkJoin([
+        return forkJoin([
           of(action),
           toAction(
             this.bookingDataService.confirmAppointment(action.payload.appointment),
@@ -80,8 +80,8 @@ export class BookingEffects {
 
   @Effect()
   bookAppointmentFailed$: Observable<Action> = this.actions$
-    .ofType(BookingActions.BOOK_APPOINTMENT_FAIL)
     .pipe(
+      ofType(BookingActions.BOOK_APPOINTMENT_FAIL),
       tap((action: BookingActions.BookAppointmentFail) => {
         if (action.payload.errorCode === ERROR_CODE_TIMESLOT_TAKEN) {
           this.translateService.get('error.timeslot.taken').subscribe(
@@ -113,8 +113,8 @@ export class BookingEffects {
 
   @Effect()
   bookAppointmentSuccess$: Observable<Action> = this.actions$
-    .ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS)
     .pipe(
+      ofType(BookingActions.BOOK_APPOINTMENT_SUCCESS),
       withLatestFrom(this.store$.select((state: IAppState) => state.appointments.selectedAppointment)),
       tap((data: any) => {
         const [ action, selectedAppointment ]: [BookingActions.BookAppointmentSuccess, IAppointment] = data;
