@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Moment
 import { MomentModule } from 'angular2-moment';
-import {MomentTimezoneModule} from 'angular-moment-timezone';
+
 
 // A11y
 import { A11yModule } from '@angular/cdk/a11y';
@@ -149,6 +149,7 @@ import { QmPrintConfirmComponent } from './components/presentational/qm-print-co
 import { NavigationService } from './util/navigation.service';
 import { QmErrorComponent } from './components/presentational/qm-error/qm-error.component';
 import { QmLanguageSelectComponent } from './components/presentational/qm-language-select/qm-language-select.component';
+import { QmTimeZonePipe } from './pipes/qm-time-zone.pipe';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -237,10 +238,10 @@ const toastrGlobalOptions = {
     QmBookingHistoryComponent,
     QmPrintConfirmComponent,
     QmErrorComponent,
-    QmLanguageSelectComponent
+    QmLanguageSelectComponent,
+    QmTimeZonePipe
   ],
   imports: [
-    MomentTimezoneModule,
     MomentModule,
     BrowserModule,
     FormsModule,
@@ -252,11 +253,12 @@ const toastrGlobalOptions = {
     NgSelectModule,
     A11yModule,
     NgbModule,
-    ToastrModule.forRoot(toastrGlobalOptions),
-    ToastContainerModule,
-    ...(!environment.production
-      ? [StoreDevtoolsModule.instrument({ maxAge: 10 })]
-      : []),
+    // ToastrModule.forRoot(toastrGlobalOptions),
+    ToastrModule.forRoot(),
+    // ToastContainerModule,
+    // ...(!environment.production
+    //   ? [StoreDevtoolsModule.instrument({ maxAge: 10 })]
+    //   : []),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

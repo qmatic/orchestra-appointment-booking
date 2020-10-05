@@ -132,7 +132,7 @@ export function reducer (
  * @param serviceList Fetched serviceList
  */
 function sortServices(serviceList: IService[]): IService[] {
-  return serviceList.sort(
+  return serviceList = serviceList.slice().sort(
     (service1: IService, service2: IService) => {
       if (service1.name.toLowerCase() < service2.name.toLowerCase() ) { return -1; }
       if (service1.name.toLowerCase() > service2.name.toLowerCase() ) { return 1; }

@@ -18,15 +18,16 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
-              "src/assets/i18n/*",
-              "src/images/*",
+              "src/assets/i18n/",
+              "src/images/",
               "src/WEB-INF",
               "src/META-INF",
               "src/app.json",
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -90,7 +91,8 @@
               "src/WEB-INF",
               "src/META-INF",
               "src/app.json",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/bundle"
             ]
           }
         },

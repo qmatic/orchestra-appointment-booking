@@ -18,6 +18,7 @@ import { AutoClose } from './../../../../services/util/autoclose.service';
 import { ICustomer } from '../../../../models/ICustomer';
 import { ModalService } from '../../../../services/util/modal.service';
 import { Setting } from '../../../../models/Setting';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'qm-customer-search',
@@ -45,7 +46,8 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
     private customersSelectors: CustomerSelectors,
     private settingsAdminSelectors: SettingsAdminSelectors,
     private modalService: ModalService,
-    public autoCloseService: AutoClose
+    public autoCloseService: AutoClose,
+    private toastr: ToastrService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
@@ -107,7 +109,9 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   }
 
   openCreateCustomer() {
-    this.modalService.openCreateCustomerModal();
+    this.toastr.success('Hello world!', 'Toastr fun!');
+    // this.modalService.openCreateCustomerModal();
+
   }
 
   handleCustomerSearch(text: string) {
