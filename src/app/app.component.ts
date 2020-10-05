@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ToastContainerDirective } from 'ngx-toastr';
 import { registerLocaleData } from '@angular/common';
 import * as moment from 'moment';
-import * as locales from 'moment/min/locales';
+// import * as locales from 'moment/min/locales';
 
 import { IBranch } from './../models/IBranch';
 import {

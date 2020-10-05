@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateLoader } from '@ngx-translate/core';
 import { Observable ,  of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import 'rxjs/add/operator/catch';
 // Declare native methods in window object
 declare function unescape(s: string): string;
 
@@ -25,7 +25,8 @@ export class TranslatePropsLoader implements TranslateLoader {
     const cacheBust = new Date().getTime();
     return this.http
       .get(`${this.prefix}/${lang}${this.suffix}?_=${cacheBust}`, { responseType: 'text' })
-      .pipe(map((contents: string) => this.parse(contents))).catch(err => {
+      .pipe(map((contents: string) => this.parse(contents)))
+      .catch(err => {
         // console.log(err);
         return of({});
       });

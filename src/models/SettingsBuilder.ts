@@ -13,16 +13,17 @@ export class SettingsBuilder {
         if (settingsConfig && settingsConfig.length > 0) {
             settingsConfig.forEach(cat => {
                 cat.settings.forEach((setting: any) => {
-                    setting.category = new SettingCategory(cat.name, cat.displayText);
+                    var newSetting = {...setting };
+                    newSetting.category = new SettingCategory(cat.name, cat.displayText);
                     if (setting.children) {
                         const childArray = setting.children;
-                        setting.children = new Map<string, Setting>();
+                        newSetting.children = new Map<string, Setting>();
 
                         childArray.forEach(element => {
-                            setting.children.set(element.name, element);
+                            newSetting.children.set(element.name, element);
                         });
                     }
-                    this._defaultSettings.set(setting.name, setting);
+                    this._defaultSettings.set(newSetting.name, newSetting);
                 });
             });
         }
@@ -112,7 +113,6 @@ export class SettingsBuilder {
         .reduce(
             (allSettings: { [name: string]: any }, setting: Setting) => {
               const childSettings = {};
-
               if (setting.children && setting.children.size > 0) {
                 setting.children.forEach((v, k) => {
                   childSettings[k] = v.value;

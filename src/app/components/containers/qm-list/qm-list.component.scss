@@ -75,8 +75,8 @@ li {
     &__body {
       border: 1px solid $standard-border-color;
       height: calc(100% - 46px);
-      display: flex;
-      display: -webkit-box; // Chrome bug - Needs the prefixed version first
+      // display: flex;
+      // display: -webkit-box; // Chrome bug - Needs the prefixed version first
       flex-direction: column;
     }
 

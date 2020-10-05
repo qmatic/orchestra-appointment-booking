@@ -34,7 +34,7 @@ import { BookingHelperDispatchers } from '../../../../store/services/booking-hel
   styleUrls: ['./qm-page-header.component.scss']
 })
 export class QmPageHeaderComponent implements OnInit, OnDestroy {
-  brandLogoSrc = 'images/brand_logo_header.png';
+  brandLogoSrc = '../images/brand_logo_header.png';
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
   userIsAdmin$: Observable<boolean>;
