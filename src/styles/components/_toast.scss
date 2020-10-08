@@ -1,6 +1,7 @@
 .toast-container {
   margin: rem(0 $standard-margin 0 $standard-margin);
   width: 100%;
+  pointer-events: auto !important;
 }
 
 .toast-close-button {

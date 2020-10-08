@@ -47,7 +47,6 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
     private settingsAdminSelectors: SettingsAdminSelectors,
     private modalService: ModalService,
     public autoCloseService: AutoClose,
-    private toastr: ToastrService
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.customers$ = this.customersSelectors.customers$;
@@ -109,8 +108,7 @@ export class QmCustomerSearchComponent implements OnDestroy, OnInit {
   }
 
   openCreateCustomer() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-    // this.modalService.openCreateCustomerModal();
+    this.modalService.openCreateCustomerModal();
 
   }
 
