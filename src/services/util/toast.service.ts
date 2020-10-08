@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class ToastService {
   private toastrOptions: Object = {
-    positionClass: 'centered',
+    // positionClass: 'centered',
     messageClass: 'qm-toast__message',
     easing: 'ease-in-out',
     closeButton: true,
@@ -38,7 +38,10 @@ export class ToastService {
 
   setToastContainer (toastContainer) {
     this.toastrService.overlayContainer = toastContainer;
-    this.toastrService['overlay']['_paneElements'] = {};
+    if(['overlay']['_paneElements']) {
+      this.toastrService['overlay']['_paneElements'] = {};
+    }
+    
   }
 
   successToast(text: string) {

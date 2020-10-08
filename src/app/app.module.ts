@@ -253,12 +253,11 @@ const toastrGlobalOptions = {
     NgSelectModule,
     A11yModule,
     NgbModule,
-    // ToastrModule.forRoot(toastrGlobalOptions),
-    ToastrModule.forRoot(),
-    // ToastContainerModule,
-    // ...(!environment.production
-    //   ? [StoreDevtoolsModule.instrument({ maxAge: 10 })]
-    //   : []),
+    ToastrModule.forRoot(toastrGlobalOptions),
+    ToastContainerModule,
+    ...(!environment.production
+      ? [StoreDevtoolsModule.instrument({ maxAge: 10 })]
+      : []),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

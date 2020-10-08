@@ -17,6 +17,10 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "angular2-moment"
+          ],
             "assets": [
               "src/assets/i18n/",
               "src/images/",
@@ -86,7 +90,6 @@
               "src/styles.scss"
             ],
             "assets": [
-              "src/assets/i18n/*",
               "src/images/*",
               "src/WEB-INF",
               "src/META-INF",

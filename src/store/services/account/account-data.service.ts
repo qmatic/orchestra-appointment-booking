@@ -12,7 +12,7 @@ import {
   NO_ROLE
 } from '../../reducers/user-role.reducer';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
-
+import 'rxjs/Rx';
 const STAFF_BOOKING_ROLE = 'appointmentbooking';
 const STAFF_BOOKING_ADMIN_ROLE = 'appointmentbookingadmin';
 const STAFF_SUPER_ADMIN_ROLE = '*';
