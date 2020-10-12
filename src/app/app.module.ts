@@ -173,7 +173,12 @@ export const metaReducers: MetaReducer<any>[] = environment.production
 const toastrGlobalOptions = {
   maxOpened: 3,
   autoDismiss: true,
-  iconClasses: {}
+  iconClasses : {
+    error: '',
+    info: '',
+    success: '',
+    warning: '',
+  }
 };
 
 @NgModule({

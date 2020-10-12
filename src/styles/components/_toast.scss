@@ -12,10 +12,12 @@
   align-items: center;
   color: $light-transparent42;
   border: 0;
+  top: 0 !important;
+  margin: 0 10px;
   background: transparent;
   cursor: pointer;
   order: 1;
-
+  
   span {
     @include sr-only();
   }
