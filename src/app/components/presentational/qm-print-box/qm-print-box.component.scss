@@ -88,6 +88,7 @@
     }
   
     &__checkbox {
+      position: relative !important;
       @include sr-only;
   
       &:focus {
