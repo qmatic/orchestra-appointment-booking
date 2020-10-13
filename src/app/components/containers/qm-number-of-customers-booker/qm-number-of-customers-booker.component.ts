@@ -56,7 +56,7 @@ export class QmNumberOfCustomersBookerComponent implements OnInit, OnDestroy {
     );
 
     const numberOfCustomersArraySubscription = this.numberOfCustomersArray$.subscribe(
-      (numberOfCustomersArray: number[]) => {
+      (numberOfCustomersArray: number[]) => {    
         if (this.firstLoadOnEdit === true) {
           if (this.selectedAppointment
             && this.selectedAppointment['numberOfCustomers'] !== undefined
