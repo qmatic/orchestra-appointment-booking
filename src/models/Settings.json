@@ -85,12 +85,6 @@
                 "defaultValue": "PreSelectNoOption",
                 "value": "PreSelectNoOption",
                 "outputType": "Select"
-            },
-            {
-                "name": "languageSelect",
-                "defaultValue": true,
-                "value": true,
-                "outputType": "Boolean"
             }
         ]
     },
@@ -164,6 +158,12 @@
                         "outputType": "Boolean"
                     }
                 ]
+            },
+            {
+                "name": "languageSelect",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
             }
         ]
     }
