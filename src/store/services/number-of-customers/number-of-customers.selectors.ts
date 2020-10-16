@@ -34,7 +34,7 @@ const getSelectableNumberOfCustomers = createSelector(
       },
       true
     );
-
+    
     if (onlyOneCustomerAvailable) {
       return createNumberOfCustomersArray(1);
     } else {

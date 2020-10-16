@@ -148,7 +148,6 @@ import { QmBookingHistoryComponent } from './components/containers/qm-booking-hi
 import { QmPrintConfirmComponent } from './components/presentational/qm-print-confirm/qm-print-confirm.component';
 import { NavigationService } from './util/navigation.service';
 import { QmErrorComponent } from './components/presentational/qm-error/qm-error.component';
-import { QmLanguageSelectComponent } from './components/presentational/qm-language-select/qm-language-select.component';
 import { QmTimeZonePipe } from './pipes/qm-time-zone.pipe';
 
 // Console.log all actions
@@ -243,7 +242,6 @@ const toastrGlobalOptions = {
     QmBookingHistoryComponent,
     QmPrintConfirmComponent,
     QmErrorComponent,
-    QmLanguageSelectComponent,
     QmTimeZonePipe
   ],
   imports: [

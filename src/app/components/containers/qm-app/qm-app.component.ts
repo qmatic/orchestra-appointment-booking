@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ToastContainerDirective } from 'ngx-toastr';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import {
   UserSelectors
 } from '../../../../store/index';
@@ -12,13 +12,14 @@ import { ToastService } from '../../../../services/util/toast.service';
   styleUrls: ['./qm-app.component.scss']
 })
 export class QmAppComponent implements OnInit {
-  @ViewChild(ToastContainerDirective, {static: false}) toastContainer: ToastContainerDirective;
+  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   userFullName$: Observable<string>;
   userDirection$: Observable<string>;
 
   constructor(
     private userSelectors: UserSelectors,
     private toastService: ToastService,
+    private toastrService: ToastrService
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;

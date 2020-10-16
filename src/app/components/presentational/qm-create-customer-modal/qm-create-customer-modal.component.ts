@@ -21,6 +21,7 @@ import {
 import { whiteSpaceValidator, validateNotEqualToFactory } from '../../../util/custom-form-validators';
 import { AutoClose } from '../../../../services/util/autoclose.service';
 import { ILanguage } from '../../../../models/ILanguage';
+import { LanguageDispatchers, LanguageSelectors } from '../../../../store/services/language';
 
 
 @Component({
@@ -34,10 +35,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   createCustomerForm: FormGroup;
   settingsMap$: Observable<{ [name: string]: Setting }>;
   isOnUpdate: Boolean = false;
-
+  public isLanguageSelectEnabled: boolean;
   currentCustomer$: Observable<ICustomer>;
   currentCustomer: ICustomer;
-
   languages$: Observable<ILanguage[]>;
   supportedLanguagesArray: ILanguage[];
 
@@ -67,11 +67,14 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private settingAdminSelectors: SettingsAdminSelectors,
     private customerSelectors: CustomerSelectors,
-    public autoCloseService: AutoClose
+    public autoCloseService: AutoClose,
+    public LanguageSelectors: LanguageSelectors,
+    public languageDispatchers: LanguageDispatchers
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingAdminSelectors.settingsAsMap$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
+    this.languages$ = this.LanguageSelectors.languages$;
     if (!this.isOnUpdate) {
       this.buildCustomerForm();
     }
@@ -79,11 +82,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let currentCustomerSubscription = null;
+    this.languageDispatchers.fetchLanguages();
     if (this.isOnUpdate) {
       currentCustomerSubscription = this.currentCustomer$.subscribe(
         (currentCustomer: ICustomer) => {
           this.currentCustomer = currentCustomer;
-          console.log(this.currentCustomer)
           if (currentCustomer.publicId && !currentCustomer.id) {
             this.customerDispatchers.getCustomerById(currentCustomer.publicId);
           }
@@ -116,6 +119,28 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     if (currentCustomerSubscription) {
       this.subscriptions.add(currentCustomerSubscription);
     }
+
+    let languagesSubscription = this.languages$.subscribe((languages) => {
+      this.supportedLanguagesArray = languages;
+      if (this.supportedLanguagesArray && (this.languages.length !== languages.length)) {
+        this.languages = this.supportedLanguagesArray
+          .map(language => ({
+            value: language.key,
+            label: language.value
+          }));
+        const langChangeSubscription = this.translateService
+              .get('label.language.defaultlanguage')
+              .subscribe(
+                (languageText: string) => {
+                  this.languages.unshift({ value: '', label: languageText },)
+                }
+              ).unsubscribe();
+    
+        this.subscriptions.add(langChangeSubscription);
+      }
+    })
+    this.subscriptions.add(languagesSubscription);
+
   }
 
   ngOnDestroy() {
@@ -156,6 +181,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/^[0-9\+\s]+$/)];
       const phoneAsyncValidators = [];
+      this.isLanguageSelectEnabled = settings.languageSelect.value;
       if (settings.CustomerPhoneRequired.value === true) {
         phoneValidators.push(Validators.required);
         phoneAsyncValidators.push(whiteSpaceValidator);
@@ -202,7 +228,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
           {
             validator: this.isValidDOBEntered.bind(this)
           }
-        )
+        ),
+        language: [''],
       });
     });
   }
@@ -234,7 +261,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         month: date.month ? date.month : null,
         day: date.day ? date.day : '',
         year: date.year ? date.year : ''
-      }
+      },
+      language: (this.currentCustomer.custom && JSON.parse(this.currentCustomer.custom.toString()) && 
+        JSON.parse(this.currentCustomer.custom.toString()).lang) ? JSON.parse(this.currentCustomer.custom.toString()).lang : ""
     });
   }
 // Format Date
@@ -305,7 +334,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         formModel.lastName) as string,
       email: formModel.email as string,
       phone: formModel.phone as string,
-      dateOfBirth: this.getDateOfBirth() || null
+      dateOfBirth: this.getDateOfBirth() || null,
+      // custom: formModel.language ? `{\\\"lang\\\":\\\"${formModel.language as string}\\\"}`  : '',
+      custom: formModel.language ? JSON.stringify({ "lang" : formModel.language as string }) : ''
     };
 
     // trim trailing spaces
