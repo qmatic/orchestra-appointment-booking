@@ -40,7 +40,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   currentCustomer: ICustomer;
   languages$: Observable<ILanguage[]>;
   supportedLanguagesArray: ILanguage[];
-
+  customerPhonePrefix : string = '';
   private dateLabelKeys: string[] = [
     'label.month.none',
     'label.january',
@@ -180,6 +180,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
       const phoneValidators = [Validators.pattern(/^[0-9\+\s]+$/)];
+      this.customerPhonePrefix = settings.CustomerPhoneDefaultCountry.value;
       const phoneAsyncValidators = [];
       this.isLanguageSelectEnabled = settings.languageSelect.value;
       if (settings.CustomerPhoneRequired.value === true) {
@@ -256,7 +257,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       firstName: this.currentCustomer.firstName,
       lastName: this.currentCustomer.lastName,
       email: this.currentCustomer.email,
-      phone: this.currentCustomer.phone,
+      phone: (this.currentCustomer.phone === '' && this.customerPhonePrefix) ? this.customerPhonePrefix : this.currentCustomer.phone,
       dateOfBirth: {
         month: date.month ? date.month : null,
         day: date.day ? date.day : '',
@@ -333,7 +334,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         ' ' +
         formModel.lastName) as string,
       email: formModel.email as string,
-      phone: formModel.phone as string,
+      phone: (this.customerPhonePrefix === formModel.phone as string) ? '' : formModel.phone,
       dateOfBirth: this.getDateOfBirth() || null,
       // custom: formModel.language ? `{\\\"lang\\\":\\\"${formModel.language as string}\\\"}`  : '',
       custom: formModel.language ? JSON.stringify({ "lang" : formModel.language as string }) : ''
