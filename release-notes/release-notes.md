@@ -39,11 +39,41 @@ This document describes the new features, bug corrections, known issues and reco
 
 ----------
 
+<h2>Update 4.0.0.015</h2>
+
+**Date: 23/10/2020**
+ 
+**Build number: 015**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-61** | **Customer language selection in customer creation** |
+| **AB-79** | **Update angular version 5.2 to 10 and gulp version 3 to 4** |
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-108** | **Hide the prefix when phone number is empty** |
+| **AB-103** | **Customer phone number just only show the prefix bug fixed** |
+
+<h3>Upgrade instructions</h3> 
+To use the customer notification language , customized notifcation module should be used. 
+
+----------
 <h2>Update 4.0.0.014</h2>
 
 **Date: 11/09/2020**
  
 **Build number: 014**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-62** | **Set appointment creation source in Appointment Booking** |
 
 <h3>Bug fixes</h3>
 

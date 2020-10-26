@@ -73,24 +73,8 @@ function cleanWar() {
   ]);
 }
 exports.cleanWar = cleanWar;
-//
-// gulp.task('clean:artifactory', function artifactoryClean(done) {
-//   return del(['./dist/*', '!./dist/*.zip']);
-// });
-
-
-// gulp.task('clean:war', function clean() {
-//   return del([
-//     './dist/*',
-//     '!./dist/properties',
-//     '!./dist/webapp',
-//     '!./dist/release-notes'
-//   ]);
-// });
 
 // Copy properties files ******************************************
-
-// newly added
 
 function createProperties() {
   return gulp.src('./src/assets/i18n/*')
@@ -98,13 +82,6 @@ function createProperties() {
 }
 
 exports.createProperties = createProperties;
-// 
-
-// gulp.task('create:properties', function createProperties() {
-//   return gulp.src(['./src/assets/i18n/*']).pipe(gulp.dest('./dist/properties'));
-// });
-
-
 
 
 // Copy release notes ******************
@@ -115,9 +92,6 @@ function createReleaseNotes() {
 
 exports.createReleaseNotes = createReleaseNotes;
 
-// gulp.task('create:release-notes', function createReleaseNotes() {
-//   return gulp.src(['release-notes/**']).pipe(gulp.dest('dist/release-notes/'));
-// });
 
 // Create war *****************************************************
 function createWar() {
@@ -129,12 +103,6 @@ function createWar() {
 
 exports.createWar = createWar;
 
-// gulp.task('create:war', function create() {
-//   return gulp
-//     .src(['./dist/**/*'])
-//     .pipe(zip('appointmentbooking-ui.war'))
-//     .pipe(gulp.dest('./dist/webapp/'));
-// });
 
 // Create artifcatory zip *************************************************
 function createArtifactory() {
@@ -157,28 +125,10 @@ function createArtifactory() {
 
 exports.createArtifactory = createArtifactory;
 
-// gulp.task('create:artifactory:zip', function createArtifactory() {
-//   try {
-//     var appData = getVersionInfo();
-//     if (appData) {
-//       var version = appData.version;
-//       return gulp
-//         .src(['dist/**/*'])
-//         .pipe(zip('appointmentbooking-' + version + '.zip'))
-//         .pipe(gulp.dest('dist/'));
-//     }
-//   } catch (ex) {
-//     console.log(
-//       'There was an exception when trying to read the package.json! - ' + ex
-//     );
-//     return false;
-//   }
-// });
-
 
 // Write to manifest file ***************************************
 
-function writeManifest() {
+function writeManifest(done) {
   try {
     var versionInfo = getVersionInfo();
     if (versionInfo) {
@@ -186,34 +136,19 @@ function writeManifest() {
       fileContent += 'Product-Name: Appointment Booking' + '\r\n';
       fileContent += 'Build-Version: ' + versionInfo.version + '\r\n';
       fs.writeFileSync('./src/META-INF/MANIFEST.MF', fileContent);
+      done();
       return true;
     }
   } catch (ex) {
     console.log(
       'There was an exception when trying to read the package.json! - ' + ex
     );
+    done();
     return false;
   }
 }
 exports.writeManifest = writeManifest;
 
-// gulp.task('write:manifest', function writeManifest() {
-//   try {
-//     var versionInfo = getVersionInfo();
-//     if (versionInfo) {
-//       var fileContent = 'Build-Date: ' + new Date().toISOString().substring(0, 10) + '\r\n';
-//       fileContent += 'Product-Name: Appointment Booking' + '\r\n';
-//       fileContent += 'Build-Version: ' + versionInfo.version + '\r\n';
-//       fs.writeFileSync('./src/META-INF/MANIFEST.MF', fileContent);
-//       return true;
-//     }
-//   } catch (ex) {
-//     console.log(
-//       'There was an exception when trying to read the package.json! - ' + ex
-//     );
-//     return false;
-//   }
-// });
 
 function getVersionInfo() {
   var appData = JSON.parse(fs.readFileSync('./src/app.json'));
@@ -244,20 +179,6 @@ function deployWar() {
 
 exports.deployWar = deployWar;
 
-
-// gulp.task('deploy:war', function deploy() {
-//   return gulp.src('./dist/webapp/appointmentbooking-ui.war').pipe(
-//     sftp({
-//       remotePath: remoteDeploymentDefaultPath,
-//       remotePlatform: remoteDeploymentPlatform,
-//       host: remoteDeployHost,
-//       user: remoteDeployUsername,
-//       pass: remoteDeployPassword,
-//       timeout: 9999999
-//     })
-//   );
-// });
-
 // Deploy build to artifactory ************
 
 function deployArtifactory() {
@@ -281,25 +202,6 @@ function deployArtifactory() {
 
 exports.deployArtifactory = deployArtifactory;
 
-// gulp.task('deploy:war:artifactory', function deployWar() {
-//   var warName = fs.readdirSync('./dist')[0];
-//   var fileExtension = warName.substring(warName.lastIndexOf('.') + 1);
-//   if (fileExtension === 'zip') {
-//     ncmd.get(
-//       `curl -u '${targetArtifactoryUsername}:${targetArtifactoryPassword}' -X PUT ${targetArtifactoryUrl}${targetArtifactoryPath}/${warName} -T ./dist/${warName}`,
-//       function (err, data, stderr) {
-//         if (!err) {
-//           console.log(data);
-//         } else {
-//           console.log(err);
-//         }
-//       }
-//     );
-//   } else {
-//     console.log('War file not found!!');
-//   }
-// });
-
 // Deploy lang file to orchestra
 
 
@@ -321,34 +223,12 @@ function deployLang() {
 exports.deployLang = deployLang;
 
 
-// gulp.task('deploy:lang', function deployLang() {
-//   return gulp
-//     .src('./dist/properties/appointmentBookingMessages.properties')
-//     .pipe(
-//       sftp({
-//         remotePath: remoteDeploymentDefaultLangPath,
-//         remotePlatform: remoteDeploymentPlatform,
-//         host: remoteDeployHost,
-//         user: remoteDeployUsername,
-//         pass: remoteDeployPassword,
-//         timeout: 9999999
-//       })
-//     );
-// });
-
 /**
  * Create Dev/Prod build war ********************************************************
  */
 
 const buildWarProperties = gulp.series(createWar, createProperties, cleanWar);
 exports.buildWarProperties = buildWarProperties;
-
-// gulp.task(
-//   'build:war:properties', function buildWar(done) {
-//     gulp.series('create:war', 'create:properties', 'clean:war');
-//     done();
-//   }
-// );
 
 /**
  * Build war and deploy war/lang
@@ -357,34 +237,12 @@ const deployWarProperties = gulp.series(createProperties, deployWar, deployLang)
 exports.deployWarProperties = deployWarProperties;
 
 
-// gulp.task(
-//   'build:war:deploy', function buildWarDeploy() {
-//     return gulpsync.sync(['build:war:properties', 'deploy:war', 'deploy:lang'])
-//   }
-// );
-
 /**
  * Create Artifactory build
  */
 
 const buildArtifactory = gulp.series(writeManifest, createWar, createProperties, createReleaseNotes, cleanWar, createArtifactory, cleanArtifactory);
-exports.deployWarProperties = buildArtifactory;
-
-
-    // gulp.task(
-    //   'build:artifactory',
-    //   function buildArtifactory() {
-    //     return gulpsync.sync([
-    //       'write:manifest',
-    //       'create:war',
-    //       'create:properties',
-    //       'create:release-notes',
-    //       'clean:war',
-    //       'create:artifactory:zip',
-    //       'clean:artifactory'
-    //     ])
-    //   }
-    // );
+exports.buildArtifactory = buildArtifactory;
 
 /**
  * Create Artifactory build and deploy
@@ -392,10 +250,3 @@ exports.deployWarProperties = buildArtifactory;
 
 const buildArtifactoryDeploy = gulp.series(buildArtifactory, deployArtifactory);
 exports.deployWarProperties = buildArtifactoryDeploy;
-
-// gulp.task(
-//   'build:artifactory:deploy',
-//   function buildArtifactoryDeploy() {
-//     return gulpsync.sync(['build:artifactory', 'deploy:war:artifactory'])
-//   }
-// );
