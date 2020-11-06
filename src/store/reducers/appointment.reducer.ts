@@ -78,22 +78,22 @@ export function reducer (
       };
     }
     case AppointmentActions.SET_APPOINTMENT_STAT_EVENT_SUCCESS: {
-      const tmpAppointment = state.qpAppointment;
-      tmpAppointment.invokeStatEvent = true;
+      var tmpAppointment = state.qpAppointment;
+      var newtmpAppointment = { ...tmpAppointment , invokeStatEvent:true} ;
       return {
         ...state,
-        qpAppointment: tmpAppointment,
+        qpAppointment: newtmpAppointment,
         loading: false,
         loaded: true,
         error: null
       };
     }
     case AppointmentActions.SET_APPOINTMENT_STAT_EVENT_FAIL: {
-      const tmpAppointment = state.qpAppointment;
-      tmpAppointment.invokeStatEvent = true;
+      var tmpAppointment = state.qpAppointment;
+      var newtmpAppointment = { ...tmpAppointment , invokeStatEvent:true} ;
       return {
         ...state,
-        qpAppointment: tmpAppointment,
+        qpAppointment: newtmpAppointment,
         loading: false,
         error: action.payload
       };

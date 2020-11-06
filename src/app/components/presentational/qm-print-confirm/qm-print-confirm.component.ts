@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription ,  Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { IBranch } from './../../../../models/IBranch';
 import { Setting } from './../../../../models/Setting';
 import { NavigationService } from './../../../util/navigation.service';
@@ -35,11 +35,11 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     private settingsMapSelectors: SettingsAdminSelectors,
     private printSelectors: PrintSelectors,
     private systemInfoSelectors: SystemInfoSelectors
-    ) {
-      this.userDirection$ = this.userSelectors.userDirection$;
-      this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
-      this.printedAppointment$ = this.printSelectors.printedAppointment$;
-      this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+  ) {
+    this.userDirection$ = this.userSelectors.userDirection$;
+    this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
+    this.printedAppointment$ = this.printSelectors.printedAppointment$;
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
   }
 
   ngOnInit() {
@@ -61,8 +61,9 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
 
         this.printedAppointment$.subscribe(() => {
           this.phoneEnabled = settingsMap.CustomerIncludePhone.value && (
-            (settingsMap.CustomerPhoneDefaultCountry.value || '').trim() !== (this.currentCustomer ?
-              (this.currentCustomer.phone || '').trim() : '')) ;
+            ( (settingsMap.CustomerPhoneDefaultCountry.value && settingsMap.CustomerPhoneDefaultCountry.value !== '') ?
+             settingsMap.CustomerPhoneDefaultCountry.value.trim() : '') 
+             !== (this.currentCustomer ? (this.currentCustomer.phone ? this.currentCustomer.phone.trim() : '') : ''));
         }).unsubscribe();
 
         this.emailEnabled = settingsMap.CustomerIncludeEmail.value;
