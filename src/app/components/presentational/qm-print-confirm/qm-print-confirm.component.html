@@ -28,13 +28,13 @@
                 </ul>
               </section>
             </div>
-            <div class="qm-print__section">
+            <div class="qm-print__section" *ngIf="bookedAppointment">
               <h2 class="qm-headline qm-print__sub-headline">{{'label.print.appointment.overview' | translate}}</h2>
               <table class="qm-print__table">
                 <caption>{{'label.print.appointment.overview' | translate}}:</caption>
                 <tr>
                   <th scope="row">{{'label.print.appointment.date' | translate}}</th>
-                  <td>{{ bookedAppointment?.start | amDateFormat: 'dddd DD MMMM'}}</td>
+                  <td>{{ bookedAppointment?.start | amTz: bookedAppointment.branch.fullTimeZone | amDateFormat: 'dddd DD MMMM'}}</td>
                 </tr>
                 <tr>
                   <th scope="row">{{'label.print.appointment.time' | translate}}</th>
