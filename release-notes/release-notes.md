@@ -55,7 +55,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 ----------
 
-<h2>Update 4.0.0.015</h2>
+<h2>Update 4.0.0.015 - Internal</h2>
 
 **Date: 23/10/2020**
  
@@ -67,6 +67,7 @@ This document describes the new features, bug corrections, known issues and reco
 | --- | --- |
 | **AB-61** | **Customer language selection in customer creation** |
 | **AB-79** | **Update angular version 5.2 to 10 and gulp version 3 to 4** |
+| **AB-126** | **Not possible to add a customer with an email address for a Top Level Domain with more than 4 characters.** |
 
 <h3>Bug fixes</h3>
 
