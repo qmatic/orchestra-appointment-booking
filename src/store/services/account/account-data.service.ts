@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import 'rxjs/Rx';
 
 import { IAccount } from './../../../models/IAccount';
 import { restEndpoint, DataServiceError } from './../data.service';
@@ -24,7 +25,7 @@ export class AccountDataService {
   getAccountInfo(): Observable<{ data: IAccount; userRole: string }  | any> {
     return this.http
       .get<IAccount>(`${restEndpoint}/account`)
-      .map((res: IAccount) => {
+      .pipe(map((res: IAccount) => {
         const isStaffUser =
           res.modules.filter(module => module === STAFF_BOOKING_ROLE).length > 0
             ? true
@@ -47,7 +48,7 @@ export class AccountDataService {
         res.locale = res.locale && res.locale.split(':')[0];
 
         return { data: res, userRole };
-      })
+      }))
       .pipe(catchError(this.errorHandler.handleError()));
   }
 }

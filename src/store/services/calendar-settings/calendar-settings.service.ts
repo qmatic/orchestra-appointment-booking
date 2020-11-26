@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { calendarEndpoint, DataServiceError } from './../data.service';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 
@@ -15,12 +15,12 @@ export class CalendarSettingsService {
   getSerttingsInfo(): Observable<{ data: ICalendarSetting } | any> {
     return this.http
       .get<ICalendarSettingResponse>(`${calendarEndpoint}/settings/search?group=calendar`)
-      .map((res: ICalendarSettingResponse) => {
+      .pipe(map((res: ICalendarSettingResponse) => {
         const reservationTime = res['settingList'][0]['data'].match(
           /"reservationExpiryTimeSeconds"\s*:\s*"(\d*)"/i
         )[1];
         return { data: { reservationExpiryTimeSeconds: reservationTime } };
-      })
+      }))
       .pipe(catchError(this.errorHandler.handleError()));
   }
 }

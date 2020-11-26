@@ -75,6 +75,7 @@ This document describes the new features, bug corrections, known issues and reco
 | --- | --- |
 | **AB-108** | **Hide the prefix when phone number is empty** |
 | **AB-103** | **Customer phone number just only show the prefix bug fixed** |
+| **AB-129** | **Appointment booking artifactory build task failing issue fixed** |
 
 <h3>Upgrade instructions</h3> 
 To use the customer notification language , customized notifcation module should be used. 
