@@ -123,6 +123,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     let languagesSubscription = this.languages$.subscribe((languages) => {
       this.supportedLanguagesArray = languages;
       if (this.supportedLanguagesArray && (this.languages.length !== languages.length)) {
+        this.supportedLanguagesArray = this.supportedLanguagesArray.filter(lang => lang.key !== 'defaultLanguage');
         this.languages = this.supportedLanguagesArray
           .map(language => ({
             value: language.key,
