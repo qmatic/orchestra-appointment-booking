@@ -1,6 +1,5 @@
 
-import {concat as observableConcat,  forkJoin as observableForkJoin,  Observable ,  of ,  pipe ,  from ,  Observer ,  combineLatest } from 'rxjs';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import {concat ,  forkJoin,  Observable ,  of ,  pipe ,  from ,  Observer ,  combineLatest } from 'rxjs';
 import {map,  catchError, merge, mergeMap, debounceTime, delay, tap } from 'rxjs/operators';
 import { Setting } from './../../../models/Setting';
 import { ISettingsResponse, ISettingsUpdateRequest } from './../../../models/ISettingsResponse';
@@ -10,6 +9,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { calendarEndpoint, restEndpoint, DataServiceError, qsystemEndpoint, applicationId } from '../data.service';
 import { SettingsBuilder } from '../../../models/SettingsBuilder';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
+
 
 
 @Injectable()
@@ -53,20 +53,40 @@ export class SettingsAdminDataService {
         }
       );
     });
+    
+    if (updateRequests.length> 1) {
+      return forkJoin(
+        concat(
+          updateRequests[0],
+          // Observable.timer(500),
+          forkJoin(updateRequests.slice(1))
+        )
+        ).pipe(
+        map(
+          () => {
+            return settigsUpdateRequest;
+          }
+        ))
+        .pipe(
+          catchError(this.errorHandler.handleError())
+        );
+    } else {
+      return forkJoin(
+        concat(
+          updateRequests[0],
+          // Observable.timer(500),
+        )
+        ).pipe(
+        map(
+          () => {
+            return settigsUpdateRequest;
+          }
+        ))
+        .pipe(
+          catchError(this.errorHandler.handleError())
+        );
+    }
 
-    return observableForkJoin(
-      observableConcat(
-        updateRequests[0],
-        // Observable.timer(500),
-        forkJoin(updateRequests.slice(1))
-      )).pipe(
-      map(
-        () => {
-          return settigsUpdateRequest;
-        }
-      ))
-      .pipe(
-        catchError(this.errorHandler.handleError())
-      );
+  
   }
 }

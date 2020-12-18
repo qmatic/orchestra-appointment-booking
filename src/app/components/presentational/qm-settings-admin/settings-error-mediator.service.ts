@@ -17,7 +17,8 @@ export class SettingsErrorMediator {
         sb.buildDefaultSettings();
         const settingsUpdateRequest: ISettingsUpdateRequest = {
           settingsList: sb.toObject(),
-          updateSilently: true
+          updateSilently: true,
+          currentSettingList: []
         };
         this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
       }
