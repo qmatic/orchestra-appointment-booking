@@ -39,21 +39,6 @@ This document describes the new features, bug corrections, known issues and reco
 
 ------------>
 
-----------
-
-<h2>Update 4.0.0.014</h2>
-
-**Date: 25/09/2020**
- 
-**Build number: 014**
-
-<h3>Stories</h3>
-
-| **Id** | **Release notes** |
-| --- | --- |
-| **AB-61** | **Addning customer langugage selection** |
-
-----------
 
 <h2>Update 4.0.0.015 </h2>
 
