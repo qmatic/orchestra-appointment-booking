@@ -1,38 +1,42 @@
+import { Observable } from 'rxjs';
+import { SettingsAdminSelectors } from '../store';
 import { Setting, SettingCategoryEnum, SettingOutputType, SettingCategory } from './Setting';
 declare var require: any;
-const settingsConfig = require('./Settings.json');
+var settingsConfig = require('./Settings.json');
 
 export class SettingsBuilder {
 
     private _defaultSettings: Map<string, Setting> = new Map<string, Setting>();
+    
     private readonly NULL = '-1'; // temp fix to work with orchestra restriction
     constructor() {
     }
 
-    buildDefaultSettings(): SettingsBuilder {
+    buildDefaultSettings(settings?: any): SettingsBuilder { 
+        if (settings) {
+            settingsConfig = settings
+        }
         if (settingsConfig && settingsConfig.length > 0) {
-            settingsConfig.forEach(cat => {
+            settingsConfig.forEach(cat => {       
                 cat.settings.forEach((setting: any) => {
-                    var newSetting = {...setting };
-                    newSetting.category = new SettingCategory(cat.name, cat.displayText);
+                    // setting.category = new SettingCategory(cat.name, cat.displayText);
+                    setting = {...setting,category: new SettingCategory(cat.name, cat.displayText)}
                     if (setting.children) {
                         const childArray = setting.children;
-                        newSetting.children = new Map<string, Setting>();
+                        setting.children = new Map<string, Setting>();
 
                         childArray.forEach(element => {
-                            newSetting.children.set(element.name, element);
+                            setting.children.set(element.name, element);
                         });
                     }
-                    this._defaultSettings.set(newSetting.name, newSetting);
+                    this._defaultSettings.set(setting.name, setting);
                 });
             });
         }
-
         return this;
     }
 
     mergeSettingsWithGet(settings: any): SettingsBuilder {
-
         if (!Array.isArray(settings)) {
             const projected = [];
               Object.keys(settings).map((key, index) => {
@@ -65,7 +69,7 @@ export class SettingsBuilder {
                 }
               }
         }
-
+        
         return this;
     }
 

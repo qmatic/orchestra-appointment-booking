@@ -50,6 +50,7 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
 
   private readonly APP_URL: string = '/app';
   private readonly NULL: string = '-1';
+  private settings: SettingCategory[]
 
   constructor(private userSelectors: UserSelectors, private settingsAdminSelectors: SettingsAdminSelectors,
     private settingsAdminDispatchers: SettingsAdminDispatchers, private formBuilder: FormBuilder, private toastService: ToastService,
@@ -81,6 +82,11 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
       }
     );
     this.setEditForm();
+
+    const settingsByCategorySubscription = this.settingsByCategory$.subscribe((settings) => {
+      this.settings = settings;
+     });
+     this.subscriptions.add(settingsByCategorySubscription)
   }
 
   ngAfterViewInit() {
@@ -234,9 +240,10 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
         return obj;
     }, {});
 
-    const settingsUpdateRequest: ISettingsUpdateRequest = {
+    const settingsUpdateRequest : ISettingsUpdateRequest = {
       settingsList: changedSettingsList,
-      updateSilently: false
+      updateSilently: false,
+      currentSettingList: this.settings
     };
 
     this.settingsAdminDispatchers.saveSettings(settingsUpdateRequest);
