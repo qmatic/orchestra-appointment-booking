@@ -20,6 +20,10 @@ export class AppointmentMetaDispatchers {
     this.store.dispatch(new AppointmentMetaActions.PrintAppointmentOption(print));
   }
 
+  setExternalNote(note: string) {
+    this.store.dispatch(new AppointmentMetaActions.setExternalNote(note));
+  }
+
   setAppointmentNote(note: string) {
     this.store.dispatch(new AppointmentMetaActions.SetAppointmentNote(note));
   }
@@ -35,10 +39,13 @@ export class AppointmentMetaDispatchers {
   resetAppointmentNote() {
     this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNote);
   }
-
+  resetAppointmentExternalNote() {
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentExternalNote);
+  }
   resetAllAppointmentMeta() {
     this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNotificationType);
     this.store.dispatch(new AppointmentMetaActions.ResetAppointmentTitle);
     this.store.dispatch(new AppointmentMetaActions.ResetAppointmentNote);
+    this.store.dispatch(new AppointmentMetaActions.ResetAppointmentExternalNote);
   }
 }

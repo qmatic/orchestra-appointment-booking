@@ -105,6 +105,12 @@
                 "value": true,
 
                 "outputType": "Boolean"
+            },
+            {
+                "name": "externalnotes",
+                "defaultValue": false,
+                "value": false,
+                "outputType": "Boolean"
             }
         ]
     },

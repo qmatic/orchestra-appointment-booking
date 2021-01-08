@@ -163,6 +163,7 @@ export class BookingEffects {
           new BookingActions.ResetAppointmentNotificationType,
           new BookingActions.ResetAppointmentTitle,
           new BookingActions.ResetAppointmentNote,
+          new BookingActions.ResetAppointmentExternalNote,
           new BookingActions.PrintAppointmentOption(false)
         ];
       })

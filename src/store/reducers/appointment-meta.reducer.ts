@@ -5,13 +5,15 @@ export interface IAppointmentMetaState {
   title: string;
   notes: string;
   printAppointmentOption: boolean;
+  externalNotes: string
 }
 
 export const initialState: IAppointmentMetaState = {
   notificationType: '',
   title: '',
   notes: '',
-  printAppointmentOption: false
+  printAppointmentOption: false,
+  externalNotes:''
 };
 
 export function reducer (
@@ -55,10 +57,22 @@ export function reducer (
         notes: ''
       };
     }
+    case AppointmentMetaActions.RESET_APPOINTMENT_EXTERNAL_NOTE: {
+      return {
+        ...state,
+        externalNotes: ''
+      };
+    }
     case AppointmentMetaActions.PRINT_APPOINTMENT_OPTION: {
       return {
         ...state,
        printAppointmentOption: action.payload
+      };
+    }
+    case AppointmentMetaActions.SET_APPOINTMENT_EXTERNAL_NOTE: {
+      return {
+        ...state,
+       externalNotes: action.payload
       };
     }
     default: {

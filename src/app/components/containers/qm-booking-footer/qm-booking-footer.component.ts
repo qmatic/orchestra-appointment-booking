@@ -43,6 +43,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private currentCustomer$: Observable<ICustomer>;
   private title$: Observable<string>;
   private notes$: Observable<string>;
+  private externalNote$: Observable<string>;
   private selectedServices$: Observable<IService[]>;
   private selectedBranches$: Observable<IBranch[]>;
   private notificationType$: Observable<string>;
@@ -64,6 +65,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private noNotificationEnabled: boolean;
   private titleEnabled: boolean;
   private notesEnabled: boolean;
+  private externalNotesEnabled: boolean;
   private languageSelectEnabled: boolean;
   private isPrintAppointment: boolean;
   private defaultPhoneCountryCode: string;
@@ -76,6 +78,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private notificationType: string;
   private title: string;
   private notes: string;
+  private ExternalNotes: string;
   private appointments: IAppointment[];
   private isAppointmentStatEventEnable: boolean;
   private bookedAppointment: Observable<IAppointment>;
@@ -116,6 +119,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.selectedTime$ = this.timeslotSelectors.selectedTime$;
     this.title$ = this.appointmentMetaSelectors.title$;
     this.notes$ = this.appointmentMetaSelectors.notes$;
+    this.externalNote$ = this.appointmentMetaSelectors.externalNotes$;
     this.notificationType$ = this.appointmentMetaSelectors.notificationType$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
@@ -134,6 +138,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     const notesSubscription = this.notes$.subscribe(
       (notes: string) => this.notes = notes
+    );
+
+    const externalNotesSubscription = this.externalNote$.subscribe(
+      (notes: string) => this.ExternalNotes = notes
     );
 
     const numberOfCustomersSubscription = this.numberOfCustomers$.subscribe(
@@ -190,6 +198,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.defaultPhoneCountryCode = settingsMap.CustomerPhoneDefaultCountry.value;
         this.titleEnabled = settingsMap.Title.value;
         this.notesEnabled = settingsMap.Notes.value;
+        this.externalNotesEnabled = settingsMap.externalnotes.value;
         this.isAppointmentStatEventEnable = settingsMap.SetAppointmentStatEvent.value;
         this.languageSelectEnabled = settingsMap.languageSelect.value;
       }
@@ -221,6 +230,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(titleSubscription);
     this.subscriptions.add(notesSubscription);
+    this.subscriptions.add(externalNotesSubscription);
     this.subscriptions.add(numberOfCustomersSubscription);
     this.subscriptions.add(notificationTypeSubscription);
     this.subscriptions.add(selectedServicesSubscription);
@@ -236,6 +246,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     this.subscriptions.add(qpAppointmentSubscription);
     this.subscriptions.add(bookedAppointmentSubscription);
     this.subscriptions.add(selectedLanguageSubscription);
+    
   }
 
   ngOnDestroy() {
@@ -340,6 +351,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       customers: [this.currentCustomer],
       notes: this.getNotes(),
       title: this.getTitle(),
+      externalNotes: this.getExternalNotes(),
       custom: this.getAppointmentCustomJson(currentCustomer)
     };
 
@@ -352,6 +364,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
   getNotes(): string {
     return this.notesEnabled ? `${this.notes}` : '';
+  }
+
+  getExternalNotes(): string {
+    return this.externalNotesEnabled ? `${this.ExternalNotes}` : '';
   }
 
   hasNotificationOptionsEnabled(): boolean {
@@ -422,7 +438,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
-                  +   ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
+                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         case 'email': {
@@ -431,6 +447,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
+                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         case 'both': {
@@ -440,6 +457,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
+                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" ) 
                 + `}`;
         }
         case 'none': {
@@ -447,6 +465,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
+                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         default: {
