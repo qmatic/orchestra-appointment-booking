@@ -204,7 +204,8 @@
                 </div>
                    <div class="qm-dob__error-message" *ngIf="!createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob') && isDOBRequired()">{{ 'error.form.dob.required' | translate }}</div>
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth']?.errors?.invalidDay">{{ 'error.form.dob.invalidDay' | translate }}</div>
-                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('min')">{{ 'error.form.dob.invalidYear' | translate }}</div>
+                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('minlength') || createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('pattern')">{{ 'error.form.dob.invalidYear' | translate }}</div>
+                   <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].controls['year']?.hasError('max')">{{ 'error.form.dob.incompleteYear' | translate }}</div>
                    <div class="qm-dob__error-message" *ngIf="createCustomerForm.controls['dateOfBirth'].hasError('incompleteDob')">{{ 'error.form.dob.incompleteDob' | translate }}</div>
               </div>
             </div>

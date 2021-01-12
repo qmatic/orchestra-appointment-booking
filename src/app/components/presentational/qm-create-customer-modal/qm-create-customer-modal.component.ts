@@ -202,8 +202,9 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         emailValidators.push(Validators.required);
       }
 
+      const today = new Date();
       let dayValidators = [Validators.maxLength(2), Validators.max(31)];
-      let yearValidators = [Validators.maxLength(4), Validators.min(1)];
+      let yearValidators = [Validators.maxLength(4), Validators.minLength(4), Validators.max(today.getFullYear())];
       let monthValidators = [];
 
       if (settings.CustomerIncludeDateofBirthRequired.value === true) {
