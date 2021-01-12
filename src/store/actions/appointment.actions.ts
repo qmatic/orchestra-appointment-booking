@@ -18,7 +18,9 @@ export const FETCH_APPOINTMENT_QP_SUCCESS = '[Appointment] FETCH_APPOINTMENT_QP_
 export const SET_APPOINTMENT_STAT_EVENT = '[Appointment] SET_APPOINTMENT_STAT_EVENT';
 export const SET_APPOINTMENT_STAT_EVENT_FAIL = '[Appointment] SET_APPOINTMENT_STAT_EVENT_FAIL';
 export const SET_APPOINTMENT_STAT_EVENT_SUCCESS = '[Appointment] SET_APPOINTMENT_STAT_EVENT_SUCCESS';
-
+export const FETCH_APPOINTMENT_EMAIL_TEMPLETE = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE';
+export const FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL';
+export const FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS';
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -93,6 +95,22 @@ export class ResetAppointment implements Action {
   readonly type = RESET_APPOINTMENT;
 }
 
+
+export class FetchAppointmentEmailTemplete implements Action {
+  readonly type = FETCH_APPOINTMENT_EMAIL_TEMPLETE;
+  constructor(public payload: string) {}
+}
+
+export class FetchAppointmentEmailTempleteFail implements Action {
+  readonly type = FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchAppointmentEmailTempleteSuccess implements Action {
+  readonly type = FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS;
+  constructor(public payload: string) {}
+}
+
 // Action types
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
@@ -108,4 +126,7 @@ export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentQPSuccess |
                                     SetAppointmentStatEvent |
                                     SetAppointmentStatEventFail |
-                                    SetAppointmentStatEventSuccess;
+                                    SetAppointmentStatEventSuccess|
+                                    FetchAppointmentEmailTemplete|
+                                    FetchAppointmentEmailTempleteFail |
+                                    FetchAppointmentEmailTempleteSuccess;

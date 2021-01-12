@@ -68,6 +68,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   private externalNotesEnabled: boolean;
   private languageSelectEnabled: boolean;
   private isPrintAppointment: boolean;
+  private isEmailTemplate: boolean;
   private defaultPhoneCountryCode: string;
   private reservedAppointment: IAppointment;
   private selectedServices: IService[];
@@ -201,6 +202,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         this.externalNotesEnabled = settingsMap.externalnotes.value;
         this.isAppointmentStatEventEnable = settingsMap.SetAppointmentStatEvent.value;
         this.languageSelectEnabled = settingsMap.languageSelect.value;
+        this.isEmailTemplate = settingsMap.ShowEmailTemplate.value;
       }
     );
 
@@ -222,7 +224,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
     });
 
     const bookedAppointmentSubscription = this.bookingSelectors.bookedAppointment$.subscribe(appointment => {
-      if (appointment && this.isAppointmentStatEventEnable && (!this.qpAppointment ||
+      if (appointment && (this.isAppointmentStatEventEnable || (this.isEmailTemplate && this.isPrintAppointment)) && (!this.qpAppointment ||
          ((this.qpAppointment && this.qpAppointment.publicId !== appointment.publicId)))) {
         this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
       }

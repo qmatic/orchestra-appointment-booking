@@ -33,6 +33,10 @@ export class AppointmentDispatchers {
     this.store.dispatch(new AppointmentActions.FetchAppointmentQP(appointmentId));
   }
 
+  fetchAppointmentEmailTemplete(appointmentExternalId: string) {
+    this.store.dispatch(new AppointmentActions.FetchAppointmentEmailTemplete(appointmentExternalId));
+  }
+
   setAppointmentStatEvent(appointment: IAppointment) {
     this.store.dispatch(new AppointmentActions.SetAppointmentStatEvent(appointment));
   }

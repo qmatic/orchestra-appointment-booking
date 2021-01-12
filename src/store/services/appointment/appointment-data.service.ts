@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
@@ -29,6 +29,12 @@ export class AppointmentDataService {
   fetchAppointmentQP(appointmentId: string) {
     return this.http
      .get(`${calendarEndpoint}/appointments/publicid/${appointmentId}`).pipe(
+        catchError(this.errorHandler.handleError(true))
+      );
+  }
+  fetchAppointmentEmailTemplete(appointmentExternalId: string) {
+    return this.http
+     .get(`${notificationEndpoint}/getAppointmentConfirmation/?appointment=${appointmentExternalId}`, {responseType: 'text'}).pipe(
         catchError(this.errorHandler.handleError(true))
       );
   }

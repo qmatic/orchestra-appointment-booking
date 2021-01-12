@@ -45,6 +45,12 @@
                 "defaultValue": false,
                 "value": false,
                 "outputType": "Boolean"
+            },
+            {
+                "name": "ShowEmailTemplate",
+                "defaultValue": false,
+                "value": false,
+                "outputType": "Boolean"
             }
         ]
     },

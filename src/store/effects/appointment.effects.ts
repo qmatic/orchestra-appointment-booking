@@ -60,6 +60,18 @@ export class AppointmentEffects {
         )
       )
       );
+  @Effect()
+  FetchAppointmentEmailTemplete$: Observable<Action> = this.actions$
+      .pipe(
+      ofType(AppointmentActions.FETCH_APPOINTMENT_EMAIL_TEMPLETE),
+      switchMap((action: AppointmentActions.FetchAppointmentEmailTemplete) =>
+        toAction(
+          this.appointmentDataService.fetchAppointmentEmailTemplete(action.payload),
+          AppointmentActions.FetchAppointmentEmailTempleteSuccess,
+          AppointmentActions.FetchAppointmentEmailTempleteFail
+        )
+      )
+      );
 
   @Effect()
   setAppointmentStatEvent$: Observable<Action> = this.actions$

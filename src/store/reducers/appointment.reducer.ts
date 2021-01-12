@@ -8,6 +8,7 @@ export interface IAppointmentState {
   loading: boolean;
   loaded: boolean;
   error: Object;
+  emailTemplete: string;
 }
 
 export const initialState: IAppointmentState = {
@@ -16,7 +17,8 @@ export const initialState: IAppointmentState = {
   qpAppointment: null,
   loading: false,
   loaded: false,
-  error: null
+  error: null,
+  emailTemplete: ""
 };
 
 export function reducer (
@@ -139,6 +141,29 @@ export function reducer (
       return {
         ...state,
         selectedAppointment: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_EMAIL_TEMPLETE: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS: {
+      return {
+        ...state,
+        emailTemplete:action.payload,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       };
     }
     default: {

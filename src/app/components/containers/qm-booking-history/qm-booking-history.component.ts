@@ -10,9 +10,12 @@ import {
   AppointmentDispatchers,
   UserSelectors,
   PrintDispatchers,
-  SystemInfoSelectors
+  SystemInfoSelectors,
+  SettingsAdminSelectors,
+  AppointmentSelectors
 } from '../../../../store';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-booking-history',
@@ -25,7 +28,10 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   public userDirection$: Observable<string>;
   private timeConvention$: Observable<string>;
   public isMilitaryTime: boolean;
-
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private getEmailTemplateEnabled: boolean;
+  private qpAppointment: IAppointment;
+  
   constructor(
     private customerDispatchers: CustomerDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
@@ -33,10 +39,13 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     private modalService: QmModalService,
     private navigationService: NavigationService,
     private printDispatchers: PrintDispatchers,
-    private systemInfoSelectors: SystemInfoSelectors
+    private systemInfoSelectors: SystemInfoSelectors,
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private appointmentSelectors: AppointmentSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
@@ -45,6 +54,18 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(systemInformationSubscription);
+
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.getEmailTemplateEnabled = settingsMap.ShowEmailTemplate.value;
+      }
+    );
+    this.subscriptions.add(settingsMapSubscription);
+
+    const qpAppointmentSubscription = this.appointmentSelectors.qpAppointment$.subscribe(appointment => {
+      this.qpAppointment = appointment;
+    });
+    this.subscriptions.add(qpAppointmentSubscription);
   }
 
   ngOnDestroy() {
@@ -85,6 +106,10 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   }
 
   printAppointment(appointment: IAppointment) {
+    if (this.getEmailTemplateEnabled && (!this.qpAppointment ||
+      ((this.qpAppointment && this.qpAppointment.publicId !== appointment.publicId)))) {
+      this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
+    }
     this.printDispatchers.setPrintedAppointment(appointment);
     this.navigationService.goToPrintConfirmPage();
   }

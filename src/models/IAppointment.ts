@@ -22,6 +22,7 @@ export interface IAppointment {
   resource?: IResource;
   deleted?: boolean;
   qpId?: number;
+  id?: string;
   invokeStatEvent?: boolean;
   externalNotes?: string;
 }

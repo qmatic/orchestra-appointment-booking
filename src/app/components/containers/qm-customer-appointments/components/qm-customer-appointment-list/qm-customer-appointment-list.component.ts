@@ -46,6 +46,7 @@ export class QmCustomerAppointmentListComponent
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   public isMilitaryTime: boolean;
   private userDirection$: Observable<string>;
+  private getEmailTemplateEnabled: boolean;
   public userDirection: string;
   private settingsMap: { [name: string ]: Setting };
   @ViewChildren('customCard') customCards;
@@ -69,6 +70,7 @@ export class QmCustomerAppointmentListComponent
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
+        this.getEmailTemplateEnabled = settingsMap.ShowEmailTemplate.value;
       }
     );
 
@@ -101,7 +103,7 @@ export class QmCustomerAppointmentListComponent
 
   updateAppointmentList() {
     this.appointments.map((appointment: IAppointmentScroll) => {
-      appointment.scrollTo = this.isNextAppointment(appointment);
+      appointment = {...appointment, scrollTo:this.isNextAppointment(appointment)};
     });
   }
 
@@ -289,6 +291,9 @@ export class QmCustomerAppointmentListComponent
   }
 
   printAppointment(appointment: IAppointment) {
+    if (this.getEmailTemplateEnabled) {
+      this.appointmentDispatchers.fetchAppointmentQP(appointment.publicId);
+    }
     this.printDispatchers.setPrintedAppointment(appointment);
     this.navigationService.goToPrintConfirmPage();
   }
