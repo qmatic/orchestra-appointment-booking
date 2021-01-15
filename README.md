@@ -31,7 +31,7 @@ Make sure you have installed
 - [Installation](#installation)
 - [Development](#development) 
 - [Production Build](#production-build) 
-- [External Notes Section](#exterrnal-note-section) 
+- [Info to customerSection](#info-to-customer-section) 
 - [Print Email Templete](#print-email-templete) 
 - [Further help](#further-help) 
   
@@ -76,9 +76,9 @@ Run `npm run build-artifactory` to build the project. The build artifacts will b
 The build number is taken from `src/app.json`
 
 
-## External Notes Section
+## Info to customer Section
 
-External notes section can be used to add personal notes to a specific visit. That feature should be enabled in the configuration by checking "Includes External Notes field" in the Titles and notes section.External notes could be sent to the customers via email or SMS if the template in the notification module is configured to send them by using ```{{custom.externalNotes}}```
+Info to customer section can be used to add personal notes to a specific visit. That feature should be enabled in the configuration by checking "Includes Info to customer field" in the Titles and notes section. Info to customer could be sent to the customers via email or SMS if the template in the notification module is configured to send them by using ```{{custom.info_to_customer}}```
 
 ## Print Email Templete
 Appointment booking can be configured to show email template in the print section from the configuration by enabling "Show email template for printing". To use this feature GL_Notification_1.8 or higer should be used. After enabling this feature, the print page will show the email message that is generated using the email template in the notification module.

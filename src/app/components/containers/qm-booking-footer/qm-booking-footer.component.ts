@@ -440,7 +440,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
-                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         case 'email': {
@@ -449,7 +449,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         case 'both': {
@@ -459,7 +459,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" ) 
+                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" ) 
                 + `}`;
         }
         case 'none': {
@@ -467,7 +467,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "externalNotes":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
                 + `}`;
         }
         default: {
