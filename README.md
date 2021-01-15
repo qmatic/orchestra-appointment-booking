@@ -1,6 +1,6 @@
 # Appointment Booking
 
-This is an Angular 5 application. Read more about Angular here: `https://angular.io/docs`
+This is an Angular 10 application. Read more about Angular here: `https://angular.io/docs`
 
 This project uses ngrx/store to keep the application state. Read more here:
 `https://github.com/ngrx/platform`
@@ -25,41 +25,64 @@ Make sure you have installed
 1. Node 8 or above. `https://nodejs.org/`
 2. gulp (after installing node `npm install gulp-cli`)
 
-## Development
 
-1. Clone the project
-2. Run the following command to install all dependencies
+## Table of contents
 
+- [Installation](#installation)
+- [Development](#development) 
+- [Production Build](#production-build) 
+- [External Notes Section](#exterrnal-note-section) 
+- [Print Email Templete](#print-email-templete) 
+- [Further help](#further-help) 
+  
+## Installation
+BEFORE YOU INSTALL: please read the [Prerequisites](#prerequisites)
+
+Clone the Mobile Ticket Solution
+```
+git clone https://github.com/qmatic/orchestra-appointment-booking.git
+```
+When the cloning is complete, install the required node modules by running the following command from the project directory
 ```
 npm install
 ```
+We recommend Visual Studio Code (https://code.visualstudio.com/) as the IDE since it fits well with angular-cli tools. The original project is developed on visual code IDE.
 
-## Development server
+
+## Development
 
 If you have orchestra installed locally running on port 8080 run ```npm start``` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. 
 If you are working towards a remote orchestra you have to reconfigure the proxy config. You can use your own proxy.config.json like in the case of the script "startlocal" (package.json -> scripts). Create your own proxy.config.json using the proxy.config.json as a template and replace the targets.
 You can find available npm commands in package.json under "scripts".
 Use them by running ```npm run <your-command>```
 
-## Code scaffolding
+### Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Production Build (Create war file)
-
-Run `npm run build-artifactory` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-The build number is taken from `src/app.json`
-
-## Appointment Booking
+### Appointment Booking
 Components are located in **src/app/components**
 The store is located in **src/store**
 
 The application routes can be found in: **src/routes/app-routes.ts**
 
 Release notes are located in **/release-notes**
-## Further help
 
+## Production Build
+ ### Create war file
+
+Run `npm run build-artifactory` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+The build number is taken from `src/app.json`
+
+
+## External Notes Section
+
+External notes section can be used to add personal notes to a specific visit. That feature should be enabled in the configuration by checking "Includes External Notes field" in the Titles and notes section.External notes could be sent to the customers via email or SMS if the template in the notification module is configured to send them by using ```{{custom.externalNotes}}```
+
+## Print Email Templete
+Appointment booking can be configured to show email template in the print section from the configuration by enabling "Show email template for printing". To use this feature GL_Notification_1.8 or higer should be used. After enabling this feature, the print page will show the email message that is generated using the email template in the notification module.
+## Further help
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 
