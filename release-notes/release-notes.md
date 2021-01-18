@@ -39,6 +39,30 @@ This document describes the new features, bug corrections, known issues and reco
 
 ------------>
 
+<h2>Update 4.0.0.016 </h2>
+
+**Date: 18/12/2020**
+ 
+**Build number: 016**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+<!-- | **AB-61** | **Customer language selection in customer creation** | -->
+
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+<!-- | **AB-108** | **Hide the prefix when phone number is empty** | -->
+
+
+<h3>Upgrade instructions</h3> 
+To use the customer notification language , customized notifcation module should be used. 
+
+----------
 
 <h2>Update 4.0.0.015 </h2>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import { IBranch } from './../../../../models/IBranch';
@@ -9,14 +9,15 @@ import { ICustomer } from './../../../../models/ICustomer';
 import { UserSelectors, SettingsAdminSelectors, SystemInfoSelectors, AppointmentDispatchers, AppointmentSelectors } from '../../../../store/index';
 import { PrintSelectors } from '../../../../store/services/print/index';
 import { BOOKING_HOME_URL } from '../../containers/qm-page-header/header-navigation';
-
+import { ToastService } from '../../../../services/util/toast.service';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'qm-qm-print-confirm',
   templateUrl: './qm-print-confirm.component.html',
   styleUrls: ['./qm-print-confirm.component.scss']
 })
 export class QmPrintConfirmComponent implements OnInit, OnDestroy {
-
+  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   private subscriptions: Subscription = new Subscription();
   currentCustomer: ICustomer;
   bookedAppointment: IAppointment;
@@ -41,7 +42,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     private printSelectors: PrintSelectors,
     private systemInfoSelectors: SystemInfoSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
-    private appointmentSelctors: AppointmentSelectors
+    private appointmentSelctors: AppointmentSelectors,
+    private toastService: ToastService,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
@@ -50,7 +52,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.toastService.setToastContainer(this.toastContainer);
+   
     const printAppointmentSubscription = this.printedAppointment$.subscribe(bapp => {
       this.bookedAppointment = bapp;
     });
@@ -93,10 +96,10 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     });
     const emailTemplateSubscription = this.appointmentSelctors.emailTemplete$.subscribe(template => {
       this.emailTemplate = template;
-      if (this.emailTemplate && this.emailTemplateEnabled && ((this.appointmentLoaded && !this.appointmentLoading) || ((this.qpAppointment && this.qpAppointment.publicId === this.bookedAppointment.publicId)))) {
+      // if (this.emailTemplate && this.emailTemplateEnabled && ((this.appointmentLoaded && !this.appointmentLoading) || ((this.qpAppointment && this.qpAppointment.publicId === this.bookedAppointment.publicId)))) {
         const emailConatiner = document.getElementById('emailTemplate');
         emailConatiner.innerHTML = this.emailTemplate;
-      }
+      // }
     });
 
     this.subscriptions.add(printAppointmentSubscription);

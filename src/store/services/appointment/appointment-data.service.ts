@@ -34,7 +34,8 @@ export class AppointmentDataService {
   }
   fetchAppointmentEmailTemplete(appointmentExternalId: string) {
     return this.http
-     .get(`${notificationEndpoint}/getAppointmentConfirmation/?appointment=${appointmentExternalId}`, {responseType: 'text'}).pipe(
+     .get(`${notificationEndpoint}/getAppointmentConfirmation/?appointment=${appointmentExternalId}`, {responseType: 'text'})
+     .pipe(
         catchError(this.errorHandler.handleError(true))
       );
   }

@@ -23,7 +23,7 @@
             </button>
           </div>
           <div>
-          <div id="emailTemplate">
+          <div id="emailTemplate" [ngClass]="{'qm-display-none': ((!appointmentLoaded || appointmentLoading) || (qpAppointment && qpAppointment.publicId !== bookedAppointment.publicId)) }">
           </div>
           <div *ngIf="!emailTemplateEnabled">
             <div class="qm-print__body">
