@@ -41,7 +41,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 <h2>Update 4.0.0.016 </h2>
 
-**Date: 18/12/2020**
+**Date: 18/1/2021**
  
 **Build number: 016**
 
@@ -49,18 +49,19 @@ This document describes the new features, bug corrections, known issues and reco
 
 | **Id** | **Release notes** |
 | --- | --- |
-<!-- | **AB-61** | **Customer language selection in customer creation** | -->
+| **AB-138** | **Add QR code and Service templates to printed confirmation** |
+| **AB-139** | **Add extra information as customer info** |
 
 
 <h3>Bug fixes</h3>
 
 | **Id** | **Release notes** |
 | --- | --- |
-<!-- | **AB-108** | **Hide the prefix when phone number is empty** | -->
+| **AB-161** | **Handle Backward compatibility for older Notification module** |
 
 
 <h3>Upgrade instructions</h3> 
-To use the customer notification language , customized notifcation module should be used. 
+To use the email templete printing , PS customized notifcation module should be used. Refer README section for more information.
 
 ----------
 
