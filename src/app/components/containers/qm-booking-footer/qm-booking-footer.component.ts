@@ -432,15 +432,27 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
 
   getAppointmentCustomJson(currentCustomer: ICustomer): string {
     if (this.hasNotificationOptionsEnabled()) {
+      
       const notificationType: string = this.notificationType;
       const selectedLanguage : string = this.selectedLanguage;
+      // const externalNotes : string =  this.ExternalNotes.replace(/"/g, '&quot;')
+      // const externalNotes : string =  this.ExternalNotes.replace(/[|&;$%@"<>()+,\n]/g, "");
+      const externalNotes : string =  JSON.stringify(this.ExternalNotes).replace(/\\n/g, "\\n")
+      .replace(/\\'/g, "\\'")
+      .replace(/\\"/g, '\\"')
+      .replace(/\\&/g, "\\&")
+      .replace(/\\r/g, "\\r")
+      .replace(/\\t/g, "\\t")
+      .replace(/\\b/g, "\\b")
+      .replace(/\\f/g, "\\f");
+
       switch (notificationType) {
         case 'sms': {
           return `{`
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
-                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
                 + `}`;
         }
         case 'email': {
@@ -449,7 +461,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
                 + `}`;
         }
         case 'both': {
@@ -459,7 +471,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" ) 
+                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" ) 
                 + `}`;
         }
         case 'none': {
@@ -467,7 +479,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":"${this.ExternalNotes}"` : "" )
+                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
                 + `}`;
         }
         default: {

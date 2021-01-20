@@ -145,3 +145,12 @@
         }
     }
 }
+
+.qm-btn-resend {
+    margin: 0 5px;
+}
+
+.qm-btn-resend:hover {
+    color: $tertiary-color;
+    border-color:$tertiary-color;
+}

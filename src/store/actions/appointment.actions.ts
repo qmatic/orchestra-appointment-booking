@@ -21,6 +21,9 @@ export const SET_APPOINTMENT_STAT_EVENT_SUCCESS = '[Appointment] SET_APPOINTMENT
 export const FETCH_APPOINTMENT_EMAIL_TEMPLETE = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE';
 export const FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE_FAIL';
 export const FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS = '[Appointment] FETCH_APPOINTMENT_EMAIL_TEMPLETE_SUCCESS';
+export const RESEND_APPOINTMENT_COMFIRMATION = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION';
+export const RESEND_APPOINTMENT_COMFIRMATION_FAIL = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION_FAIL';
+export const RESEND_APPOINTMENT_COMFIRMATION_SUCCESS = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION_SUCCESS';
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -111,6 +114,22 @@ export class FetchAppointmentEmailTempleteSuccess implements Action {
   constructor(public payload: string) {}
 }
 
+
+export class ResendAppointmentConfrimaton implements Action {
+  readonly type = RESEND_APPOINTMENT_COMFIRMATION;
+  constructor(public payload: IAppointment) {}
+}
+
+export class ResendAppointmentConfrimatonFail implements Action {
+  readonly type = RESEND_APPOINTMENT_COMFIRMATION_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class ResendAppointmentConfrimatonSuccess implements Action {
+  readonly type = RESEND_APPOINTMENT_COMFIRMATION_SUCCESS;
+  constructor(public payload: string) {}
+}
+
 // Action types
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
@@ -129,4 +148,7 @@ export type AllAppointmentActions = FetchAppointments |
                                     SetAppointmentStatEventSuccess|
                                     FetchAppointmentEmailTemplete|
                                     FetchAppointmentEmailTempleteFail |
-                                    FetchAppointmentEmailTempleteSuccess;
+                                    FetchAppointmentEmailTempleteSuccess |
+                                    ResendAppointmentConfrimaton |
+                                    ResendAppointmentConfrimatonFail |
+                                    ResendAppointmentConfrimatonSuccess;

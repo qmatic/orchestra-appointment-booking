@@ -180,7 +180,7 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
 // Build customer form
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
-      const phoneValidators = [Validators.pattern(/^[0-9\+\s]+$/)];
+      const phoneValidators = [Validators.pattern( /^\(?\+?\d?[-\s()0-9]{6,}$/)];
       this.customerPhonePrefix = settings.CustomerPhoneDefaultCountry.value;
       const phoneAsyncValidators = [];
       this.isLanguageSelectEnabled = settings.languageSelect.value;

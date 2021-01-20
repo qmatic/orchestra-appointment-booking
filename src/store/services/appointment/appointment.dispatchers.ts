@@ -36,6 +36,10 @@ export class AppointmentDispatchers {
   fetchAppointmentEmailTemplete(appointmentExternalId: string) {
     this.store.dispatch(new AppointmentActions.FetchAppointmentEmailTemplete(appointmentExternalId));
   }
+  
+  resendAppointmentConfirmation (appointment: IAppointment) {
+    this.store.dispatch(new AppointmentActions.ResendAppointmentConfrimaton(appointment));
+  }
 
   setAppointmentStatEvent(appointment: IAppointment) {
     this.store.dispatch(new AppointmentActions.SetAppointmentStatEvent(appointment));

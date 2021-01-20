@@ -166,6 +166,27 @@ export function reducer (
         error: action.payload
       };
     }
+    case AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null
+      };
+    }
+    case AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
     default: {
         return state;
     }

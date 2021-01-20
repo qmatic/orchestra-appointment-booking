@@ -40,6 +40,14 @@ export class AppointmentDataService {
       );
   }
 
+  resendAppointmentConfirmation(appointment: IAppointment) {
+    return this.http
+     .post(`${notificationEndpoint}/singleAppointment/?appointment=476&notificationType=Email`,{})
+     .pipe(
+        catchError(this.errorHandler.handleError(true))
+      );
+  }
+
   setAppointmentStatEvent(appointment: IAppointment) {
     const statEventBody = {
       'applicationName': 'AppointmentBooking',

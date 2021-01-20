@@ -60,6 +60,20 @@ export class AppointmentEffects {
         )
       )
     );
+
+  @Effect()
+  ResendAppointmentConfrimaton$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION),
+      switchMap((action: AppointmentActions.ResendAppointmentConfrimaton) =>
+        toAction(
+          this.appointmentDataService.resendAppointmentConfirmation(action.payload),
+          AppointmentActions.ResendAppointmentConfrimatonSuccess,
+          AppointmentActions.ResendAppointmentConfrimatonFail
+        )
+      )
+    );
+
   @Effect()
   FetchAppointmentEmailTemplete$: Observable<Action> = this.actions$
     .pipe(

@@ -297,4 +297,8 @@ export class QmCustomerAppointmentListComponent
     this.printDispatchers.setPrintedAppointment(appointment);
     this.navigationService.goToPrintConfirmPage();
   }
+  resendConfirmaton (appointment) {
+    this.appointmentDispatchers.resendAppointmentConfirmation(appointment);
+    console.log(appointment)
+  }
 }
