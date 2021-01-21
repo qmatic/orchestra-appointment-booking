@@ -63,7 +63,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 
 <h3>Upgrade instructions</h3> 
-To use the email templete printing , customized notifcation module GL_Notification 1.8 should be used. Refer README section for more information.
+To use the email templete printing and customer notes, customized notifcation module -  GL_Notification 1.8 should be used. Refer README section for more information.
 
 ----------
 
