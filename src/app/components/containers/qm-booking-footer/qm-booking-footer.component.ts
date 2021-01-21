@@ -452,7 +452,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
-                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
+                  + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
                 + `}`;
         }
         case 'email': {
@@ -461,7 +461,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
+                  + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
                 + `}`;
         }
         case 'both': {
@@ -471,7 +471,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" ) 
+                  + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" ) 
                 + `}`;
         }
         case 'none': {
@@ -479,7 +479,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"notificationType":"${notificationType}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
-                  + (this.ExternalNotes ? `, "info_to_customer":${externalNotes}` : "" )
+                  + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
                 + `}`;
         }
         default: {
