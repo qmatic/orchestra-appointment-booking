@@ -41,7 +41,7 @@ This document describes the new features, bug corrections, known issues and reco
 
 <h2>Update 4.0.0.016 </h2>
 
-**Date: 18/1/2021**
+**Date: 21/1/2021**
  
 **Build number: 016**
 
@@ -58,10 +58,12 @@ This document describes the new features, bug corrections, known issues and reco
 | **Id** | **Release notes** |
 | --- | --- |
 | **AB-161** | **Handle Backward compatibility for older Notification module** |
+| **AB-168** | **External notes - Support for line breaks** |
+| **AB-169** | **External notes - support for special characters** |
 
 
 <h3>Upgrade instructions</h3> 
-To use the email templete printing , PS customized notifcation module should be used. Refer README section for more information.
+To use the email templete printing , customized notifcation module GL_Notification 1.8 should be used. Refer README section for more information.
 
 ----------
 
