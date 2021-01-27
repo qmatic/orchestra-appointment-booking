@@ -91,6 +91,13 @@
                 "defaultValue": "PreSelectNoOption",
                 "value": "PreSelectNoOption",
                 "outputType": "Select"
+            },
+            {
+                "name": "ResendConfirmation",
+                "defaultValue": false,
+                "value": false,
+
+                "outputType": "Boolean"
             }
         ]
     },

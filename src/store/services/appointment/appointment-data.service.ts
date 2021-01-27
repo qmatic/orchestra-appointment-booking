@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
+import { IAppointmentQPResponse } from '../../../models/IAppointmentQPResponse';
 
 
 @Injectable()
 export class AppointmentDataService {
-  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) {}
+  constructor(private http: HttpClient, private errorHandler: GlobalErrorHandler) { }
 
   getAppointments(publicId: string): Observable<IAppointmentResponse> {
     return this.http
@@ -28,24 +29,30 @@ export class AppointmentDataService {
 
   fetchAppointmentQP(appointmentId: string) {
     return this.http
-     .get(`${calendarEndpoint}/appointments/publicid/${appointmentId}`).pipe(
+      .get(`${calendarEndpoint}/appointments/publicid/${appointmentId}`).pipe(
         catchError(this.errorHandler.handleError(true))
       );
   }
   fetchAppointmentEmailTemplete(appointmentExternalId: string) {
     return this.http
-     .get(`${notificationEndpoint}/getAppointmentConfirmation/?appointment=${appointmentExternalId}`, {responseType: 'text'})
-     .pipe(
+      .get(`${notificationEndpoint}/getAppointmentConfirmation/?appointment=${appointmentExternalId}`, { responseType: 'text' })
+      .pipe(
         catchError(this.errorHandler.handleError(true))
       );
   }
 
   resendAppointmentConfirmation(appointment: IAppointment) {
     return this.http
-     .post(`${notificationEndpoint}/singleAppointment/?appointment=476&notificationType=Email`,{})
-     .pipe(
+      .get(`${calendarEndpoint}/appointments/publicid/${appointment.publicId}`)
+      .pipe(mergeMap(
+        (data: IAppointmentQPResponse) => this.http
+          .post(`${notificationEndpoint}/singleAppointment/?appointment=${data.appointment.id}&notificationType=${JSON.parse(appointment.custom.toString()).notificationType}`, {})
+          .pipe(
+            catchError(this.errorHandler.handleError(true))
+          )
+      )).pipe(
         catchError(this.errorHandler.handleError(true))
-      );
+      )
   }
 
   setAppointmentStatEvent(appointment: IAppointment) {
@@ -54,11 +61,11 @@ export class AppointmentDataService {
       'event': 'CREATE/UPDATE/DELETE'
     };
     return this.http
-        .post
-        (`${appointmentEndPoint}/branches/${appointment.branch.id}/appointments/${appointment.qpId}/events/APP_ORIGIN`,
+      .post
+      (`${appointmentEndPoint}/branches/${appointment.branch.id}/appointments/${appointment.qpId}/events/APP_ORIGIN`,
         statEventBody)
-        .pipe(
-            catchError(this.errorHandler.handleError())
-        );
+      .pipe(
+        catchError(this.errorHandler.handleError())
+      );
   }
 }

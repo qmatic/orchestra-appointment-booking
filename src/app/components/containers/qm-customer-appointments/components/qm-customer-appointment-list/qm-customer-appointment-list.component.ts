@@ -6,10 +6,11 @@ import {
   AfterViewInit,
   ViewChildren,
   ElementRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
-import { Subscription ,  Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { tz } from 'moment-timezone';
 
@@ -22,7 +23,8 @@ import {
   UserSelectors,
   AppointmentDispatchers,
   SettingsAdminSelectors,
-  SystemInfoSelectors
+  SystemInfoSelectors,
+  AppointmentSelectors
 } from '../../../../../../store';
 
 import { BookingHelperService } from '../../../../../../services/util/bookingHelper.service';
@@ -48,7 +50,12 @@ export class QmCustomerAppointmentListComponent
   private userDirection$: Observable<string>;
   private getEmailTemplateEnabled: boolean;
   public userDirection: string;
-  private settingsMap: { [name: string ]: Setting };
+  private settingsMap: { [name: string]: Setting };
+  public resendConfirmatonEnabled: boolean;
+  public resentAppointmentId: string;
+  public appointmentLoading: boolean = false;
+  public appointmentLoaded: boolean = false;
+
   @ViewChildren('customCard') customCards;
 
   constructor(
@@ -59,7 +66,9 @@ export class QmCustomerAppointmentListComponent
     private bookingHelperService: BookingHelperService,
     private navigationService: NavigationService,
     private printDispatchers: PrintDispatchers,
-    private systemInfoSelectors: SystemInfoSelectors
+    private systemInfoSelectors: SystemInfoSelectors,
+    private appointmentSelectors: AppointmentSelectors,
+    private _cdr: ChangeDetectorRef
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
@@ -71,8 +80,26 @@ export class QmCustomerAppointmentListComponent
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
         this.getEmailTemplateEnabled = settingsMap.ShowEmailTemplate.value;
+        this.resendConfirmatonEnabled = settingsMap.ResendConfirmation.value;
       }
     );
+
+    const ResentAppointmentIdSubscription = this.appointmentSelectors.resentAppointmentId$.subscribe(id => {
+      this.resentAppointmentId = id;
+    })
+
+    const appointmentLoadingSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe((state: boolean) => {
+      this.appointmentLoading = state;
+      this._cdr.detectChanges();
+    })
+
+
+    const appointmentLoadedSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe(state => {
+      this.appointmentLoaded = state;
+      this._cdr.detectChanges();
+
+    })
+
 
     const userDirectionSubscription = this.userDirection$.subscribe(
       (userDirection: string) => {
@@ -87,6 +114,9 @@ export class QmCustomerAppointmentListComponent
     this.subscriptions.add(settingsSubscription);
     this.subscriptions.add(userDirectionSubscription);
     this.subscriptions.add(timeConventionSubscription);
+    this.subscriptions.add(ResentAppointmentIdSubscription);
+    this.subscriptions.add(appointmentLoadingSubscription);
+    this.subscriptions.add(appointmentLoadedSubscription);
 
     this.updateAppointmentList();
   }
@@ -103,7 +133,7 @@ export class QmCustomerAppointmentListComponent
 
   updateAppointmentList() {
     this.appointments.map((appointment: IAppointmentScroll) => {
-      appointment = {...appointment, scrollTo:this.isNextAppointment(appointment)};
+      appointment = { ...appointment, scrollTo: this.isNextAppointment(appointment) };
     });
   }
 
@@ -161,7 +191,7 @@ export class QmCustomerAppointmentListComponent
           this.appointmentDispatchers.deleteAppointment(appointment);
         }
       },
-      () => {},
+      () => { },
       {
         date: moment(appointment.start).format('DD MMM YYYY')
       }
@@ -178,17 +208,19 @@ export class QmCustomerAppointmentListComponent
         const appointmentStart = moment(appointment.start);
         return appointmentStart < now
           ? {
-              showStatus: true,
-              showPrint: true,
-              showEdit: false,
-              showCancel: false
-            }
+            showStatus: true,
+            showPrint: true,
+            showEdit: false,
+            showCancel: false,
+            showResend: false
+          }
           : {
-              showStatus: false,
-              showPrint: true,
-              showEdit: true,
-              showCancel: true
-            };
+            showStatus: false,
+            showPrint: true,
+            showEdit: true,
+            showCancel: true,
+            showResend: true
+          };
       }
       case 30: // Arrived
       case 40: // Called
@@ -202,7 +234,8 @@ export class QmCustomerAppointmentListComponent
           showStatus: true,
           showPrint: true,
           showEdit: false,
-          showCancel: false
+          showCancel: false,
+          showResend: false
         };
       }
       default: {
@@ -210,7 +243,8 @@ export class QmCustomerAppointmentListComponent
           showStatus: false,
           showPrint: true,
           showEdit: false,
-          showCancel: false
+          showCancel: false,
+          showResend: false
         };
       }
     }
@@ -258,6 +292,16 @@ export class QmCustomerAppointmentListComponent
     }
   }
 
+  isNotified(appointment) {
+    if (appointment && JSON.parse(appointment.custom.toString()) && JSON.parse(appointment.custom.toString()).notificationType) {
+      const notificationType = JSON.parse(appointment.custom.toString()).notificationType;
+      if (notificationType == 'email' || notificationType == 'sms' || notificationType == 'both') {
+        return true;
+      }
+      return false;
+    }
+  }
+
   rescheduleClicked(appointment) {
     const displayStatus = this.displayStatus(appointment);
     const editAvailable = displayStatus.showEdit;
@@ -297,8 +341,11 @@ export class QmCustomerAppointmentListComponent
     this.printDispatchers.setPrintedAppointment(appointment);
     this.navigationService.goToPrintConfirmPage();
   }
-  resendConfirmaton (appointment) {
+  resendConfirmaton(appointment: IAppointment) {
+    this.appointmentDispatchers.SetResendAppointmentId(appointment.publicId)
     this.appointmentDispatchers.resendAppointmentConfirmation(appointment);
-    console.log(appointment)
   }
+  // get appointmentLoadedState(){
+  //   return this.appointmentLoading.toString()
+  // }
 }

@@ -1,20 +1,23 @@
-
-<ul class="qm-appointment-list"  [dir]="userDirection">
+<ul class="qm-appointment-list" [dir]="userDirection">
   <li #customCard class="qm-appointment-list__item" *ngFor="let appointment of appointments">
     <div class="qm-appointment-card">
-      <div class="qm-appointment-card__content-container" tabindex="0" (click)="rescheduleClicked(appointment)" [ngClass]="{ 'qm-appointment-card__content-container--edit' : displayStatus(appointment).showEdit }">
+      <div class="qm-appointment-card__content-container" tabindex="0" (click)="rescheduleClicked(appointment)"
+        [ngClass]="{ 'qm-appointment-card__content-container--edit' : displayStatus(appointment).showEdit }">
         <span class="qm-appointment-card__headline-container">
           <span class="qm-appointment-card__headline">
-          {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: 'dddd MMMM DD YYYY' }}
+            {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: 'dddd MMMM DD YYYY' }}
           </span>
           <span class="qm-appointment-card__time">
             <i class="qm-appointment-card__time-icon icon-clock" aria-hidden="true"></i>
             <span class="qm-appointment-card__time-text">
-              {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A')  }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}
+              {{ appointment.start | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime ? 'HH:mm' :
+              'hh:mm A') }} - {{ appointment.end | amTz: appointment.branch.fullTimeZone | amDateFormat: (isMilitaryTime
+              ? 'HH:mm' : 'hh:mm A') }}
             </span>
           </span>
         </span>
-        <qm-appointment-icon-list [userDirection]="userDirection" [appointment]="appointment"></qm-appointment-icon-list>
+        <qm-appointment-icon-list [userDirection]="userDirection" [appointment]="appointment">
+        </qm-appointment-icon-list>
         <span class="qm-appointment-card__text-container" *ngIf="resourceEnabled()">
           <span class="qm-appointment-card__text-label">
             {{ 'label.customerAppointments.resource' | translate }}
@@ -32,37 +35,55 @@
           </span>
         </span>
       </div>
+      <div class="qm-flex">
+        <div>
+          <button *ngIf="displayStatus(appointment).showResend && isNotified(appointment) 
+        && resendConfirmatonEnabled && !(appointmentLoading && appointment.publicId == resentAppointmentId) "
+            class="qm-btn qm-btn--secondary qm-btn-resend" (click)="resendConfirmaton(appointment)"
+            title="{{ 'button.customerAppointments.resend' | translate }}">
+            <span>
+              {{ 'button.customerAppointments.resend' | translate }}
+            </span>
 
-      <div class="qm-appointment-card__action-container">
-<!-- 
-        <button class="qm-btn qm-btn--secondary qm-btn-resend" (click)="resendConfirmaton(appointment)" title="{{ 'button.customerAppointments.delete' | translate }}">
-          <span>
-            {{ 'button.customerAppointments.resend' | translate }}
-          </span>
-        </button> -->
-        
-        <button *ngIf="displayStatus(appointment).showCancel" class="qm-action-btn qm-action-btn--only-icon qm-appointment-card__btn" (click)="deleteAppointment(appointment)" title="{{ 'button.customerAppointments.delete' | translate }}">
-          <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
-          <span class="sr-only">
-            {{ 'button.customerAppointments.delete' | translate }}
-          </span>
-        </button>
+          </button>
 
-        <button *ngIf="displayStatus(appointment).showPrint" (click)="printAppointment(appointment)" class="qm-action-btn qm-action-btn qm-appointment-card__btn" title="{{ 'button.customerAppointments.print' | translate }}">
-          <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
-          <span class="sr-only">
-            {{ 'button.customerAppointments.print' | translate }}
-          </span>
-        </button>
+          <div class="qm-resent-loading" *ngIf="appointmentLoading && appointment.publicId == resentAppointmentId">
+            <qm-loader></qm-loader>
+          </div>
 
-        <button *ngIf="displayStatus(appointment).showEdit" class="qm-action-btn qm-action-btn qm-appointment-card__btn" (click)="rescheduleClicked(appointment)" title="{{ 'button.customerAppointments.edit' | translate }}">
-          <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
-          <span class="sr-only">
-            {{ 'button.customerAppointments.edit' | translate }}
-          </span>
-        </button>
+        </div>
+
+        <div class="qm-appointment-card__action-container">
+
+
+          <button *ngIf="displayStatus(appointment).showCancel"
+            class="qm-action-btn qm-action-btn--only-icon qm-appointment-card__btn"
+            (click)="deleteAppointment(appointment)" title="{{ 'button.customerAppointments.delete' | translate }}">
+            <i class="qm-action-btn__icon icon-delete-secondary" aria-hidden="true"></i>
+            <span class="sr-only">
+              {{ 'button.customerAppointments.delete' | translate }}
+            </span>
+          </button>
+
+          <button *ngIf="displayStatus(appointment).showPrint" (click)="printAppointment(appointment)"
+            class="qm-action-btn qm-action-btn qm-appointment-card__btn"
+            title="{{ 'button.customerAppointments.print' | translate }}">
+            <i class="qm-action-btn__icon icon-print" aria-hidden="true"></i>
+            <span class="sr-only">
+              {{ 'button.customerAppointments.print' | translate }}
+            </span>
+          </button>
+
+          <button *ngIf="displayStatus(appointment).showEdit"
+            class="qm-action-btn qm-action-btn qm-appointment-card__btn" (click)="rescheduleClicked(appointment)"
+            title="{{ 'button.customerAppointments.edit' | translate }}">
+            <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
+            <span class="sr-only">
+              {{ 'button.customerAppointments.edit' | translate }}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </li>
 </ul>
-

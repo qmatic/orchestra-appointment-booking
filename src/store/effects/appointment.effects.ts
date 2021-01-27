@@ -74,6 +74,32 @@ export class AppointmentEffects {
       )
     );
 
+  @Effect({ dispatch: false })
+  ResendAppointmentConfrimatonFail$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION_FAIL),
+      tap((action: AppointmentActions.ResendAppointmentConfrimatonFail) =>
+        this.errorHandler.showError('message.notification.resend.fail', action.payload)
+      ),
+      switchMap((action: AppointmentActions.ResendAppointmentConfrimatonFail) =>
+        []
+      )
+    );
+
+  @Effect({ dispatch: false })
+  ResendAppointmentConfrimatonSucces$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION_SUCCESS),
+      tap((action: AppointmentActions.ResendAppointmentConfrimatonSuccess) =>
+       {
+        this.translateService.get('message.notification.resend.success').subscribe(
+          (label: string) =>  {
+            this.toastService.successToast(label);
+          }
+        ).unsubscribe(); 
+       }       
+      )
+    );
   @Effect()
   FetchAppointmentEmailTemplete$: Observable<Action> = this.actions$
     .pipe(

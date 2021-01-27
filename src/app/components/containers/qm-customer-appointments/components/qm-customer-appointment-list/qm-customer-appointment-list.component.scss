@@ -147,10 +147,28 @@
 }
 
 .qm-btn-resend {
-    margin: 0 5px;
+    margin: 20px 0;
+    width: 220px;
+    line-height: 1.2;
+    font-size: 0.9rem;
 }
+
+@media only screen and (max-width: 1400px) {
+    .qm-btn-resend {
+        width: auto;
+    }
+  }
 
 .qm-btn-resend:hover {
     color: $tertiary-color;
     border-color:$tertiary-color;
+}
+
+.qm-resent-loading {
+    margin: 0 20px;
+}
+
+.qm-flex {
+    display: flex;
+    justify-content: space-between;
 }

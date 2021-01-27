@@ -42,6 +42,10 @@ const getEmailTemplete = createSelector(
   (state: IAppointmentState) => state.emailTemplete
 );
 
+const getResentAppointmentId = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.resentAppoinmentId
+);
 @Injectable()
 export class AppointmentSelectors {
   constructor(private store: Store<IAppState>) {}
@@ -53,4 +57,5 @@ export class AppointmentSelectors {
   appointmentsLoaded$ = this.store.select(getAppointmentsLoaded);
   appointmentsError$ = this.store.select(getAppointmentsError);
   emailTemplete$ = this.store.select(getEmailTemplete);
+  resentAppointmentId$ = this.store.select(getResentAppointmentId);
 }

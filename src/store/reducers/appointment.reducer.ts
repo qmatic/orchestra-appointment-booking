@@ -9,6 +9,7 @@ export interface IAppointmentState {
   loaded: boolean;
   error: Object;
   emailTemplete: string;
+  resentAppoinmentId: string;
 }
 
 export const initialState: IAppointmentState = {
@@ -18,7 +19,8 @@ export const initialState: IAppointmentState = {
   loading: false,
   loaded: false,
   error: null,
-  emailTemplete: ""
+  emailTemplete: "",
+  resentAppoinmentId:''
 };
 
 export function reducer (
@@ -185,6 +187,12 @@ export function reducer (
         ...state,
         loading: false,
         error: action.payload
+      };
+    }
+    case AppointmentActions.SET_RESEND_APPOINTMENT: {
+      return {
+        ...state,
+        resentAppoinmentId: action.payload
       };
     }
     default: {

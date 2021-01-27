@@ -44,4 +44,7 @@ export class AppointmentDispatchers {
   setAppointmentStatEvent(appointment: IAppointment) {
     this.store.dispatch(new AppointmentActions.SetAppointmentStatEvent(appointment));
   }
+  SetResendAppointmentId(id: string) {
+    this.store.dispatch(new AppointmentActions.SetResendAppointmentId(id));
+  }
 }
