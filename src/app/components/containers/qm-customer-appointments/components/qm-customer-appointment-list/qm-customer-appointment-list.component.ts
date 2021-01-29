@@ -68,7 +68,7 @@ export class QmCustomerAppointmentListComponent
     private printDispatchers: PrintDispatchers,
     private systemInfoSelectors: SystemInfoSelectors,
     private appointmentSelectors: AppointmentSelectors,
-    private _cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
@@ -89,15 +89,20 @@ export class QmCustomerAppointmentListComponent
     })
 
     const appointmentLoadingSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe((state: boolean) => {
-      this.appointmentLoading = state;
-      this._cdr.detectChanges();
+      setTimeout(() => {                           //<<<---using ()=> syntax
+        this.appointmentLoading = state;
+        this.cdr.detectChanges();
+      }, 100);
+
+
     })
 
 
     const appointmentLoadedSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe(state => {
-      this.appointmentLoaded = state;
-      this._cdr.detectChanges();
-
+      setTimeout(() => {
+        this.appointmentLoaded = state;
+        this.cdr.detectChanges();
+      }, 100);
     })
 
 

@@ -74,7 +74,8 @@ li {
 
     &__body {
       border: 1px solid $standard-border-color;
-      height: calc(100% - 46px);
+      // height: calc(100% - 46px);
+      height: 100%;
       // display: flex;
       // display: -webkit-box; // Chrome bug - Needs the prefixed version first
       flex-direction: column;
@@ -129,7 +130,7 @@ li {
 
       .qm-booking__body {
         margin-top: rem(62px);
-        height: calc(100% - 108px);
+        height: calc(100% - 69px);
       }
 
       .qm-booking__list-container {

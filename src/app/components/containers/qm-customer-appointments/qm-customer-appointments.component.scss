@@ -152,7 +152,7 @@
         width: 100%;
         background: $white;
         z-index: map-get($z-index, 'dropdown');
-        max-height: rem($dropdown-body-height - 50px);
+        max-height: calc(100vh - 215px);
         padding: rem($standard-padding / 2);
         overflow-x: hidden;
         overflow-y: auto;

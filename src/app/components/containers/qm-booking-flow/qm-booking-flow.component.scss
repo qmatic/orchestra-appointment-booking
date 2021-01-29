@@ -53,3 +53,11 @@
     }
   }
 }
+
+@media screen and (max-height: #{map-get($hight-breakpoints, 'md')}) { 
+  .qm-booking-flow {
+    &__col {
+      font-size: 15px !important;
+    }
+  }
+}

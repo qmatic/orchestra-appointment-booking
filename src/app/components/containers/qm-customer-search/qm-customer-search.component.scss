@@ -115,3 +115,9 @@
     }
   }
 }
+
+@media screen and (max-height: #{map-get($hight-breakpoints, 'md')}) { 
+  .qm-customer-search {
+    padding: rem($standard-padding * 1.2 $standard-padding * 2);
+  }
+}
