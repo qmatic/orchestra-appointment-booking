@@ -49,6 +49,7 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const appointmentsSubcription = this.appointments$.subscribe(
       (appointments: IAppointment[]) => {
+        console.log(appointments);
         this.appointments = [...appointments].sort(this.sortDate);
         this.updateDropdownLabel();
         if (this.appointments.length > 0) {

@@ -181,9 +181,20 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
   buildCustomerForm() {
     this.settingsMap$.subscribe(settings => {
       this.customerPhonePrefix = settings.CustomerPhoneDefaultCountry.value;
-      const phoneRegex = `\\(?\\+?\d?[-\s()0-9]{6,}`
-      const phonePrefiForRegex = this.customerPhonePrefix.replace('+', '\\\+');
-      const phoneValidators = [Validators.pattern( phoneRegex + '|' + phonePrefiForRegex)];
+      const phoneRegex = `\\(?\\+?\d?[-\s()0-9]{6,}$`
+      // const phoneRegex = `[0-9\+\s]+$/`
+      var phonePrefiForRegex;
+      if (this.customerPhonePrefix) {
+        phonePrefiForRegex = this.customerPhonePrefix.toString().replace('+', '\\\+');
+      }
+      var phoneValidators;
+      if (phonePrefiForRegex ) {
+        console.log(phoneRegex + '|' + phonePrefiForRegex)
+        phoneValidators = [Validators.pattern( phoneRegex + '|' + phonePrefiForRegex)];
+      } else {
+        phoneValidators = [Validators.pattern( phoneRegex)];
+      }
+    
       const phoneAsyncValidators = [];
       this.isLanguageSelectEnabled = settings.languageSelect.value;
       if (settings.CustomerPhoneRequired.value === true) {

@@ -74,8 +74,11 @@ li {
 
     &__body {
       border: 1px solid $standard-border-color;
-      // height: calc(100% - 46px);
       height: 100%;
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      height: calc(100% - 46px);
+      }
+      
       // display: flex;
       // display: -webkit-box; // Chrome bug - Needs the prefixed version first
       flex-direction: column;

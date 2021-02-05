@@ -63,7 +63,7 @@ export function reducer (
         ...state,
         qpAppointment: (action.payload as any).appointment,
         loading: false,
-        loaded: true,
+        // loaded: true,
         error: null
       };
     }
@@ -88,7 +88,7 @@ export function reducer (
         ...state,
         qpAppointment: newtmpAppointment,
         loading: false,
-        loaded: true,
+        // loaded: true,
         error: null
       };
     }

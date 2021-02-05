@@ -38,6 +38,31 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Upgrade instructions</h3> 
 
 ------------>
+<h2>Update 4.0.0.017 </h2>
+
+**Date: 21/1/2021**
+ 
+**Build number: 017 - Internal**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-151** | **Phone validation differs between AB and QWB** |
+| **AB-60** | **Re-send appointment confirmation from Appointment Booking** |
+
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-148** | **Appointment booking scaling issues fixed** |
+| **AB-177** | **Phone validation issue when a default country code is set & phone no field set as optional** |
+
+
+<h3>Upgrade instructions</h3> 
+
+----------
 
 <h2>Update 4.0.0.016 </h2>
 

@@ -11,6 +11,7 @@
 
     # TODO: A Better Solution, if need the flexibility, would be to pass a data array to the dropdown component and have it render the view inside the dropdown component instead of using ngContent directive.
     -->
+    
     <div *ngIf="appointments.length > 0; else noAppointments" class="qm-dropdown">
     <div class="qm-dropdown__backdrop" *ngIf="isExpand" (click)="toggleDrop()"></div>
       <button class="qm-dropdown__btn" [attr.aria-expanded]="isExpand" aria-haspopup="true" (click)="toggleDrop()" ngTranslate="">{{dropdownLabel}}</button>
