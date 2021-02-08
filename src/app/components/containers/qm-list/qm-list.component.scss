@@ -134,6 +134,9 @@ li {
       .qm-booking__body {
         margin-top: rem(62px);
         height: calc(100% - 69px);
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          height: calc(100% - 108px);
+          }
       }
 
       .qm-booking__list-container {

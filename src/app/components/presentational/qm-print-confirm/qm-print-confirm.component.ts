@@ -96,11 +96,11 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     });
     const emailTemplateSubscription = this.appointmentSelctors.emailTemplete$.subscribe(template => {
       this.emailTemplate = template;
-      // if (this.emailTemplate && this.emailTemplateEnabled && ((this.appointmentLoaded && !this.appointmentLoading) || ((this.qpAppointment && this.qpAppointment.publicId === this.bookedAppointment.publicId)))) {
+      if (this.emailTemplateEnabled ) {
         const emailConatiner = document.getElementById('emailTemplate');
         emailConatiner.innerHTML = this.emailTemplate;
       // }
-    });
+    }});
 
     this.subscriptions.add(printAppointmentSubscription);
     this.subscriptions.add(timeConventionSubscription);
@@ -115,6 +115,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    const emailConatiner = document.getElementById('emailTemplate');
+    emailConatiner.innerHTML = '';
   }
 
   getTimeFormat(): string {
