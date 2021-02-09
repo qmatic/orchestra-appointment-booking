@@ -43,11 +43,22 @@
     color: $dark-transparent82;
     word-break: break-all;
     word-break: break-word;
-    // text-overflow: ellipsis;
     max-width: 100%;
-    width: 100%;
-    // float: left;
-    // overflow: hidden;
-    // white-space: nowrap;
+    width: 100%;;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      text-overflow: ellipsis;
+
+      /* Needed to make it work */
+      overflow: hidden;
+      white-space: nowrap;
+      }
+
+      @at-root [dir='rtl'] & {
+        text-align: right;
+      }
   }
 }
