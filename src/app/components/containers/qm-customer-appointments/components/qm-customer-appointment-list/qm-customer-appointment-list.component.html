@@ -37,8 +37,9 @@
       </div>
       <div class="qm-flex">
         <div>
-          <button *ngIf="displayStatus(appointment).showResend && isNotified(appointment) 
-        && resendConfirmatonEnabled && !(appointmentLoading && appointment.publicId == resentAppointmentId) "
+          <button *ngIf="displayStatus(appointment).showResend && isNotified(appointment)  
+        && resendConfirmatonEnabled && !(appointmentLoading && appointment.publicId == resentAppointmentId) " 
+            [disabled]="appointmentLoading && appointment.publicId !== resentAppointmentId"
             class="qm-btn qm-btn--secondary qm-btn-resend" (click)="resendConfirmaton(appointment)"
             title="{{ 'button.customerAppointments.resend' | translate }}">
             <span>

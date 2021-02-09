@@ -25,6 +25,7 @@ export const RESEND_APPOINTMENT_COMFIRMATION = '[Appointment] RESEND_APPOINTMENT
 export const RESEND_APPOINTMENT_COMFIRMATION_FAIL = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION_FAIL';
 export const RESEND_APPOINTMENT_COMFIRMATION_SUCCESS = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION_SUCCESS';
 export const SET_RESEND_APPOINTMENT = '[Appointment] SET_RESEND_APPOINTMENT';
+export const RESET_APPOINTMENT_LOADED = '[Appointment] RESET_APPOINTMENT_LOADED';
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -136,7 +137,10 @@ export class SetResendAppointmentId implements Action {
   constructor(public payload: string) {}
 }
 
-
+export class ResetAppointmentLoaded implements Action {
+  readonly type = RESET_APPOINTMENT_LOADED;
+  constructor() {}
+}
 // Action types
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
@@ -159,4 +163,5 @@ export type AllAppointmentActions = FetchAppointments |
                                     ResendAppointmentConfrimaton |
                                     ResendAppointmentConfrimatonFail |
                                     ResendAppointmentConfrimatonSuccess| 
-                                    SetResendAppointmentId;
+                                    SetResendAppointmentId|
+                                    ResetAppointmentLoaded;

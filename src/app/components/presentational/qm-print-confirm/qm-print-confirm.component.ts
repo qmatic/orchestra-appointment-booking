@@ -117,6 +117,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
     const emailConatiner = document.getElementById('emailTemplate');
     emailConatiner.innerHTML = '';
+    this.appointmentDispatchers.ResetAppointmentLoaded();
   }
 
   getTimeFormat(): string {

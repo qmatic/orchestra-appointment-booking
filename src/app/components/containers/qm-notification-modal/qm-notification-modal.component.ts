@@ -115,10 +115,21 @@ export class QmNotificationModalComponent implements OnInit, OnDestroy {
   }
 
   buildCustomerForm() {
-    const phoneValidators = [
-      Validators.pattern(/^[0-9\+\s]+$/),
-      Validators.required
-    ];
+
+    var customerPhonePrefix = this.settingsMap.CustomerPhoneDefaultCountry.value;
+    const phoneRegex = `\\(?\\+?\d?[-\s()0-9]{6,}$`
+    var phonePrefiForRegex;
+    if (customerPhonePrefix) {
+      phonePrefiForRegex = customerPhonePrefix.toString().replace('+', '\\\+');
+    }
+    var phoneValidators;
+    if (phonePrefiForRegex ) {
+      phoneValidators = [Validators.pattern( phoneRegex + '|^' + phonePrefiForRegex), Validators.required];
+    } else {
+      phoneValidators = [Validators.pattern( phoneRegex), Validators.required];
+    }
+
+
 
     if (this.settingsMap.CustomerPhoneDefaultCountry.value !== '') {
       const notEqualValidator = validateNotEqualToFactory(this.settingsMap.CustomerPhoneDefaultCountry.value);

@@ -189,8 +189,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
       }
       var phoneValidators;
       if (phonePrefiForRegex ) {
-        console.log(phoneRegex + '|' + phonePrefiForRegex)
-        phoneValidators = [Validators.pattern( phoneRegex + '|' + phonePrefiForRegex)];
+        // console.log(phoneRegex + '|' + phonePrefiForRegex)
+        phoneValidators = [Validators.pattern( phoneRegex + '|^' + phonePrefiForRegex)];
       } else {
         phoneValidators = [Validators.pattern( phoneRegex)];
       }

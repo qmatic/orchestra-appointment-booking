@@ -195,6 +195,12 @@ export function reducer (
         resentAppoinmentId: action.payload
       };
     }
+    case AppointmentActions.RESET_APPOINTMENT_LOADED: {
+      return {
+        ...state,
+        loaded: false
+      };
+    }
     default: {
         return state;
     }

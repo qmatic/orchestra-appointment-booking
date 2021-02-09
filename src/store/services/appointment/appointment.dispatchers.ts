@@ -47,4 +47,7 @@ export class AppointmentDispatchers {
   SetResendAppointmentId(id: string) {
     this.store.dispatch(new AppointmentActions.SetResendAppointmentId(id));
   }
+  ResetAppointmentLoaded() {
+    this.store.dispatch(new AppointmentActions.ResetAppointmentLoaded());
+  }
 }
