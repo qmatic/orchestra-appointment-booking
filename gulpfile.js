@@ -149,9 +149,31 @@ function writeManifest(done) {
 }
 exports.writeManifest = writeManifest;
 
+// Write to property file ***************************************
+
+function writeProperty(done) {
+  try {
+    var localeData = fs.readFileSync('./dist/properties/appointmentBookingMessages.properties');
+    var versionInfo = getVersionInfo();
+    if (versionInfo && localeData) {
+      var version = localeData.toString() + 'label.app.version = ' + versionInfo.version;
+      fs.writeFileSync('./dist/properties/appointmentBookingMessages.properties', version);
+      done();
+      return true;
+    }
+  } catch (ex) {
+    console.log(
+      'There was an exception when trying to read the property file or package.json - ' + ex
+    );
+    done();
+    return false;
+  }
+}
+exports.writeProperty = writeProperty;
+
 
 function getVersionInfo() {
-  var appData = JSON.parse(fs.readFileSync('./src/app.json'));
+  var appData = JSON.parse(fs.readFileSync('./package.json'));
   if (appData) {
     return {
       versionPrefix: appData.version,
@@ -227,13 +249,13 @@ exports.deployLang = deployLang;
  * Create Dev/Prod build war ********************************************************
  */
 
-const buildWarProperties = gulp.series(createWar, createProperties, cleanWar);
+const buildWarProperties = gulp.series(createWar, createProperties, writeProperty, cleanWar);
 exports.buildWarProperties = buildWarProperties;
 
 /**
  * Build war and deploy war/lang
  */
-const deployWarProperties = gulp.series(createProperties, deployWar, deployLang);
+const deployWarProperties = gulp.series(createProperties, writeProperty, deployWar, deployLang);
 exports.deployWarProperties = deployWarProperties;
 
 
@@ -241,7 +263,7 @@ exports.deployWarProperties = deployWarProperties;
  * Create Artifactory build
  */
 
-const buildArtifactory = gulp.series(writeManifest, createWar, createProperties, createReleaseNotes, cleanWar, createArtifactory, cleanArtifactory);
+const buildArtifactory = gulp.series(writeManifest, createWar, createProperties, writeProperty, createReleaseNotes, cleanWar, createArtifactory, cleanArtifactory);
 exports.buildArtifactory = buildArtifactory;
 
 /**
