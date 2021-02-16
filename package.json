@@ -1,6 +1,7 @@
 {
-  "name": "staff-booking",
-  "version": "0.0.0",
+  "name": "appointment-booking",
+  "version": "4.0.0",
+  "build": "017-internal",
   "license": "MIT",
   "scripts": {
     "start": "npm run ng-config-dev && ng serve --host 0.0.0.0 --proxy-config proxy.config.json",
@@ -8,7 +9,7 @@
     "build": "ng build --prod",
     "test": "ng test",
     "build-war-dev": "npm run ng-config-dev && ng build && gulp buildWarProperties",
-    "build-war-prod": "npm run ng-config-prod && ng build --prod --base-href /appointmentbooking/ && gulp createWar",
+    "build-war-prod": "npm run ng-config-prod && ng build --prod --base-href /appointmentbooking/ && gulp buildWarProperties",
     "build-artifactory": "npm run ng-config-prod && ng build --prod --base-href /appointmentbooking/ && gulp buildArtifactory",
     "deploy-war-dev": "npm run ng-config-dev && ng build && gulp deployWarProperties",
     "deploy-war-prod": "npm run ng-config-prod && ng build --prod --base-href /appointmentbooking/ && gulp deployWarProperties",
