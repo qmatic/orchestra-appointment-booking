@@ -149,15 +149,15 @@ function writeManifest(done) {
 }
 exports.writeManifest = writeManifest;
 
-// Write to property file ***************************************
+// Set app version ***************************************
 
-function writeProperty(done) {
+function setAppVersion(done) {
   try {
-    var localeData = fs.readFileSync('./dist/properties/appointmentBookingMessages.properties');
+    var pageData = fs.readFileSync('./src/app/components/presentational/qm-page-footer/qm-page-footer.component.html');
     var versionInfo = getVersionInfo();
-    if (versionInfo && localeData) {
-      var version = localeData.toString() + 'label.app.version = ' + versionInfo.version;
-      fs.writeFileSync('./dist/properties/appointmentBookingMessages.properties', version);
+    if (versionInfo && pageData) {
+      pageData = pageData.toString().replace('%APP_VERSION%', ' (AB ' + versionInfo.version + ') ');
+      fs.writeFileSync('./src/app/components/presentational/qm-page-footer/qm-page-footer.component.html', pageData);
       done();
       return true;
     }
@@ -169,7 +169,27 @@ function writeProperty(done) {
     return false;
   }
 }
-exports.writeProperty = writeProperty;
+exports.setAppVersion = setAppVersion;
+
+function resetAppVersion(done) {
+  try {
+    var pageData = fs.readFileSync('./src/app/components/presentational/qm-page-footer/qm-page-footer.component.html');
+    var versionInfo = getVersionInfo();
+    if (versionInfo && pageData) {
+      pageData = pageData.toString().replace(' (AB ' + versionInfo.version + ') ' ,'%APP_VERSION%');
+      fs.writeFileSync('./src/app/components/presentational/qm-page-footer/qm-page-footer.component.html', pageData);
+      done();
+      return true;
+    }
+  } catch (ex) {
+    console.log(
+      'There was an exception when trying to read the property file or package.json - ' + ex
+    );
+    done();
+    return false;
+  }
+}
+exports.resetAppVersion = resetAppVersion;
 
 
 function getVersionInfo() {
@@ -249,13 +269,13 @@ exports.deployLang = deployLang;
  * Create Dev/Prod build war ********************************************************
  */
 
-const buildWarProperties = gulp.series(createWar, createProperties, writeProperty, cleanWar);
+const buildWarProperties = gulp.series(createWar, createProperties, cleanWar, resetAppVersion);
 exports.buildWarProperties = buildWarProperties;
 
 /**
  * Build war and deploy war/lang
  */
-const deployWarProperties = gulp.series(createProperties, writeProperty, deployWar, deployLang);
+const deployWarProperties = gulp.series(createProperties, deployWar, deployLang);
 exports.deployWarProperties = deployWarProperties;
 
 
@@ -263,7 +283,7 @@ exports.deployWarProperties = deployWarProperties;
  * Create Artifactory build
  */
 
-const buildArtifactory = gulp.series(writeManifest, createWar, createProperties, writeProperty, createReleaseNotes, cleanWar, createArtifactory, cleanArtifactory);
+const buildArtifactory = gulp.series(writeManifest, createWar, createProperties, createReleaseNotes, cleanWar, createArtifactory, cleanArtifactory, resetAppVersion);
 exports.buildArtifactory = buildArtifactory;
 
 /**
