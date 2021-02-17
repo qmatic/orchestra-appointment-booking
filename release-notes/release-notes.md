@@ -40,9 +40,9 @@ This document describes the new features, bug corrections, known issues and reco
 ------------>
 <h2>Update 4.0.0.017 </h2>
 
-**Date: 21/1/2021**
+**Date: 09/02/2021**
  
-**Build number: 017 - Internal**
+**Build number: 017**
 
 <h3>Stories</h3>
 
