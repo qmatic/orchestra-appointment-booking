@@ -191,12 +191,14 @@ export class QmSettingsAdminComponent implements OnInit, OnDestroy, CanComponent
         this.preselectValueCollection[0].isVisible = true;
         this.preselectValueCollection[1].isVisible = false;
         preselectControl.setValue(this.preselectValueCollection[0].key);
+        preselectControl.markAsDirty();
       } else if (preselectControl.value === this.unavalableSettingKey) {
         this.preselectValueCollection[0].isVisible = false;
         this.preselectValueCollection[1].isVisible = true;
         preselectControl.setValue(this.preselectValueCollection[1].key);
       }
       this.preselectBoundCollection = this.preselectValueCollection.filter(s => s.isVisible !== false);
+      
     }
 
     this.settings$.subscribe((settings) => {

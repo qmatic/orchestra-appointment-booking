@@ -59,7 +59,7 @@ To use the Appointment List and Appointment History Audit module, there are two 
 
 <h2>Update 4.0.0.017 </h2>
 
-**Date: 21/1/2021**
+**Date: 09/02/2021**
  
 **Build number: 017**
 
