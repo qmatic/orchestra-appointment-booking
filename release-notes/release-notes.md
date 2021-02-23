@@ -60,7 +60,7 @@ This document describes the new features, bug corrections, known issues and reco
 | **AB-177** | **Phone validation issue when a default country code is set & phone no field set as optional** |
 | **AB-176** | **Stat event enabled > Book appointments are empty when customer search soon after an appointment creation bug fixed** |
 | **AB-176** | **When the address is too long, it's not fully visible in the UI** |
-
+| **AB-193** | **MAC+Safari UI issue - Address and resource are not visible.** |
 
 <h3>Upgrade instructions</h3> 
 
