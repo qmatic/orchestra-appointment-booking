@@ -1,4 +1,4 @@
-<qm-list [userDirection]="userDirection" [searchText]="branchesSearchText" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)">
+<qm-list [userDirection]="userDirection" [searchText]="branchesSearchText" [placeholder]="'label.bookingFlow.branches.search.placeholder' | translate" [header]="'label.bookingFlow.branches.header' | translate" (search)="filterBranches($event)"  [ngClass]="{'branch-address' : getBranchAddressText(selectedBranches[0]).length > 0}">
   <li *ngFor="let branch of branches$ | async">
     <qm-list-item
       [text]="branch.name"
