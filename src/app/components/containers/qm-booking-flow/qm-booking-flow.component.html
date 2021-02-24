@@ -1,21 +1,21 @@
 <div class="qm-booking-flow" [dir]="userDirection">
   <div class="row qm-booking-flow__row">
-    <div class="col qm-booking-flow__col">
+    <div class="col qm-booking-flow__col" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <qm-service-booker [userDirection]="userDirection" [settingsMap]="settingsMap"></qm-service-booker>
     </div>
-    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" [ngClass]="{'qm-hide' : !shouldShowCustomerColumn()}">
+    <div class="col qm-booking-flow__col qm-booking-flow__col--customer-col" [ngClass]="{'qm-hide' : !shouldShowCustomerColumn()}" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <qm-number-of-customers-booker [userDirection]="userDirection" [settingsMap]="settingsMap"></qm-number-of-customers-booker>
     </div>
-    <div class="col qm-booking-flow__col">
+    <div class="col qm-booking-flow__col" [ngStyle]="{'height':dashboardRowCSSHeight}">
     <qm-branch-booker [userDirection]="userDirection"></qm-branch-booker>
     </div>
-    <div class="col qm-booking-flow__col">
+    <div class="col qm-booking-flow__col" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <qm-date-booker [userDirection]="userDirection"></qm-date-booker>
     </div>
-    <div class="col qm-booking-flow__col qm-booking-flow__col--time-col">
+    <div class="col qm-booking-flow__col qm-booking-flow__col--time-col" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <qm-timeslot-booker [userDirection]="userDirection" [settingsMap]="settingsMap"></qm-timeslot-booker>
     </div>
-    <div class="col-3 qm-booking-flow__col qm-booking-flow__col--info-col">
+    <div class="col-3 qm-booking-flow__col qm-booking-flow__col--info-col" [ngStyle]="{'height':dashboardRowInfoCSSHeight}">
       <div class="qm-booking-information">
         <qm-notify></qm-notify>
         <qm-appointment-title></qm-appointment-title>

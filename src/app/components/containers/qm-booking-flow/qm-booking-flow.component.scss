@@ -17,8 +17,6 @@
   }
 
   &__col {
-    height: 48vh;
-
     &--customer-col {
       flex: 0 0 100px;
     }
@@ -29,10 +27,6 @@
 
     &--time-col {
       flex: 0 0 180px;
-    }
-
-    &--info-col {
-      height: 40vh;
     }
   }
 
@@ -52,13 +46,9 @@
     }
 
     &__col {
-      height: 48vh;
       padding-left: $standard-margin;
       padding-right: $standard-margin;
 
-      &--info-col {
-        height: 40vh;
-      }
     }
   }
 }
@@ -66,12 +56,7 @@
 @media screen and (max-height: #{map-get($hight-breakpoints, 'md')}) { 
   .qm-booking-flow {
     &__col {
-      height: 48vh;
       font-size: 15px !important;
-
-      &--info-col {
-        height: 40vh;
-      }
     }
   }
 }

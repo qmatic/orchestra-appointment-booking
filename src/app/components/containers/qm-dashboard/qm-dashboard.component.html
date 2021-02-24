@@ -28,11 +28,11 @@
     </div>
   </div>
 
-  <div class="qm-dashboard__body">
+  <div class="qm-dashboard__body" id="dashboard-body">
     <div class="qm-dashboard__content">
       <div class="qm-dashboard-row">
         <div class="qm-dashboard-col-12">
-          <div class="qm-booking-header">
+          <div class="qm-booking-header" id="dashboard-header">
             <h2 class="qm-headline qm-headline--large" *ngIf="selectedAppointment === null; else editHeadline">{{ 'label.dashboard.create.appointment' | translate }}</h2>
             <ng-template #editHeadline>
               <h2 class="qm-headline qm-headline--large">{{ 'label.dashboard.edit.appointment' | translate }}</h2>

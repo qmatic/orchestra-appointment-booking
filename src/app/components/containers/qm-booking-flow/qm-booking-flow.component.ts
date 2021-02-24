@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
 import {
   SettingsAdminSelectors,
@@ -28,12 +28,18 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
   private getExpiryReservationTime$: Observable<Number>;
   public isLanguageSelectEnabled: boolean;
 
+  private dashboardHeight = 350;
+  public dashboardRowCSSHeight = '350px';
+  public dashboardRowInfoCSSHeight = '298px';
+  private dashboardRemains = 100;
+
   constructor(
     private settingsAdminSelectors: SettingsAdminSelectors,
     private userSelectors: UserSelectors,
     private calendarSettingsSelectors: CalendarSettingsSelectors,
     private reservationExpiryTimerDispatchers: ReservationExpiryTimerDispatchers,
     private reserveSelectors: ReserveSelectors,
+    private _elRef:ElementRef
   ) {
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
@@ -41,7 +47,21 @@ export class QmBookingFlowComponent implements OnInit, OnDestroy {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
 
+  @ViewChild('myDiv') theDiv:ElementRef;
+  ngAfterContentChecked() {
+    let elem = document.getElementById('dashboard-body');
+    let elemHight = elem.clientHeight;
+    if (elemHight !== this.dashboardHeight && elemHight > this.dashboardRemains) {
+      this.dashboardHeight = elemHight;
+      this.dashboardRowCSSHeight = (elemHight - this.dashboardRemains - 8) + 'px';
+      this.dashboardRowInfoCSSHeight = (elemHight - this.dashboardRemains - 60) + 'px';
+    }
+  }
+
   ngOnInit() {
+    let dashboarHeader = document.getElementById('dashboard-header');
+    let dashboardFooter = document.getElementById('dashboard-footer');
+    this.dashboardRemains = dashboarHeader.clientHeight + dashboardFooter.clientHeight;
     const expiryReservationCalendarSettingSubscription = this.getExpiryReservationTime$.subscribe(
       (time: number) => {
         this.settingReservationExpiryTime = time;
