@@ -5,18 +5,12 @@
   height: 100%;
 
   &__col {
-    height: 48vh;
-
     &--time-col {
       flex: 0 0 140px;
     }
 
     &--date-col {
       flex: 0 1 $booking-list-width;
-    }
-
-    &--info-col {
-      height: 40vh;
     }
   }
 }
@@ -29,13 +23,8 @@
     }
 
     &__col {
-      height: 48vh;
       padding-left: $standard-margin;
       padding-right: $standard-margin;
-
-      &--info-col {
-        height: 40vh;
-      }
     }
   }
 }
