@@ -12,6 +12,7 @@ import {
 
 import { IAppointment } from '../../../../models/IAppointment';
 import { ICustomer } from '../../../../models/ICustomer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'qm-customer-appointments',
@@ -37,7 +38,8 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
     private customerSelectors: CustomerSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
     private translateService: TranslateService,
-    private userSelectors: UserSelectors
+    private userSelectors: UserSelectors,
+    private router: Router
   ) {
     this.appointments$ = this.appointmentSelectors.appointments$;
     this.appointmentsLoaded$ = this.appointmentSelectors.appointmentsLoaded$;
@@ -108,5 +110,11 @@ export class QmCustomerAppointmentsComponent implements OnInit, OnDestroy {
     this.appointmentDispatchers.fetchAppointments(
       this.currentCustomer.publicId
     );
+    console.log(this.appointments);
+    
+  }
+
+  toAppHistory(){
+    this.router.navigateByUrl('/app-history');
   }
 }

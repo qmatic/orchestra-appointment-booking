@@ -1,0 +1,89 @@
+<div class="qm-app">
+  <qm-page-header></qm-page-header>
+  <qm-main>
+    <!-- <qm-customer-search></qm-customer-search> -->
+    <div
+      class=""
+      style="height: 30%; width: 30%; margin: 10px 20px"
+    >
+      <qm-customer-search
+        *ngIf="currentCustomer === null; else customerCard" [addButton]="false"
+      ></qm-customer-search>
+      <ng-template #customerCard>
+        <qm-customer-card [customer]="currentCustomer"></qm-customer-card>
+      </ng-template>
+    </div>
+    <div style="background: #f4f4f4;width: 100%;padding: 25px;box-shadow: inset 15px 0 60px -20px rgba(0,0,0,.75);">
+      <h2 class="qm-headline qm-headline--large qm-customer-search__headline">Appointment History | Visit Details</h2>
+      <!-- <h2 >{{ 'label.customerSearch.headline' | translate }}</h2> -->
+      <br>
+      <hr style="border-top: 1px solid #bbb;">
+      <table style="width: 100%;font-weight: 100 !important">
+        <!-- <thead style="width:100%">						 -->
+        <tr class="qm-headline--small" style="font-weight: 100 !important">
+          <th>Action Date</th>
+          <th>Operation</th>
+          <th>Appt Id</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Branch</th>
+          <th>Resource</th>
+          <th>Service(s)</th>
+          <th>Title</th>
+          <th>Notes</th>
+          <th>User</th>
+        </tr>
+        <!-- <hr style="border-top: 1px solid #bbb;width: 100%;"> -->
+
+        <!-- </thead> -->
+
+        <!-- <tr *ngFor = "let appointment of appointments">
+            <td>{{appointment.id}}</td>
+            <td>{{appointment.id}}</td>
+            <td>{{appointment.id}}</td>
+            <td>{{appointment.id}}</td>
+            <td>{{appointment.id}}</td>
+          </tr> -->
+        <tr>
+          <!-- <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td> -->
+        </tr>
+      </table>
+
+      <!-- <table>
+        <thead class="qm-headline qm-headline--small">
+          <tr>
+            <th>Month</th>
+            <th>Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>January</td>
+            <td>$100</td>
+          </tr>
+          <tr>
+            <td>February</td>
+            <td>$80</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Sum</td>
+            <td>$180</td>
+          </tr>
+        </tfoot>
+      </table> -->
+    </div>
+  </qm-main>
+  <qm-page-footer></qm-page-footer>
+</div>

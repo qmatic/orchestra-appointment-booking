@@ -40,19 +40,20 @@
     "angular2-moment": "^1.9.0",
     "bootstrap": "^4.5.2",
     "classlist.js": "^1.1.20150312",
+    "core-js": "^2.4.1",
     "events": "^3.2.0",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "ng2-bootstrap-modal": "^1.0.1",
+    "ng2-order-pipe": "^0.1.5",
     "ngx-moment": "^5.0.0",
     "ngx-toastr": "13.1.0",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.3",
     "tslib": "^2.0.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.10.2",
-    "core-js": "^2.4.1"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.4",

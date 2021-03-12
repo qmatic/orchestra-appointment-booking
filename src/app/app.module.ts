@@ -150,6 +150,7 @@ import { NavigationService } from './util/navigation.service';
 import { QmErrorComponent } from './components/presentational/qm-error/qm-error.component';
 import { QmTimeZonePipe } from './pipes/qm-time-zone.pipe';
 import { QmExternalNotesComponent } from './components/presentational/qm-external-notes/qm-external-notes.component';
+import { QmAppointmentHistoryComponent } from './components/containers/qm-appointment-history/qm-appointment-history.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -244,7 +245,8 @@ const toastrGlobalOptions = {
     QmPrintConfirmComponent,
     QmErrorComponent,
     QmTimeZonePipe,
-    QmExternalNotesComponent
+    QmExternalNotesComponent,
+    QmAppointmentHistoryComponent
   ],
   imports: [
     MomentModule,
