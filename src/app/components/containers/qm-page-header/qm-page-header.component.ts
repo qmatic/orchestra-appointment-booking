@@ -22,7 +22,8 @@ import {
   HOME,
   LOGOUT_URL,
   APP_URL,
-  SETTINGS_URL
+  SETTINGS_URL,
+  APP_HISTORY
 } from './header-navigation';
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { ISystemInfo } from '../../../../models/ISystemInfo';
@@ -130,6 +131,11 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(SETTINGS_URL);
       this.bookingHelperDispatchers.resetAll();
     });
+  }
+  navigateToAppHistory($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.router.navigateByUrl(APP_HISTORY);
   }
 
   homeClick($event) {

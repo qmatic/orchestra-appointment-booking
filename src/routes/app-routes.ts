@@ -11,6 +11,7 @@ import { QmAppComponent } from './../app/components/containers/qm-app/qm-app.com
 import { QmInvalidLicenseComponent } from './../app/components/presentational/qm-invalid-license/qm-invalid-license.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './../app/app.component';
+import { QmAppointmentHistoryComponent } from './../app/components/containers/qm-appointment-history/qm-appointment-history.component';
 
 export const appRoutes: Routes = [
   {
@@ -19,6 +20,7 @@ export const appRoutes: Routes = [
     pathMatch: 'full'
   },
   { path: 'loading', component: QmAppLoaderComponent },
+  { path: 'app-history', component: QmAppointmentHistoryComponent },
   { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
   { path: 'invalid-license', component: QmInvalidLicenseComponent },
   { path: 'error', component: QmErrorComponent },

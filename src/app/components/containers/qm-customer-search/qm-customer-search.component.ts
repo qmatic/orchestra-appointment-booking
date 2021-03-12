@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription ,  Observable ,  Subject } from 'rxjs';
 import {
   debounceTime,
@@ -26,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./qm-customer-search.component.scss']
 })
 export class QmCustomerSearchComponent implements OnDestroy, OnInit {
+  @Input() addButton: boolean;
   subscriptions: Subscription = new Subscription();
   searchInput$: Subject<string> = new Subject<string>();
   userDirection$: Observable<string>;
