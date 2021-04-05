@@ -2,6 +2,7 @@ import { ICustomer } from './ICustomer';
 import { IBranch } from './IBranch';
 import { IService } from './IService';
 import { IResource } from './IResource';
+import { IActionAppointment } from './IActionAppointment';
 
 export interface IAppointment {
   publicId?: string;
@@ -25,4 +26,10 @@ export interface IAppointment {
   id?: string;
   invokeStatEvent?: boolean;
   externalNotes?: string;
+  entityId?: string;
+  operation?: string;
+  username?: string;
+  change?: any;
+  branchId?: number;
+  timeStamp?: string;
 }

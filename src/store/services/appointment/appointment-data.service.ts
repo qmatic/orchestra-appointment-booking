@@ -21,6 +21,12 @@ export class AppointmentDataService {
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
+  getActionAppointments(publicId: string): Observable<IAppointmentResponse> {
+    return this.http
+      .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointmentActions`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+
   deleteAppointment(appointment: IAppointment) {
     return this.http
       .delete(`${calendarPublicEndpoint}/appointments/${appointment.publicId}`)
