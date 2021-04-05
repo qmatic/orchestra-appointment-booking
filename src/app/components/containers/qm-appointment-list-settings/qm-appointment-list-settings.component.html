@@ -1,0 +1,132 @@
+<div class="qm-app-list-settings">
+ <h1  class="qm-app-list-settings__headline"> Settings </h1> 
+ <hr>
+
+ <div class="qm-app-list-settings__branch">
+  {{ 'label.list.branch.heading' | translate }} <br>
+    <ng-select #languageSelect [items]="branchlist" [selectOnTab]="true" [clearable]="false"
+                        notFoundText="{{ 'label.no.items.found' | translate }}" bindValue="value"
+                        placeholder="{{ 'label.list.branch.heading' | translate }}">
+                      </ng-select>
+ </div>
+ <div class="qm-app-list-settings__dl">
+    <div class="qm-standard-text-field">
+        <label class="qm-standard-text-field__label">
+          <span class="qm-standard-text-field__top-container">
+            <span class="qm-standard-text-field__text">DL</span>
+          </span>
+          <span class="qm-standard-text-field__input-container">
+            <input type="text"
+                  class="qm-input qm-standard-text-field__input"
+                  autocomplete="DL"
+                  placeholder=""
+                  maxlength="50"
+                  dir="ltr"
+                  name="phone"
+                   />
+          </span>
+          <!-- <span class="qm-standard-text-field__error-message"> -->
+            <!-- <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)"> -->
+              <!-- <ng-container *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
+                {{ 'error.form.phone.required' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
+                {{ 'error.form.phone.invalid' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.allwhitespace">
+                {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.validateNotEqual">
+                {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
+              </ng-container>
+            </ng-container> -->
+          <!-- </span> -->
+        </label>
+      </div>
+ </div>
+ <div class="qm-app-list-settings__dl">
+    <div class="qm-standard-text-field">
+        <label class="qm-standard-text-field__label">
+          <span class="qm-standard-text-field__top-container">
+            <span class="qm-standard-text-field__text">From</span>
+          </span>
+          <span class="qm-standard-text-field__input-container">
+            <input type="text"
+                  class="qm-input qm-standard-text-field__input"
+                  autocomplete="DL"
+                  placeholder=""
+                  maxlength="50"
+                  dir="ltr"
+                  name="phone"
+                  />
+          </span>
+          <!-- <span class="qm-standard-text-field__error-message"> -->
+            <!-- <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)"> -->
+              <!-- <ng-container *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
+                {{ 'error.form.phone.required' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
+                {{ 'error.form.phone.invalid' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.allwhitespace">
+                {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.validateNotEqual">
+                {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
+              </ng-container>
+            </ng-container> -->
+          <!-- </span> -->
+        </label>
+      </div>
+ </div>
+ <div class="qm-app-list-settings__dl">
+    <div class="qm-standard-text-field">
+        <label class="qm-standard-text-field__label">
+          <span class="qm-standard-text-field__top-container">
+            <span class="qm-standard-text-field__text">To</span>
+          </span>
+          <span class="qm-standard-text-field__input-container">
+            <input type="text"
+                  class="qm-input qm-standard-text-field__input"
+                  autocomplete="DL"
+                  placeholder=""
+                  maxlength="50"
+                  dir="ltr"
+                  name="phone"
+                  />
+          </span>
+          <!-- <span class="qm-standard-text-field__error-message"> -->
+            <!-- <ng-container *ngIf="phone.invalid && (phone.dirty || phone.touched)"> -->
+              <!-- <ng-container *ngIf=" (settingsMap$ | async)?.CustomerPhoneRequired?.value === true && phone.errors.required">
+                {{ 'error.form.phone.required' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.pattern && !phone.errors.required">
+                {{ 'error.form.phone.invalid' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.allwhitespace">
+                {{ 'field.createCustomerForm.phone.error.allwhitespace' | translate }}
+              </ng-container>
+              <ng-container *ngIf="phone.errors.validateNotEqual">
+                {{ 'field.createCustomerForm.phone.error.not.equal.to.country.code' | translate }}
+              </ng-container>
+            </ng-container> -->
+          <!-- </span> -->
+        </label>
+      </div>
+ </div>
+
+ <div class="qm-modal__footer">
+    <div class="qm-generic-layout qm-generic-layout--align-right">
+      <button type="button" class="qm-btn qm-btn--secondary">
+        <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
+          Clear
+        </span>
+      </button>
+      <button class="qm-btn qm-btn--primary">
+        <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
+          Show
+        </span>
+      </button>
+    </div>
+  </div>
+</div>

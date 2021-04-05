@@ -3,6 +3,7 @@ export const HOME = 'HOME';
 export const APPOINTMENT_BOOKING = 'APPOINTMENT_BOOKING';
 export const APP_URL = '/';
 export const BOOKING_HOME_URL = '/app';
+export const APP_LIST_URL = '/app-list';
 export const LOGOUT_URL = '/logout.jsp';
 export const SETTINGS_URL = '/settings-admin';
 export const APP_HISTORY = '/app-history';
