@@ -6,6 +6,9 @@ import { IAppointment } from '../../models/IAppointment';
 export const FETCH_APPOINTMENTS = '[Appointment] FETCH_APPOINTMENTS';
 export const FETCH_APPOINTMENTS_FAIL = '[Appointment] FETCH_APPOINTMENTS_FAIL';
 export const FETCH_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_APPOINTMENTS_SUCCESS';
+export const FETCH_ACTION_APPOINTMENTS = '[Appointment] FETCH_ACTION_APPOINTMENTS';
+export const FETCH_ACTION_APPOINTMENTS_FAIL = '[Appointment] FETCH_ACTION_APPOINTMENTS_FAIL';
+export const FETCH_ACTION_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_ACTION_APPOINTMENTS_SUCCESS';
 export const RESET_APPOINTMENTS = '[Appointment] RESET_APPOINTMENTS';
 export const DELETE_APPOINTMENT = '[Appointment] DELETE_APPOINTMENT';
 export const DELETE_APPOINTMENT_FAIL = '[Appointment] DELETE_APPOINTMENT_FAIL';
@@ -39,6 +42,20 @@ export class FetchAppointmentsFail implements Action {
 
 export class FetchAppointmentsSuccess implements Action {
   readonly type = FETCH_APPOINTMENTS_SUCCESS;
+  constructor(public payload: IAppointmentResponse) {}
+}
+export class FetchActionAppointments implements Action {
+  readonly type = FETCH_ACTION_APPOINTMENTS;
+  constructor(public payload: string) {}
+}
+
+export class FetchActionAppointmentsFail implements Action {
+  readonly type = FETCH_ACTION_APPOINTMENTS_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchActionAppointmentsSuccess implements Action {
+  readonly type = FETCH_ACTION_APPOINTMENTS_SUCCESS;
   constructor(public payload: IAppointmentResponse) {}
 }
 
@@ -145,6 +162,9 @@ export class ResetAppointmentLoaded implements Action {
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
                                     FetchAppointmentsSuccess |
+                                    FetchActionAppointments |
+                                    FetchActionAppointmentsSuccess |
+                                    FetchActionAppointmentsFail |
                                     ResetAppointments |
                                     DeleteAppointment |
                                     DeleteAppointmentFail |
@@ -162,6 +182,6 @@ export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentEmailTempleteSuccess |
                                     ResendAppointmentConfrimaton |
                                     ResendAppointmentConfrimatonFail |
-                                    ResendAppointmentConfrimatonSuccess| 
+                                    ResendAppointmentConfrimatonSuccess|
                                     SetResendAppointmentId|
                                     ResetAppointmentLoaded;

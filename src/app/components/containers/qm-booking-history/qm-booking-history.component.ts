@@ -31,7 +31,7 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private getEmailTemplateEnabled: boolean;
   private qpAppointment: IAppointment;
-  
+
   constructor(
     private customerDispatchers: CustomerDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,

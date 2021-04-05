@@ -13,6 +13,10 @@ export class AppointmentDispatchers {
     this.store.dispatch(new AppointmentActions.FetchAppointments(publicId));
   }
 
+  fetchActionAppointments(publicId: string) {
+    this.store.dispatch(new AppointmentActions.FetchActionAppointments(publicId));
+  }
+
   deleteAppointment(appointment: IAppointment) {
     this.store.dispatch(new AppointmentActions.DeleteAppointment(appointment));
   }

@@ -51,6 +51,29 @@ export function reducer (
         error: action.payload
       };
     }
+    case AppointmentActions.FETCH_ACTION_APPOINTMENTS: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_ACTION_APPOINTMENTS_SUCCESS: {
+      return {
+        ...state,
+        appointments: action.payload.appointmentActions,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_ACTION_APPOINTMENTS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
     case AppointmentActions.FETCH_APPOINTMENT_QP: {
       return {
         ...state,
@@ -215,4 +238,18 @@ function removeAppointment(
     (appointment: IAppointment) =>
       appointment.publicId !== appointmentToRemove.publicId
   );
+}
+
+function parseJson(
+  appointmentList: IAppointment[]
+): IAppointment[] {
+  var newAppointmentList = [];
+  // var newAppointmentList = {...appointmentList, change:JSON.parse(appointmentList.change)}
+  console.log(appointmentList);
+  
+  appointmentList.forEach((appointment: IAppointment) => {
+    // newAppointmentList.push({...appointment, change: JSON.parse(appointment.change.toString())});
+    console.log(appointment.change);
+  });
+  return newAppointmentList;
 }
