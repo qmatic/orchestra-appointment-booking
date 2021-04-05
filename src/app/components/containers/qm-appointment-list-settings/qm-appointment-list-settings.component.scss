@@ -1,0 +1,41 @@
+@import '../../../../styles/base/_component-manifest.scss';
+@import '~ngx-toastr/toastr';
+
+.qm-app-list-settings {
+    // display: flex;
+    flex-wrap: wrap;
+    background: $white;
+    box-shadow: $dashboard-body-box-shadow;
+    border-radius: $standard-border-radius;
+    padding: rem($standard-padding * 1.5 $standard-padding * 2);
+    margin: 20px;
+    &__headline {
+        font-weight: 300;
+        font-size: 25px;
+    }
+    hr {
+        margin: 20px 0;
+    }
+
+    &__branch {
+        &-select {
+            width: 100%;
+            padding: 5px 0;
+            margin: 10px 0;
+            border-radius: $standard-border-radius;
+        }
+
+    }
+    &__dl {
+        margin: 20px 0;
+    }
+}
+
+.qm-standard-text-field__text {
+    font-size: 16px;
+    color: $black;
+}
+
+.qm-modal__footer {
+    margin-top: 1rem;
+}

@@ -151,6 +151,10 @@ import { QmErrorComponent } from './components/presentational/qm-error/qm-error.
 import { QmTimeZonePipe } from './pipes/qm-time-zone.pipe';
 import { QmExternalNotesComponent } from './components/presentational/qm-external-notes/qm-external-notes.component';
 import { QmAppointmentHistoryComponent } from './components/containers/qm-appointment-history/qm-appointment-history.component';
+import { QmAppointmentListComponent } from './components/containers/qm-appointment-list/qm-appointment-list.component';
+import { QmAppointmentListDashboardComponent } from './components/containers/qm-appointment-list-dashboard/qm-appointment-list-dashboard.component';
+import { QmAppointmentListSettingsComponent } from './components/containers/qm-appointment-list-settings/qm-appointment-list-settings.component';
+import { QmAppointmentListTableComponent } from './components/containers/qm-appointment-list-table/qm-appointment-list-table.component';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -246,7 +250,11 @@ const toastrGlobalOptions = {
     QmErrorComponent,
     QmTimeZonePipe,
     QmExternalNotesComponent,
-    QmAppointmentHistoryComponent
+    QmAppointmentHistoryComponent,
+    QmAppointmentListComponent,
+    QmAppointmentListDashboardComponent,
+    QmAppointmentListSettingsComponent,
+    QmAppointmentListTableComponent,
   ],
   imports: [
     MomentModule,
