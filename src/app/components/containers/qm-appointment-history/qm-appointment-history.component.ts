@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subscription } from "rxjs";
-import { IAppointment } from "src/models/IAppointment";
+import { IAppointment } from "../../../../models/IAppointment";
 import { ICustomer } from "../../../../models/ICustomer";
 import { AppointmentDispatchers, CustomerSelectors, UserSelectors, AppointmentSelectors } from "../../../../store";
 

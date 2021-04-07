@@ -28,6 +28,7 @@
     &-list{
         overflow: auto;
         width: calc(100vw - 450px);
+        height:  calc(100vh - 390px);
     }
     &__pagination {
         display: flex;
@@ -49,4 +50,21 @@
 
 #app-list th {
     min-width: 100px;
+    font-size: 12px;
+    color: $dark-transparent62;
+    border-bottom: 1px solid $dark-transparent12;
+}
+
+.qm-no-appointment{
+    position: absolute;
+    font-size: 50px;
+    text-align: center;
+    color: rgba(0,0,0,0.5);
+    &__text {
+        margin: 30px;
+    }
+}
+.qm-transparent-btn {
+    background: transparent;
+    border: none;
 }

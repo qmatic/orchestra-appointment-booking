@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators';
 
-import { calendarPublicEndpoint, DataServiceError } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError,calendarEndpoint } from '../data.service';
 
 import { IBranchResponse } from '../../../models/IBranchResponse';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
@@ -16,6 +16,12 @@ export class BranchDataService {
   getBranches(): Observable<any> {
     return this.http
       .get<IBranchResponse>(`${calendarPublicEndpoint}/branches/`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+ 
+  getQPBranches() : Observable<any> {
+    return this.http
+      .get<IBranchResponse>(`${calendarEndpoint}/branches/`)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 }

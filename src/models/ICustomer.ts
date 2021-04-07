@@ -7,5 +7,6 @@ export interface ICustomer {
   email?: string;
   phone?: string;
   dateOfBirth?: string | number;
-  custom?: Object
+  custom?: Object;
+  properties?: { email?:string; phoneNumber: string}
 }

@@ -3,6 +3,7 @@ import * as BranchActions from '../actions';
 
 export interface IBranchState {
   branches: IBranch[];
+  qpBranches: IBranch[];
   selectedBranch: IBranch[];
   searchText: string;
   loading: boolean;
@@ -12,6 +13,7 @@ export interface IBranchState {
 
 export const initialState: IBranchState = {
   branches: [],
+  qpBranches:[],
   selectedBranch: [],
   searchText: '',
   loading: false,
@@ -48,6 +50,32 @@ export function reducer (
         error: action.payload
       };
     }
+
+    case BranchActions.FETCH_QP_BRANCHES: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case BranchActions.FETCH_QP_BRANCHES_SUCCESS: {
+      return {
+        ...state,
+        qpBranches: sortBranches(action.payload.branchList),
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+
+    case BranchActions.FETCH_QP_BRANCHES_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+
     case BranchActions.SELECT_BRANCH: {
       return {
         ...state,

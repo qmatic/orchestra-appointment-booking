@@ -3,6 +3,7 @@ import * as AppointmentActions from '../actions';
 
 export interface IAppointmentState {
   appointments: IAppointment[];
+  appointmentList: IAppointment[];
   selectedAppointment: IAppointment;
   qpAppointment: IAppointment;
   loading: boolean;
@@ -14,6 +15,7 @@ export interface IAppointmentState {
 
 export const initialState: IAppointmentState = {
   appointments: [],
+  appointmentList: [],
   selectedAppointment: null,
   qpAppointment: null,
   loading: false,
@@ -45,6 +47,29 @@ export function reducer (
       };
     }
     case AppointmentActions.FETCH_APPOINTMENTS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_LIST: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_LIST_SUCCESS: {
+      return {
+        ...state,
+        appointmentList: action.payload,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_APPOINTMENT_LIST_FAIL: {
       return {
         ...state,
         loading: false,

@@ -5,6 +5,8 @@
     // display: flex;
     flex-wrap: wrap;
     background: $white;
+    max-height: calc(100% - 60px);
+    overflow: auto;
     box-shadow: $dashboard-body-box-shadow;
     border-radius: $standard-border-radius;
     padding: rem($standard-padding * 1.5 $standard-padding * 2);
@@ -38,4 +40,16 @@
 
 .qm-modal__footer {
     margin-top: 1rem;
+}
+
+.qm-date-picker {
+    height: 40px;
+    border: 1px solid $dark-transparent22;
+}
+
+.qm-cal-expander {
+    background: transparent;
+    border: 1px solid $dark-transparent22;
+    height: 40px;
+    width: 40px;
 }
