@@ -29,6 +29,20 @@ export class BranchEffects {
         )
       );
 
+    
+      @Effect()
+      getQPBranches$: Observable<Action> = this.actions$
+        .pipe(
+          ofType(AllActions.FETCH_QP_BRANCHES),
+          switchMap(() =>
+            toAction(
+              this.branchDataService.getQPBranches(),
+              AllActions.FetchQPBranchesSuccess,
+              AllActions.FetchQPBranchesFail
+            )
+          )
+        );
+
     @Effect()
     resetDatesOnBranchChange$: Observable<Action> = this.actions$
       .pipe(

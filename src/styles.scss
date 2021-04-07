@@ -13,3 +13,9 @@
 @import "styles/components/_manifest.scss";
 
 @import '~ngx-toastr/toastr';
+
+ngb-datepicker {
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+}

@@ -6,10 +6,11 @@ import { IActionAppointment } from './IActionAppointment';
 
 export interface IAppointment {
   publicId?: string;
-  status?: number;
+  status?: any;
   created?: number;
   updated?: number;
   start?: string;
+  startTime?: string;
   numberOfCustomers?: number;
   custom?: string;
   customers?: ICustomer[];
@@ -20,16 +21,21 @@ export interface IAppointment {
   allDay?: boolean;
   blocking?: boolean;
   end?: string;
+  endTime?: string;
   resource?: IResource;
   deleted?: boolean;
   qpId?: number;
   id?: string;
   invokeStatEvent?: boolean;
   externalNotes?: string;
+  externalId?: string;
   entityId?: string;
   operation?: string;
   username?: string;
   change?: any;
   branchId?: number;
   timeStamp?: string;
+  resourceName? : string;
+  properties?: {notes?: string};
+  updateTime?: string;
 }

@@ -6,4 +6,5 @@ export class IBranch {
   isSelected: boolean;
   fullTimeZone: string;
   id: number;
+  qpId?: number;
 }

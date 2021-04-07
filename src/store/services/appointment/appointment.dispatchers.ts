@@ -13,6 +13,10 @@ export class AppointmentDispatchers {
     this.store.dispatch(new AppointmentActions.FetchAppointments(publicId));
   }
 
+  fetchAppointmentList(fromDate: string, toDate: string, branchId: string) {
+    this.store.dispatch(new AppointmentActions.FetchAppointmentList( { fromDate: fromDate, toDate: toDate, branchId: branchId }));
+  }
+
   fetchActionAppointments(publicId: string) {
     this.store.dispatch(new AppointmentActions.FetchActionAppointments(publicId));
   }

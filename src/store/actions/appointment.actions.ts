@@ -29,6 +29,9 @@ export const RESEND_APPOINTMENT_COMFIRMATION_FAIL = '[Appointment] RESEND_APPOIN
 export const RESEND_APPOINTMENT_COMFIRMATION_SUCCESS = '[Appointment] RESEND_APPOINTMENT_COMFIRMATION_SUCCESS';
 export const SET_RESEND_APPOINTMENT = '[Appointment] SET_RESEND_APPOINTMENT';
 export const RESET_APPOINTMENT_LOADED = '[Appointment] RESET_APPOINTMENT_LOADED';
+export const FETCH_APPOINTMENT_LIST = '[Appointment] FETCH_APPOINTMENTS_LIST';
+export const FETCH_APPOINTMENT_LIST_FAIL = '[Appointment] FETCH_APPOINTMENT_LIST_FAIL';
+export const FETCH_APPOINTMENT_LIST_SUCCESS = '[Appointment] FETCH_APPOINTMENT_LIST_SUCCESS';
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -43,6 +46,21 @@ export class FetchAppointmentsFail implements Action {
 export class FetchAppointmentsSuccess implements Action {
   readonly type = FETCH_APPOINTMENTS_SUCCESS;
   constructor(public payload: IAppointmentResponse) {}
+}
+
+export class FetchAppointmentList implements Action {
+  readonly type = FETCH_APPOINTMENT_LIST;
+  constructor(public payload: { fromDate: string, toDate: string, branchId: string }) {}
+}
+
+export class FetchAppointmentListFail implements Action {
+  readonly type = FETCH_APPOINTMENT_LIST_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchAppointmentListSuccess implements Action {
+  readonly type = FETCH_APPOINTMENT_LIST_SUCCESS;
+  constructor(public payload: IAppointment[]) {}
 }
 export class FetchActionAppointments implements Action {
   readonly type = FETCH_ACTION_APPOINTMENTS;
@@ -162,6 +180,9 @@ export class ResetAppointmentLoaded implements Action {
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
                                     FetchAppointmentsSuccess |
+                                    FetchAppointmentList |
+                                    FetchAppointmentListSuccess |
+                                    FetchAppointmentListFail |
                                     FetchActionAppointments |
                                     FetchActionAppointmentsSuccess |
                                     FetchActionAppointmentsFail |

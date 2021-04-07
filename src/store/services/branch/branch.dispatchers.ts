@@ -13,6 +13,10 @@ export class BranchDispatchers {
     this.store.dispatch(new BranchActions.FetchBranches);
   }
 
+  fetchQPBranches() {
+    this.store.dispatch(new BranchActions.FetchQPBranches);
+  }
+
   filterBranches(searchText: string) {
     this.store.dispatch(new BranchActions.FilterBranches(searchText));
   }

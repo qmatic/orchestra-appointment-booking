@@ -6,6 +6,9 @@ import { IBranchResponse } from '../../models/IBranchResponse';
 export const FETCH_BRANCHES = '[Branch] FETCH_BRANCHES';
 export const FETCH_BRANCHES_FAIL = '[Branch] FETCH_BRANCHES_FAIL';
 export const FETCH_BRANCHES_SUCCESS = '[Branch] FETCH_BRANCHES_SUCCESS';
+export const FETCH_QP_BRANCHES = '[Branch] FETCH_QP_BRANCHES';
+export const FETCH_QP_BRANCHES_FAIL = '[Branch] FETCH_QP_BRANCHES_FAIL';
+export const FETCH_QP_BRANCHES_SUCCESS = '[Branch] FETCH_QP_BRANCHES_SUCCESS';
 export const SELECT_BRANCH = '[Branch] SELECT_BRANCH';
 export const DESELECT_BRANCH = '[Branch] DESELECT_BRANCH';
 
@@ -25,6 +28,20 @@ export class FetchBranchesFail implements Action {
 
 export class FetchBranchesSuccess implements Action {
   readonly type = FETCH_BRANCHES_SUCCESS;
+  constructor(public payload: IBranchResponse) {}
+}
+
+export class FetchQPBranches implements Action {
+  readonly type = FETCH_QP_BRANCHES;
+}
+
+export class FetchQPBranchesFail implements Action {
+  readonly type = FETCH_QP_BRANCHES_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchQPBranchesSuccess implements Action {
+  readonly type = FETCH_QP_BRANCHES_SUCCESS;
   constructor(public payload: IBranchResponse) {}
 }
 
@@ -55,6 +72,9 @@ export class LoadSelectedBranch implements Action {
 export type AllBranchActions = FetchBranches |
                                 FetchBranchesFail |
                                 FetchBranchesSuccess |
+                                FetchQPBranches |
+                                FetchQPBranchesFail |
+                                FetchQPBranchesSuccess |
                                 FilterBranches |
                                 ResetFilterBranches |
                                 SelectBranch |

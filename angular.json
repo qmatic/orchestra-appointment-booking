@@ -19,7 +19,14 @@
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": [
               "lodash",
-              "angular2-moment"
+              "angular2-moment",
+              "pdf-autotable",
+              "xlsx",
+              "jspdf-autotable",
+              "raf",
+              "core-js-stable",
+              "rxjs-compat",
+              "@babel/runtime-corejs3"
           ],
             "assets": [
               "src/assets/i18n/",
@@ -33,7 +40,8 @@
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {

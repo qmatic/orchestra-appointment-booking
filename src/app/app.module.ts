@@ -155,6 +155,7 @@ import { QmAppointmentListComponent } from './components/containers/qm-appointme
 import { QmAppointmentListDashboardComponent } from './components/containers/qm-appointment-list-dashboard/qm-appointment-list-dashboard.component';
 import { QmAppointmentListSettingsComponent } from './components/containers/qm-appointment-list-settings/qm-appointment-list-settings.component';
 import { QmAppointmentListTableComponent } from './components/containers/qm-appointment-list-table/qm-appointment-list-table.component';
+import { QmAppListFilterPipe } from './components/containers/qm-appointment-list-table/qm-app-list-filter.pipe';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -255,6 +256,7 @@ const toastrGlobalOptions = {
     QmAppointmentListDashboardComponent,
     QmAppointmentListSettingsComponent,
     QmAppointmentListTableComponent,
+    QmAppListFilterPipe,
   ],
   imports: [
     MomentModule,

@@ -19,6 +19,11 @@ const getAllBranches = createSelector(
   (state: IBranchState) => state.branches
 );
 
+const getQPBranches = createSelector(
+  getBranchState,
+  (state: IBranchState) => state.qpBranches
+);
+
 const getVisibleBranches = createSelector(
   getBranchState,
   getSelectedServices,
@@ -106,6 +111,7 @@ export class BranchSelectors {
   constructor(private store: Store<IAppState>) {}
   // selectors$
   branches$ = this.store.select(getAllBranches);
+  qpBranches$ = this.store.select(getQPBranches);
   selectedBranch$ = this.store.select(getSelectedBranch);
   visibleBranches$ = this.store.select(getVisibleBranches);
   searchText$ = this.store.select(getBranchesSearchText);
