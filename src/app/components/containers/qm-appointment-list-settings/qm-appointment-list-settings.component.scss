@@ -31,6 +31,12 @@
     &__dl {
         margin: 20px 0;
     }
+    &__buttons {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 70px;
+    }
 }
 
 .qm-standard-text-field__text {

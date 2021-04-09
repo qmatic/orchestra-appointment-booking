@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AppointmentSelectors } from '../../../../store';
+import { Component, Input, OnInit } from '@angular/core';
+import { AppointmentSelectors, SystemInfoSelectors } from '../../../../store';
 import { Subscription, Observable } from 'rxjs';
 import { IAppointment } from '../../../../models/IAppointment';
 
@@ -9,6 +9,7 @@ import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import autoTable from 'jspdf-autotable'
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 // declare let jsPDF;
 @Component({
@@ -17,6 +18,7 @@ import * as moment from 'moment';
   styleUrls: ['./qm-appointment-list-table.component.scss']
 })
 export class QmAppointmentListTableComponent implements OnInit {
+  @Input() branchName: string; 
   private subscriptions: Subscription = new Subscription();
   public appointmentList$: Observable<IAppointment[]>;
   public appointmentList: IAppointment[]
@@ -27,10 +29,15 @@ export class QmAppointmentListTableComponent implements OnInit {
   public sortByCondition: string;
   public sortByAsc: boolean;
   public searchText: '';
+  private timeConvention$: Observable<string>;
+  public isMilitaryTime: boolean;
 
   constructor(
-    private appointmentSelectors: AppointmentSelectors
+    private appointmentSelectors: AppointmentSelectors,
+    private systemInfoSelectors: SystemInfoSelectors,
+    private translateService: TranslateService,
   ) {
+    this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.appointmentList$ = this.appointmentSelectors.appointmentList$;
     this.sortByCondition = 'DATE';
     this.sortByAsc = true;
@@ -39,6 +46,7 @@ export class QmAppointmentListTableComponent implements OnInit {
   ngOnInit() {
     this.elementsPerPage = 5;
     this.currentPage = 1;
+    document.title = "Appointment List"
     const appointmentSubscription = this.appointmentList$.subscribe(
       (appointments: IAppointment[]) => {
         this.fulAppointmentList = appointments;
@@ -48,22 +56,32 @@ export class QmAppointmentListTableComponent implements OnInit {
       }
     );
     this.subscriptions.add(appointmentSubscription);
+    this.isMilitaryTime = true;
+    const systemInformationSubscription = this.timeConvention$.subscribe(
+      timeConvention => {
+        if (timeConvention) {
+          this.isMilitaryTime = timeConvention !== 'AMPM'
+        }  
+      }
+    );
+    this.subscriptions.add(systemInformationSubscription);
+
   }
 
   onChangeElementsPerpage($event) {
     this.elementsPerPage = parseInt($event);
-    this.appointmentList = this.fulAppointmentList.slice((this.currentPage - 1) * this.elementsPerPage, (this.currentPage * this.elementsPerPage));
   }
+
   exportToExcel() {
     /*name of the excel-file which will be downloaded. */
-    var fileName = 'Appointments.xlsx';
+    var fileName = 'Appointments List.xlsx';
     /* table id is passed over here */
-    let element = document.getElementById('app-list');
+    let element = document.getElementById('app-full-list');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, `${this.branchName}`);
 
     /* save to file */
     XLSX.writeFile(wb, fileName);
@@ -75,19 +93,8 @@ export class QmAppointmentListTableComponent implements OnInit {
     // It can parse html:
     // <table id="my-table"><!-- ... --></table>
     //@ts-ignore
-    doc.autoTable({ html: '#app-list' })
-
-    // // Or use javascript directly:
-    // doc.autoTable({
-    //   head: [['Name', 'Email', 'Country']],
-    //   body: [
-    //     ['David', 'david@example.com', 'Sweden'],
-    //     ['Castille', 'castille@example.com', 'Spain'],
-    //     // ...
-    //   ],
-    // })
-
-    doc.save('Appointments.pdf')
+    doc.autoTable({ html: '#app-full-list' });
+    doc.save(`Appointment List from ${this.branchName}.pdf`)
 
   }
 
@@ -98,6 +105,7 @@ export class QmAppointmentListTableComponent implements OnInit {
       this.sortedfullappointmentList = this.fulAppointmentList;
     }
     // console.log(this.sortedfullappointmentList)
+    this.currentPage = 1;
     this.updateVisibleList();
   }
   sortByChange(value: string) {
@@ -112,7 +120,8 @@ export class QmAppointmentListTableComponent implements OnInit {
   }
 
   updateVisibleList() {
-    this.appointmentList = this.sortedfullappointmentList.slice(0, this.elementsPerPage)
+    this.appointmentList = this.sortedfullappointmentList;
+    this.updateDetailList();
   }
 
   sortVisitList() {
@@ -220,23 +229,12 @@ export class QmAppointmentListTableComponent implements OnInit {
     }
   }
 
-  // filterList(list: IAppointment[], value: string) {
-  //   return list.filter(object => {
-  //     return  moment(object.startTime).format("DD-MM-YYYY") == value || 
-  //             moment(object.startTime).format("hh:mm A") == value || 
-  //             moment(object.updateTime).format("DD-MM-YYYY - hh:mm A") == value || 
-  //             moment(object.endTime).format("hh:mm A") == value || 
-  //            object.customers[0].firstName == value ||
-  //            object.customers[0].lastName == value ||
-  //            object.resourceName == value ||
-  //            object.properties.notes  == value ||
-  //            object.services[0].name == value ||
-  //            object.customers[0].properties.email == value ||
-  //            object.customers[0].properties.phoneNumber == value ||
-  //            object.status == value ;
-  //   });
-  // }
   filterList(list: IAppointment[], value: string) { 
+    var timeFormat = 'hh:mm A';
+
+    if (this.isMilitaryTime) {
+      timeFormat = 'HH:mm';
+    }
     var newList =  list.filter(function(app) {
       return app.customers[0].firstName.toLocaleLowerCase().includes(value) || 
       app.customers[0].lastName.toLocaleLowerCase().includes(value) ||
@@ -245,10 +243,32 @@ export class QmAppointmentListTableComponent implements OnInit {
       app.services[0].name.toLocaleLowerCase().includes(value) ||
       app.customers[0].properties.email.toLocaleLowerCase().includes(value) ||
       app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value) ||
-      app.status.toLocaleLowerCase().includes(value);
+      app.status.toLocaleLowerCase().includes(value) ||
+      moment(app.startTime).format("DD-MM-YYYY").includes(value) ||
+      moment(app.startTime).format(timeFormat).includes(value) || 
+      moment(app.endTime).format(timeFormat).includes(value) ||
+      moment(app.updateTime).format(`DD-MM-YYYY - ${timeFormat}`).includes(value);
     });
   
     return newList;
   }
+
+  getNotes(notes) {
+    return decodeURIComponent(notes);
+  }
   
+  updateDetailList(){
+    var label = '';
+    this.translateService
+      .get('label.list.founded', {
+        currentPageFrom: (this.currentPage - 1)*this.elementsPerPage + 1,
+        currentPageTo: (this.currentPage*this.elementsPerPage > this.fulAppointmentList.length  ? this.fulAppointmentList.length : this.currentPage*this.elementsPerPage),
+        all: this.fulAppointmentList.length
+      })
+      .subscribe(
+        (listFoundLabel: string) => (label = listFoundLabel)
+      )
+      .unsubscribe();
+      return label;
+  }
 }

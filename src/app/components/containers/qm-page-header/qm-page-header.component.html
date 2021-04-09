@@ -24,6 +24,15 @@
       <span class="sr-only">{{ 'label.settings' | translate }}</span>
     </a>
 
+    <a (click)="navigateToAppList($event)" href="/app-list"
+      *ngIf="(userIsAdmin$ | async) && hasValidLicense()"
+      [ngClass]="{'qm-header__settings-admin-active' : isPreventHeaderNavigations}"
+      class="qm-action-btn qm-action-btn--only-icon qm-header__settings-btn">
+      <i class="qm-action-btn__icon icon-mark" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'label.app.list' | translate }}</span>
+    </a>
+
+
     <a (click)="navigateToSettings($event)" href="/settings-admin"
       *ngIf="(userIsAdmin$ | async) && hasValidLicense()"
       [ngClass]="{'qm-header__settings-admin-active' : isPreventHeaderNavigations}"
