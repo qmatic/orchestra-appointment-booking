@@ -1,20 +1,19 @@
 <div class="qm-app-list-settings">
-  <h1 class="qm-app-list-settings__headline"> Settings </h1>
+  <h1 class="qm-app-list-settings__headline">  {{ 'label.list.settings.heading' | translate }} </h1>
   <hr>
 
   <div class="qm-app-list-settings__branch">
     {{ 'label.list.branch.heading' | translate }} <br>
     <ng-select [(ngModel)]="branch" notFoundText="{{ 'label.no.items.found' | translate }}"
       placeholder="{{ 'label.list.branch.heading' | translate }}">
-      <ng-option *ngFor="let branch of branchlist" [value]="branch.id">{{branch.name}}</ng-option>
-      <ng-option [value]="'custom'">Custom</ng-option>
+      <ng-option *ngFor="let branch of branchlist" [value]="branch.qpId">{{branch.name}}</ng-option>
     </ng-select>
   </div>
   <div class="qm-app-list-settings__dl">
     <div class="qm-standard-text-field">
       <label class="qm-standard-text-field__label">
         <span class="qm-standard-text-field__top-container">
-          <span class="qm-standard-text-field__text">From</span>
+          <span class="qm-standard-text-field__text"> {{ 'label.list.settings.from' | translate }}</span>
         </span>
         <input  class="qm-date-picker" type="text" ngbDatepicker [(ngModel)]="fromDate" #FromDate="ngbDatepicker" />
         <button class="qm-cal-expander" (click)="FromDate.toggle()"> <i
@@ -26,10 +25,10 @@
     <div class="qm-standard-text-field">
       <label class="qm-standard-text-field__label">
         <span class="qm-standard-text-field__top-container">
-          <span class="qm-standard-text-field__text">To</span>
+          <span class="qm-standard-text-field__text">{{ 'label.list.settings.to' | translate }}</span>
         </span>
         <span class="qm-standard-text-field__input-container">
-          <input class="qm-date-picker" type="text" ngbDatepicker [(ngModel)]="toDate" #ToDate="ngbDatepicker" />
+          <input class="qm-date-picker" type="text" ngbDatepicker [(ngModel)]="toDate" #ToDate="ngbDatepicker" placement="top-left " />
           <button class="qm-cal-expander" (click)="ToDate.toggle()"> <i class="qm-fetch-appointments-btn__icon-background icon-calendar"
               aria-hidden="true"></i></button>
         </span>
@@ -40,14 +39,14 @@
 <!-- <hr> -->
   <div class="qm-modal__footer">
     <div class="qm-generic-layout qm-generic-layout--align-right">
-      <button type="button" class="qm-btn qm-btn--secondary">
-        <span class="qm-btn__text" title="{{ 'button.createCustomerForm.cancel' | translate }}">
-          Clear
+      <button type="button" class="qm-btn qm-btn--secondary ">
+        <span class="qm-btn__text qm-app-list-settings__buttons" (click)="clear()" title="{{ 'button.createCustomerForm.cancel' | translate }}">
+          {{ 'label.list.settings.clear' | translate }}
         </span>
       </button>
       <button class="qm-btn qm-btn--primary" (click)="SearchAppointments()">
-        <span class="qm-btn__text" title="{{ 'button.createCustomerForm.save' | translate }}">
-          Show
+        <span class="qm-btn__text qm-app-list-settings__buttons" title="{{ 'button.createCustomerForm.save' | translate }}">
+          {{ 'label.list.settings.show' | translate }}
         </span>
       </button>
     </div>

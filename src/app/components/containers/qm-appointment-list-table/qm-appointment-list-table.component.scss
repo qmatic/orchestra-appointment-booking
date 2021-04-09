@@ -16,7 +16,7 @@
     }
     &__filters {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         &-reports {
             display: flex;
         }
@@ -29,6 +29,10 @@
         overflow: auto;
         width: calc(100vw - 450px);
         height:  calc(100vh - 390px);
+    }
+    &-fake-list{
+        position: absolute;
+        display: none;
     }
     &__pagination {
         display: flex;
@@ -67,4 +71,17 @@
 .qm-transparent-btn {
     background: transparent;
     border: none;
+}
+.qm-pagination-container {
+    display: flex;
+    justify-content: center;
+    width: calc(100vw - 450px);
+}
+ngb-pagination ::ng-deep ul > li.active > a {
+    background-color: #E50046 !important;
+    border-color: #E50046 !important;
+}
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    color: $dark-transparent42 !important;
 }

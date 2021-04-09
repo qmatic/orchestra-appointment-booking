@@ -54,14 +54,42 @@ export class AppointmentEffects {
       ofType(AppointmentActions.FETCH_APPOINTMENT_LIST),
       switchMap((action: AppointmentActions.FetchAppointmentList) =>
         toAction(
-          this.appointmentDataService.getAppointmentList(action.payload.fromDate, action.payload.toDate,action.payload.branchId),
+          this.appointmentDataService.getAppointmentList(action.payload.fromDate, action.payload.toDate, action.payload.branchId),
           AppointmentActions.FetchAppointmentListSuccess,
           AppointmentActions.FetchAppointmentListFail
         )
       )
     );
 
+  @Effect({ dispatch: false })
+  getAppointmentListFail$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.FETCH_APPOINTMENT_LIST_FAIL),
+      tap((action: AppointmentActions.FetchAppointmentListFail) =>
+        this.errorHandler.showError('label.list.fetch.fail', action.payload)
+      ),
+      switchMap((action: AppointmentActions.FetchAppointmentListFail) =>
+        []
+      )
+    );
 
+    @Effect({ dispatch: false })
+    getAppointmentListSuccess$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(AppointmentActions.FETCH_APPOINTMENT_LIST_SUCCESS),
+        tap((action: AppointmentActions.FetchAppointmentListSuccess) =>
+         {
+         if(action.payload.length === 0) {
+          this.translateService.get('label.list.no.appointments').subscribe(
+            (label: string) => {
+              this.toastService.errorToast(label);
+            }
+          ).unsubscribe();
+         }
+         
+         }       
+        )
+      );
   @Effect()
   getActionAppointments$: Observable<Action> = this.actions$
     .pipe(
@@ -117,14 +145,13 @@ export class AppointmentEffects {
   ResendAppointmentConfrimatonSucces$: Observable<Action> = this.actions$
     .pipe(
       ofType(AppointmentActions.RESEND_APPOINTMENT_COMFIRMATION_SUCCESS),
-      tap((action: AppointmentActions.ResendAppointmentConfrimatonSuccess) =>
-       {
+      tap((action: AppointmentActions.ResendAppointmentConfrimatonSuccess) => {
         this.translateService.get('message.notification.resend.success').subscribe(
-          (label: string) =>  {
+          (label: string) => {
             this.toastService.successToast(label);
           }
-        ).unsubscribe(); 
-       }       
+        ).unsubscribe();
+      }
       )
     );
   @Effect()

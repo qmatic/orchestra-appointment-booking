@@ -27,5 +27,6 @@ export class QmAppComponent implements OnInit {
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
+    document.title = 'Appointment Booking';
   }
 }

@@ -156,6 +156,7 @@ import { QmAppointmentListDashboardComponent } from './components/containers/qm-
 import { QmAppointmentListSettingsComponent } from './components/containers/qm-appointment-list-settings/qm-appointment-list-settings.component';
 import { QmAppointmentListTableComponent } from './components/containers/qm-appointment-list-table/qm-appointment-list-table.component';
 import { QmAppListFilterPipe } from './components/containers/qm-appointment-list-table/qm-app-list-filter.pipe';
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -270,6 +271,7 @@ const toastrGlobalOptions = {
     NgSelectModule,
     A11yModule,
     NgbModule,
+    NgbPaginationModule,
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
     ...(!environment.production

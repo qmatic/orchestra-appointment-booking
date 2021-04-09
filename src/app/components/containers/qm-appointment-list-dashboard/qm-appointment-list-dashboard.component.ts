@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./qm-appointment-list-dashboard.component.scss']
 })
 export class QmAppointmentListDashboardComponent implements OnInit {
-
+  public branchName: string;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  branchNameEmitted(event) {
+    this.branchName = event;
   }
 
 }
