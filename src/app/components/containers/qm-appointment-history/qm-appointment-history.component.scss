@@ -1,0 +1,70 @@
+@import '../../../../styles/base/_component-manifest.scss';
+@import '~ngx-toastr/toastr';
+
+.qm-app-list-table-container {
+    background: white;
+    height: 100%;
+    width: 100%;
+    padding:25px;
+    hr {
+        margin: 20px 0;
+        border-top: 1px solid $dark-transparent12;
+    }
+    &__heading {
+        font-size: 24px;
+        font-weight: 300;
+    }
+    &__filters {
+        display: flex;
+        justify-content: space-around;
+        &-reports {
+            display: flex;
+        }
+        &-button {
+            padding: 0px 10px;
+            border: 1px solid $dark-transparent12;
+        }
+    }
+    &-list{
+        overflow: auto;
+        width: calc(100vw - 450px);
+        height:  calc(100vh - 390px);
+    }
+    &__pagination {
+        display: flex;
+        margin: 20px auto;
+        justify-content: center;
+        text-align: center;
+        &-element {
+            border: 1px solid $dark-transparent12;           
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 4px;
+        }
+
+    }
+}
+
+#app-list th {
+    min-width: 100px;
+    font-size: 12px;
+    color: $dark-transparent62;
+    border-bottom: 1px solid $dark-transparent12;
+}
+
+.qm-no-appointment{
+    position: absolute;
+    font-size: 50px;
+    text-align: center;
+    color: rgba(0,0,0,0.5);
+    &__text {
+        margin: 30px;
+    }
+}
+.qm-transparent-btn {
+    background: transparent;
+    border: none;
+}
