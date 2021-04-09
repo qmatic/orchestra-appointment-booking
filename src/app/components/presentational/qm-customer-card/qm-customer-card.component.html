@@ -1,4 +1,4 @@
-<section class="qm-customer-card" [dir]="userDirection$ | async">
+<section class="qm-customer-card" [dir]="userDirection$ | async" style="display: inline-table">
   <div class="qm-customer-card__content-container" tabindex="0" (click)="updateCustomer()">
     <h1 class="qm-customer-card__headline">
         <span class="qm-customer-card__name" title="{{ customer.name }}">{{ customer.name | truncate: 60}}</span>
@@ -14,10 +14,10 @@
               <span class="qm-customer-card__list-item-text" title="{{ customer.email }}">{{ customer.email | truncate: 40 }}</span>
           </li>
       </ul>
-      <button class="qm-action-btn qm-action-btn--only-icon qm-customer-card__edit-btn" title="{{ 'button.customerCard.edit' | translate }}">
+      <!-- <button class="qm-action-btn qm-action-btn--only-icon qm-customer-card__edit-btn" title="{{ 'button.customerCard.edit' | translate }}">
         <i class="qm-action-btn__icon icon-edit" aria-hidden="true"></i>
         <span class="sr-only">{{ 'button.customerCard.edit' | translate }}</span>
-      </button>
+      </button> -->
     </div>
   </div>
   <div class="qm-customer-card__btn-container" *ngIf="allowClearCustomer">

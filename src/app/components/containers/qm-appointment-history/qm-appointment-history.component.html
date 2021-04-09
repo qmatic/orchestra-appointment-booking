@@ -8,10 +8,11 @@
         [addButton]="false"
       ></qm-customer-search>
       <ng-template #customerCard>
-        <qm-customer-card [customer]="currentCustomer"></qm-customer-card>
+        <qm-customer-card [customer]="currentCustomer" style="width: max-content;"></qm-customer-card>
       </ng-template>
     </div>
-    <div
+    
+    <!-- <div
       style="
         background: #f4f4f4;
         width: 100%;
@@ -20,9 +21,9 @@
       "
     >
       <h2 class="qm-headline qm-headline--large qm-customer-search__headline">
-        Appointment History | Visit Details
+        Appointment History 
       </h2>
-      <!-- <h2 >{{ 'label.customerSearch.headline' | translate }}</h2> -->
+     
       <br />
       <hr style="border-top: 1px solid #bbb" />
      
@@ -48,8 +49,12 @@
             <td>{{appointment.timeStamp | date}}</td>
             <td>{{appointment.operation}}</td>
             <td>{{appointment.entityId}}</td>
-            <td>{{extractValue(appointment.change).after.start | date}}</td>
-            <td>{{extractValue(appointment.change).after.end}}</td>
+            <td>{{extractValue(appointment.change).after.start | amDateFormat: 'DD-MM-YYYY'}} <br>
+              {{extractValue(appointment.change).after.start | amDateFormat: 'hh:mm A'}}
+            </td>
+            <td>{{extractValue(appointment.change).after.end | amDateFormat: 'DD-MM-YYYY'}} <br>
+              {{extractValue(appointment.change).after.end | amDateFormat: 'hh:mm A'}}
+            </td>
             <td>{{appointment.branchId}}</td>
             <td>{{extractValue(appointment.change).after.resource}}</td>
             <td>{{extractValue(appointment.change).after.services}}</td>
@@ -59,7 +64,142 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
+
+    <div class="qm-app-list-table-container">
+      <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && appointments && appointments.length > 0">Appointments</h2>
+      <hr>
+      <div>
+        <div class="qm-app-list-table-container__filters" *ngIf="currentCustomer && appointments && appointments.length > 0">
+          <div>
+            Search <input type="text" (change)="onSearchTxtChanged()" (keyup) = "onSearchTxtChanged()" [(ngModel)] = "searchText">
+          </div>
+          <div>
+            show <select name="" id="" (change)="onChangeElementsPerpage($event.target.value)" >
+              <option value="5"> 5 </option>
+              <option value="10"> 10 </option>
+              <option value="20"> 20 </option>
+            </select>
+          </div>
+          <!-- <div class="qm-app-list-table-container__filters-reports">
+            <button class="qm-app-list-table-container__filters-button" (click) = "exportToPdf()"> PDF</button>
+            <button class="qm-app-list-table-container__filters-button" (click) = "exportToExcel()"> XLS</button>
+          </div> -->
+        </div>
+        <hr>
+    
+        
+        <div class="qm-app-list-table-container-list"  *ngIf="currentCustomer && appointments && appointments.length > 0">
+          <table id="app-list">
+            <tr>
+              <th>
+                Action Date
+                <button class="qm-transparent-btn" (click) = "sortByChange('DATE')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'DATE' && sortByAsc) || (sortByCondition !== 'DATE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button>
+              </th>
+              <th>Operation
+                <button class="qm-transparent-btn" (click) = "sortByChange('OPERATION')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'START' && sortByAsc) || (sortByCondition !== 'START' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button>            
+              </th>
+              <th>Appt Id
+                <button class="qm-transparent-btn" (click) = "sortByChange('APP_ID')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'END' && sortByAsc) || (sortByCondition !== 'END' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Start Time
+                <button class="qm-transparent-btn" (click) = "sortByChange('START')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'FIRST_NAME' && sortByAsc) || (sortByCondition !== 'FIRST_NAME' && !sortByAsc))  ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>End Time
+                <button class="qm-transparent-btn" (click) = "sortByChange('END')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'LAST_NAME' && sortByAsc) || (sortByCondition !== 'LAST_NAME' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Branch
+                <button class="qm-transparent-btn" (click) = "sortByChange('BRANCH')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'RESOURCE' && sortByAsc) || (sortByCondition !== 'RESOURCE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Resource
+                <button class="qm-transparent-btn" (click) = "sortByChange('RESOURCE')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'NOTE' && sortByAsc) || (sortByCondition !== 'NOTE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Services
+                <button class="qm-transparent-btn" (click) = "sortByChange('SERVICES')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'SERVICES' && sortByAsc) || (sortByCondition !== 'SERVICES' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Title
+                <button class="qm-transparent-btn" (click) = "sortByChange('TITLE')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'EMAIL' && sortByAsc) || (sortByCondition !== 'EMAIL' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>Notes
+                <button class="qm-transparent-btn" (click) = "sortByChange('NOTES')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'PHONE' && sortByAsc) || (sortByCondition !== 'PHONE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <th>User
+                <button class="qm-transparent-btn" (click) = "sortByChange('USER')">
+                  <i class="sort-icon" [ngClass]="((sortByCondition === 'UPDATED' && sortByAsc) || (sortByCondition !== 'UPDATED' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
+                </button> 
+              </th>
+              <!-- <th>Booking Ref</th>
+              <th>Tech ID</th>
+              <th>Override Reason Code</th>
+              <th>Override TimeStamp</th> -->
+            </tr>
+            <tr *ngFor="let appointment of appointments">
+              <td>{{appointment.timeStamp | date}}</td>
+              <td>{{appointment.operation}}</td>
+              <td>{{appointment.entityId}}</td>
+              <td>{{extractValue(appointment.change).after.start | amDateFormat: 'DD-MM-YYYY'}} <br>
+                {{extractValue(appointment.change).after.start | amDateFormat: 'hh:mm A'}}
+              </td>
+              <td>{{extractValue(appointment.change).after.end | amDateFormat: 'DD-MM-YYYY'}} <br>
+                {{extractValue(appointment.change).after.end | amDateFormat: 'hh:mm A'}}
+              </td>
+              <td>{{appointment.branchId}}</td>
+              <td>{{extractValue(appointment.change).after.resource}}</td>
+              <td>{{extractValue(appointment.change).after.services}}</td>
+              <td>{{extractValue(appointment.change).after.title}}</td>
+              <td>{{extractValue(appointment.change).after.notes}}</td>
+              <td>{{appointment.username}}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="currentCustomer && appointments && appointments.length > 0"> Showing items from {{(currentPage - 1)*elementsPerPage + 1}} to {{currentPage*elementsPerPage}} of {{ fulAppointmentList.length }} items </div>
+        <div class="qm-app-list-table-container__pagination"  *ngIf="currentCustomer && appointments && appointments.length > 0">
+          <div class="qm-app-list-table-container__pagination-element">
+             </div>
+              <div class="qm-app-list-table-container__pagination-element"> 1 </div>
+              <div class="qm-app-list-table-container__pagination-element"> 2 </div>
+              <div class="qm-app-list-table-container__pagination-element"> 3 </div>
+              <div class="qm-app-list-table-container__pagination-element"> > </div>
+          </div>
+        </div>
+    
+        <div class="qm-no-appointment" *ngIf="!currentCustomer">
+          <div class="qm-no-appointment__text">
+            Select a customer to view appointments
+          </div>
+        </div>
+      </div>
   </qm-main>
   <qm-page-footer></qm-page-footer>
 </div>
