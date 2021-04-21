@@ -45,6 +45,7 @@ export class QmCustomerAppointmentListComponent
   @Input() appointments: IAppointment[];
   private subscriptions: Subscription = new Subscription();
   private timeConvention$: Observable<string>;
+  private dateConvention$: Observable<string>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   public isMilitaryTime: boolean;
   private userDirection$: Observable<string>;
@@ -53,8 +54,9 @@ export class QmCustomerAppointmentListComponent
   private settingsMap: { [name: string]: Setting };
   public resendConfirmatonEnabled: boolean;
   public resentAppointmentId: string;
-  public appointmentLoading: boolean = false;
-  public appointmentLoaded: boolean = false;
+  public appointmentLoading = false;
+  public appointmentLoaded = false;
+  public dateFormat = 'dddd MMMM DD YYYY';
 
   @ViewChildren('customCard') customCards;
 
@@ -73,6 +75,7 @@ export class QmCustomerAppointmentListComponent
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
   ngOnInit() {
@@ -86,16 +89,16 @@ export class QmCustomerAppointmentListComponent
 
     const ResentAppointmentIdSubscription = this.appointmentSelectors.resentAppointmentId$.subscribe(id => {
       this.resentAppointmentId = id;
-    })
+    });
 
     const appointmentLoadingSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe((state: boolean) => {
-      setTimeout(() => {                           //<<<---using ()=> syntax
+      setTimeout(() => {                           // <<<---using ()=> syntax
         this.appointmentLoading = state;
         this.cdr.detectChanges();
       }, 100);
 
 
-    })
+    });
 
 
     const appointmentLoadedSubscription = this.appointmentSelectors.appointmentsLoading$.subscribe(state => {
@@ -103,7 +106,7 @@ export class QmCustomerAppointmentListComponent
         this.appointmentLoaded = state;
         this.cdr.detectChanges();
       }, 100);
-    })
+    });
 
 
     const userDirectionSubscription = this.userDirection$.subscribe(
@@ -116,9 +119,16 @@ export class QmCustomerAppointmentListComponent
       timeConvention => this.isMilitaryTime = timeConvention !== 'AMPM'
     );
 
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+      }
+    );
+
     this.subscriptions.add(settingsSubscription);
     this.subscriptions.add(userDirectionSubscription);
     this.subscriptions.add(timeConventionSubscription);
+    this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(ResentAppointmentIdSubscription);
     this.subscriptions.add(appointmentLoadingSubscription);
     this.subscriptions.add(appointmentLoadedSubscription);
@@ -300,7 +310,7 @@ export class QmCustomerAppointmentListComponent
   isNotified(appointment) {
     if (appointment && JSON.parse(appointment.custom.toString()) && JSON.parse(appointment.custom.toString()).notificationType) {
       const notificationType = JSON.parse(appointment.custom.toString()).notificationType;
-      if (notificationType == 'email' || notificationType == 'sms' || notificationType == 'both') {
+      if (notificationType === 'email' || notificationType === 'sms' || notificationType === 'both') {
         return true;
       }
       return false;
@@ -347,7 +357,7 @@ export class QmCustomerAppointmentListComponent
     this.navigationService.goToPrintConfirmPage();
   }
   resendConfirmaton(appointment: IAppointment) {
-    this.appointmentDispatchers.SetResendAppointmentId(appointment.publicId)
+    this.appointmentDispatchers.SetResendAppointmentId(appointment.publicId);
     this.appointmentDispatchers.resendAppointmentConfirmation(appointment);
   }
   // get appointmentLoadedState(){

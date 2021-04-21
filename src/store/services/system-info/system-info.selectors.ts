@@ -39,6 +39,11 @@ const getTimeConvention = createSelector(
   (state: ISystemInfo) => state.timeConvention
 );
 
+const getDateConvention = createSelector(
+  getSystemInfo,
+  (state: ISystemInfo) => state.dateConvention
+);
+
 
 @Injectable()
 export class SystemInfoSelectors {
@@ -50,4 +55,5 @@ export class SystemInfoSelectors {
   systemInfoProductVersion$ = this.store.select(getSystemInfoProductVersion);
   systemInfoLicenseCompanyName$ = this.store.select(getSystemInfoLicenseCompanyName);
   systemInfoTimeConvention$ = this.store.select(getTimeConvention);
+  systemInfoDateConvention$ = this.store.select(getDateConvention);
 }

@@ -27,10 +27,12 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   public userDirection$: Observable<string>;
   private timeConvention$: Observable<string>;
+  private dateConvention$: Observable<string>;
   public isMilitaryTime: boolean;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private getEmailTemplateEnabled: boolean;
   private qpAppointment: IAppointment;
+  public dateFormat = 'dddd MMMM DD YYYY';
 
   constructor(
     private customerDispatchers: CustomerDispatchers,
@@ -45,6 +47,7 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
@@ -66,6 +69,13 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
       this.qpAppointment = appointment;
     });
     this.subscriptions.add(qpAppointmentSubscription);
+
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
   }
 
   ngOnDestroy() {

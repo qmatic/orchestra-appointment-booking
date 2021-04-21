@@ -15,6 +15,8 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   private userDirection$: Observable<string>;
   public isMilitaryTime: boolean;
   public userDirection: string;
+  private dateConvention$: Observable<string>;
+  public dateFormat = 'dddd MMMM DD YYYY';
   @Input()
   appointment: IAppointment;
 
@@ -24,6 +26,7 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
   ngOnInit() {
@@ -36,7 +39,12 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
         this.userDirection = userDirection;
       }
     );
-
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(timeConventionSubscription);
     this.subscriptions.add(userDirectionSubscription);
   }

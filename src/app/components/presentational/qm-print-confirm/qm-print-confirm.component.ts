@@ -33,6 +33,8 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   public emailTemplate: string;
   public appointmentLoading: boolean;
   public appointmentLoaded: boolean;
+  private dateConvention$: Observable<string>;
+  public dateFormat = 'dddd MMMM DD YYYY';
 
   constructor(
     private router: Router,
@@ -49,11 +51,12 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     this.settingsMap$ = this.settingsMapSelectors.settingsAsMap$;
     this.printedAppointment$ = this.printSelectors.printedAppointment$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
-   
+
     const printAppointmentSubscription = this.printedAppointment$.subscribe(bapp => {
       this.bookedAppointment = bapp;
     });
@@ -80,7 +83,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
         this.printedAppointment$.subscribe(() => {
           this.phoneEnabled = settingsMap.CustomerIncludePhone.value && (
             ( (settingsMap.CustomerPhoneDefaultCountry.value && settingsMap.CustomerPhoneDefaultCountry.value !== '') ?
-             settingsMap.CustomerPhoneDefaultCountry.value.trim() : '') 
+             settingsMap.CustomerPhoneDefaultCountry.value.trim() : '')
              !== (this.currentCustomer ? (this.currentCustomer.phone ? this.currentCustomer.phone.trim() : '') : ''));
         }).unsubscribe();
 
@@ -89,7 +92,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     );
 
     const qpAppointmentSubscription = this.appointmentSelctors.qpAppointment$.subscribe(qpApp => {
-      this.qpAppointment = qpApp;     
+      this.qpAppointment = qpApp;
         if (this.qpAppointment && this.emailTemplateEnabled && ((this.appointmentLoaded && !this.appointmentLoading) || ((this.qpAppointment && this.qpAppointment.publicId === this.bookedAppointment.publicId)))) {
           this.appointmentDispatchers.fetchAppointmentEmailTemplete(this.qpAppointment.id);
         }
@@ -101,7 +104,12 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
         emailConatiner.innerHTML = this.emailTemplate;
       // }
     }});
-
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(printAppointmentSubscription);
     this.subscriptions.add(timeConventionSubscription);
     this.subscriptions.add(settingsSubscription);
