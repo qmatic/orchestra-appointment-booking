@@ -50,9 +50,7 @@
                   <caption>{{'label.print.appointment.overview' | translate}}:</caption>
                   <tr>
                     <th scope="row">{{'label.print.appointment.date' | translate}}</th>
-                    <td>{{ bookedAppointment?.start | amTz: bookedAppointment.branch.fullTimeZone | amDateFormat: 'dddd
-                      DD
-                      MMMM'}}</td>
+                    <td>{{ bookedAppointment?.start | amTz: bookedAppointment.branch.fullTimeZone | amDateFormat: dateFormat}}</td>
                   </tr>
                   <tr>
                     <th scope="row">{{'label.print.appointment.time' | translate}}</th>

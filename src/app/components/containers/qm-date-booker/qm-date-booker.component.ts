@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable ,  Subscription } from 'rxjs';
-import { DateSelectors, DateDispatchers, BookingHelperSelectors, TimeslotDispatchers, ReserveSelectors } from '../../../../store';
+import { DateSelectors, DateDispatchers, BookingHelperSelectors, TimeslotDispatchers, ReserveSelectors, SystemInfoSelectors } from '../../../../store';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { IAppointment } from '../../../../models/IAppointment';
@@ -25,6 +25,8 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   private reservedAppointment$: Observable<IAppointment>;
   private selectedDate: string;
   private reservedAppointment: IAppointment;
+  private dateConvention$: Observable<string>;
+  public dateFormat = 'dddd MMMM DD YYYY';
 
   constructor(
     private dateSelectors: DateSelectors,
@@ -32,12 +34,14 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
     private timeslotDispatchers: TimeslotDispatchers,
     private bookingHelperSelectors: BookingHelperSelectors,
     private bookingHelperService: BookingHelperService,
-    private reserveSelectors: ReserveSelectors
+    private reserveSelectors: ReserveSelectors,
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.dates$ = this.dateSelectors.visibleDates$;
     this.datesSearchText$ = this.dateSelectors.searchText$;
     this.selectedDate$ = this.bookingHelperSelectors.selectedDate$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
   ngOnInit() {
@@ -60,7 +64,12 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
         this.setResourceName();
       }
     );
-
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedDateSubscription);
     this.subscriptions.add(reservedAppointmentSubscription);

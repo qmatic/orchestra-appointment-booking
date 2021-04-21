@@ -8,4 +8,5 @@ export interface ISystemInfo {
   host: string;
   port: string;
   timeConvention: string;
+  dateConvention?: string;
 }
