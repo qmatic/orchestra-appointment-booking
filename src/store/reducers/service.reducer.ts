@@ -4,6 +4,7 @@ import { IServiceGroup } from '../../models/IServiceGroup';
 
 export interface IServiceState {
   services: IService[];
+  allServices: IService[];
   serviceGroups: IServiceGroup[];
   selectedServices: IService[];
   searchText: string;
@@ -14,6 +15,7 @@ export interface IServiceState {
 
 export const initialState: IServiceState = {
   services: [],
+  allServices: [],
   serviceGroups: [],
   selectedServices: [],
   searchText: '',
@@ -44,6 +46,29 @@ export function reducer (
       };
     }
     case ServiceActions.FETCH_SERVICES_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case ServiceActions.FETCH_ALL_SERVICES: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case ServiceActions.FETCH_ALL_SERVICES_SUCCESS: {
+      return {
+        ...state,
+        allServices: action.payload.serviceList,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case ServiceActions.FETCH_ALL_SERVICES_FAIL: {
       return {
         ...state,
         loading: false,

@@ -1,8 +1,10 @@
+import { IAppointmentVisit } from '../../models/IAppointmentVisit';
 import { IAppointment } from '../../models/IAppointment';
 import * as AppointmentActions from '../actions';
 
 export interface IAppointmentState {
   appointments: IAppointment[];
+  appointment: IAppointment;
   appointmentList: IAppointment[];
   selectedAppointment: IAppointment;
   qpAppointment: IAppointment;
@@ -11,10 +13,12 @@ export interface IAppointmentState {
   error: Object;
   emailTemplete: string;
   resentAppoinmentId: string;
+  appointmentVisit: IAppointmentVisit[];
 }
 
 export const initialState: IAppointmentState = {
   appointments: [],
+  appointment: null,
   appointmentList: [],
   selectedAppointment: null,
   qpAppointment: null,
@@ -22,7 +26,8 @@ export const initialState: IAppointmentState = {
   loaded: false,
   error: null,
   emailTemplete: "",
-  resentAppoinmentId:''
+  resentAppoinmentId:'',
+  appointmentVisit: []
 };
 
 export function reducer (
@@ -47,6 +52,52 @@ export function reducer (
       };
     }
     case AppointmentActions.FETCH_APPOINTMENTS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case AppointmentActions.FETCH_AN_APPOINTMENT: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_AN_APPOINTMENT_SUCCESS: {
+      return {
+        ...state,
+        appointment: (action.payload as any).appointment,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_AN_APPOINTMENT_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    }
+    case AppointmentActions.FETCH_VISIT_DATA: {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_VISIT_DATA_SUCCESS: {
+      return {
+        ...state,
+        appointmentVisit: action.payload,
+        loading: false,
+        loaded: true,
+        error: null
+      };
+    }
+    case AppointmentActions.FETCH_VISIT_DATA_FAIL: {
       return {
         ...state,
         loading: false,
@@ -273,16 +324,16 @@ function removeAppointment(
   );
 }
 
-function parseJson(
-  appointmentList: IAppointment[]
-): IAppointment[] {
-  var newAppointmentList = [];
-  // var newAppointmentList = {...appointmentList, change:JSON.parse(appointmentList.change)}
-  console.log(appointmentList);
+// function parseJson(
+//   appointmentList: IAppointment[]
+// ): IAppointment[] {
+//   var newAppointmentList = [];
+//   // var newAppointmentList = {...appointmentList, change:JSON.parse(appointmentList.change)}
+//   console.log(appointmentList);
   
-  appointmentList.forEach((appointment: IAppointment) => {
-    // newAppointmentList.push({...appointment, change: JSON.parse(appointment.change.toString())});
-    console.log(appointment.change);
-  });
-  return newAppointmentList;
-}
+//   appointmentList.forEach((appointment: IAppointment) => {
+//     // newAppointmentList.push({...appointment, change: JSON.parse(appointment.change.toString())});
+//     console.log(appointment.change);
+//   });
+//   return newAppointmentList;
+// }

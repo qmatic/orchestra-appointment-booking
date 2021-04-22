@@ -16,7 +16,7 @@
     }
     &__filters {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         &-reports {
             display: flex;
         }
@@ -67,4 +67,21 @@
 .qm-transparent-btn {
     background: transparent;
     border: none;
+}
+
+.qm-pagination-container {
+    display: flex;
+    justify-content: center;
+    width: calc(100vw - 450px);
+}
+.qm-table-link:hover {
+    cursor: pointer;
+}
+ngb-pagination ::ng-deep ul > li.active > a {
+    background-color: #E50046 !important;
+    border-color: #E50046 !important;
+}
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    color: $dark-transparent42 !important;
 }

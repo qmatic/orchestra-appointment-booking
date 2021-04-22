@@ -12,6 +12,16 @@ const getAllAppointments = createSelector(
   (state: IAppointmentState) => state.appointments
 );
 
+const getAppointmentById = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.appointment
+);
+
+const getAppointmentVisit = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.appointmentVisit
+);
+
 const getAppointmentList = createSelector(
   getAppointmentState,
   (state: IAppointmentState) => state.appointmentList
@@ -41,6 +51,20 @@ const getAppointmentsError = createSelector(
   getAppointmentState,
   (state: IAppointmentState) => state.error
 );
+const getAppointmentByIdLoading = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.loading
+);
+
+const getAppointmentByIdLoaded = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.loaded
+);
+
+const getAppointmentByIdError = createSelector(
+  getAppointmentState,
+  (state: IAppointmentState) => state.error
+);
 
 const getEmailTemplete = createSelector(
   getAppointmentState,
@@ -58,10 +82,15 @@ export class AppointmentSelectors {
   appointments$ = this.store.select(getAllAppointments);
   appointmentList$ = this.store.select(getAppointmentList);
   selectedAppointment$ = this.store.select(getSelectedAppointment);
+  appointmentVisit$ = this.store.select(getAppointmentVisit);
   qpAppointment$ = this.store.select(getQPAppointment);
   appointmentsLoading$ = this.store.select(getAppointmentsLoading);
   appointmentsLoaded$ = this.store.select(getAppointmentsLoaded);
   appointmentsError$ = this.store.select(getAppointmentsError);
   emailTemplete$ = this.store.select(getEmailTemplete);
   resentAppointmentId$ = this.store.select(getResentAppointmentId);
+  appointment$ = this.store.select(getAppointmentById);
+  appointmentLoading$ = this.store.select(getAppointmentByIdLoading);
+  appointmentLoaded$ = this.store.select(getAppointmentByIdLoaded);
+  appointmentError$ = this.store.select(getAppointmentByIdError);
 }

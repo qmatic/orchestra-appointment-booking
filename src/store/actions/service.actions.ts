@@ -8,6 +8,10 @@ export const FETCH_SERVICES = '[Service] FETCH_SERVICES';
 export const FETCH_SERVICES_FAIL = '[Service] FETCH_SERVICES_FAIL';
 export const FETCH_SERVICES_SUCCESS = '[Service] FETCH_SERVICES_SUCCESS';
 
+export const FETCH_ALL_SERVICES = '[Service] FETCH_ALL_SERVICES';
+export const FETCH_ALL_SERVICES_FAIL = '[Service] FETCH_ALL_SERVICES_FAIL';
+export const FETCH_ALL_SERVICES_SUCCESS = '[Service] FETCH_ALL_SERVICES_SUCCESS';
+
 export const FETCH_SERVICE_GROUPS = '[Service] FETCH_SERVICE_GROUPS';
 export const FETCH_SERVICE_GROUPS_FAIL = '[Service] FETCH_SERVICE_GROUPS_FAIL';
 export const FETCH_SERVICE_GROUPS_SUCCESS = '[Service] FETCH_SERVICE_GROUPS_SUCCESS';
@@ -32,6 +36,19 @@ export class FetchServicesFail implements Action {
 
 export class FetchServicesSuccess implements Action {
   readonly type = FETCH_SERVICES_SUCCESS;
+  constructor(public payload: IServiceResponse) {}
+}
+export class FetchAllServices implements Action {
+  readonly type = FETCH_ALL_SERVICES;
+}
+
+export class FetchAllServicesFail implements Action {
+  readonly type = FETCH_ALL_SERVICES_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchAllServicesSuccess implements Action {
+  readonly type = FETCH_ALL_SERVICES_SUCCESS;
   constructor(public payload: IServiceResponse) {}
 }
 
@@ -96,4 +113,7 @@ export type AllServiceActions = FetchServices |
                                 SelectMultiService |
                                 FilterServices |
                                 ResetFilterServices |
-                                LoadSelectedServices;
+                                LoadSelectedServices |
+                                FetchAllServices |
+                                FetchAllServicesFail |
+                                FetchAllServicesSuccess;
