@@ -25,6 +25,12 @@ export class ServiceDataService {
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
+  getAllServices(): Observable<IServiceResponse> {
+    return this.http
+      .get<IServiceResponse>(`${calendarEndpoint}/services/`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+
   getServiceGroups(servicePublicIds: string): Observable<any> {
     return this.http
       .get<IServiceGroup[]>(`${calendarPublicEndpoint}/services/groups${servicePublicIds}`)

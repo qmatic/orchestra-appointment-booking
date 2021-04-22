@@ -1,11 +1,15 @@
 import { Action } from '@ngrx/store';
 import { IAppointmentResponse } from '../../models/IAppointmentResponse';
 import { IAppointment } from '../../models/IAppointment';
+import { IAppointmentVisit } from '../../models/IAppointmentVisit';
 
 // Appointment actions
 export const FETCH_APPOINTMENTS = '[Appointment] FETCH_APPOINTMENTS';
 export const FETCH_APPOINTMENTS_FAIL = '[Appointment] FETCH_APPOINTMENTS_FAIL';
 export const FETCH_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_APPOINTMENTS_SUCCESS';
+export const FETCH_AN_APPOINTMENT = '[Appointment] FETCH_AN_APPOINTMENT';
+export const FETCH_AN_APPOINTMENT_FAIL = '[Appointment] FETCH_AN_APPOINTMENT_FAIL';
+export const FETCH_AN_APPOINTMENT_SUCCESS = '[Appointment] FETCH_AN_APPOINTMENT_SUCCESS';
 export const FETCH_ACTION_APPOINTMENTS = '[Appointment] FETCH_ACTION_APPOINTMENTS';
 export const FETCH_ACTION_APPOINTMENTS_FAIL = '[Appointment] FETCH_ACTION_APPOINTMENTS_FAIL';
 export const FETCH_ACTION_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_ACTION_APPOINTMENTS_SUCCESS';
@@ -33,6 +37,10 @@ export const FETCH_APPOINTMENT_LIST = '[Appointment] FETCH_APPOINTMENTS_LIST';
 export const FETCH_APPOINTMENT_LIST_FAIL = '[Appointment] FETCH_APPOINTMENT_LIST_FAIL';
 export const FETCH_APPOINTMENT_LIST_SUCCESS = '[Appointment] FETCH_APPOINTMENT_LIST_SUCCESS';
 export const RESET_APPOINTMENT_LIST = '[Appointment] RESET_APPOINTMENT_LIST';
+export const FETCH_VISIT_DATA = '[Appointment] FETCH_VISIT_DATA';
+export const FETCH_VISIT_DATA_FAIL = '[Appointment] FETCH_VISIT_DATA_FAIL';
+export const FETCH_VISIT_DATA_SUCCESS = '[Appointment] FETCH_VISIT_DATA_SUCCESS';
+
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -47,6 +55,35 @@ export class FetchAppointmentsFail implements Action {
 export class FetchAppointmentsSuccess implements Action {
   readonly type = FETCH_APPOINTMENTS_SUCCESS;
   constructor(public payload: IAppointmentResponse) {}
+}
+export class FetchAnAppointment implements Action {
+  readonly type = FETCH_AN_APPOINTMENT;
+  constructor(public payload: string) {}
+}
+
+export class FetchAnAppointmentFail implements Action {
+  readonly type = FETCH_AN_APPOINTMENT_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchAnAppointmentSuccess implements Action {
+  readonly type = FETCH_AN_APPOINTMENT_SUCCESS;
+  constructor(public payload: IAppointmentResponse) {}
+}
+
+export class FetchVisitData implements Action {
+  readonly type = FETCH_VISIT_DATA;
+  constructor(public payload: string) {}
+}
+
+export class FetchVisitDataFail implements Action {
+  readonly type = FETCH_VISIT_DATA_FAIL;
+  constructor(public payload: Object) {}
+}
+
+export class FetchVisitDataSuccess implements Action {
+  readonly type = FETCH_VISIT_DATA_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export class FetchAppointmentList implements Action {
@@ -185,6 +222,9 @@ export class ResetAppointmentLoaded implements Action {
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
                                     FetchAppointmentsSuccess |
+                                    FetchAnAppointment |
+                                    FetchAnAppointmentFail |
+                                    FetchAnAppointmentSuccess |
                                     FetchAppointmentList |
                                     FetchAppointmentListSuccess |
                                     FetchAppointmentListFail |
@@ -211,4 +251,9 @@ export type AllAppointmentActions = FetchAppointments |
                                     ResendAppointmentConfrimatonSuccess|
                                     SetResendAppointmentId|
                                     ResetAppointmentLoaded|
-                                    ResetAppointmentList;
+                                    ResetAppointmentList |
+                                    ResetAppointmentLoaded |
+                                    FetchVisitData |
+                                    FetchVisitDataFail |
+                                    FetchVisitDataSuccess;
+

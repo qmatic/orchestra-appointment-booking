@@ -1,4 +1,5 @@
 export interface IService {
+  id?: number;
   duration: number;
   publicEnabled: boolean;
   additionalCustomerDuration: number;

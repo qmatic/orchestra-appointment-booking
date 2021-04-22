@@ -30,6 +30,19 @@ export class ServiceEffects {
       );
 
     @Effect()
+    getAllServices$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(AllActions.FETCH_ALL_SERVICES),
+        switchMap(() =>
+          toAction(
+            this.serviceDataService.getAllServices(),
+            AllActions.FetchAllServicesSuccess,
+            AllActions.FetchAllServicesFail
+          )
+        )
+      );
+
+    @Effect()
     getServiceGroups$: Observable<Action> = this.actions$
       .pipe(
         ofType(AllActions.FETCH_SERVICE_GROUPS),

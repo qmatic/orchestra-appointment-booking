@@ -13,6 +13,14 @@ export class AppointmentDispatchers {
     this.store.dispatch(new AppointmentActions.FetchAppointments(publicId));
   }
 
+  fetchAnAppointment(appId: string) {
+    this.store.dispatch(new AppointmentActions.FetchAnAppointment(appId));
+  }
+
+  fetchAppointmentVisit(appId: string) {
+    this.store.dispatch(new AppointmentActions.FetchVisitData(appId));
+  }
+
   fetchAppointmentList(fromDate: string, toDate: string, branchId: string) {
     this.store.dispatch(new AppointmentActions.FetchAppointmentList( { fromDate: fromDate, toDate: toDate, branchId: branchId }));
   }
@@ -47,7 +55,7 @@ export class AppointmentDispatchers {
   fetchAppointmentEmailTemplete(appointmentExternalId: string) {
     this.store.dispatch(new AppointmentActions.FetchAppointmentEmailTemplete(appointmentExternalId));
   }
-  
+
   resendAppointmentConfirmation (appointment: IAppointment) {
     this.store.dispatch(new AppointmentActions.ResendAppointmentConfrimaton(appointment));
   }

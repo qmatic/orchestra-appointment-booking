@@ -13,6 +13,10 @@ export class ServiceDispatchers {
     this.store.dispatch(new ServiceActions.FetchServices);
   }
 
+  fetchAllServices() {
+    this.store.dispatch(new ServiceActions.FetchAllServices);
+  }
+
   fetchServiceGroups(queryString: string) {
     this.store.dispatch(new ServiceActions.FetchServiceGroups(queryString));
   }

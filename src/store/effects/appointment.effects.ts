@@ -51,6 +51,32 @@ export class AppointmentEffects {
     );
 
   @Effect()
+  getAppointment$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.FETCH_AN_APPOINTMENT),
+      switchMap((action: AppointmentActions.FetchAnAppointment) =>
+        toAction(
+          this.appointmentDataService.getAppointmentById(action.payload),
+          AppointmentActions.FetchAnAppointmentSuccess,
+          AppointmentActions.FetchAnAppointmentFail
+        )
+      )
+    );
+
+  @Effect()
+  getAppointmentVisit$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.FETCH_VISIT_DATA),
+      switchMap((action: AppointmentActions.FetchVisitData) =>
+        toAction(
+          this.appointmentDataService.getAppointmentVisit(action.payload),
+          AppointmentActions.FetchVisitDataSuccess,
+          AppointmentActions.FetchVisitDataFail
+        )
+      )
+    );
+
+  @Effect()
   getAppointmentList$: Observable<Action> = this.actions$
     .pipe(
       ofType(AppointmentActions.FETCH_APPOINTMENT_LIST),

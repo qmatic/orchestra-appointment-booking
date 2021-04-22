@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint,qsystemEndpoint } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint,qsystemEndpoint, QueueingHistoryEndpoint } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
 import { IAppointmentQPResponse } from '../../../models/IAppointmentQPResponse';
+import { IAppointmentVisit } from '../../../models/IAppointmentVisit';
 
 
 @Injectable()
@@ -18,6 +19,18 @@ export class AppointmentDataService {
   getAppointments(publicId: string): Observable<IAppointmentResponse> {
     return this.http
       .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointments`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+
+  getAppointmentById(appId: string): Observable<IAppointmentResponse> {
+    return this.http
+      .get<IAppointmentResponse>(`${calendarEndpoint}/appointments/${appId}`)
+      .pipe(catchError(this.errorHandler.handleError()));
+  }
+
+  getAppointmentVisit(appId: string): Observable<IAppointmentVisit> {
+    return this.http
+      .get<IAppointmentVisit>(`${QueueingHistoryEndpoint}/queueingHistory/${appId}`)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 

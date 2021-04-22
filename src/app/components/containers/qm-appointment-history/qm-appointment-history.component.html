@@ -1,7 +1,6 @@
 <div class="qm-app">
   <qm-page-header></qm-page-header>
   <qm-main>
-    <!-- <qm-customer-search></qm-customer-search> -->
     <div class="" style="height: 30%; width: 30%; margin: 10px 20px">
       <qm-customer-search
         *ngIf="currentCustomer === null; else customerCard"
@@ -12,64 +11,9 @@
       </ng-template>
     </div>
     
-    <!-- <div
-      style="
-        background: #f4f4f4;
-        width: 100%;
-        padding: 25px;
-        box-shadow: inset 15px 0 60px -20px rgba(0, 0, 0, 0.75);
-      "
-    >
-      <h2 class="qm-headline qm-headline--large qm-customer-search__headline">
-        Appointment History 
-      </h2>
-     
-      <br />
-      <hr style="border-top: 1px solid #bbb" />
-     
-      <table style="width: 100%; font-weight: 100 !important">
-        <thead style="width: 100%">
-          <tr class="qm-headline--small" style="font-weight: 100 !important">
-            <th>Action Date</th>
-            <th>Operation</th>
-            <th>Appt Id</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Branch</th>
-            <th>Resource</th>
-            <th>Service(s)</th>
-            <th>Title</th>
-            <th>Notes</th>
-            <th>User</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="true">
-          
-          <tr *ngFor="let appointment of appointments">
-            <td>{{appointment.timeStamp | date}}</td>
-            <td>{{appointment.operation}}</td>
-            <td>{{appointment.entityId}}</td>
-            <td>{{extractValue(appointment.change).after.start | amDateFormat: 'DD-MM-YYYY'}} <br>
-              {{extractValue(appointment.change).after.start | amDateFormat: 'hh:mm A'}}
-            </td>
-            <td>{{extractValue(appointment.change).after.end | amDateFormat: 'DD-MM-YYYY'}} <br>
-              {{extractValue(appointment.change).after.end | amDateFormat: 'hh:mm A'}}
-            </td>
-            <td>{{appointment.branchId}}</td>
-            <td>{{extractValue(appointment.change).after.resource}}</td>
-            <td>{{extractValue(appointment.change).after.services}}</td>
-            <td>{{extractValue(appointment.change).after.title}}</td>
-            <td>{{extractValue(appointment.change).after.notes}}</td>
-            <td>{{appointment.username}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
-
     <div class="qm-app-list-table-container">
-      <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && appointments && appointments.length > 0">Appointments</h2>
-      <hr>
-      <div>
+      <div *ngIf="!selectedAppointment && currentCustomer">
+        <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && appointments && appointments.length > 0">Appointments</h2>
         <div class="qm-app-list-table-container__filters" *ngIf="currentCustomer && appointments && appointments.length > 0">
           <div>
             Search <input type="text" (change)="onSearchTxtChanged()" (keyup) = "onSearchTxtChanged()" [(ngModel)] = "searchText">
@@ -81,10 +25,6 @@
               <option value="20"> 20 </option>
             </select>
           </div>
-          <!-- <div class="qm-app-list-table-container__filters-reports">
-            <button class="qm-app-list-table-container__filters-button" (click) = "exportToPdf()"> PDF</button>
-            <button class="qm-app-list-table-container__filters-button" (click) = "exportToExcel()"> XLS</button>
-          </div> -->
         </div>
         <hr>
     
@@ -159,24 +99,23 @@
                   <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
                 </button> 
               </th>
-              <!-- <th>Booking Ref</th>
-              <th>Tech ID</th>
-              <th>Override Reason Code</th>
-              <th>Override TimeStamp</th> -->
             </tr>
-            <tr *ngFor="let appointment of appointments">
-              <td>{{appointment.timeStamp | date}}</td>
+            <tr *ngFor="let appointment of appointments | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage">
+              <!-- <td>{{appointment.timeStamp | date}}</td> -->
+              <td>{{appointment.timeStamp | amDateFormat: 'DD-MM-YYYY'}} <br>
+                {{appointment.timeStamp | amDateFormat: 'hh:mm A'}}
+              </td>
               <td>{{appointment.operation}}</td>
-              <td>{{appointment.entityId}}</td>
+              <td> <a class="qm-table-link" (click)="appointmentSelected(appointment.entityId)"> {{appointment.entityId}}</a> </td>
               <td>{{extractValue(appointment.change).after.start | amDateFormat: 'DD-MM-YYYY'}} <br>
                 {{extractValue(appointment.change).after.start | amDateFormat: 'hh:mm A'}}
               </td>
               <td>{{extractValue(appointment.change).after.end | amDateFormat: 'DD-MM-YYYY'}} <br>
                 {{extractValue(appointment.change).after.end | amDateFormat: 'hh:mm A'}}
               </td>
-              <td>{{appointment.branchId}}</td>
+              <td>{{mapBranch(appointment.branchId)}}</td>
               <td>{{extractValue(appointment.change).after.resource}}</td>
-              <td>{{extractValue(appointment.change).after.services}}</td>
+              <td>{{mapService(extractValue(appointment.change).after.services)}}</td>
               <td>{{extractValue(appointment.change).after.title}}</td>
               <td>{{extractValue(appointment.change).after.notes}}</td>
               <td>{{appointment.username}}</td>
@@ -184,14 +123,8 @@
           </table>
         </div>
         <div *ngIf="currentCustomer && appointments && appointments.length > 0"> Showing items from {{(currentPage - 1)*elementsPerPage + 1}} to {{currentPage*elementsPerPage}} of {{ fulAppointmentList.length }} items </div>
-        <div class="qm-app-list-table-container__pagination"  *ngIf="currentCustomer && appointments && appointments.length > 0">
-          <div class="qm-app-list-table-container__pagination-element">
-             </div>
-              <div class="qm-app-list-table-container__pagination-element"> 1 </div>
-              <div class="qm-app-list-table-container__pagination-element"> 2 </div>
-              <div class="qm-app-list-table-container__pagination-element"> 3 </div>
-              <div class="qm-app-list-table-container__pagination-element"> > </div>
-          </div>
+        <div class="qm-pagination-container">
+          <ngb-pagination *ngIf="currentCustomer && appointments && appointments.length > 0" [(page)]="currentPage" [pageSize]="elementsPerPage" [collectionSize]="8" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
         </div>
     
         <div class="qm-no-appointment" *ngIf="!currentCustomer">
@@ -200,6 +133,51 @@
           </div>
         </div>
       </div>
+      
+      <div *ngIf="selectedAppointment && currentCustomer">
+        <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && appointments && appointments.length > 0">Visit Details</h2>
+        <div style="width: 80%;margin: auto;">
+          <div><span style="font-weight: bold;margin-right: 10px;">Name</span> <span *ngFor="let customer of selectedAppointment.customers">{{customer.name}}</span></div>
+          <div><span style="font-weight: bold;margin-right: 10px;">Appointment Id</span> <span>{{selectedAppointment.id}}</span></div>
+          <div><span style="font-weight: bold;margin-right: 10px;">Start Time</span> <span>{{selectedAppointment.start | amDateFormat: 'YY-MM-DD hh:mm A'}}</span></div>
+          <div><span style="font-weight: bold;margin-right: 10px;">End Time</span> <span>{{selectedAppointment.end | amDateFormat: 'YY-MM-DD hh:mm A'}}</span></div>
+          <div><span style="font-weight: bold;margin-right: 10px;">Branch</span> <span>{{selectedAppointment.branch.name}}</span></div>
+          <div><span style="font-weight: bold;margin-right: 10px;">Resource</span> <span>{{selectedAppointment.resource.name}}</span></div>
+          <button class="qm-btn qm-btn--primary" (click)="unSelectedAppointment()">Back</button>
+        </div>
+        <br><br>
+        <div class="qm-app-list-table-container-list">
+          <table id="app-list">
+            <tr>
+              <th>Action Time</th>  
+              <th>Status</th>  
+              <th>Queue</th>  
+              <th>Service</th>
+              <th>Outcome</th>
+              <th>Mark</th>
+              <th>Recycled Count</th>
+              <th>Notes</th>
+              <th>EntryPoint / ServicePoint</th>
+              <th>User</th>
+            </tr>
+            <tr *ngFor="let visit of visitDataArray">
+              <td>{{visit.time}}</td>
+              <td>{{visit.visitOutcome}}</td>
+              <td>{{visit.queue}}</td>
+              <td>{{visit.service}}</td>
+              <td>{{visit.outcome}}</td>
+              <td>{{visit.mark}}</td>
+              <td>{{visit.recycled}}</td>
+              <td>{{visit.notes}}</td>
+              <td>{{visit.workstation}}</td>
+              <td>{{visit.user}}</td>
+            </tr>  
+          </table>
+        </div>
+      </div>
+      
+    
+    </div>
   </qm-main>
   <qm-page-footer></qm-page-footer>
 </div>

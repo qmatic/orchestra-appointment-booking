@@ -4,7 +4,11 @@
       "secure": false
     },
     "/calendar-backend/*": {
-      "target": "http://localhost:8080",
+      "target": "http://10.20.0.10:8080",
+      "secure": false
+    },
+    "/appointmentHistoryAudit/*": {
+      "target": "http://10.20.0.10:8080",
       "secure": false
     },
     "/notification/*": {
