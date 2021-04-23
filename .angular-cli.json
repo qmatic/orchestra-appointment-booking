@@ -7,14 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": [
-        "assets/i18n/*",
-        "images/*",
-        "WEB-INF/",
-        "META-INF",
-        "app.json",
-        "favicon.ico"
-      ],
+      "assets": ["images/*", "WEB-INF/", "META-INF", "app.json", "favicon.ico"],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",

@@ -7,9 +7,9 @@ export interface IActionAllAppointment {
   start?: number;
   end?: number;
   notes?: string;
-  title?: number;
+  title?: string;
   services?: string[];
-  resource?: string[];
+  resource?: string;
   custom?: IActionCustomAppointment;
 }
 

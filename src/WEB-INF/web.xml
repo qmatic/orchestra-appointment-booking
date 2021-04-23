@@ -36,4 +36,14 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 
+    <!-- Servlet to get the appointment history for an appointment id -->
+	<servlet>
+        <servlet-name>queueingHistory</servlet-name>
+        <servlet-class>com.qmatic.qp.json.servlet.CalQueueingHistoryByAppIdServletV2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>queueingHistory</servlet-name>
+        <url-pattern>/queueingHistory/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
