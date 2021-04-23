@@ -63,6 +63,23 @@ export class AppointmentEffects {
       )
     );
 
+    @Effect({ dispatch: false })
+    getAnAppointmentFail$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(AppointmentActions.FETCH_AN_APPOINTMENT_FAIL),
+        tap((action: AppointmentActions.FetchAnAppointmentFail) => {
+          this.translateService.get('label.history.no.appointments').subscribe(
+            (label: string) => {
+              this.toastService.errorToast(label);
+            }
+          ).unsubscribe();
+        }
+        ),
+        switchMap((action: AppointmentActions.FetchAnAppointmentFail) =>
+          []
+        )
+      );
+
   @Effect()
   getAppointmentVisit$: Observable<Action> = this.actions$
     .pipe(
@@ -73,6 +90,23 @@ export class AppointmentEffects {
           AppointmentActions.FetchVisitDataSuccess,
           AppointmentActions.FetchVisitDataFail
         )
+      )
+    );
+
+  @Effect({ dispatch: false })
+  getAppointmentVisitFail$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.FETCH_VISIT_DATA_FAIL),
+      tap((action: AppointmentActions.FetchVisitDataFail) => {
+        this.translateService.get('label.history.no.visits').subscribe(
+          (label: string) => {
+            this.toastService.errorToast(label);
+          }
+        ).unsubscribe();
+      }
+      ),
+      switchMap((action: AppointmentActions.FetchVisitDataFail) =>
+        []
       )
     );
 
