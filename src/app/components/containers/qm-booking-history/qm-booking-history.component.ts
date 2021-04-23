@@ -33,6 +33,8 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
   private getEmailTemplateEnabled: boolean;
   private qpAppointment: IAppointment;
   public dateFormat = 'dddd MMMM DD YYYY';
+  public ModalDateFormat = 'DD MMM YYYY';
+  private getDtFormatFromParams: boolean;
 
   constructor(
     private customerDispatchers: CustomerDispatchers,
@@ -61,6 +63,7 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
     const settingsMapSubscription = this.settingsMap$.subscribe(
       (settingsMap: {[name: string]: Setting }) => {
         this.getEmailTemplateEnabled = settingsMap.ShowEmailTemplate.value;
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
     this.subscriptions.add(settingsMapSubscription);
@@ -72,7 +75,8 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
 
     const dateConventionSubscription = this.dateConvention$.subscribe(
       (dateConvention: string) => {
-        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+        this.dateFormat = this.getDtFormatFromParams ? (dateConvention || 'dddd MMMM DD YYYY') : 'dddd MMMM DD YYYY';
+        this.ModalDateFormat = this.getDtFormatFromParams ? (dateConvention || 'DD MMM YYYY') : 'DD MMM YYYY';
       }
     );
     this.subscriptions.add(dateConventionSubscription);
@@ -104,7 +108,7 @@ export class QmBookingHistoryComponent implements OnInit, OnDestroy {
       },
       () => {},
       {
-        date: moment(appointment.start).format('DD MMM YYYY')
+        date: moment(appointment.start).format(this.ModalDateFormat)
       }
     );
   }

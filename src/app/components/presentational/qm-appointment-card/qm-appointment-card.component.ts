@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Observable ,  Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { UserSelectors, SystemInfoSelectors } from '../../../../store';
+import { UserSelectors, SystemInfoSelectors, SettingsAdminSelectors } from '../../../../store';
 import { IAppointment } from '../../../../models/IAppointment';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-appointment-card',
@@ -17,16 +18,20 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
   public userDirection: string;
   private dateConvention$: Observable<string>;
   public dateFormat = 'dddd MMMM DD YYYY';
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private getDtFormatFromParams: boolean;
   @Input()
   appointment: IAppointment;
 
   constructor(
     private userSelectors: UserSelectors,
-    private systemInfoSelectors: SystemInfoSelectors
+    private systemInfoSelectors: SystemInfoSelectors,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
@@ -39,11 +44,18 @@ export class QmAppointmentCardComponent implements OnInit, OnDestroy {
         this.userDirection = userDirection;
       }
     );
-    const dateConventionSubscription = this.dateConvention$.subscribe(
-      (dateConvention: string) => {
-        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = this.getDtFormatFromParams ? (dateConvention || 'dddd MMMM DD YYYY') : 'dddd MMMM DD YYYY';
+      }
+    );
+
+    this.subscriptions.add(settingsMapSubscription);
     this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(timeConventionSubscription);
     this.subscriptions.add(userDirectionSubscription);

@@ -19,6 +19,7 @@ const initialState = {
     host: '',
     port: '',
     timeConvention: '24',
+    dateConvention: 'dddd MMMM DD YYYY'
   },
   loading: false,
   loaded: false,
