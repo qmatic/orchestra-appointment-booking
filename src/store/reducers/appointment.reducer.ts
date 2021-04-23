@@ -76,6 +76,14 @@ export function reducer (
         error: action.payload
       };
     }
+    case AppointmentActions.RESET_APPOINTMENT_LIST: {
+      return {
+        ...state,
+        loading: false,
+        error:false,
+        appointmentList:[]
+      };
+    }
     case AppointmentActions.FETCH_ACTION_APPOINTMENTS: {
       return {
         ...state,

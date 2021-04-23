@@ -50,6 +50,13 @@
         }
 
     }
+    &__input-box {
+        position: relative;
+        justify-content: flex-end;
+        display: flex; 
+        align-items: center; 
+        margin: 0 10px;
+    }
 }
 
 #app-list th {
@@ -84,4 +91,14 @@ ngb-pagination ::ng-deep ul > li.active > a {
 
 ngb-pagination ::ng-deep ul > li:not(.active) > a {
     color: $dark-transparent42 !important;
+}
+::ng-deep div.ngb-dp-arrow > button {
+    color: #E50046;
+  }
+.close-btn{
+    padding: 4px;
+    cursor: pointer;
+    position: absolute;
+    
+    
 }

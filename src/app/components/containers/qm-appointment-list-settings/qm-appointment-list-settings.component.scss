@@ -35,7 +35,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width: 70px;
+        width: 60px;
     }
 }
 
@@ -51,6 +51,7 @@
 .qm-date-picker {
     height: 40px;
     border: 1px solid $dark-transparent22;
+    padding: 0px 10px;
 }
 
 .qm-cal-expander {

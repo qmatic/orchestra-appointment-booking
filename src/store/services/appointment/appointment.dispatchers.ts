@@ -16,6 +16,9 @@ export class AppointmentDispatchers {
   fetchAppointmentList(fromDate: string, toDate: string, branchId: string) {
     this.store.dispatch(new AppointmentActions.FetchAppointmentList( { fromDate: fromDate, toDate: toDate, branchId: branchId }));
   }
+  resetAppointmentList() {
+    this.store.dispatch(new AppointmentActions.ResetAppointmentList);
+  }
 
   fetchActionAppointments(publicId: string) {
     this.store.dispatch(new AppointmentActions.FetchActionAppointments(publicId));
