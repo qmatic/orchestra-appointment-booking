@@ -31,7 +31,8 @@ export const enum SettingCategoryEnum {
     General = 'General',
     NotificationOptions = 'Notification Options',
     TitleAndNotes = 'Title and Notes',
-    CustomerInputFields = 'Customer Input Fields'
+    CustomerInputFields = 'Customer Input Fields',
+    AppointmentList = 'Appointment List'
 }
 
 

@@ -4,5 +4,10 @@
 @import 'node_modules/bootstrap/scss/bootstrap-grid';
 @import 'node_modules/bootstrap/scss/_pagination';
 @import 'node_modules/bootstrap/scss/_modal';
+@import 'node_modules/bootstrap/scss/_dropdown';
+@import 'node_modules/bootstrap/scss/_mixins';
+@import 'node_modules/bootstrap/scss/_nav';
+@import 'node_modules/bootstrap/dist/css/bootstrap.min';
+
 @import '~@ng-select/ng-select/themes/default.theme.css';
 @import 'overrides';

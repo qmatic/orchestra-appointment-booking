@@ -32,6 +32,7 @@ export const RESET_APPOINTMENT_LOADED = '[Appointment] RESET_APPOINTMENT_LOADED'
 export const FETCH_APPOINTMENT_LIST = '[Appointment] FETCH_APPOINTMENTS_LIST';
 export const FETCH_APPOINTMENT_LIST_FAIL = '[Appointment] FETCH_APPOINTMENT_LIST_FAIL';
 export const FETCH_APPOINTMENT_LIST_SUCCESS = '[Appointment] FETCH_APPOINTMENT_LIST_SUCCESS';
+export const RESET_APPOINTMENT_LIST = '[Appointment] RESET_APPOINTMENT_LIST';
 
 export class FetchAppointments implements Action {
   readonly type = FETCH_APPOINTMENTS;
@@ -61,6 +62,10 @@ export class FetchAppointmentListFail implements Action {
 export class FetchAppointmentListSuccess implements Action {
   readonly type = FETCH_APPOINTMENT_LIST_SUCCESS;
   constructor(public payload: IAppointment[]) {}
+}
+
+export class ResetAppointmentList implements Action {
+  readonly type = RESET_APPOINTMENT_LIST;
 }
 export class FetchActionAppointments implements Action {
   readonly type = FETCH_ACTION_APPOINTMENTS;
@@ -205,4 +210,5 @@ export type AllAppointmentActions = FetchAppointments |
                                     ResendAppointmentConfrimatonFail |
                                     ResendAppointmentConfrimatonSuccess|
                                     SetResendAppointmentId|
-                                    ResetAppointmentLoaded;
+                                    ResetAppointmentLoaded|
+                                    ResetAppointmentList;

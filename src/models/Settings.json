@@ -191,6 +191,85 @@
                 "outputType": "Boolean"
             }
         ]
+    }, 
+
+    {
+        "name": "AppointmentList",
+        "settings": [
+            {
+                "name": "ListDate",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListStart",
+                "defaultValue": true,
+                "value": true,
+
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListEnd",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListFirstName",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListLastName",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListResource",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListNotesConf",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListServices",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListEmail",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListPhoneNumber",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListUpdated",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            },
+            {
+                "name": "ListStatus",
+                "defaultValue": true,
+                "value": true,
+                "outputType": "Boolean"
+            }
+        ]
     }
 
 

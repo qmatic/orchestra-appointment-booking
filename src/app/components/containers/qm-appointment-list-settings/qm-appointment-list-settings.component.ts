@@ -72,7 +72,7 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
  
 
     } else {
-      this.translateService.get('label.list.invalid.feild').subscribe(
+      this.translateService.get('label.list.invalid.field').subscribe(
         (label: string) =>  {
           this.toastService.errorToast(label);
         }
