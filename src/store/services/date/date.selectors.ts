@@ -3,13 +3,15 @@ import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IAppState } from '../../reducers';
 import { IDatesState } from '../../reducers/date.reducer';
-import { Setting } from '../../../models/Setting';
-import { getSettingsAsMap } from '../settings-admin';
-import { getUserLocale } from '../user';
 import * as moment from 'moment';
+import { ISettingsAdminState } from '../../reducers/settings-admin.reducer';
+import { ISystemInfoState } from '../../reducers/system-info.reducer';
+import { AppUtils } from '../../../services/util/appUtils.service';
 
 // selectors
 const getDatesState = createFeatureSelector<IDatesState>('dates');
+const getSystemInfoState = createFeatureSelector<ISystemInfoState>('systemInfo');
+const getSettingsState = createFeatureSelector<ISettingsAdminState>('settings');
 
 const getDates = createSelector(
   getDatesState,
@@ -18,12 +20,15 @@ const getDates = createSelector(
 
 const getVisibleDates = createSelector(
   getDatesState,
-  getUserLocale,
+  getSystemInfoState,
+  getSettingsState,
+
   (
-    state: IDatesState,
-    userLocale
+    dateState: IDatesState,
+    systemInfoState: ISystemInfoState,
+    settingsState: ISettingsAdminState
   ) => {
-    return getFilteredDates(state);
+    return getFilteredDates(dateState, settingsState, systemInfoState.data.dateConvention);
   }
 );
 
@@ -53,9 +58,12 @@ const getDatesError = createSelector(
 );
 
 function getFilteredDates(
-  state,
-  dateFormat = 'dddd DD MMMM'
+  state: IDatesState,
+  settings: ISettingsAdminState,
+  dateFormat: string
 ): Array<string> {
+  const settingsMap = new AppUtils().getSettingsAsMap(settings.settings);
+  dateFormat = settingsMap.GetSystemParamsDateFormat.value ? dateFormat : 'dddd DD MMMM';
   return state.searchText === ''
     ? state.dates
     : state.dates.filter((date: string) => {

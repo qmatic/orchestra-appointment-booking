@@ -19,6 +19,8 @@ import { Setting } from '../../models/Setting';
 import { AppUtils } from '../../services/util/appUtils.service';
 import { IBranch } from '../../models/IBranch';
 import { IAppointmentState } from '../reducers/appointment.reducer';
+import { ISystemInfoState } from '../reducers/system-info.reducer';
+import { ISettingsAdminState } from '../reducers/settings-admin.reducer';
 
 const toAction = AppointmentActions.toAction();
 
@@ -77,17 +79,16 @@ export class AppointmentEffects {
     getAppointmentListSuccess$: Observable<Action> = this.actions$
       .pipe(
         ofType(AppointmentActions.FETCH_APPOINTMENT_LIST_SUCCESS),
-        tap((action: AppointmentActions.FetchAppointmentListSuccess) =>
-         {
-         if(action.payload.length === 0) {
+        tap((action: AppointmentActions.FetchAppointmentListSuccess) => {
+         if (action.payload.length === 0) {
           this.translateService.get('label.list.no.appointments').subscribe(
             (label: string) => {
               this.toastService.errorToast(label);
             }
           ).unsubscribe();
          }
-         
-         }       
+
+         }
         )
       );
   @Effect()
@@ -207,14 +208,19 @@ export class AppointmentEffects {
   deleteAppointmentSuccess$: Observable<Action> = this.actions$
     .pipe(
       ofType(AppointmentActions.DELETE_APPOINTMENT_SUCCESS),
-      withLatestFrom(this.store$.select((state: IAppState) => state.appointments)),
+      withLatestFrom(this.store$.select((state: IAppState) => state.appointments),
+       this.store$.select((state: IAppState) => state.systemInfo),
+       this.store$.select((state: IAppState) => state.settings)),
       tap((data: any) => {
-        const [action, state]: [AppointmentActions.DeleteAppointment, IAppointmentState] = data;
-        if (state.selectedAppointment === null) {
+        const [action, apptState, sysInfoState, settingsState]: [AppointmentActions.DeleteAppointment,
+           IAppointmentState, ISystemInfoState, ISettingsAdminState] = data;
+        if (apptState.selectedAppointment === null) {
+          const settingsMap = this.appUtils.getSettingsAsMap(settingsState.settings);
+          const dateFormat = settingsMap.GetSystemParamsDateFormat.value ? sysInfoState.data.dateConvention : 'DD MMM YYYY';
           this.translateService.get('toast.cancel.booking.success',
             {
               name: action.payload.customers[0].name,
-              date: moment(action.payload.start).format('DD MMM YYYY')
+              date: moment(action.payload.start).format(dateFormat)
             }).subscribe(
               (label: string) => this.toastService.htmlSuccessToast(`<span dir="auto">${label}</span>`)
             ).unsubscribe();

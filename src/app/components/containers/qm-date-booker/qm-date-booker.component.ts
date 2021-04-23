@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Observable ,  Subscription } from 'rxjs';
-import { DateSelectors, DateDispatchers, BookingHelperSelectors, TimeslotDispatchers, ReserveSelectors, SystemInfoSelectors } from '../../../../store';
+import { DateSelectors, DateDispatchers, BookingHelperSelectors, TimeslotDispatchers, ReserveSelectors, SystemInfoSelectors, SettingsAdminSelectors } from '../../../../store';
 import { BookingHelperService } from '../../../../services/util/bookingHelper.service';
 import { IBookingInformation } from '../../../../models/IBookingInformation';
 import { IAppointment } from '../../../../models/IAppointment';
+import * as moment from 'moment';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-date-booker',
@@ -27,6 +29,9 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   private reservedAppointment: IAppointment;
   private dateConvention$: Observable<string>;
   public dateFormat = 'dddd MMMM DD YYYY';
+  public dates: string[];
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  private getDtFormatFromParams: boolean;
 
   constructor(
     private dateSelectors: DateSelectors,
@@ -35,16 +40,23 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
     private bookingHelperSelectors: BookingHelperSelectors,
     private bookingHelperService: BookingHelperService,
     private reserveSelectors: ReserveSelectors,
-    private systemInfoSelectors: SystemInfoSelectors
+    private systemInfoSelectors: SystemInfoSelectors,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.dates$ = this.dateSelectors.visibleDates$;
     this.datesSearchText$ = this.dateSelectors.searchText$;
     this.selectedDate$ = this.bookingHelperSelectors.selectedDate$;
     this.reservedAppointment$ = this.reserveSelectors.reservedAppointment$;
     this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
+    this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
   }
 
   ngOnInit() {
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
+      }
+    );
     const searchTextSubscription = this.datesSearchText$.subscribe(
       (searchText: string) => {
         this.datesSearchText = searchText;
@@ -64,11 +76,31 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
         this.setResourceName();
       }
     );
+
     const dateConventionSubscription = this.dateConvention$.subscribe(
       (dateConvention: string) => {
-        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+        this.dateFormat = this.getDtFormatFromParams ? (dateConvention || 'dddd MMMM DD YYYY') : 'dddd MMMM DD YYYY';
       }
     );
+
+    const visibleDatesSubscription = this.dates$.subscribe(
+      (dates: string[]) => {
+        this.dates = this.datesSearchText === ''
+        ? dates
+        : dates.filter((date: string) => {
+            return (
+              moment(date)
+                .format(this.dateFormat)
+                .toLowerCase()
+                .indexOf(this.datesSearchText.toLowerCase()) !== -1
+            );
+          });
+          console.log(this.dates);
+      }
+    );
+
+    this.subscriptions.add(settingsMapSubscription);
+    this.subscriptions.add(visibleDatesSubscription);
     this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedDateSubscription);

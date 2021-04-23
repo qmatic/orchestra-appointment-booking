@@ -35,6 +35,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
   public appointmentLoaded: boolean;
   private dateConvention$: Observable<string>;
   public dateFormat = 'dddd MMMM DD YYYY';
+  private getDtFormatFromParams: boolean;
 
   constructor(
     private router: Router,
@@ -88,6 +89,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
         }).unsubscribe();
 
         this.emailEnabled = settingsMap.CustomerIncludeEmail.value;
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
 
@@ -106,7 +108,7 @@ export class QmPrintConfirmComponent implements OnInit, OnDestroy {
     }});
     const dateConventionSubscription = this.dateConvention$.subscribe(
       (dateConvention: string) => {
-        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+        this.dateFormat = this.getDtFormatFromParams ? (dateConvention || 'dddd MMMM DD YYYY') : 'dddd MMMM DD YYYY';
       }
     );
     this.subscriptions.add(dateConventionSubscription);

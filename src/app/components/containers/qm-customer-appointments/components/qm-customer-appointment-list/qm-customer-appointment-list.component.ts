@@ -57,6 +57,8 @@ export class QmCustomerAppointmentListComponent
   public appointmentLoading = false;
   public appointmentLoaded = false;
   public dateFormat = 'dddd MMMM DD YYYY';
+  public ModalDateFormat = 'DD MMM YYYY';
+  private getDtFormatFromParams: boolean;
 
   @ViewChildren('customCard') customCards;
 
@@ -84,6 +86,7 @@ export class QmCustomerAppointmentListComponent
         this.settingsMap = settingsMap;
         this.getEmailTemplateEnabled = settingsMap.ShowEmailTemplate.value;
         this.resendConfirmatonEnabled = settingsMap.ResendConfirmation.value;
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
 
@@ -121,7 +124,9 @@ export class QmCustomerAppointmentListComponent
 
     const dateConventionSubscription = this.dateConvention$.subscribe(
       (dateConvention: string) => {
-        this.dateFormat = dateConvention || 'dddd MMMM DD YYYY';
+        this.dateFormat = this.getDtFormatFromParams ? (dateConvention || 'dddd MMMM DD YYYY') : 'dddd MMMM DD YYYY';
+        this.ModalDateFormat = this.getDtFormatFromParams ? (dateConvention || 'DD MMM YYYY') : 'DD MMM YYYY';
+
       }
     );
 
@@ -208,7 +213,7 @@ export class QmCustomerAppointmentListComponent
       },
       () => { },
       {
-        date: moment(appointment.start).format('DD MMM YYYY')
+        date: moment(appointment.start).format(this.ModalDateFormat)
       }
     );
   }

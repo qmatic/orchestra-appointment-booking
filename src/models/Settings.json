@@ -51,6 +51,12 @@
                 "defaultValue": false,
                 "value": false,
                 "outputType": "Boolean"
+            },
+            {
+                "name": "GetSystemParamsDateFormat",
+                "defaultValue": false,
+                "value": false,
+                "outputType": "Boolean"
             }
         ]
     },

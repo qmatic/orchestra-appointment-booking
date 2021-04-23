@@ -1,5 +1,5 @@
 <qm-list [userDirection]="userDirection" [searchText]="datesSearchText" [placeholder]="'label.bookingFlow.date.search.placeholder' | translate" [header]="'label.bookingFlow.date.header' | translate" (search)="filterDates($event)" [ngClass]="{'resource' : resourceName && resourceName.length > 0}">
-  <li *ngFor="let selectableDate of dates$ | async">
+  <li *ngFor="let selectableDate of dates">
     <qm-list-item [text]="selectableDate | amDateFormat: dateFormat" [userDirection]="userDirection" [name]="'date'" [isSelected]="isDateSelected(selectableDate)" [inputType]="'radio'" (optionClicked)="handleDateSelection(selectableDate)">
 
     </qm-list-item>

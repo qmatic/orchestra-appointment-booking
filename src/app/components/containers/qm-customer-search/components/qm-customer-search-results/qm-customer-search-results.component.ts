@@ -4,7 +4,8 @@ import { ICustomer } from '../../../../../../models/ICustomer';
 import {
   CustomerDispatchers,
   UserSelectors,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  SystemInfoSelectors
 } from '../../../../../../store';
 import { Setting } from '../../../../../../models/Setting';
 
@@ -25,14 +26,19 @@ export class QmCustomerSearchResultsComponent implements OnInit, OnDestroy {
   public emailEnabled: boolean;
   public phoneEnabled: boolean;
   public dobEnabled: boolean;
+  private dateConvention$: Observable<string>;
+  private getDtFormatFromParams: boolean;
+  public dateFormat;
 
   constructor(
     private userSelectors: UserSelectors,
     private customerDispatchers: CustomerDispatchers,
-    private settingsAdminSelectors: SettingsAdminSelectors
+    private settingsAdminSelectors: SettingsAdminSelectors,
+    private systemInfoSelectors: SystemInfoSelectors
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
+    this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
   ngOnInit() {
@@ -41,10 +47,16 @@ export class QmCustomerSearchResultsComponent implements OnInit, OnDestroy {
         this.phoneEnabled = settings.CustomerIncludePhone.value;
         this.emailEnabled = settings.CustomerIncludeEmail.value;
         this.dobEnabled = settings.CustomerIncludeDateofBirth.value;
+        this.getDtFormatFromParams = settings.GetSystemParamsDateFormat.value;
       }
     );
-
     this.subscriptions.add(settingsMapSubscription);
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = dateConvention || '';
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
   }
 
   ngOnDestroy() {
