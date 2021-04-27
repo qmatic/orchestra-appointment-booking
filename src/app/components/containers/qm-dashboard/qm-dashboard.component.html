@@ -5,7 +5,7 @@
         <div class="qm-full-height">
           <qm-customer-search *ngIf="currentCustomer === null; else customerCard" [addButton]="true"></qm-customer-search>
           <ng-template #customerCard>
-            <qm-customer-card [customer]="currentCustomer"></qm-customer-card>
+            <qm-customer-card [editBtn]="true" [customer]="currentCustomer"></qm-customer-card>
           </ng-template>
         </div>
       </div>

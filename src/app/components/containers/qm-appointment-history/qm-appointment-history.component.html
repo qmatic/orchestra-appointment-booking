@@ -7,7 +7,7 @@
         [addButton]="false"
       ></qm-customer-search>
       <ng-template #customerCard>
-        <qm-customer-card [customer]="currentCustomer" style="width: max-content;"></qm-customer-card>
+        <qm-customer-card [editBtn]="false" [customer]="currentCustomer" style="width: max-content;"></qm-customer-card>
       </ng-template>
     </div>
     
@@ -140,8 +140,8 @@
           Select a customer to view appointments
         </div>
       </div>
-      
-      <div *ngIf="selectedAppointment && currentCustomer && appointmentVisit && appointmentVisit.length > 0">
+
+      <div *ngIf="((visitDataArray.length > 0) && selectedAppointment) && currentCustomer">
         <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0">Visit Details</h2>
 
         <div class="row" style="margin: 0px;">
@@ -190,13 +190,13 @@
         <div style="margin: 20px 0px;">
           <div class="qm-app-list-table-container__filters" *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0" style="margin-bottom: 14px;">
             <div>
-              Search <input style="margin-left: 12px;" type="text" (change)="onSearchTxtChanged()" (keyup) = "onSearchTxtChanged()" [(ngModel)] = "searchText">
+              Search <input style="margin-left: 12px;" type="text" (change)="onSearchTxtChanged_()" (keyup) = "onSearchTxtChanged_()" [(ngModel)] = "searchText_">
             </div>
             <div>
-              show <select name="" id="" (change)="onChangeElementsPerpage($event.target.value)" style="margin-left: 12px;" >
-                <option value="5"> 5 </option>
+              show <select (change)="onChangeElementsPerpage_($event.target.value)" style="margin-left: 12px;" >
+                <option value="5"> 2 </option>
+                <option value="15"> 5 </option>
                 <option value="10"> 10 </option>
-                <option value="20"> 20 </option>
               </select>
             </div>
           </div>
@@ -206,57 +206,57 @@
               <tr style="border-bottom: 6px solid white">
                 <th style="text-align: start;">
                   Action Time
-                  <button class="qm-transparent-btn" (click) = "sortByChange('DATE')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'DATE' && sortByAsc) || (sortByCondition !== 'DATE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('TIME')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'TIME' && sortByAsc_) || (sortByCondition_ !== 'TIME' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button>
                 </th>
                 <th>Status
-                  <button class="qm-transparent-btn" (click) = "sortByChange('STATUS')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'START' && sortByAsc) || (sortByCondition !== 'START' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('STATUS')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'STATUS' && sortByAsc_) || (sortByCondition_ !== 'STATUS' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button>            
                 </th>
                 <th>Queue
-                  <button class="qm-transparent-btn" (click) = "sortByChange('APP_ID')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'END' && sortByAsc) || (sortByCondition !== 'END' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('QUEUE')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'QUEUE' && sortByAsc_) || (sortByCondition_ !== 'QUEUE' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>Service
-                  <button class="qm-transparent-btn" (click) = "sortByChange('START')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'FIRST_NAME' && sortByAsc) || (sortByCondition !== 'FIRST_NAME' && !sortByAsc))  ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('SERVICE')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'SERVICE' && sortByAsc_) || (sortByCondition_ !== 'SERVICE' && !sortByAsc_))  ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>Outcome
-                  <button class="qm-transparent-btn" (click) = "sortByChange('END')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'LAST_NAME' && sortByAsc) || (sortByCondition !== 'LAST_NAME' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('OUTCOME')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'OUTCOME' && sortByAsc_) || (sortByCondition_ !== 'OUTCOME' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>Mark
-                  <button class="qm-transparent-btn" (click) = "sortByChange('BRANCH')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'RESOURCE' && sortByAsc) || (sortByCondition !== 'RESOURCE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('MARK')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'MARK' && sortByAsc_) || (sortByCondition_ !== 'MARK' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>Recycled
-                  <button class="qm-transparent-btn" (click) = "sortByChange('RESOURCE')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'NOTE' && sortByAsc) || (sortByCondition !== 'NOTE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('RECYCLED')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'RECYCLED' && sortByAsc_) || (sortByCondition_ !== 'RECYCLED' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>Notes
-                  <button class="qm-transparent-btn" (click) = "sortByChange('SERVICES')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'SERVICES' && sortByAsc) || (sortByCondition !== 'SERVICES' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('NOTES')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'NOTES' && sortByAsc_) || (sortByCondition_ !== 'NOTES' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>EntryPoint / ServicePoint
-                  <button class="qm-transparent-btn" (click) = "sortByChange('TITLE')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'EMAIL' && sortByAsc) || (sortByCondition !== 'EMAIL' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('ENTRY_POINT')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'ENTRY_POINT' && sortByAsc_) || (sortByCondition_ !== 'ENTRY_POINT' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
                 <th>User
-                  <button class="qm-transparent-btn" (click) = "sortByChange('USER')">
-                    <i class="sort-icon" [ngClass]="((sortByCondition === 'UPDATED' && sortByAsc) || (sortByCondition !== 'UPDATED' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
+                  <button class="qm-transparent-btn" (click) = "sortByChange_('USER')">
+                    <i class="sort-icon" [ngClass]="((sortByCondition_ === 'USER' && sortByAsc_) || (sortByCondition_ !== 'USER' && !sortByAsc_)) ? 'icon-caret-down': 'icon-caret-up'"></i>
                   </button> 
                 </th>
               </tr>
-              <tr style="font-size: 13.5px;" *ngFor="let visit of visitDataArray | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage">
+              <tr style="font-size: 13.5px;" *ngFor="let visit of actionVisits | slice: (currentPage_-1) * elementsPerPage_ : currentPage_ * elementsPerPage_">
                 <td style="text-align: start;padding: 15px 0px;">{{visit.time}}</td>
                 <td>{{visit.visitOutcome}}</td>
                 <td>{{visit.queue}}</td>
@@ -272,14 +272,14 @@
           </div>
 
           <div>
-            <!-- <div style="display: flex;"  *ngIf="visitDataArray && visitDataArray.length > 0"> 
-              {{updateDetailList()}}
-            </div> -->
-            <div style="display: flex;"  *ngIf="(visitDataArray && visitDataArray.length > 0) && visitDataArray.length === 0 "> 
+            <div style="display: flex;"  *ngIf="sortedfullVisitList && sortedfullVisitList.length > 0"> 
+              {{updateDetailList_()}}
+            </div>
+            <div style="display: flex;"  *ngIf="sortedfullVisitList  && sortedfullVisitList.length === 0 "> 
               {{'label.list.no.items' | translate}} 
             </div>
             <div class="qm-pagination-container" style="margin-top: 8px;">
-              <ngb-pagination *ngIf="visitDataArray && visitDataArray.length > 0" [(page)]="currentPage" [pageSize]="2" [collectionSize]="visitDataArray.length" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
+              <ngb-pagination *ngIf="sortedfullVisitList && sortedfullVisitList.length > 0" [(page)]="currentPage_" [pageSize]="elementsPerPage_" [collectionSize]="sortedfullVisitList.length" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
             </div>
           </div>
         </div>  

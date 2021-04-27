@@ -110,6 +110,23 @@ export class AppointmentEffects {
       )
     );
 
+  @Effect({ dispatch: false })
+  getAppointmentVisitSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(AppointmentActions.FETCH_VISIT_DATA_SUCCESS),
+      tap((action: AppointmentActions.FetchVisitDataSuccess) => {
+        if (action.payload.length === 0) {
+        this.translateService.get('label.history.no.visits').subscribe(
+          (label: string) => {
+            this.toastService.errorToast(label);
+          }
+        ).unsubscribe();
+        }
+
+        }
+      )
+    );
+
   @Effect()
   getAppointmentList$: Observable<Action> = this.actions$
     .pipe(
