@@ -19,12 +19,14 @@ ngb-datepicker {
     background-color: white;
     z-index: 10;
 }
-.ngb-dp-weekday {
-    color: rebeccapurple;
+.ngb-dp-weekday{
+    color: #E50046 !important;
+    font-style: none !important;
 }
-
-$theme-colors: (
-  "primary": green,
-  "danger": yellow
-);
-
+.bg-primary {
+  background:  #E50046 !important;
+}
+.ngb-dp-today {
+  background: #dae0e5;
+  border-radius: .25rem;
+}
