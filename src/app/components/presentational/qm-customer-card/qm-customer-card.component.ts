@@ -21,6 +21,7 @@ import { IAppointment } from '../../../../models/IAppointment';
 })
 export class QmCustomerCardComponent implements OnInit, OnDestroy {
   @Input() customer: ICustomer;
+  @Input() editBtn: boolean;
   subscriptions: Subscription = new Subscription();
   userDirection$: Observable<string>;
   settingsMap$: Observable<{ [name: string]: Setting }>;

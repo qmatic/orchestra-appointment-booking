@@ -3,7 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subscription } from "rxjs";
 import { IAppointment } from "../../../../models/IAppointment";
 import { ICustomer } from "../../../../models/ICustomer";
-import { AppointmentDispatchers, CustomerSelectors, UserSelectors, AppointmentSelectors, BranchSelectors, BranchDispatchers, ServiceSelectors, ServiceDispatchers, SystemInfoSelectors } from "../../../../store";
+import { AppointmentDispatchers, CustomerSelectors, UserSelectors, AppointmentSelectors, BranchSelectors, BranchDispatchers, ServiceSelectors, ServiceDispatchers, SystemInfoSelectors, CustomerDispatchers } from "../../../../store";
 import * as moment from 'moment';
 import { IAppointmentVisit } from "../../../../models/IAppointmentVisit";
 import { IBranch } from "../../../../models/IBranch";
@@ -31,6 +31,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   appointmentLoading$: Observable<boolean>;
   appointmentVisit$: Observable<IAppointmentVisit[]>;
   actionAppointments: IAppointment[];
+  actionVisits: any[];
   appointment: IAppointment;
   selectedAppointment: IAppointment = null;
   visitDataArray: any[] = [];
@@ -41,12 +42,18 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   branches$: Observable<IBranch[]>;
   services$: Observable<IService[]>;
   public searchText: '';
-  public sortedfullappointmentList: IAppointment[];
+  public searchText_: '';
+  public sortedfullappointmentList: IAppointmentVisit[];
+  public sortedfullVisitList: any[];
   public fulAppointmentList: IAppointment[];
   public elementsPerPage: number;
   public currentPage: number;
   public sortByCondition: string;
   public sortByAsc: boolean;
+  public elementsPerPage_: number;
+  public currentPage_: number;
+  public sortByCondition_: string;
+  public sortByAsc_: boolean;
   public branchlist = [];
   public servicelist = [];
   public isMilitaryTime: boolean;
@@ -56,6 +63,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private customerSelectors: CustomerSelectors,
     private appointmentDispatchers: AppointmentDispatchers,
+    private customerDispatchers: CustomerDispatchers,
     private appointmentSelectors: AppointmentSelectors,
     private translateService: TranslateService,
     private branchSelectors: BranchSelectors,
@@ -93,6 +101,10 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     this.toastService.setToastContainer(this.toastContainer);
     this.elementsPerPage = 5;
     this.currentPage = 1;
+    this.elementsPerPage_ = 2;
+    this.currentPage_ = 1;
+
+    this.customerDispatchers.resetCurrentCustomer();
 
     this.isMilitaryTime = true;
     const systemInformationSubscription = this.timeConvention$.subscribe(
@@ -118,11 +130,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     const appointmentsSubcription = this.appointments$.subscribe(
       (appointments: IAppointment[]) => {
         if (appointments.length > 0) {
-          console.log(appointments);
-          
           this.actionAppointments = this.updateAppointments(appointments);
-          console.log(this.actionAppointments);
-
           this.fulAppointmentList = this.actionAppointments;
           this.sortedfullappointmentList = this.actionAppointments;
           this.updateVisibleList();
@@ -201,7 +209,6 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
       .filter(appointmentCreate => appointmentCreate.operation === 'CREATE');
       const updatedAppActionData = JSON.parse((updatedApp[0].change).toString()
       .replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}')).after;
-      // str.replace(/\:"{/g, ":{").replace(/\}"/g, "}");
 
       newApp.branchId = app.branchId;
       newApp.timeStamp = app.timeStamp;
@@ -217,17 +224,6 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
       newApp.actionData.title = app.operation === 'DELETE' ? actionDataBefore.title : actionDataAfter.title;
       newApp.actionData.services = (app.operation === 'DELETE') ?
         [this.mapService(actionDataBefore.services)] : [this.mapService(actionDataAfter.services)];
-      // newApp.actionBranch = (app.operation === 'DELETE') ? '' : this.mapBranch(app.branchId);
-      // newApp.actionData = {};
-      // newApp.actionData.start = (app.operation === 'UPDATE') || (app.operation === 'DELETE') ?
-      //   updatedAppActionData.start : actionData.start;
-      // newApp.actionData.end = (app.operation === 'UPDATE') || (app.operation === 'DELETE') ?
-      //   updatedAppActionData.end : actionData.end;
-      // newApp.actionData.notes = app.operation === 'DELETE' ? '' : actionData.notes;
-      // newApp.actionData.resource = !actionData.resource  ? '' : actionData.resource;
-      // newApp.actionData.title = app.operation === 'DELETE' ? '' : actionData.title;
-      // newApp.actionData.services = (app.operation === 'UPDATE') || (app.operation === 'DELETE') ?
-      //   [this.mapService(updatedAppActionData.services)] : [this.mapService(actionData.services)];
       updatedAppointments.push(newApp);
     });
     return updatedAppointments;
@@ -235,6 +231,10 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
 
   onChangeElementsPerpage($event) {
     this.elementsPerPage = parseInt($event);
+  }
+
+  onChangeElementsPerpage_($event) {
+    this.elementsPerPage_ = parseInt($event);
   }
 
   sortByChange(value: string) {
@@ -248,6 +248,17 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
+  sortByChange_(value: string) {
+    if (this.sortByCondition_ === value) {
+      this.sortByAsc_ = !this.sortByAsc_;
+      this.sortVisitList_();
+    } else {
+      this.sortByAsc_ = true;
+      this.sortByCondition_ = value;
+      this.sortVisitList_();
+    }
+  }
+
   onSearchTxtChanged() {
     if (this.searchText.trim() !== '') {
       this.sortedfullappointmentList = this.filterList(this.fulAppointmentList, this.searchText.trim().toLowerCase());
@@ -256,6 +267,16 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     }
     this.currentPage = 1;
     this.updateVisibleList();
+  }
+
+  onSearchTxtChanged_() {
+    if (this.searchText_.trim() !== '') {
+      this.sortedfullVisitList = this.filterList_(this.actionVisits, this.searchText_.trim().toLowerCase());
+    } else {
+      this.sortedfullVisitList = this.actionVisits;
+    }
+    this.currentPage_ = 1;
+    this.updateVisibleList_();
   }
 
   filterList(list: IAppointment[], value: string) {
@@ -292,9 +313,40 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     return newList;
   }
 
+  filterList_(list: any[], value: string) {
+
+    let timeFormat = 'hh:mm A';
+
+    if (this.isMilitaryTime) {
+      timeFormat = 'HH:mm';
+    }
+    const newList =  list.filter(function(app) {
+
+      const a = app.queue.toString().toLocaleLowerCase().includes(value) ||
+      app.service.toString().toLocaleLowerCase().includes(value) ||
+      app.visitOutcome.toString().toLocaleLowerCase().includes(value) ||
+      app.time.toString().toLocaleLowerCase().includes(value) ||
+      app.entryPoint.toString().toLocaleLowerCase().includes(value) ||
+      app.workstation.toString().toLocaleLowerCase().includes(value) ||
+      app.user.toString().toLocaleLowerCase().includes(value) ||
+      app.notes.toString().toLocaleLowerCase().includes(value) ||
+      app.delService.toString().toLocaleLowerCase().includes(value) ||
+      app.outcome.toString().toLocaleLowerCase().includes(value) ||
+      app.mark.toString().toLocaleLowerCase().includes(value) ||
+      app.recycled.toString().toLocaleLowerCase().includes(value);
+      return a;
+    });
+    return newList;
+  }
+
   updateVisibleList() {
     this.actionAppointments = this.sortedfullappointmentList;
     this.updateDetailList();
+  }
+
+  updateVisibleList_() {
+    this.actionVisits = this.sortedfullVisitList;
+    this.updateDetailList_();
   }
 
   updateDetailList() {
@@ -305,6 +357,22 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
         currentPageTo: (this.currentPage * this.elementsPerPage > this.sortedfullappointmentList.length  ?
           this.sortedfullappointmentList.length : this.currentPage * this.elementsPerPage),
         all: this.sortedfullappointmentList.length
+      })
+      .subscribe(
+        (listFoundLabel: string) => (label = listFoundLabel)
+      )
+      .unsubscribe();
+      return label;
+  }
+
+  updateDetailList_() {
+    let label = '';
+    this.translateService
+      .get('label.list.founded', {
+        currentPageFrom: (this.currentPage_ - 1) * this.elementsPerPage_ + 1,
+        currentPageTo: (this.currentPage_ * this.elementsPerPage_ > this.sortedfullVisitList.length  ?
+          this.sortedfullVisitList.length : this.currentPage_ * this.elementsPerPage_),
+        all: this.sortedfullVisitList.length
       })
       .subscribe(
         (listFoundLabel: string) => (label = listFoundLabel)
@@ -417,6 +485,79 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     console.log(this.selectedAppointment);
   }
 
+  sortVisitList_() {
+    if (this.actionVisits) {
+
+      // sort by name
+      this.sortedfullVisitList = this.actionVisits.slice().sort((a, b) => {
+
+        let nameA = a.status.toUpperCase(); // ignore upper and lowercase
+        let nameB = b.status.toUpperCase(); // ignore upper and lowercase
+
+        switch (this.sortByCondition_) {
+          case 'TIME':
+            nameA = a.time.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.time.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'STATUS':
+            nameA = a.visitOutcome.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.visitOutcome.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'QUEUE':
+            nameA = a.queue.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.queue.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'SERVICE':
+            nameA = a.service.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.service.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'OUTCOME':
+            nameA = a.outcome.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.outcome.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'MARK':
+            nameA = a.mark.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.mark.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'RECYCLED':
+            nameA = a.recycled.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.recycled.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'NOTES':
+            nameA = a.notes.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.notes.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'ENTRY_POINT':
+            nameA = a.entryPoint.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.entryPoint.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+          case 'USER':
+            nameA = a.user.toString().toUpperCase(); // ignore upper and lowercase
+            nameB = b.user.toString().toUpperCase(); // ignore upper and lowercase
+            break;
+        }
+
+        if ((nameA < nameB && this.sortByAsc_) || (nameA > nameB && !this.sortByAsc_)) {
+          return -1;
+        }
+        if ((nameA > nameB && this.sortByAsc_) || (nameA < nameB && !this.sortByAsc_)) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      });
+      this.updateVisibleList_();
+    }
+  }
+
+  // appointmentSelected(appId) {
+  //   this.visitDataArray = [];
+  //   this.selectedAppointment = null;
+  //   this.appointmentDispatchers.fetchAnAppointment(appId);
+  //   this.appointmentDispatchers.fetchAppointmentVisit(appId);
+
+  // }
+
   unSelectedAppointment() {
     this.visitDataArray = [];
     this.selectedAppointment = null;
@@ -497,6 +638,8 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
         this.visitDataArray.push(visitRow);
       }
     });
+    this.sortedfullVisitList = this.visitDataArray;
+    this.actionVisits = this.visitDataArray;
   }
 
   secondsToTime(secs) {
