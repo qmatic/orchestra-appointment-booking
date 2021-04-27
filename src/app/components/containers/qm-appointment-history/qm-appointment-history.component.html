@@ -12,8 +12,7 @@
     </div>
     
     <div class="qm-app-list-table-container">
-      <!-- <h2 class="qm-app-list-table-container__heading"><span>Appointments</span> | <span>Visit Details</span></h2> -->
-      <div *ngIf="(!selectedAppointment) && currentCustomer">
+      <div *ngIf="(!(visitDataArray.length > 0) || !selectedAppointment) && currentCustomer">
         <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0">Appointments</h2>
         <br>
         <div class="qm-app-list-table-container__filters" *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0">
