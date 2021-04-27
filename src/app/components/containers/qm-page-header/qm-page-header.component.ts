@@ -29,6 +29,7 @@ import {
 import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { ISystemInfo } from '../../../../models/ISystemInfo';
 import { BookingHelperDispatchers } from '../../../../store/services/booking-helper/booking-helper.dispatchers';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'qm-page-header',
@@ -47,6 +48,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   selectedTime$: Observable<string>;
   private isValidLicense$: Observable<boolean>;
   private isValidLicense: boolean;
+  applicationName = 'Appointment Booking';
 
   @Output()
   clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
@@ -69,7 +71,8 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private logoutService: Logout,
     private licenseInfoSelectors: LicenseInfoSelectors,
-    private bookingHelperDispatchers: BookingHelperDispatchers
+    private bookingHelperDispatchers: BookingHelperDispatchers,
+    private translateService: TranslateService,
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -80,6 +83,25 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if ( this.route.snapshot['_routerState'].url === '/app-history' ) {
+      this.translateService.get('label.application.name.history').subscribe(
+        (label: string) =>  {
+          this.applicationName = label;
+        }
+      ).unsubscribe();
+    } else if ( this.route.snapshot['_routerState'].url === '/app-list' ) {
+      this.translateService.get('label.application.name.list').subscribe(
+        (label: string) =>  {
+          this.applicationName = label;
+        }
+      ).unsubscribe();
+    } else {
+      this.translateService.get('label.application.name').subscribe(
+        (label: string) =>  {
+          this.applicationName = label;
+        }
+      ).unsubscribe();
+    }
     this.headerSubscriptions.add(
       this.selectedServices$.subscribe((services: IService[]) => {
         this.selectedServices = services;
@@ -146,6 +168,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(APP_LIST_URL);
       this.bookingHelperDispatchers.resetAll();
     });
+    this.applicationName = 'Appointment List';
   }
 
   homeClick($event) {
