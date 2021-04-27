@@ -90,6 +90,6 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
     this.branch = null;
     this.fromDate = null;
     this.toDate = null;
-
+    this.appointmentDispatchers.resetAppointmentList();
   }
 }

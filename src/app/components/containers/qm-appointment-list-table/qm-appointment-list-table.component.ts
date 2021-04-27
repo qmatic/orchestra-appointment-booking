@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AppointmentDispatchers, AppointmentSelectors, SettingsAdminSelectors, SystemInfoSelectors } from '../../../../store';
+import { AppointmentDispatchers, AppointmentSelectors, SettingsAdminSelectors, SystemInfoSelectors, UserSelectors } from '../../../../store';
 import { Subscription, Observable } from 'rxjs';
 import { IAppointment } from '../../../../models/IAppointment';
 
@@ -37,18 +37,22 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   public isMilitaryTime: boolean;
   public appointmentsLoaded: boolean;
   public settingsMap: { [name: string]: Setting };
+  public userDirection$: Observable<string>;
+  public allFeildsDisabled: boolean;
 
   constructor(
     private appointmentSelectors: AppointmentSelectors,
     private systemInfoSelectors: SystemInfoSelectors,
     private translateService: TranslateService,
     private settingsAdminSelectors: SettingsAdminSelectors,
-    private appointmentDispatchers: AppointmentDispatchers
+    private appointmentDispatchers: AppointmentDispatchers,
+    private userSelectors: UserSelectors,
   ) {
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.appointmentList$ = this.appointmentSelectors.appointmentList$;
     this.appointmentsLoaded$ = this.appointmentSelectors.appointmentsLoaded$;
     this.appointmentsLoading$ = this.appointmentSelectors.appointmentsLoading$;
+    this.userDirection$ = this.userSelectors.userDirection$;
     this.sortByCondition = 'DATE';
     this.sortByAsc = true;
     this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
@@ -69,7 +73,18 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
         this.settingsMap = settingsMap;
-        console.log(this.settingsMap)
+        this.allFeildsDisabled =  (settingsMap.ListDate && !settingsMap.ListDate.value) &&
+        (settingsMap.ListStart && !settingsMap.ListStart.value) &&
+        (settingsMap.ListEnd && !settingsMap.ListEnd.value) &&
+        (settingsMap.ListFirstName && !settingsMap.ListFirstName.value) &&
+        (settingsMap.ListLastName && !settingsMap.ListLastName.value) &&
+        (settingsMap.ListResource && !settingsMap.ListResource.value) &&
+        (settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value) &&
+        (settingsMap.ListServices && !settingsMap.ListServices.value) &&
+        (settingsMap.ListEmail && !settingsMap.ListEmail.value) &&
+        (settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value) &&
+        (settingsMap.ListUpdated && !settingsMap.ListUpdated.value) &&
+        (settingsMap.ListStatus && !settingsMap.ListStatus.value)
       }
     );
     this.subscriptions.add(settingsSubscription);
@@ -105,16 +120,17 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     var fileName = 'Appointments List.xlsx';
     /* table id is passed over here */
     let element = document.getElementById('app-full-list');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {raw: true});
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, `${this.branchName}`);
-
+    // XLSX.utils.format_cell(ws['A2'].w.s);
     /* save to file */
     XLSX.writeFile(wb, fileName);
 
   }
+
+ 
 
   exportToPdf() {
     const doc = new jsPDF('l');
