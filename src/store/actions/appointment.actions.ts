@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { IAppointmentResponse } from '../../models/IAppointmentResponse';
 import { IAppointment } from '../../models/IAppointment';
-import { IAppointmentVisit } from '../../models/IAppointmentVisit';
 
 // Appointment actions
 export const FETCH_APPOINTMENTS = '[Appointment] FETCH_APPOINTMENTS';
@@ -68,7 +67,7 @@ export class FetchAnAppointmentFail implements Action {
 
 export class FetchAnAppointmentSuccess implements Action {
   readonly type = FETCH_AN_APPOINTMENT_SUCCESS;
-  constructor(public payload: IAppointmentResponse) {}
+  constructor(public payload: any) {}
 }
 
 export class FetchVisitData implements Action {

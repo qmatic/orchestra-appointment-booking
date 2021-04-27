@@ -25,6 +25,15 @@
             padding: 0px 10px;
             border: 1px solid $dark-transparent12;
         }
+        &-search {
+            margin-left: 5px;
+        }
+        &-input {
+            margin-left: 12px;
+        }
+        &-select {
+            margin-left: 12px;
+        }
     }
     &-list{
         overflow: auto;
@@ -46,6 +55,24 @@
             margin: 0 4px;
         }
 
+    }
+    &-back {
+        float: right;
+        display: flex;
+        color: $pale-blue;
+    }
+    &-back:hover {
+        color: $qmatic-bordeaux;
+    }
+}
+
+.qm-app-search {
+    height: 30%;
+    width: 30%;
+    margin: 10px 20px;
+
+    &_card {
+        width: max-content;
     }
 }
 

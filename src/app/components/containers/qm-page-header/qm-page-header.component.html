@@ -9,7 +9,8 @@
       <span class="sr-only">{{ 'label.home' | translate }}</span>
     </a>
     <a href="/" class="qm-header__brand-logo-container" (click)="homeClick($event)">
-      <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span>
+      <!-- <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span> -->
+      <span class="qm-header__application-name">{{ applicationName }}</span>
     </a>
     <!-- <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span> -->
     <!-- <span class="qm-header__application-name"><a href="app-history" (click)="navigateToAppHistory($event)" >App History</a></span> -->

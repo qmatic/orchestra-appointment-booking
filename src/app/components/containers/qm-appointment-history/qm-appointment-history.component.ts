@@ -11,6 +11,7 @@ import { IService } from "../../../../models/IService";
 import { ToastService } from './../../../../services/util/toast.service';
 import { ToastContainerDirective } from "ngx-toastr";
 import { LocationStrategy } from "@angular/common";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "qm-qm-appointment-history",
@@ -72,7 +73,8 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     private serviceDispatchers: ServiceDispatchers,
     private toastService: ToastService,
     private systemInfoSelectors: SystemInfoSelectors,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
+    private router: Router
   ) {
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.userDirection$ = this.userSelectors.userDirection$;
@@ -141,8 +143,8 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     const anAppointmentSubcription = this.appointment$.subscribe(
       appointment => {
           this.selectedAppointment = appointment;
-          console.log("suka  ---- " +this.selectedAppointment);
-          if (this.selectedAppointment) {
+          console.log('suka  ---- ' + this.selectedAppointment);
+          if (this.selectedAppointment && appointment.qpId) {
             this.appointmentDispatchers.fetchAppointmentVisit(appointment.qpId.toString());
           }
       }
@@ -191,6 +193,11 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  nevigateToAB() {
+    this.router.navigateByUrl('/app');
+    this.customerDispatchers.resetCurrentCustomer();
   }
 
   extractValue(app: IAppointment, allowNull?: boolean) {

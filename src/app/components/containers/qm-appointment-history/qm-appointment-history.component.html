@@ -1,26 +1,30 @@
 <div class="qm-app">
   <qm-page-header></qm-page-header>
   <qm-main>
-    <div class="" style="height: 30%; width: 30%; margin: 10px 20px">
+    <div class="qm-app-search">
       <qm-customer-search
         *ngIf="currentCustomer === null; else customerCard"
         [addButton]="false"
       ></qm-customer-search>
       <ng-template #customerCard>
-        <qm-customer-card [editBtn]="false" [customer]="currentCustomer" style="width: max-content;"></qm-customer-card>
+        <qm-customer-card [editBtn]="false" [customer]="currentCustomer" class="qm-app-search_card" style="width: max-content;"></qm-customer-card>
       </ng-template>
     </div>
     
     <div class="qm-app-list-table-container">
+      <div class="qm-app-list-table-container-back" type="button" (click)="nevigateToAB()">
+        <i class="qm-action-btn__icon icon-caret-left" style="font-size: 26px;" aria-hidden="true"></i>
+        <span style="font-size: 18px;">Back</span>
+      </div>
       <div *ngIf="(!(visitDataArray.length > 0) || !selectedAppointment) && currentCustomer">
         <h2 class="qm-app-list-table-container__heading"  *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0">Appointments</h2>
         <br>
         <div class="qm-app-list-table-container__filters" *ngIf="currentCustomer && fulAppointmentList && fulAppointmentList.length > 0">
-          <div style="margin-left: 5px;">
-            Search <input type="text" (change)="onSearchTxtChanged()" (keyup) = "onSearchTxtChanged()" [(ngModel)] = "searchText" style="margin-left: 12px;">
+          <div class="qm-app-list-table-container__filters-search">
+            {{ 'label.history.search' | translate }} <input type="text" (change)="onSearchTxtChanged()" (keyup) = "onSearchTxtChanged()" [(ngModel)] = "searchText" class="qm-app-list-table-container__filters-input">
           </div>
           <div>
-            show <select name="" id="" (change)="onChangeElementsPerpage($event.target.value)" style="margin-left: 12px;">
+            {{ 'label.history.show' | translate }} <select (change)="onChangeElementsPerpage($event.target.value)" class="qm-app-list-table-container__filters-select">
               <option value="5"> 5 </option>
               <option value="10"> 10 </option>
               <option value="20"> 20 </option>
