@@ -133,7 +133,10 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     const anAppointmentSubcription = this.appointment$.subscribe(
       appointment => {
           this.selectedAppointment = appointment;
-          console.log(this.selectedAppointment);
+          console.log("suka  ---- " +this.selectedAppointment);
+          if (this.selectedAppointment) {
+            this.appointmentDispatchers.fetchAppointmentVisit(appointment.qpId.toString());
+          }
       }
     );
 
@@ -407,11 +410,10 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  appointmentSelected(appId) {
+  appointmentSelected(appointment) {
     this.visitDataArray = [];
     this.selectedAppointment = null;
-    this.appointmentDispatchers.fetchAnAppointment(appId);
-    this.appointmentDispatchers.fetchAppointmentVisit(appId);
+    this.appointmentDispatchers.fetchAnAppointment(appointment.entityId);
     console.log(this.selectedAppointment);
   }
 

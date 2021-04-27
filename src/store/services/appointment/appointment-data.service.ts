@@ -30,7 +30,7 @@ export class AppointmentDataService {
 
   getAppointmentVisit(appId: string): Observable<IAppointmentVisit> {
     return this.http
-      .get<IAppointmentVisit>(`${QueueingHistoryEndpoint}/queueingHistory/${appId}`)
+      .get<IAppointmentVisit>(`${QueueingHistoryEndpoint}?appointmentId=${appId}`)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
