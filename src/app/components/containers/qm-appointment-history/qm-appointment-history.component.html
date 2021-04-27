@@ -101,7 +101,7 @@
                 </button> 
               </th>
             </tr>
-            <tr style="font-size: 13.5px;margin-top: 10px;" *ngFor="let appointment of actionAppointments | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage" (click)="appointmentSelected(appointment.entityId)">
+            <tr style="font-size: 13.5px;margin-top: 10px;" *ngFor="let appointment of actionAppointments | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage" (click)="appointmentSelected(appointment)">
               <td style="text-align: start;padding: 5px 0px;">{{appointment.timeStamp | amDateFormat: 'DD-MM-YYYY'}} <br>
                 {{appointment.timeStamp | amDateFormat: 'hh:mm A'}}
               </td>
