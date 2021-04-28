@@ -95,7 +95,6 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
                 .indexOf(this.datesSearchText.toLowerCase()) !== -1
             );
           });
-          console.log(this.dates);
       }
     );
 
