@@ -144,7 +144,6 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         startY: 20
     })  
     //@ts-ignore
-    // doc.autoTable({ html: '#app-full-list' });
     doc.save(`Appointment List from ${this.branchName}.pdf`)
 
   }
@@ -152,7 +151,6 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   onSearchTxtChanged() {
     if (this.searchText.trim() !== '') { 
       this.sortedfullappointmentList = this.filterList(this.fulAppointmentList, this.searchText.trim().toLowerCase(), this.settingsMap);
-      // console.log(this.settingsMap)
     } else {
       this.sortedfullappointmentList = this.fulAppointmentList;
     }
@@ -281,7 +279,6 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   }
 
   filterList(list: IAppointment[], value: string, settingsMap: { [name: string]: Setting }) { 
-    console.log(settingsMap.ListFirstName);
     var timeFormat = 'hh:mm A';
 
     if (this.isMilitaryTime) {
@@ -294,7 +291,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
       (!(settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value)) && app.properties.notes.toLocaleLowerCase().includes(value) ||
       (!(settingsMap.ListServices && !settingsMap.ListServices.value)) && (app.services.length > 0 && app.services[0].name.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value))||
-      (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value) || this.settingsMap.ListPhoneNumber == undefined) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
+      (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
       (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format("DD-MM-YYYY").includes(value) ||
       (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).includes(value) ||

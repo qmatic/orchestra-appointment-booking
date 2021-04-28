@@ -23,7 +23,7 @@ export const appRoutes: Routes = [
   { path: 'loading', component: QmAppLoaderComponent },
   { path: 'app-history', component: QmAppointmentHistoryComponent },
   { path: 'app', component: QmAppComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
-  { path: 'app-list', component: QmAppointmentListComponent },
+  { path: 'app-list', component: QmAppointmentListComponent, canActivate: [LicenseAuthGuard, SettingsErrorGuard] },
   { path: 'invalid-license', component: QmInvalidLicenseComponent },
   { path: 'error', component: QmErrorComponent },
   { path: 'print-appointment', component: QmPrintConfirmComponent},
