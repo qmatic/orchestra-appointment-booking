@@ -29,7 +29,6 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
   private reservedAppointment: IAppointment;
   private dateConvention$: Observable<string>;
   public dateFormat = 'dddd MMMM DD YYYY';
-  public dates: string[];
   private settingsMap$: Observable<{ [name: string]: Setting }>;
   private getDtFormatFromParams: boolean;
 
@@ -83,23 +82,7 @@ export class QmDateBookerComponent implements OnInit, OnDestroy {
       }
     );
 
-    const visibleDatesSubscription = this.dates$.subscribe(
-      (dates: string[]) => {
-        this.dates = this.datesSearchText === ''
-        ? dates
-        : dates.filter((date: string) => {
-            return (
-              moment(date)
-                .format(this.dateFormat)
-                .toLowerCase()
-                .indexOf(this.datesSearchText.toLowerCase()) !== -1
-            );
-          });
-      }
-    );
-
     this.subscriptions.add(settingsMapSubscription);
-    this.subscriptions.add(visibleDatesSubscription);
     this.subscriptions.add(dateConventionSubscription);
     this.subscriptions.add(searchTextSubscription);
     this.subscriptions.add(selectedDateSubscription);
