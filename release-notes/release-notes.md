@@ -51,6 +51,7 @@ This document describes the new features, bug corrections, known issues and reco
 | **AB-151** | **Phone validation differs between AB and QWB** |
 | **AB-60** | **Re-send appointment confirmation from Appointment Booking** |
 | **AB-248** | **Use system parameter for date** |
+| **AB-254** | **Use system parameter for date - Appointment List** |
 
 
 <h3>Bug fixes</h3>
