@@ -128,7 +128,7 @@
         <tr *ngIf= "allFeildsDisabled"
         > <td colspan="100%">  Please enable atleast one field from setting </td>  </tr>
         <tr *ngFor="let appointment of appointmentList | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage">
-          <td  *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: 'DD-MM-YYYY' }}</td>
+          <td  *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: dateFormat }}</td>
           <td *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'"> {{ appointment.startTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
           <td *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'"> {{ appointment.endTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
           <td *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'"> <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].firstName }}</span></td>
@@ -138,7 +138,7 @@
           <td *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'"> <span *ngIf="appointment.services.length > 0">{{ appointment.services[0].name }}</span></td>
           <td *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'" >  <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.email }}</span></td>
           <td *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.phoneNumber }} </span></td>
-          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? 'DD-MM-YYYY - HH:mm' : 'DD-MM-YYYY - hh:mm
+          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? dateFormat +' - HH:mm' : dateFormat +' - hh:mm
             A') }}</td>
           <td *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'"> {{ appointment.status }}</td>
         </tr>
@@ -177,7 +177,7 @@
       
         </tr>
         <tr *ngFor="let appointment of fulAppointmentList">
-          <td *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: 'DD-MM-YYYY'}}  </td>
+          <td *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: dateFormat}}  </td>
           <td *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'"> {{ appointment.startTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
           <td *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'"> {{ appointment.endTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
           <td *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'"> <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].firstName }}</span></td>
@@ -187,7 +187,7 @@
           <td *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'"> <span *ngIf="appointment.services.length > 0">{{ appointment.services[0].name }}</span></td>
           <td *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'" >  <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.email }}</span></td>
           <td *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.phoneNumber }} </span></td>
-          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? 'DD-MM-YYYY - HH:mm' : 'DD-MM-YYYY - hh:mm
+          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? dateFormat +' - HH:mm' : dateFormat +' - hh:mm
             A') }}</td>
           <td *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'"> {{ appointment.status }}</td>
         </tr>
