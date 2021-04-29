@@ -19,7 +19,7 @@ import { Setting } from '../../../../models/Setting';
   styleUrls: ['./qm-appointment-list-table.component.scss']
 })
 export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
-  @Input() branchName: string; 
+  @Input() branchName: string;
   private subscriptions: Subscription = new Subscription();
   public appointmentList$: Observable<IAppointment[]>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
@@ -128,9 +128,9 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
 
   exportToExcel() {
     /*name of the excel-file which will be downloaded. */
-    var fileName = 'Appointments List.xlsx';
+    const fileName = 'Appointments List.xlsx';
     /* table id is passed over here */
-    let element = document.getElementById('app-full-list');
+    const element = document.getElementById('app-full-list');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {raw: true});
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -189,14 +189,14 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
 
       if (this.sortByCondition == 'DATE' || this.sortByCondition == 'UPDATED') {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
-
+          let nameA, nameB;
           if (this.sortByCondition == 'DATE') {
-            let nameA = new Date(a.startTime)
-            let nameB = new Date(b.startTime)
+             nameA = new Date(a.startTime)
+             nameB = new Date(b.startTime)
 
           } else {
-            let nameA = new Date(a.updateTime)
-            let nameB = new Date(b.updateTime)
+             nameA = new Date(a.updateTime)
+             nameB = new Date(b.updateTime)
           }
 
           if ((nameA < nameB && this.sortByAsc) || (nameA > nameB && !this.sortByAsc)) {
@@ -212,12 +212,13 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
 
       } else if (this.sortByCondition == 'START' ||this.sortByCondition == 'END') {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
+          let nameA, nameB;
           if(this.sortByCondition == 'START' ) {
-            let nameA = moment(a.startTime).format("HH:mm");
-            let nameB = moment(b.startTime).format("HH:mm");
+             nameA = moment(a.startTime).format('HH:mm');
+             nameB = moment(b.startTime).format('HH:mm');
           } else {
-            let nameA = moment(a.endTime).format("HH:mm");
-            let nameB = moment(b.endTime).format("HH:mm");
+             nameA = moment(a.endTime).format('HH:mm');
+             nameB = moment(b.endTime).format('HH:mm');
           }
           if ((nameA < nameB && this.sortByAsc) || (nameA > nameB && !this.sortByAsc)) {
             return -1;
@@ -229,8 +230,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
           return 0;
         });
         this.updateVisibleList();
-      }
-      else {
+      } else {
 
         // sort by name
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
@@ -239,35 +239,35 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
           let nameB =  b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
 
           switch (this.sortByCondition) {
-            case "FIRST_NAME":
+            case 'FIRST_NAME':
               nameA = a.customers.length > 0 ? a.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
               nameB =  b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
               break;
-            case "LAST_NAME":
+            case 'LAST_NAME':
               nameA = a.customers.length > 0 ? a.customers[0].lastName.toUpperCase() : ''; // ignore upper and lowercase
               nameB = b.customers.length > 0 ? b.customers[0].lastName.toUpperCase() : ''; // ignore upper and lowercase
               break;
-            case "RESOURCE":
+            case 'RESOURCE':
               nameA = a.resourceName.toUpperCase(); // ignore upper and lowercase
               nameB = b.resourceName.toUpperCase(); // ignore upper and lowercase
               break;
-            case "NOTE":
+            case 'NOTE':
               nameA = a.properties.notes.toUpperCase(); // ignore upper and lowercase
               nameB = b.properties.notes.toUpperCase(); // ignore upper and lowercase
               break;
-            case "SERVICES":
+            case 'SERVICES':
               nameA = a.services.length > 0 ?  a.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
               nameB = b.services.length > 0 ?  b.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
               break;
-            case "EMAIL":
+            case 'EMAIL':
               nameA =  a.customers.length > 0 ? a.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
               nameB =  b.customers.length > 0 ? b.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
               break;
-            case "PHONE":
+            case 'PHONE':
               nameA = a.customers.length > 0 ? a.customers[0].properties.phoneNumber.toUpperCase() : ''; // ignore upper and lowercase
               nameB = b.customers.length > 0 ? b.customers[0].properties.phoneNumber.toUpperCase() : ''; // ignore upper and lowercase
               break;
-            case "STATUS":
+            case 'STATUS':
               nameA = a.status.toUpperCase(); // ignore upper and lowercase
               nameB = b.status.toUpperCase(); // ignore upper and lowercase
               break;
@@ -295,16 +295,16 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     if (this.isMilitaryTime) {
       timeFormat = 'HH:mm';
     }
-    let newList =  list.filter(function(app) {
+    const newList =  list.filter(function(app) {
       return ((!(settingsMap.ListFirstName && !settingsMap.ListFirstName.value)) && app.customers.length >0 && app.customers[0].firstName.toLocaleLowerCase().includes(value)) ||
       ((!(settingsMap.ListLastName && !settingsMap.ListLastName.value)) && (app.customers.length > 0 && app.customers[0].lastName.toLocaleLowerCase().includes(value))) ||
       (!(settingsMap.ListResource && !settingsMap.ListResource.value)) && app.resourceName.toLocaleLowerCase().includes(value) ||
       (!(settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value)) && app.properties.notes.toLocaleLowerCase().includes(value) ||
       (!(settingsMap.ListServices && !settingsMap.ListServices.value)) && (app.services.length > 0 && app.services[0].name.toLocaleLowerCase().includes(value)) ||
-      (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value))||
+      (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format("DD-MM-YYYY").includes(value) ||
+      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format('DD-MM-YYYY').includes(value) ||
       (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).includes(value) ||
       (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).includes(value) ||
       (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`DD-MM-YYYY - ${timeFormat}`).includes(value);
