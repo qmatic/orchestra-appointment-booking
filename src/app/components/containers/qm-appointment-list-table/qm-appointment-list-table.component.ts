@@ -65,7 +65,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   ngOnInit() {
     this.elementsPerPage = 5;
     this.currentPage = 1;
-    document.title = "Appointment List"
+    document.title = 'Appointment List'
     const appointmentSubscription = this.appointmentList$.subscribe(
       (appointments: IAppointment[]) => {
         this.fulAppointmentList = appointments;
@@ -89,7 +89,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         (settingsMap.ListEmail && !settingsMap.ListEmail.value) &&
         (settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value) &&
         (settingsMap.ListUpdated && !settingsMap.ListUpdated.value) &&
-        (settingsMap.ListStatus && !settingsMap.ListStatus.value)
+        (settingsMap.ListStatus && !settingsMap.ListStatus.value);
       }
     );
     this.subscriptions.add(settingsSubscription);
@@ -97,7 +97,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     const systemInformationSubscription = this.timeConvention$.subscribe(
       timeConvention => {
         if (timeConvention) {
-          this.isMilitaryTime = timeConvention !== 'AMPM'
+          this.isMilitaryTime = timeConvention !== 'AMPM';
         }
       }
     );
@@ -153,9 +153,9 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     doc.autoTable({
         html: '#app-full-list',
         startY: 20
-    })
+    });
     // @ts-ignore
-    doc.save(`Appointment List from ${this.branchName}.pdf`)
+    doc.save(`Appointment List from ${this.branchName}.pdf`);
 
   }
 
@@ -191,12 +191,12 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
           let nameA, nameB;
           if (this.sortByCondition == 'DATE') {
-             nameA = new Date(a.startTime)
-             nameB = new Date(b.startTime)
+             nameA = new Date(a.startTime);
+             nameB = new Date(b.startTime);
 
           } else {
-             nameA = new Date(a.updateTime)
-             nameB = new Date(b.updateTime)
+             nameA = new Date(a.updateTime);
+             nameB = new Date(b.updateTime);
           }
 
           if ((nameA < nameB && this.sortByAsc) || (nameA > nameB && !this.sortByAsc)) {
@@ -210,10 +210,10 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         });
         this.updateVisibleList();
 
-      } else if (this.sortByCondition == 'START' ||this.sortByCondition == 'END') {
+      } else if (this.sortByCondition === 'START' ||this.sortByCondition === 'END') {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
           let nameA, nameB;
-          if(this.sortByCondition == 'START' ) {
+          if(this.sortByCondition === 'START' ) {
              nameA = moment(a.startTime).format('HH:mm');
              nameB = moment(b.startTime).format('HH:mm');
           } else {
@@ -291,12 +291,13 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
 
   filterList(list: IAppointment[], value: string, settingsMap: { [name: string]: Setting }) {
     let timeFormat = 'hh:mm A';
+    const dateFormat = this.dateFormat;
 
     if (this.isMilitaryTime) {
       timeFormat = 'HH:mm';
     }
     const newList =  list.filter(function(app) {
-      return ((!(settingsMap.ListFirstName && !settingsMap.ListFirstName.value)) && app.customers.length >0 && app.customers[0].firstName.toLocaleLowerCase().includes(value)) ||
+      return ((!(settingsMap.ListFirstName && !settingsMap.ListFirstName.value)) && app.customers.length > 0 && app.customers[0].firstName.toLocaleLowerCase().includes(value)) ||
       ((!(settingsMap.ListLastName && !settingsMap.ListLastName.value)) && (app.customers.length > 0 && app.customers[0].lastName.toLocaleLowerCase().includes(value))) ||
       (!(settingsMap.ListResource && !settingsMap.ListResource.value)) && app.resourceName.toLocaleLowerCase().includes(value) ||
       (!(settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value)) && app.properties.notes.toLocaleLowerCase().includes(value) ||
@@ -304,10 +305,10 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
       (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format('DD-MM-YYYY').includes(value) ||
+      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format(dateFormat).includes(value) ||
       (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).includes(value) ||
       (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).includes(value) ||
-      (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`DD-MM-YYYY - ${timeFormat}`).includes(value);
+      (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`${dateFormat} - ${timeFormat}`).includes(value);
     });
 
     return newList;
