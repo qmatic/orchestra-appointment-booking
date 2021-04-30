@@ -662,6 +662,10 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     return timeString;
   }
 
+  handleHeaderNavigations(navigationType) {
+    window.location.href = '/';
+  }
+
   clickBackToAppointmentsPage($event) {
     this.customerDispatchers.resetCurrentCustomer();
     this.appointmentHistoryDispatchers.resetActionAppointment();

@@ -1,5 +1,5 @@
 <div class="qm-app">
-  <qm-page-header [isPreventHeaderNavigations]="true"  (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
+  <qm-page-header [isPreventHeaderNavigations]="true" (handleHeaderNavigations)="handleHeaderNavigations($event)"  (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
   <qm-main>
     <div class="qm-dashboard" dir="{{ userDirection$ | async }}">
       <div class="qm-dashboard__header">
@@ -47,7 +47,7 @@
                       </button>
               
                       <ng-template #clearBtn>
-                        <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear" (click)="blockerSearch.value = ''; onTextChange('')">
+                        <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear" (click)="historySearch.value = ''; onTextChange('')">
                           <i class="qm-action-btn__icon icon-close qm-search__icon" aria-hidden="true"></i>
                           <span class="sr-only">{{ 'button.historySearch.clear' | translate }}</span>
                         </button>

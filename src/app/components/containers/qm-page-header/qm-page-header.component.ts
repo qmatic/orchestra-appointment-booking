@@ -51,6 +51,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   private isValidLicense: boolean;
   applicationName = 'Appointment Booking';
   isHistoryAuditEnable = false;
+  isAppointmentListEnable = false;
 
   @Output()
   clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
@@ -132,6 +133,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     const settingsMapSubscription = this.settingsAdminSelectors.settingsAsMap$.subscribe(
       (settingsMap: {[name: string]: Setting }) => {
         this.isHistoryAuditEnable = settingsMap.EnableHistoryAudit.value;
+        this.isAppointmentListEnable = settingsMap.EnableAppointmentList.value;
       }
     );
   }

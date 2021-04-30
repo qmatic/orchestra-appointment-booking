@@ -8,11 +8,11 @@
       <img class="qm-header__brand-logo" [src]="brandLogoSrc" alt="" role="presentation" />
       <span class="sr-only">{{ 'label.home' | translate }}</span>
     </a>
-    <a href="/" class="qm-header__brand-logo-container" (click)="homeClick($event)">
+    <a *ngIf="this.route.snapshot.url[0].path !== 'app-list' && this.route.snapshot.url[0].path !== 'app-history'" href="/" class="qm-header__brand-logo-container" (click)="homeClick($event)">
       <!-- <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span> -->
       <span class="qm-header__application-name">{{ applicationName }}</span>
     </a>
-    <!-- <span class="qm-header__application-name">{{ 'label.application.name' | translate }}</span> -->
+    <span *ngIf="this.route.snapshot.url[0].path === 'app-list' || this.route.snapshot.url[0].path === 'app-history'" class="qm-header__application-name">{{ applicationName }}</span>
     <!-- <span class="qm-header__application-name"><a href="app-history" (click)="navigateToAppHistory($event)" >App History</a></span> -->
   </div>
   
@@ -27,7 +27,7 @@
     </a>
 
     <a (click)="navigateToAppList($event)" href="/app-list"
-      *ngIf="(userIsAdmin$ | async) && hasValidLicense()"
+      *ngIf="isAppointmentListEnable && hasValidLicense()"
       [ngClass]="{'qm-header__settings-admin-active' : isPreventHeaderNavigations}"
       class="qm-action-btn qm-action-btn--only-icon qm-header__settings-btn">
       <i class="qm-action-btn__icon icon-mark" aria-hidden="true"></i>
@@ -43,7 +43,7 @@
       <span class="sr-only">{{ 'label.settings' | translate }}</span>
     </a>
 
-    <a (click)="navigateBackToAppointment($event); autoCloseService.refreshAutoClose()" href="/app" *ngIf="this.route.snapshot.url[0].path === 'settings-admin' || this.route.snapshot.url[0].path === 'app-history'" class="qm-action-btn qm-action-btn--only-icon qm-header__settings-back-btn">
+    <a (click)="navigateBackToAppointment($event); autoCloseService.refreshAutoClose()" href="/app" *ngIf="this.route.snapshot.url[0].path === 'settings-admin' || this.route.snapshot.url[0].path === 'app-history' || this.route.snapshot.url[0].path === 'app-list'" class="qm-action-btn qm-action-btn--only-icon qm-header__settings-back-btn">
       <i class="qm-action-btn__icon icon-caret-left" aria-hidden="true"></i>
       <span>{{ 'label.settings.backto.appointment' | translate }}</span>
     </a>

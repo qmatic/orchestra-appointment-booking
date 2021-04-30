@@ -95,6 +95,7 @@ import {
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
 import { QmTruncatePipe } from './pipes/qm-truncate.pipe';
 import { QmDateFormatPipe } from './pipes/qm-date-format.pipe';
+import { QmDateOnlyFormatPipe } from './pipes/qm-date-only-format.pipe';
 import { QmTimeFormatPipe } from './pipes/qm-time-format.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
@@ -164,6 +165,9 @@ import { QmAppointmentListTableComponent } from './components/containers/qm-appo
 import { QmAppListFilterPipe } from './components/containers/qm-appointment-list-table/qm-app-list-filter.pipe';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
@@ -222,6 +226,7 @@ const toastrGlobalOptions = {
     QmHighlightPipe,
     QmTruncatePipe,
     QmDateFormatPipe,
+    QmDateOnlyFormatPipe,
     QmTimeFormatPipe,
     QmCustomerAppointmentsComponent,
     QmDropdownComponent,
@@ -293,7 +298,10 @@ const toastrGlobalOptions = {
     MatFormFieldModule,
     MatNativeDateModule,
     MatTableModule,
+    MatDatepickerModule,
+    MatInputModule,
     MatPaginatorModule,
+    MatButtonToggleModule,
     MatSortModule,
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,

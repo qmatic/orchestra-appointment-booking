@@ -63,6 +63,12 @@
                 "defaultValue": false,
                 "value": false,
                 "outputType": "Boolean"
+            },
+            {
+                "name": "EnableAppointmentList",
+                "defaultValue": false,
+                "value": false,
+                "outputType": "Boolean"
             }
         ]
     },

@@ -112,6 +112,10 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  getNotes(notes) {
+    return decodeURIComponent(notes);
+  }
+
   onSearchChange(value) {
     this.dataSource.filter = value.trim().toLowerCase();
 

@@ -2,9 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import {
+  SystemInfoSelectors,
   UserSelectors
 } from '../../../../store/index';
 import { ToastService } from '../../../../services/util/toast.service';
+
+declare global {
+  interface Window { SYSTEM_DATE_FORMAT: any; }
+}
 
 @Component({
   selector: 'qm-qm-app',
@@ -19,7 +24,8 @@ export class QmAppComponent implements OnInit {
   constructor(
     private userSelectors: UserSelectors,
     private toastService: ToastService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private systemInfoSelector: SystemInfoSelectors
   ) {
     this.userFullName$ = this.userSelectors.userFullName$;
     this.userDirection$ = this.userSelectors.userDirection$;
@@ -28,5 +34,13 @@ export class QmAppComponent implements OnInit {
   ngOnInit() {
     this.toastService.setToastContainer(this.toastContainer);
     document.title = 'Appointment Booking';
+
+    const systemInfoDateSubscription = this.systemInfoSelector.systemInfoDateConvention$.subscribe(
+      (val: string) => {
+        if (val.length > 0) {
+          window.SYSTEM_DATE_FORMAT = val;
+        }
+      }
+    );
   }
 }

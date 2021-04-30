@@ -1,9 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { UserSelectors } from '../../../../store';
+import { AppointmentDispatchers, AppointmentSelectors, BranchSelectors, UserSelectors } from '../../../../store';
 import { ToastService } from '../../../../services/util/toast.service';
-
+import { IAppointment } from '../../../../models/IAppointment';
+import { Router } from '@angular/router';
+import { QmAppointmentListTableComponent } from '../qm-appointment-list-table/qm-appointment-list-table.component';
+import { ExportExcel } from "../../../util/exportExcel";
+import { IBranch } from '../../../../models/IBranch';
+import * as XLSX from 'xlsx';
+// @ts-ignore
+import jsPDF from 'jspdf'
 @Component({
   selector: 'qm-appointment-list',
   templateUrl: './qm-appointment-list.component.html',
@@ -11,12 +18,20 @@ import { ToastService } from '../../../../services/util/toast.service';
 })
 export class QmAppointmentListComponent implements OnInit, OnDestroy {
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
+  @ViewChild (QmAppointmentListTableComponent) appointmentListCom:QmAppointmentListTableComponent;
   private subscriptions: Subscription = new Subscription();
   private userDirection$: Observable<string>;
   public userDirection: string;
+  public appointmentList: IAppointment[];
+  public branchList: IBranch[];
+  public selectedBranch: IBranch;
   constructor(
     private toastService: ToastService,
     private userSelectors: UserSelectors,
+    private appointmentSelectors: AppointmentSelectors,
+    private appointmentDispatcher: AppointmentDispatchers,
+    private router: Router,
+    private branchSelectors: BranchSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
    }
@@ -30,11 +45,65 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.add(userDirectionSubscription);
 
+    const branchSubscription = this.branchSelectors.qpBranches$.subscribe(
+      (branches: IBranch[]) => {
+        this.branchList = branches;
+      }
+    );
+      this.subscriptions.add(branchSubscription);
+
+    const appointmentSubscription = this.appointmentSelectors.appointmentList$.subscribe(
+      (appointments: IAppointment[]) => {
+        this.appointmentList = appointments;
+        if (appointments && appointments.length > 0){
+          this.selectedBranch = this.getSelectedBranch();
+        }
+      }
+    );
+    this.subscriptions.add(appointmentSubscription);
+
     this.toastService.setToastContainer(this.toastContainer);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  handleHeaderNavigations(navigationType) {
+    window.location.href = '/';
+  }
+
+  clickBackToAppointmentsPage($event) {
+    this.appointmentDispatcher.resetAppointmentList();
+    this.router.navigateByUrl('/app');
+  }
+
+  onTextChange(value) {
+    this.appointmentListCom.onSearchChange(value);
+  }
+
+  onDownloadList(value){
+    if (value === 'xls') {
+      this.exportExcel();
+    } else if (value === 'pdf'){
+      this.exportPdf();
+    }
+  }
+
+  getSelectedBranch() {
+    const branchId = this.appointmentList[0].branchId;
+    const selectedBranch = this.branchList.filter(obj =>{
+      return obj.id == branchId;
+    })
+    return selectedBranch[0];
+  }
+
+  exportExcel(){
+    ExportExcel.exportTableToExcel("appointmentListTable");
+  }
+
+  exportPdf(){
+
   }
 
 }
