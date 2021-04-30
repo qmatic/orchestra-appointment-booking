@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, Inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, Inject, Input } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
 import { IBranch } from '../../../../models/IBranch';
 import { AppointmentDispatchers, BranchDispatchers, BranchSelectors, UserSelectors } from '../../../../store';
@@ -72,6 +72,7 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
   userDirection$: Observable<string>;
 
   @ViewChild('pickerStart') pickerStart: any;
+  @Input() editBtn: boolean;
 
 
   constructor(

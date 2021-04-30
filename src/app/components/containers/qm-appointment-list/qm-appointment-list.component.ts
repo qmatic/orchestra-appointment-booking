@@ -20,7 +20,7 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild (QmAppointmentListTableComponent) appointmentListCom:QmAppointmentListTableComponent;
   private subscriptions: Subscription = new Subscription();
-  private userDirection$: Observable<string>;
+  public userDirection$: Observable<string>;
   public userDirection: string;
   public appointmentList: IAppointment[];
   public branchList: IBranch[];
