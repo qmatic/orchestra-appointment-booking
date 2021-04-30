@@ -3,7 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subscription } from "rxjs";
 import { IAppointment } from "../../../../models/IAppointment";
 import { ICustomer } from "../../../../models/ICustomer";
-import { AppointmentDispatchers, CustomerSelectors, UserSelectors, AppointmentSelectors, BranchSelectors, BranchDispatchers, ServiceSelectors, ServiceDispatchers, SystemInfoSelectors, CustomerDispatchers } from "../../../../store";
+import { AppointmentHistoryDispatchers, CustomerSelectors, UserSelectors, AppointmentHistorySelectors, BranchSelectors, BranchDispatchers, ServiceSelectors, ServiceDispatchers, SystemInfoSelectors, CustomerDispatchers, SettingsAdminSelectors } from "../../../../store";
 import * as moment from 'moment';
 import { IAppointmentVisit } from "../../../../models/IAppointmentVisit";
 import { IBranch } from "../../../../models/IBranch";
@@ -12,6 +12,8 @@ import { ToastService } from './../../../../services/util/toast.service';
 import { ToastContainerDirective } from "ngx-toastr";
 import { LocationStrategy } from "@angular/common";
 import { Router } from "@angular/router";
+import { QmHistoryListComponent } from "./qm-history-list/qm-history-list.component";
+import { QmVisitListComponent } from "./qm-visit-list/qm-visit-list.component";
 
 @Component({
   selector: "qm-qm-appointment-history",
@@ -20,6 +22,9 @@ import { Router } from "@angular/router";
 })
 export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   @ViewChild(ToastContainerDirective, {static: false}) toastContainer: ToastContainerDirective;
+  @ViewChild (QmHistoryListComponent) historyList:QmHistoryListComponent;
+  @ViewChild (QmVisitListComponent) visitList:QmVisitListComponent;
+
   private subscriptions: Subscription = new Subscription();
   public currentCustomer: ICustomer;
   private currentCustomer$: Observable<ICustomer>;
@@ -42,7 +47,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   showTable = false;
   branches$: Observable<IBranch[]>;
   services$: Observable<IService[]>;
-  public searchText: '';
+  searchText: string;
   public searchText_: '';
   public sortedfullappointmentList: IAppointmentVisit[];
   public sortedfullVisitList: any[];
@@ -63,9 +68,9 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private userSelectors: UserSelectors,
     private customerSelectors: CustomerSelectors,
-    private appointmentDispatchers: AppointmentDispatchers,
+    private appointmentHistoryDispatchers: AppointmentHistoryDispatchers,
     private customerDispatchers: CustomerDispatchers,
-    private appointmentSelectors: AppointmentSelectors,
+    private appointmentHistorySelectors: AppointmentHistorySelectors,
     private translateService: TranslateService,
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers,
@@ -79,16 +84,16 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
-    this.appointments$ = this.appointmentSelectors.appointments$;
-    this.appointmentsLoaded$ = this.appointmentSelectors.appointmentsLoaded$;
-    this.appointmentsLoading$ = this.appointmentSelectors.appointmentsLoading$;
-    this.appointment$ = this.appointmentSelectors.appointment$;
-    this.appointmentLoaded$ = this.appointmentSelectors.appointmentLoaded$;
-    this.appointmentLoading$ = this.appointmentSelectors.appointmentLoading$;
+    //this.appointments$ = this.appointmentHistorySelectors.historyAppointments$;
+    // this.appointmentsLoaded$ = this.appointmentHistorySelectors.appointmentsLoaded$;
+    // this.appointmentsLoading$ = this.appointmentHistorySelectors.appointmentsLoading$;
+    // this.appointment$ = this.appointmentHistorySelectors.appointment$;
+    // this.appointmentLoaded$ = this.appointmentHistorySelectors.appointmentLoaded$;
+    // this.appointmentLoading$ = this.appointmentHistorySelectors.appointmentLoading$;
     this.sortByCondition = 'DATE';
     this.sortByAsc = true;
     this.branches$ = this.branchSelectors.qpBranches$;
-    this.appointmentVisit$ = this.appointmentSelectors.appointmentVisit$;
+    this.appointmentVisit$ = this.appointmentHistorySelectors.appointmentVisit$;
     this.services$ = serviceSelectors.allServices$;
     // this.settingsMap$ = this.settingsAdminSelectors.settingsAsMap$;
 
@@ -106,6 +111,9 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     this.elementsPerPage_ = 2;
     this.currentPage_ = 1;
 
+    this.branchDispatchers.fetchQPBranches();
+    this.serviceDispatchers.fetchAllServices();
+
     this.customerDispatchers.resetCurrentCustomer();
 
     this.isMilitaryTime = true;
@@ -118,75 +126,73 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.add(systemInformationSubscription);
 
+    const branchSubscription = this.branches$.subscribe(
+      (branches: IBranch[]) => {
+        this.branchlist = branches;
+      }
+    );
+    this.subscriptions.add(branchSubscription);
+
+    const serviceSubscription = this.services$.subscribe(
+      (services: IService[]) => {
+        this.servicelist = services;
+      }
+    );
+    this.subscriptions.add(serviceSubscription);
+
     const currentCustomerSubscription = this.currentCustomer$.subscribe(
       (customer: ICustomer) => {
         this.currentCustomer = customer;
         if (customer) {
-          this.appointmentDispatchers.fetchActionAppointments(
+          this.appointmentHistoryDispatchers.fetchActionsAppointments(
             this.currentCustomer.publicId
           );
         }
       }
     );
 
-    const appointmentsSubcription = this.appointments$.subscribe(
+    const appointmentsSubcription = this.appointmentHistorySelectors.historyAppointments$.subscribe(
       (appointments: IAppointment[]) => {
+        this.actionAppointments = appointments;
         if (appointments.length > 0) {
-          this.actionAppointments = this.updateAppointments(appointments);
-          this.fulAppointmentList = this.actionAppointments;
-          this.sortedfullappointmentList = this.actionAppointments;
-          this.updateVisibleList();
-          this.showTable = true;
+          
+          // this.fulAppointmentList = this.actionAppointments;
+          // this.sortedfullappointmentList = this.actionAppointments;
+          // this.updateVisibleList();
+          // this.showTable = true;
         }
       }
     );
-    const anAppointmentSubcription = this.appointment$.subscribe(
-      appointment => {
-          this.selectedAppointment = appointment;
-          console.log('suka  ---- ' + this.selectedAppointment);
-          if (this.selectedAppointment && appointment.qpId) {
-            this.appointmentDispatchers.fetchAppointmentVisit(appointment.qpId.toString());
-          }
-      }
-    );
+    // const anAppointmentSubcription = this.appointmentHistorySelectors.appointment$.subscribe(
+    //   appointment => {
+    //       this.selectedAppointment = appointment;
+    //       if (this.selectedAppointment && appointment.qpId) {
+    //         this.appointmentHistoryDispatchers.fetchAppointmentVisit(appointment.qpId);
+    //       }
+    //   }
+    // );
 
-    const appointmentVisitSubcription = this.appointmentVisit$.subscribe(
+    const appointmentVisitSubcription = this.appointmentHistorySelectors.appointmentVisit$.subscribe(
       appointmentVisit => {
           this.appointmentVisit = appointmentVisit;
-          console.log(appointmentVisit);
-          this.modelVisitData();
-      }
-    );
-    this.branchDispatchers.fetchQPBranches();
-    const branchSubscription = this.branches$.subscribe(
-      (branches: IBranch[]) => {
-        this.branchlist = branches;
+          // console.log(appointmentVisit);
+          // this.modelVisitData();
       }
     );
 
-    this.serviceDispatchers.fetchAllServices();
-    const serviceSubscription = this.services$.subscribe(
-      (services: IService[]) => {
-        this.servicelist = services;
-      }
-    );
-
-    const appointmentsLoadedSubcription = this.appointmentsLoaded$.subscribe(
+    const appointmentsLoadedSubcription = this.appointmentHistorySelectors.appointmentsLoaded$.subscribe(
       (appointmentsLoaded: boolean) =>
         (this.appointmentsLoaded = appointmentsLoaded)
     );
-    const appointmentLoadedSubcription = this.appointmentLoaded$.subscribe(
+    const appointmentLoadedSubcription = this.appointmentHistorySelectors.appointmentLoaded$.subscribe(
       (appointmentsLoaded: boolean) =>
         (this.selectedAppointmentLoaded = appointmentsLoaded)
     );
 
     this.subscriptions.add(currentCustomerSubscription);
     this.subscriptions.add(appointmentsSubcription);
-    this.subscriptions.add(anAppointmentSubcription);
     this.subscriptions.add(appointmentsLoadedSubcription);
     this.subscriptions.add(appointmentLoadedSubcription);
-    this.subscriptions.add(branchSubscription);
-    this.subscriptions.add(serviceSubscription);
     this.subscriptions.add(appointmentVisitSubcription);
 
   }
@@ -488,7 +494,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   appointmentSelected(appointment) {
     this.visitDataArray = [];
     this.selectedAppointment = null;
-    this.appointmentDispatchers.fetchAnAppointment(appointment.entityId);
+    this.appointmentHistoryDispatchers.fetchSelectedAppointment(appointment.entityId);
     console.log(this.selectedAppointment);
   }
 
@@ -654,6 +660,24 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     date.setSeconds(secs); // specify value for SECONDS here
     const timeString = date.toISOString().substr(11, 8);
     return timeString;
+  }
+
+  clickBackToAppointmentsPage($event) {
+    this.customerDispatchers.resetCurrentCustomer();
+    this.appointmentHistoryDispatchers.resetActionAppointment();
+    this.router.navigateByUrl('/app');
+  }
+
+  backToAppointmentList() {
+    this.appointmentHistoryDispatchers.resetAppointmentVisit();
+  }
+
+  onTextChange(value) {
+    if (this.appointmentVisit.length > 0) {
+      this.visitList.onSearchChange(value);
+    } else {
+      this.historyList.onSearchChange(value);
+    }
   }
 
 }

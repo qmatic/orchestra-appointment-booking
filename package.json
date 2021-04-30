@@ -58,7 +58,9 @@
     "tslib": "^2.0.0",
     "web-animations-js": "^2.3.2",
     "xlsx": "^0.16.9",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@angular/material": "^10.2.7",
+    "@angular/material-moment-adapter": "^10.2.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.4",

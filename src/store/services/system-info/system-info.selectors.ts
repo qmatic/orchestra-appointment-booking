@@ -44,6 +44,13 @@ const getDateConvention = createSelector(
   (state: ISystemInfo) => state.dateConvention
 );
 
+const getDateTimeConvention = createSelector(
+  getSystemInfo,
+  (state: ISystemInfo) => {
+    return state.dateConvention ? (state.dateConvention + ' ' + (state.timeConvention !== '24' ? 'hh:mm A' : 'HH:mm')) : 'YY-MM-DD hh:mm A'
+  }
+);
+
 
 @Injectable()
 export class SystemInfoSelectors {
@@ -56,4 +63,5 @@ export class SystemInfoSelectors {
   systemInfoLicenseCompanyName$ = this.store.select(getSystemInfoLicenseCompanyName);
   systemInfoTimeConvention$ = this.store.select(getTimeConvention);
   systemInfoDateConvention$ = this.store.select(getDateConvention);
+  dateTimeConvention$ = this.store.select(getDateTimeConvention);
 }

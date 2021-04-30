@@ -16,6 +16,7 @@ import { ReserveEffects } from './reserve.effects';
 import { AccountEffects } from './account.effects';
 import { BookingEffects } from './booking.effects';
 import { AppointmentMetaEffects } from './appointment-meta.effects';
+import { AppointmentHistoryEffects } from './appointment-history.effects';
 import { LanguageEffects } from './language.effects';
 
 export const effects: any[] = [
@@ -37,7 +38,8 @@ export const effects: any[] = [
   CalendarSettingsEffects,
   AppointmentMetaEffects,
   ShiroEffects,
-  LanguageEffects
+  LanguageEffects,
+  AppointmentHistoryEffects
 ];
 
 export * from './service.effects';
@@ -60,3 +62,4 @@ export * from './reservation-expiry-timer.effects';
 export * from './appointment-meta.effects';
 export * from './shiro.effects';
 export * from './language.effects';
+export * from './appointment-history.effects';

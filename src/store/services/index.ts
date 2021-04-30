@@ -23,3 +23,4 @@ export * from './calendar-settings';
 export * from './reservation-expiry-timer';
 export * from './shiro-refresh';
 export * from './print';
+export * from './appointment-history';

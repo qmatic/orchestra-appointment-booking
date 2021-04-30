@@ -6,12 +6,6 @@ import { IAppointment } from '../../models/IAppointment';
 export const FETCH_APPOINTMENTS = '[Appointment] FETCH_APPOINTMENTS';
 export const FETCH_APPOINTMENTS_FAIL = '[Appointment] FETCH_APPOINTMENTS_FAIL';
 export const FETCH_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_APPOINTMENTS_SUCCESS';
-export const FETCH_AN_APPOINTMENT = '[Appointment] FETCH_AN_APPOINTMENT';
-export const FETCH_AN_APPOINTMENT_FAIL = '[Appointment] FETCH_AN_APPOINTMENT_FAIL';
-export const FETCH_AN_APPOINTMENT_SUCCESS = '[Appointment] FETCH_AN_APPOINTMENT_SUCCESS';
-export const FETCH_ACTION_APPOINTMENTS = '[Appointment] FETCH_ACTION_APPOINTMENTS';
-export const FETCH_ACTION_APPOINTMENTS_FAIL = '[Appointment] FETCH_ACTION_APPOINTMENTS_FAIL';
-export const FETCH_ACTION_APPOINTMENTS_SUCCESS = '[Appointment] FETCH_ACTION_APPOINTMENTS_SUCCESS';
 export const RESET_APPOINTMENTS = '[Appointment] RESET_APPOINTMENTS';
 export const DELETE_APPOINTMENT = '[Appointment] DELETE_APPOINTMENT';
 export const DELETE_APPOINTMENT_FAIL = '[Appointment] DELETE_APPOINTMENT_FAIL';
@@ -36,9 +30,6 @@ export const FETCH_APPOINTMENT_LIST = '[Appointment] FETCH_APPOINTMENTS_LIST';
 export const FETCH_APPOINTMENT_LIST_FAIL = '[Appointment] FETCH_APPOINTMENT_LIST_FAIL';
 export const FETCH_APPOINTMENT_LIST_SUCCESS = '[Appointment] FETCH_APPOINTMENT_LIST_SUCCESS';
 export const RESET_APPOINTMENT_LIST = '[Appointment] RESET_APPOINTMENT_LIST';
-export const FETCH_VISIT_DATA = '[Appointment] FETCH_VISIT_DATA';
-export const FETCH_VISIT_DATA_FAIL = '[Appointment] FETCH_VISIT_DATA_FAIL';
-export const FETCH_VISIT_DATA_SUCCESS = '[Appointment] FETCH_VISIT_DATA_SUCCESS';
 
 
 export class FetchAppointments implements Action {
@@ -55,36 +46,6 @@ export class FetchAppointmentsSuccess implements Action {
   readonly type = FETCH_APPOINTMENTS_SUCCESS;
   constructor(public payload: IAppointmentResponse) {}
 }
-export class FetchAnAppointment implements Action {
-  readonly type = FETCH_AN_APPOINTMENT;
-  constructor(public payload: string) {}
-}
-
-export class FetchAnAppointmentFail implements Action {
-  readonly type = FETCH_AN_APPOINTMENT_FAIL;
-  constructor(public payload: Object) {}
-}
-
-export class FetchAnAppointmentSuccess implements Action {
-  readonly type = FETCH_AN_APPOINTMENT_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class FetchVisitData implements Action {
-  readonly type = FETCH_VISIT_DATA;
-  constructor(public payload: string) {}
-}
-
-export class FetchVisitDataFail implements Action {
-  readonly type = FETCH_VISIT_DATA_FAIL;
-  constructor(public payload: Object) {}
-}
-
-export class FetchVisitDataSuccess implements Action {
-  readonly type = FETCH_VISIT_DATA_SUCCESS;
-  constructor(public payload: any) {}
-}
-
 export class FetchAppointmentList implements Action {
   readonly type = FETCH_APPOINTMENT_LIST;
   constructor(public payload: { fromDate: string, toDate: string, branchId: string }) {}
@@ -103,21 +64,6 @@ export class FetchAppointmentListSuccess implements Action {
 export class ResetAppointmentList implements Action {
   readonly type = RESET_APPOINTMENT_LIST;
 }
-export class FetchActionAppointments implements Action {
-  readonly type = FETCH_ACTION_APPOINTMENTS;
-  constructor(public payload: string) {}
-}
-
-export class FetchActionAppointmentsFail implements Action {
-  readonly type = FETCH_ACTION_APPOINTMENTS_FAIL;
-  constructor(public payload: Object) {}
-}
-
-export class FetchActionAppointmentsSuccess implements Action {
-  readonly type = FETCH_ACTION_APPOINTMENTS_SUCCESS;
-  constructor(public payload: IAppointmentResponse) {}
-}
-
 export class FetchAppointmentQP implements Action {
   readonly type = FETCH_APPOINTMENT_QP;
   constructor(public payload: string) {}
@@ -221,15 +167,9 @@ export class ResetAppointmentLoaded implements Action {
 export type AllAppointmentActions = FetchAppointments |
                                     FetchAppointmentsFail |
                                     FetchAppointmentsSuccess |
-                                    FetchAnAppointment |
-                                    FetchAnAppointmentFail |
-                                    FetchAnAppointmentSuccess |
                                     FetchAppointmentList |
                                     FetchAppointmentListSuccess |
                                     FetchAppointmentListFail |
-                                    FetchActionAppointments |
-                                    FetchActionAppointmentsSuccess |
-                                    FetchActionAppointmentsFail |
                                     ResetAppointments |
                                     DeleteAppointment |
                                     DeleteAppointmentFail |
@@ -251,8 +191,5 @@ export type AllAppointmentActions = FetchAppointments |
                                     SetResendAppointmentId|
                                     ResetAppointmentLoaded|
                                     ResetAppointmentList |
-                                    ResetAppointmentLoaded |
-                                    FetchVisitData |
-                                    FetchVisitDataFail |
-                                    FetchVisitDataSuccess;
+                                    ResetAppointmentLoaded;
 

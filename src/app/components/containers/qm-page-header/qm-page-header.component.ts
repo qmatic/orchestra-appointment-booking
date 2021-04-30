@@ -14,7 +14,7 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
-import { UserSelectors, SystemInfoSelectors, LicenseInfoSelectors } from '../../../../store';
+import { UserSelectors, SystemInfoSelectors, LicenseInfoSelectors, SettingsAdminSelectors } from '../../../../store';
 import { SPService } from '../../../../services/rest/sp.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -30,6 +30,7 @@ import { QmModalService } from '../../presentational/qm-modal/qm-modal.service';
 import { ISystemInfo } from '../../../../models/ISystemInfo';
 import { BookingHelperDispatchers } from '../../../../store/services/booking-helper/booking-helper.dispatchers';
 import { TranslateService } from '@ngx-translate/core';
+import { Setting } from '../../../../models/Setting';
 
 @Component({
   selector: 'qm-page-header',
@@ -49,6 +50,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
   private isValidLicense$: Observable<boolean>;
   private isValidLicense: boolean;
   applicationName = 'Appointment Booking';
+  isHistoryAuditEnable = false;
 
   @Output()
   clickBackToAppointmentsPage: EventEmitter<any> = new EventEmitter<any>();
@@ -73,6 +75,7 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     private licenseInfoSelectors: LicenseInfoSelectors,
     private bookingHelperDispatchers: BookingHelperDispatchers,
     private translateService: TranslateService,
+    private settingsAdminSelectors: SettingsAdminSelectors
   ) {
     this.userIsAdmin$ = this.userRoleSelectors.isUserAdmin$;
     this.userFullName$ = this.userSelectors.userFullName$;
@@ -125,6 +128,12 @@ export class QmPageHeaderComponent implements OnInit, OnDestroy {
     );
 
     this.headerSubscriptions.add(licenseSubscription);
+
+    const settingsMapSubscription = this.settingsAdminSelectors.settingsAsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.isHistoryAuditEnable = settingsMap.EnableHistoryAudit.value;
+      }
+    );
   }
   ngOnDestroy() {
     this.headerSubscriptions.unsubscribe();

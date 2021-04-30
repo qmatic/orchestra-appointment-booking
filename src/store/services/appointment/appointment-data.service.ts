@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint,qsystemEndpoint, QueueingHistoryEndpoint } from '../data.service';
+import { calendarPublicEndpoint, DataServiceError, calendarEndpoint, appointmentEndPoint, notificationEndpoint,qsystemEndpoint } from '../data.service';
 import { IAppointmentResponse } from '../../../models/IAppointmentResponse';
 import { IAppointment } from '../../../models/IAppointment';
 import { GlobalErrorHandler } from '../../../services/util/global-error-handler.service';
@@ -28,21 +28,9 @@ export class AppointmentDataService {
       .pipe(catchError(this.errorHandler.handleError()));
   }
 
-  getAppointmentVisit(appId: string): Observable<IAppointmentVisit> {
-    return this.http
-      .get<IAppointmentVisit>(`${QueueingHistoryEndpoint}?appointmentId=${appId}`)
-      .pipe(catchError(this.errorHandler.handleError()));
-  }
-
   getAppointmentList( fromDate: string, toDate:string, branchId: string): Observable<IAppointment[]> {
     return this.http
       .get<IAppointment[]>(`${qsystemEndpoint}/appointment/appointments/search?fromDate=${fromDate}&toDate=${toDate}&branchId=${branchId}`)
-      .pipe(catchError(this.errorHandler.handleError()));
-  }
-
-  getActionAppointments(publicId: string): Observable<IAppointmentResponse> {
-    return this.http
-      .get<IAppointmentResponse>(`${calendarPublicEndpoint}/customers/${publicId}/appointmentActions`)
       .pipe(catchError(this.errorHandler.handleError()));
   }
 

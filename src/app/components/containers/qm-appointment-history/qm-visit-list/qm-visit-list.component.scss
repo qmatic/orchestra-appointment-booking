@@ -1,0 +1,95 @@
+@import '../../../../../styles/base/_component-manifest.scss';
+
+:host {
+  height: calc(100% - 48px);
+}
+
+.qm-booking-flow {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+  height: 100%;
+
+  &__row {
+    flex: 1 1 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  &__col {
+    &--customer-col {
+      flex: 0 0 100px;
+    }
+
+    // &--date-col {
+    //   flex: 0 1 260px;
+    // }
+
+    &--time-col {
+      flex: 0 0 180px;
+    }
+  }
+
+  .qm-clear-input-button {
+    position: absolute;
+    right: 55px;
+    top: 34px;
+    cursor: pointer;
+  }
+}
+
+@media screen and (min-width: #{map-get($grid-breakpoints, 'xl')}) {
+  .qm-booking-flow {
+    &__row {
+      margin-left: -$standard-margin;
+      margin-right: -$standard-margin;
+    }
+
+    &__col {
+      padding-left: $standard-margin;
+      padding-right: $standard-margin;
+
+    }
+  }
+}
+
+@media screen and (max-height: #{map-get($hight-breakpoints, 'md')}) { 
+  .qm-booking-flow {
+    &__col {
+      font-size: 15px !important;
+    }
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.qm-blocking-list {
+  &__container {
+    width: 100%;
+    overflow: auto;
+    height: 90%;
+
+    &__full {
+     height: 100%;
+    }
+  }
+
+  &__main {
+    width: 100%;
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__action {
+    display: flex;
+  }
+}

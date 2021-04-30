@@ -1,0 +1,29 @@
+<section class="qm-customer-card" [dir]="userDirection$ | async" [ngStyle]="{'display': editBtn ? '' : 'inline-table'}">
+  <div class="qm-customer-card__content-container" tabindex="0">
+    <h1 class="qm-customer-card__headline">
+        <span class="qm-customer-card__name" title="{{ visitList[0].ticket }}">{{ visitList[0].ticket }}</span>
+        <span class="qm-customer-card__branch-name" title="{{ selectedAppointment.branch.name }}">{{ selectedAppointment.branch.name }}</span>
+    </h1>
+    <div class="qm-customer-card__list-container" [ngClass]="{ 'qm-customer-card__list-container--justify-end' : !phoneEnabled && !emailEnabled }">
+      <ul class="qm-customer-card__list">
+        <li class="qm-customer-card__list-item">
+          <i class="icon-outcome qm-customer-card__list-item-icon" aria-hidden="true"></i>
+          <span class="qm-customer-card__list-item-text" title="{{ selectedAppointment.id }}">{{ selectedAppointment.id }}</span>
+      </li>
+      <li class="qm-customer-card__list-item">
+          <i class="icon-clock qm-customer-card__list-item-icon" aria-hidden="true"></i>
+          <span class="qm-customer-card__list-item-text" title="{{ selectedAppointment.start | qmDateFormat : '' | async }} - {{ selectedAppointment.end | qmDateFormat : '' | async }}">{{ selectedAppointment.start | qmDateFormat : '' | async }} - {{ selectedAppointment.end | qmDateFormat : '' | async }}</span>
+      </li>
+      <li class="qm-customer-card__list-item">
+        <i class="icon-briefcase qm-customer-card__list-item-icon" aria-hidden="true"></i>
+        <span class="qm-customer-card__list-item-text" title="{{ selectedAppointment.resource.name }}">{{ selectedAppointment.resource.name }}</span>
+      </li>
+      </ul>
+    </div>
+  </div>
+  <div class="qm-customer-card__btn-container">
+    <button type="button" class="qm-btn qm-btn--secondary qm-customer-card__btn" (click)="backToAppointmentList()">
+        <span class="qm-btn__text" title="{{ 'button.customerCard.clear.only' | translate }}">{{ 'button.customerCard.clear.only' | translate }}</span>
+    </button>
+  </div>
+</section>

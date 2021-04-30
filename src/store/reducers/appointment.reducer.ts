@@ -58,52 +58,6 @@ export function reducer (
         error: action.payload
       };
     }
-    case AppointmentActions.FETCH_AN_APPOINTMENT: {
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_AN_APPOINTMENT_SUCCESS: {
-      return {
-        ...state,
-        appointment: (action.payload as any).appointment,
-        loading: false,
-        loaded: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_AN_APPOINTMENT_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
-      };
-    }
-    case AppointmentActions.FETCH_VISIT_DATA: {
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_VISIT_DATA_SUCCESS: {
-      return {
-        ...state,
-        appointmentVisit: action.payload,
-        loading: false,
-        loaded: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_VISIT_DATA_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
-      };
-    }
     case AppointmentActions.FETCH_APPOINTMENT_LIST: {
       return {
         ...state,
@@ -133,29 +87,6 @@ export function reducer (
         loading: false,
         error:false,
         appointmentList:[]
-      };
-    }
-    case AppointmentActions.FETCH_ACTION_APPOINTMENTS: {
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_ACTION_APPOINTMENTS_SUCCESS: {
-      return {
-        ...state,
-        appointments: action.payload.appointmentActions,
-        loading: false,
-        loaded: true,
-        error: null
-      };
-    }
-    case AppointmentActions.FETCH_ACTION_APPOINTMENTS_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
       };
     }
     case AppointmentActions.FETCH_APPOINTMENT_QP: {

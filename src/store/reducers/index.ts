@@ -23,6 +23,7 @@ import * as fromReservationTimer from './reservation-expiry-timer.reducer';
 import * as printAppointment from './print.reducer';
 import * as fromLanguage from './language.reducer';
 import { IPrintState } from './print.reducer';
+import * as fromHistoryAppointments from './appointment-history.reducer';
 
 export interface IAppState {
   services: fromService.IServiceState;
@@ -45,6 +46,7 @@ export interface IAppState {
   reservationExpiryTimer: fromReservationTimer.IReservationTimerState;
   language: fromLanguage.ILanguageState;
   printedAppointment: IPrintState;
+  historyAppointments: fromHistoryAppointments.IAppointmentHistoryState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -67,6 +69,7 @@ export const reducers: ActionReducerMap<IAppState> = {
   calendarSettings: fromCalendarSettings.reducer,
   reservationExpiryTimer: fromReservationTimer.reducer,
   language: fromLanguage.reducer,
-  printedAppointment: printAppointment.reducer
+  printedAppointment: printAppointment.reducer,
+  historyAppointments: fromHistoryAppointments.reducer
   // here is where you put other reducers, when you have them
 };

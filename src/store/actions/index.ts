@@ -21,3 +21,4 @@ export * from './reservation-expiry-timer.actions';
 export * from './shiro.actions';
 export * from './print.actions';
 export * from './language.actions';
+export * from './appointment-history.action';

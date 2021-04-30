@@ -94,6 +94,8 @@ import {
 } from './components/containers/qm-customer-search/components/qm-customer-search-results/qm-customer-search-results.component';
 import { QmHighlightPipe } from './pipes/qm-highlight.pipe';
 import { QmTruncatePipe } from './pipes/qm-truncate.pipe';
+import { QmDateFormatPipe } from './pipes/qm-date-format.pipe';
+import { QmTimeFormatPipe } from './pipes/qm-time-format.pipe';
 import { QmCustomerAppointmentsComponent } from './components/containers/qm-customer-appointments/qm-customer-appointments.component';
 import { QmDropdownComponent } from './components/containers/qm-dropdown/qm-dropdown.component';
 import {
@@ -151,12 +153,22 @@ import { QmErrorComponent } from './components/presentational/qm-error/qm-error.
 import { QmTimeZonePipe } from './pipes/qm-time-zone.pipe';
 import { QmExternalNotesComponent } from './components/presentational/qm-external-notes/qm-external-notes.component';
 import { QmAppointmentHistoryComponent } from './components/containers/qm-appointment-history/qm-appointment-history.component';
+import { QmHistoryListComponent } from './components/containers/qm-appointment-history/qm-history-list/qm-history-list.component';
+import { QmVisitListComponent } from './components/containers/qm-appointment-history/qm-visit-list/qm-visit-list.component';
+import { QmVisitDetailComponent } from './components/containers/qm-appointment-history/qm-visit-detail/qm-visit-detail.component';
+import { QmCustomerHistoryCardComponent } from './components/containers/qm-appointment-history/qm-customer-history-card/qm-customer-history-card.component';
 import { QmAppointmentListComponent } from './components/containers/qm-appointment-list/qm-appointment-list.component';
 import { QmAppointmentListDashboardComponent } from './components/containers/qm-appointment-list-dashboard/qm-appointment-list-dashboard.component';
 import { QmAppointmentListSettingsComponent } from './components/containers/qm-appointment-list-settings/qm-appointment-list-settings.component';
 import { QmAppointmentListTableComponent } from './components/containers/qm-appointment-list-table/qm-appointment-list-table.component';
 import { QmAppListFilterPipe } from './components/containers/qm-appointment-list-table/qm-app-list-filter.pipe';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 // Console.log all actions
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -209,6 +221,8 @@ const toastrGlobalOptions = {
     QmCustomerSearchResultsComponent,
     QmHighlightPipe,
     QmTruncatePipe,
+    QmDateFormatPipe,
+    QmTimeFormatPipe,
     QmCustomerAppointmentsComponent,
     QmDropdownComponent,
     QmCustomerAppointmentListComponent,
@@ -253,6 +267,10 @@ const toastrGlobalOptions = {
     QmTimeZonePipe,
     QmExternalNotesComponent,
     QmAppointmentHistoryComponent,
+    QmHistoryListComponent,
+    QmVisitListComponent,
+    QmCustomerHistoryCardComponent,
+    QmVisitDetailComponent,
     QmAppointmentListComponent,
     QmAppointmentListDashboardComponent,
     QmAppointmentListSettingsComponent,
@@ -272,6 +290,11 @@ const toastrGlobalOptions = {
     A11yModule,
     NgbModule,
     NgbPaginationModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     ToastrModule.forRoot(toastrGlobalOptions),
     ToastContainerModule,
     ...(!environment.production
