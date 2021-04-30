@@ -17,11 +17,6 @@ const getAppointmentById = createSelector(
   (state: IAppointmentState) => state.appointment
 );
 
-const getAppointmentVisit = createSelector(
-  getAppointmentState,
-  (state: IAppointmentState) => state.appointmentVisit
-);
-
 const getAppointmentList = createSelector(
   getAppointmentState,
   (state: IAppointmentState) => state.appointmentList
@@ -82,7 +77,6 @@ export class AppointmentSelectors {
   appointments$ = this.store.select(getAllAppointments);
   appointmentList$ = this.store.select(getAppointmentList);
   selectedAppointment$ = this.store.select(getSelectedAppointment);
-  appointmentVisit$ = this.store.select(getAppointmentVisit);
   qpAppointment$ = this.store.select(getQPAppointment);
   appointmentsLoading$ = this.store.select(getAppointmentsLoading);
   appointmentsLoaded$ = this.store.select(getAppointmentsLoaded);

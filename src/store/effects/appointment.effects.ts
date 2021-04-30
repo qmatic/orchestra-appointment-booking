@@ -51,99 +51,6 @@ export class AppointmentEffects {
     );
 
   @Effect()
-  getAppointment$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(AppointmentActions.FETCH_AN_APPOINTMENT),
-      switchMap((action: AppointmentActions.FetchAnAppointment) =>
-        toAction(
-          this.appointmentDataService.getAppointmentById(action.payload),
-          AppointmentActions.FetchAnAppointmentSuccess,
-          AppointmentActions.FetchAnAppointmentFail
-        )
-      )
-    );
-
-    @Effect({ dispatch: false })
-    getAnAppointmentFail$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(AppointmentActions.FETCH_AN_APPOINTMENT_FAIL),
-        tap((action: AppointmentActions.FetchAnAppointmentFail) => {
-          this.translateService.get('label.history.no.appointments').subscribe(
-            (label: string) => {
-              this.toastService.errorToast(label);
-            }
-          ).unsubscribe();
-        }
-        ),
-        switchMap((action: AppointmentActions.FetchAnAppointmentFail) =>
-          []
-        )
-      );
-
-    @Effect({ dispatch: false })
-    getAnAppointmentSuccess$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(AppointmentActions.FETCH_AN_APPOINTMENT_SUCCESS),
-        tap((action: AppointmentActions.FetchAnAppointmentSuccess) => {
-          if (!action.payload.appointment.qpId) {
-          this.translateService.get('label.history.no.visits').subscribe(
-            (label: string) => {
-              this.toastService.errorToast(label);
-            }
-          ).unsubscribe();
-          }
-          }
-        )
-      );
-
-  @Effect()
-  getAppointmentVisit$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(AppointmentActions.FETCH_VISIT_DATA),
-      switchMap((action: AppointmentActions.FetchVisitData) =>
-        toAction(
-          this.appointmentDataService.getAppointmentVisit(action.payload),
-          AppointmentActions.FetchVisitDataSuccess,
-          AppointmentActions.FetchVisitDataFail
-        )
-      )
-    );
-
-  @Effect({ dispatch: false })
-  getAppointmentVisitFail$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(AppointmentActions.FETCH_VISIT_DATA_FAIL),
-      tap((action: AppointmentActions.FetchVisitDataFail) => {
-        this.translateService.get('label.history.no.visits').subscribe(
-          (label: string) => {
-            this.toastService.errorToast(label);
-          }
-        ).unsubscribe();
-      }
-      ),
-      switchMap((action: AppointmentActions.FetchVisitDataFail) =>
-        []
-      )
-    );
-
-  @Effect({ dispatch: false })
-  getAppointmentVisitSuccess$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(AppointmentActions.FETCH_VISIT_DATA_SUCCESS),
-      tap((action: AppointmentActions.FetchVisitDataSuccess) => {
-        if (action.payload.length === 0) {
-        this.translateService.get('label.history.no.visits').subscribe(
-          (label: string) => {
-            this.toastService.errorToast(label);
-          }
-        ).unsubscribe();
-        }
-
-        }
-      )
-    );
-
-  @Effect()
   getAppointmentList$: Observable<Action> = this.actions$
     .pipe(
       ofType(AppointmentActions.FETCH_APPOINTMENT_LIST),
@@ -184,18 +91,6 @@ export class AppointmentEffects {
          }
         )
       );
-  @Effect()
-  getActionAppointments$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(AppointmentActions.FETCH_ACTION_APPOINTMENTS),
-      switchMap((action: AppointmentActions.FetchActionAppointments) =>
-        toAction(
-          this.appointmentDataService.getActionAppointments(action.payload),
-          AppointmentActions.FetchActionAppointmentsSuccess,
-          AppointmentActions.FetchActionAppointmentsFail
-        )
-      )
-    );
 
   @Effect()
   getAppointmentQP$: Observable<Action> = this.actions$

@@ -1,0 +1,24 @@
+<section class="qm-customer-card" [dir]="userDirection$ | async" [ngStyle]="{'display': editBtn ? '' : 'inline-table'}">
+  <div class="qm-customer-card__content-container" tabindex="0">
+    <h1 class="qm-customer-card__headline">
+        <span class="qm-customer-card__name" title="{{ customer.name }}">{{ customer.name | truncate: 60}}</span>
+    </h1>
+    <div class="qm-customer-card__list-container" [ngClass]="{ 'qm-customer-card__list-container--justify-end' : !phoneEnabled && !emailEnabled }">
+      <ul class="qm-customer-card__list">
+          <li class="qm-customer-card__list-item" *ngIf="customer.phone.length > 0">
+              <i class="icon-phone qm-customer-card__list-item-icon" aria-hidden="true"></i>
+              <span class="qm-customer-card__list-item-text" title="{{ customer.phone }}">{{ customer.phone }}</span>
+          </li>
+          <li class="qm-customer-card__list-item" *ngIf="customer.email.length > 0">
+              <i class="icon-mail qm-customer-card__list-item-icon" aria-hidden="true"></i>
+              <span class="qm-customer-card__list-item-text" title="{{ customer.email }}">{{ customer.email | truncate: 40 }}</span>
+          </li>
+      </ul>
+    </div>
+  </div>
+  <div class="qm-customer-card__btn-container">
+    <button type="button" class="qm-btn qm-btn--secondary qm-customer-card__btn" (click)="resetCurrentCustomer()">
+        <span class="qm-btn__text" title="{{ 'button.customerCard.clear.only' | translate }}">{{ 'button.customerCard.clear.only' | translate }}</span>
+    </button>
+  </div>
+</section>

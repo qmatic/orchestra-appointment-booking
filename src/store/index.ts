@@ -60,6 +60,9 @@ import {
   ShiroDispatchers,
   PrintDispatchers,
   PrintSelectors,
+  AppointmentHistoryDataService,
+  AppointmentHistoryDispatchers,
+  AppointmentHistorySelectors
 } from './services';
 import { LanguageDispatchers, LanguageDataService, LanguageSelectors } from './services/language';
 
@@ -122,5 +125,8 @@ export const storeServices = [
   PrintSelectors,
   LanguageDispatchers,
   LanguageDataService,
-  LanguageSelectors
+  LanguageSelectors,
+  AppointmentHistoryDataService,
+  AppointmentHistoryDispatchers,
+  AppointmentHistorySelectors
 ];

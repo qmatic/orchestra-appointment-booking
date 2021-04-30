@@ -1,0 +1,125 @@
+@import '../../../../../styles/base/_component-manifest.scss';
+
+:host {
+  display: flex;
+  height: 100%;
+
+}
+
+.qm-customer-card {
+  display: flex;
+  align-items: flex-end;
+  background: $white;
+  box-shadow: $dashboard-body-box-shadow;
+  border-radius: $standard-border-radius;
+  width: 100%;
+
+  &__content-container {
+    width: 100%;
+    flex: 1 1 auto;
+    padding: rem($standard-padding $standard-padding $standard-padding $standard-padding * 1.5);
+    border-radius: rem($standard-border-radius);
+    cursor: pointer;
+    margin: rem(6px);
+  }
+
+  &__headline {
+    flex: 0 0 100%;
+    font-weight: $font-weight-medium;
+    font-size: rem(28px);
+    line-height: rem(32px);
+    color: $primary-color;
+    margin-bottom: rem(12px);
+
+    @at-root [dir='rtl'] & {
+      text-align: right;
+    }
+  }
+
+  &__name {
+    display: inline-block;
+    color: $primary-color;
+    word-break: break-all;
+    word-break: break-word;
+  }
+
+  &__branch-name {
+    display: inline-block;
+    color: black;
+    word-break: break-all;
+    word-break: break-word;
+    margin: 0 2rem;
+    font-size: rem(25px);
+    font-weight: 400;
+  }
+
+  &__list-container {
+    display: flex;
+    align-items: flex-end;
+
+    &--justify-end {
+      justify-content: flex-end;
+    }
+  }
+
+  &__list {
+    flex: 1 1 auto;
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: rem(0 0 $standard-margin / 2);
+  }
+
+  &__list-item {
+    display: flex;
+    align-items: center;
+
+    & + & {
+      margin-top: rem(12px);
+    }
+  }
+
+  &__list-item-icon {
+    display: inline-block;
+    font-size: rem(28px);
+    line-height: rem(24px);
+    color: $dark-transparent82;
+    margin-right: rem($standard-margin / 2);
+
+    @at-root [dir='rtl'] & {
+      margin-right: 0;
+      margin-left: rem($standard-margin / 2);
+    }
+  }
+
+  &__list-item-text {
+    font-size: rem(18px);
+    line-height: rem(24px);
+    font-weight: $font-weight-light;
+    color: $dark-transparent82;
+    word-break: break-all;
+  }
+
+  &__edit-btn {
+    flex: 0 0 auto;
+    font-size: rem(32px);
+    color: $dark-transparent42;
+    border-radius: rem($standard-border-radius);
+    padding: rem(6px);
+  }
+
+  &__btn-container {
+    display: inline-flex;
+    flex: 0 0 auto;
+    padding: rem($standard-padding $standard-padding $standard-padding $standard-padding * 2);
+  }
+
+  &--overview-theme {
+    .qm-customer-card__headline {
+      color: $dark-transparent82;
+    }
+    .qm-customer-card__list {
+      flex: 1 0 auto;
+    }
+  }
+}

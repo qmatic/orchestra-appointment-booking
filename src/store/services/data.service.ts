@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export const restEndpoint = '/rest/servicepoint';
 export const calendarEndpoint = '/calendar-backend/api/v1';
 export const calendarPublicEndpoint = '/calendar-backend/public/api/v1';
-export const QueueingHistoryEndpoint = '/appointmentbooking/queueingHistory';
+export const queueingHistoryEndpoint = '/appointmentbooking/queueingHistory';
 export const notificationEndpoint = '/notification';
 export const calendarPublicEndpointV2 = '/calendar-backend/public/api/v2';
 export const qsystemEndpoint = '/qsystem/rest';
