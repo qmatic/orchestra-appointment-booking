@@ -52,7 +52,7 @@
           <!-- Notes Column -->
           <ng-container matColumnDef="notes">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'history.table.visit.notes' | translate }} </th>
-            <td mat-cell *matCellDef="let row"> {{row.notes }} </td>
+            <td mat-cell *matCellDef="let row"> {{ getNotes(row.notes) }} </td>
           </ng-container>
 
           <!-- Service Point Column -->

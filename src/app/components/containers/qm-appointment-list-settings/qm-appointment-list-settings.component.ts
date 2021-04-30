@@ -1,16 +1,63 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, Inject } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
 import { IBranch } from '../../../../models/IBranch';
-import { AppointmentDispatchers, BranchDispatchers, BranchSelectors } from '../../../../store';
+import { AppointmentDispatchers, BranchDispatchers, BranchSelectors, UserSelectors } from '../../../../store';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { NgOption } from '@ng-select/ng-select';
 import { ToastService } from '../../../../services/util/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemePalette } from '@angular/material/core';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from '@angular/forms';
+
+const DATE_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: window.SYSTEM_DATE_FORMAT,
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
+export class CustomDateFormats {
+  constructor() {}
+  get display() {
+    return {
+          dateInput: window.SYSTEM_DATE_FORMAT,
+          monthYearLabel: "YYYY",
+          dateA11yLabel: "LL",
+          monthYearA11yLabel: "YYYY"
+        };
+  }
+  get parse() {
+    return {
+          dateInput: window.SYSTEM_DATE_FORMAT
+        };
+  }
+}
 
 @Component({
   selector: 'qm-appointment-list-settings',
   templateUrl: './qm-appointment-list-settings.component.html',
-  styleUrls: ['./qm-appointment-list-settings.component.scss']
+  styleUrls: ['./qm-appointment-list-settings.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useClass: CustomDateFormats},
+  ],
 })
 export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
   @Output() branchName: EventEmitter<string> = new EventEmitter<string>();
@@ -21,18 +68,24 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
   public toDate: NgbDateStruct;
   public languages: NgOption[] = [];
   public branch: any;
+  searchAppointmentForm: FormGroup;
+  userDirection$: Observable<string>;
+
+  @ViewChild('pickerStart') pickerStart: any;
 
 
   constructor(
+    @Inject(MAT_DATE_FORMATS) private config: CustomDateFormats,
+    private fb: FormBuilder,
     private branchSelectors: BranchSelectors,
     private branchDispatchers: BranchDispatchers,
     private appointmentDispatchers: AppointmentDispatchers,
     private toastService: ToastService,
     private translateService: TranslateService,
+    private userSelectors: UserSelectors
   ) { 
-   
     this.branches$ = this.branchSelectors.qpBranches$;
-
+    this.userDirection$ = this.userSelectors.userDirection$;
   }
 
   ngOnInit(){
@@ -43,44 +96,27 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
       }
     );
       this.subscriptions.add(branchSubscription);
+
+      this.buildCustomerForm();
   }
 
-  SearchAppointments() {
-    if (this.fromDate && this.fromDate.year && this.toDate && this.toDate.year && this.branch) {
+  // Build customer form
+  buildCustomerForm() {
 
-      var fromDateObj = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day).getTime()
-      var toDateObj = new Date(this.toDate.year, this.toDate.month, this.toDate.day).getTime()
-      if (toDateObj - fromDateObj < 0) {
-        this.translateService.get('label.list.date.error').subscribe(
-          (label: string) =>  {
-            this.toastService.errorToast(label);
-          }
-        ).unsubscribe();
-      } else {
-        this.appointmentDispatchers.fetchAppointmentList(
-          `${this.fromDate.year}-${this.toDate.month < 10 ? '0' + this.fromDate.month : this.fromDate.month  }-${this.fromDate.day < 10 ? '0' + this.fromDate.day: this.fromDate.day}`,
-          `${this.toDate.year}-${this.toDate.month < 10 ? '0' + this.toDate.month: this.toDate.month}-${this.toDate.day < 10 ? '0' + this.toDate.day: this.toDate.day}`,
-          `${this.branch}`)
-          var branchName = this.branchlist.filter(x => {
-            return x.qpId.toString() === this.branch.toString();
-          });
-          if(branchName) {
-            this.branchName.emit(branchName[0].name) ;
-          }
-    
-      }
- 
+    this.searchAppointmentForm = this.fb.group({
+      branch: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+    });
+  }
 
-    } else {
-      this.translateService.get('label.list.invalid.field').subscribe(
-        (label: string) =>  {
-          this.toastService.errorToast(label);
-        }
-      ).unsubscribe();
-    }
-    
-  
-    // this.toastService.successToast('hello');
+  searchAppointments() {
+    const formModel = this.searchAppointmentForm.value;
+    const startDateObj = formModel.startDate.format('YYYY-MM-DD');
+    const endDateObj = formModel.endDate.format('YYYY-MM-DD');
+    const branchId = formModel.branch;
+
+    this.appointmentDispatchers.fetchAppointmentList(startDateObj, endDateObj, branchId);
   }
 
   ngOnDestroy() {

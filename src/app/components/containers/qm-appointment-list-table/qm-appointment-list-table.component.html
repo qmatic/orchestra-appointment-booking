@@ -1,211 +1,94 @@
-<div class="qm-app-list-table-container" [dir]="userDirection$ | async"> 
-  <h2 class="qm-app-list-table-container__heading" *ngIf="!appointmentsLoaded && fulAppointmentList && fulAppointmentList.length > 0"> {{'label.list.heading' | translate}} <span
-      *ngIf="branchName"> {{branchName}}</span> </h2>
-  <hr>
-  <div>
-    <div class="qm-app-list-table-container__filters" *ngIf="!appointmentsLoaded && fulAppointmentList && fulAppointmentList.length > 0">
-      <div style="display: flex;">
-        {{'label.list.search' | translate}}   
-        <div class="qm-app-list-table-container__input-box">
-          <input type="text" (change)="onSearchTxtChanged()" (keyup)="onSearchTxtChanged()" [(ngModel)]="searchText">
-          <span class="close-btn-container"><i class="qm-booking-history-item__small-icon icon-close-smaller close-btn" (click)="clear()" aria-hidden="true" *ngIf="searchText"></i> </span>
-          
-        </div>
-        
-      </div>
-      <div>
-        {{'label.list.show' | translate}} <select name="" id="" (change)="onChangeElementsPerpage($event.target.value)">
-          <option value="5"> 5 </option>
-          <option value="10"> 10 </option>
-          <option value="20"> 20 </option>
-          <option value="100"> 100 </option>
-        </select>
-      </div>
-      <div class="qm-app-list-table-container__filters-reports">
-        <button class="qm-app-list-table-container__filters-button" (click)="exportToPdf()">    {{'label.list.pdf' | translate}}</button>
-        <button class="qm-app-list-table-container__filters-button" (click)="exportToExcel()">  {{'label.list.xls' | translate}}</button>
-      </div>
-    </div>
-    <hr>
-
-    <div class="qm-loader-container" *ngIf="appointmentsLoaded">
-      <qm-loader></qm-loader>
-    </div>
-
-    <div class="qm-app-list-table-container-list" *ngIf="!appointmentsLoaded && fulAppointmentList && fulAppointmentList.length > 0">
-      <table id="app-list">
-        <tr>
-          <th *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'">
-            {{'label.list.date' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('DATE')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'DATE' && sortByAsc) || (sortByCondition !== 'DATE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'">  {{'label.list.start' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('START')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'START' && sortByAsc) || (sortByCondition !== 'START' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'">{{'label.list.end' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('END')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'END' && sortByAsc) || (sortByCondition !== 'END' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'">{{'label.list.first.name' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('FIRST_NAME')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'FIRST_NAME' && sortByAsc) || (sortByCondition !== 'FIRST_NAME' && !sortByAsc))  ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListLastName && settingsMap.ListLastName.value) || settingsMap.ListLastName == 'undefined'"> {{'label.list.last.name' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('LAST_NAME')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'LAST_NAME' && sortByAsc) || (sortByCondition !== 'LAST_NAME' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListResource && settingsMap.ListResource.value) || settingsMap.ListResource == 'undefined'"> {{'label.list.resource' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('RESOURCE')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'RESOURCE' && sortByAsc) || (sortByCondition !== 'RESOURCE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListNotesConf && settingsMap.ListNotesConf.value) || settingsMap.ListNotesConf == 'undefined'"> {{'label.list.notes' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('NOTE')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'NOTE' && sortByAsc) || (sortByCondition !== 'NOTE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'">  {{'label.list.services' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('SERVICES')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'SERVICES' && sortByAsc) || (sortByCondition !== 'SERVICES' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'" >{{'label.list.email' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('EMAIL')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'EMAIL' && sortByAsc) || (sortByCondition !== 'EMAIL' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> {{'label.list.phone' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('PHONE')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'PHONE' && sortByAsc) || (sortByCondition !== 'PHONE' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{'label.list.updated' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('UPDATED')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'UPDATED' && sortByAsc) || (sortByCondition !== 'UPDATED' && !sortByAsc)) ? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-          <th *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'">{{'label.list.status' | translate}} 
-            <button class="qm-transparent-btn" (click)="sortByChange('STATUS')">
-              <i class="sort-icon"
-                [ngClass]="((sortByCondition === 'STATUS' && sortByAsc) || (sortByCondition !== 'STATUS' && !sortByAsc))? 'icon-caret-down': 'icon-caret-up'"></i>
-              <!-- <span class="sr-only">{{ sortByVisitIdAsc ? ('button.sortASC' | translate) : ('button.sortDES' | translate) }}</span> -->
-            </button>
-          </th>
-      
-        </tr>
-        <tr  *ngIf="!appointmentsLoaded && (fulAppointmentList && fulAppointmentList.length > 0) && appointmentList.length === 0 ">
-          <td colspan="100%">   {{'label.list.no.items' | translate}} " {{searchText}} "</td>
-        </tr>
-        <tr *ngIf= "allFeildsDisabled"
-        > <td colspan="100%">  Please enable atleast one field from setting </td>  </tr>
-        <tr *ngFor="let appointment of appointmentList | slice: (currentPage-1) * elementsPerPage : currentPage * elementsPerPage">
-          <td  *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: dateFormat }}</td>
-          <td *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'"> {{ appointment.startTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
-          <td *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'"> {{ appointment.endTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
-          <td *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'"> <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].firstName }}</span></td>
-          <td *ngIf="(settingsMap.ListLastName && settingsMap.ListLastName.value) || settingsMap.ListLastName == 'undefined'">  <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].lastName }}</span></td>
-          <td *ngIf="(settingsMap.ListResource && settingsMap.ListResource.value) || settingsMap.ListResource == 'undefined'"> {{ appointment.resourceName }}</td>
-          <td *ngIf="(settingsMap.ListNotesConf && settingsMap.ListNotesConf.value) || settingsMap.ListNotesConf == 'undefined'"> {{ getNotes(appointment.properties.notes) }}</td>
-          <td *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'"> <span *ngIf="appointment.services.length > 0">{{ appointment.services[0].name }}</span></td>
-          <td *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'" >  <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.email }}</span></td>
-          <td *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.phoneNumber }} </span></td>
-          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? dateFormat +' - HH:mm' : dateFormat +' - hh:mm
-            A') }}</td>
-          <td *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'"> {{ appointment.status }}</td>
-        </tr>
-      </table>
-    </div>
-
-    <!-- Fake table for downloading pdf and xls -->
-    <div class="qm-app-list-table-container-fake-list" aria-hidden="true" *ngIf="!appointmentsLoaded && fulAppointmentList && fulAppointmentList.length > 0">
-      <table id="app-full-list">
-        <tr>
-          <th *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'">
-            {{'label.list.date' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'">  {{'label.list.start' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'">{{'label.list.end' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'">{{'label.list.first.name' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListLastName && settingsMap.ListLastName.value) || settingsMap.ListLastName == 'undefined'"> {{'label.list.last.name' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListResource && settingsMap.ListResource.value) || settingsMap.ListResource == 'undefined'"> {{'label.list.resource' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListNotesConf && settingsMap.ListNotesConf.value) || settingsMap.ListNotesConf == 'undefined'"> {{'label.list.notes' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'">  {{'label.list.services' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'">{{'label.list.email' | translate}}
-          </th>
-          <th *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> {{'label.list.phone' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{'label.list.updated' | translate}} 
-          </th>
-          <th *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'">{{'label.list.status' | translate}} 
-          </th>
-      
-        </tr>
-        <tr *ngFor="let appointment of fulAppointmentList">
-          <td *ngIf="(settingsMap.ListDate && settingsMap.ListDate.value) || settingsMap.ListDate == 'undefined'"> {{ appointment.startTime | amDateFormat: dateFormat}}  </td>
-          <td *ngIf="(settingsMap.ListStart && settingsMap.ListStart.value) || settingsMap.ListStart == 'undefined'"> {{ appointment.startTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
-          <td *ngIf="(settingsMap.ListEnd && settingsMap.ListEnd.value) || settingsMap.ListEnd == 'undefined'"> {{ appointment.endTime | amDateFormat: (isMilitaryTime ? 'HH:mm' : 'hh:mm A') }}</td>
-          <td *ngIf="(settingsMap.ListFirstName && settingsMap.ListFirstName.value) || settingsMap.ListFirstName == 'undefined'"> <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].firstName }}</span></td>
-          <td *ngIf="(settingsMap.ListLastName && settingsMap.ListLastName.value) || settingsMap.ListLastName == 'undefined'">  <span *ngIf="appointment.customers.length > 0"> {{ appointment.customers[0].lastName }}</span></td>
-          <td *ngIf="(settingsMap.ListResource && settingsMap.ListResource.value) || settingsMap.ListResource == 'undefined'"> {{ appointment.resourceName }}</td>
-          <td *ngIf="(settingsMap.ListNotesConf && settingsMap.ListNotesConf.value) || settingsMap.ListNotesConf == 'undefined'"> {{ getNotes(appointment.properties.notes) }}</td>
-          <td *ngIf="(settingsMap.ListServices && settingsMap.ListServices.value) || settingsMap.ListServices == 'undefined'"> <span *ngIf="appointment.services.length > 0">{{ appointment.services[0].name }}</span></td>
-          <td *ngIf="(settingsMap.ListEmail && settingsMap.ListEmail.value) || settingsMap.ListEmail == 'undefined'" >  <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.email }}</span></td>
-          <td *ngIf="(settingsMap.ListPhoneNumber && settingsMap.ListPhoneNumber.value) || settingsMap.ListPhoneNumber == 'undefined'"> <span *ngIf="appointment.customers.length > 0">{{ appointment.customers[0].properties.phoneNumber }} </span></td>
-          <td  *ngIf="(settingsMap.ListUpdated && settingsMap.ListUpdated.value) || settingsMap.ListUpdated == 'undefined'"> {{ appointment.updateTime | amDateFormat: (isMilitaryTime ? dateFormat +' - HH:mm' : dateFormat +' - hh:mm
-            A') }}</td>
-          <td *ngIf="(settingsMap.ListStatus && settingsMap.ListStatus.value) || settingsMap.ListStatus == 'undefined'"> {{ appointment.status }}</td>
-        </tr>
-      </table>
-    </div>
-    <!-- End of fake table -->
-    <div style="display: flex;" *ngIf="appointmentList && appointmentList.length > 0 && !appointmentsLoaded"> 
-    {{updateDetailList()}}
-    </div>
-    <div class="qm-pagination-container" *ngIf="!allFeildsDisabled">
-      <ngb-pagination *ngIf="!appointmentsLoaded && appointmentList && appointmentList.length > 0" [(page)]="currentPage" [pageSize]="elementsPerPage" [collectionSize]="appointmentList.length" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
-    </div>
-      
+<div class="qm-booking-flow" [dir]="userDirection">
+  <!-- <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field> -->
+  <div class="qm-blocking-list__main" [ngStyle]="{'height':dashboardRowCSSHeight}">
+    <div class="mat-elevation-z8 qm-blocking-list__container" [ngClass]="{'qm-blocking-list__container__full' : fulAppointmentList === undefined || (fulAppointmentList && 6 > fulAppointmentList.length) }">
+      <table id="app-full-list" mat-table [dataSource]="dataSource" matSort class="qm-blocking-list__table">
+  
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.date' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.startTime | qmDateOnlyFormat : '' | async  }} </td>
+        </ng-container>
     
-    <div class="qm-no-appointment" *ngIf="!appointmentsLoaded && fulAppointmentList.length == 0 ">
-      <div class="qm-no-appointment__text">
-        {{'label.list.entry.label' | translate}} 
-       
-      </div>
-    </div>
+        <!-- Start Time Column -->
+        <ng-container matColumnDef="start">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.start' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.startTime | qmTimeFormat : '' | async }} </td>
+        </ng-container>
+    
+        <!-- End Time Column -->
+        <ng-container matColumnDef="end">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.end' | translate }} </th>
+          <td mat-cell *matCellDef="let row" class="qm-history-table__id-text"> {{ row.endTime | qmTimeFormat : '' | async }} </td>
+        </ng-container>
+    
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.first.name' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.customers && row.customers.length > 0 ? row.customers[0].firstName : '' }} </td>
+        </ng-container>
+
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.last.name' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.customers && row.customers.length > 0 ? row.customers[0].lastName : '' }} </td>
+        </ng-container>
+
+        <!-- Resource Column -->
+        <ng-container matColumnDef="resource">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.resource' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.resourceName }} </td>
+        </ng-container>
+
+        <!-- Note Column -->
+        <ng-container matColumnDef="note">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.notes' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ getNotes(row.properties.notes) }} </td>
+        </ng-container>
+
+        <!-- Service Column -->
+        <ng-container matColumnDef="service">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.services' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.services && row.services.length > 0 ? row.services[0].name : '' }} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.email' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.customers && row.customers.length > 0 ? row.customers[0].properties.email : '' }} </td>
+        </ng-container>
+
+         <!-- Phone Column -->
+         <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.phone' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.customers && row.customers.length > 0 ? row.customers[0].properties.phoneNumber : '' }} </td>
+        </ng-container>
+
+         <!-- Updated Column -->
+         <ng-container matColumnDef="updated">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.updated' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.updateTime | qmDateFormat : '' | async }} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'label.list.status' | translate }} </th>
+          <td mat-cell *matCellDef="let row"> {{ row.status }} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td *ngIf="dataSource.filter.length > 0" class="mat-cell" colspan="4">No data matching the filter "{{dataSource.filter}}"</td>
+        </tr>
+      </table>
   </div>
+  <mat-paginator [hidden]="fulAppointmentList === undefined || fulAppointmentList && fulAppointmentList.length < 6" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+
+</div>

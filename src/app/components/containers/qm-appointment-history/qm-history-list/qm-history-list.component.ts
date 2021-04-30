@@ -168,7 +168,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
       newApp.actionData = {};
       newApp.actionData.start = (app.operation === 'DELETE') ? actionDataBefore.start : actionDataAfter.start;
       newApp.actionData.end = (app.operation === 'DELETE') ? actionDataBefore.end : actionDataAfter.end;
-      newApp.actionData.notes = app.operation === 'DELETE' ? actionDataBefore.notes : actionDataAfter.notes;
+      newApp.actionData.notes = this.getNotes(app.operation === 'DELETE' ? actionDataBefore.notes : actionDataAfter.notes);
       newApp.actionData.resource = (app.operation === 'DELETE')  ? actionDataBefore.resource : actionDataAfter.resource;
       newApp.actionData.title = app.operation === 'DELETE' ? actionDataBefore.title : actionDataAfter.title;
       newApp.actionData.services = (app.operation === 'DELETE') ?
@@ -190,6 +190,10 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
       });
     }
     return services;
+  }
+
+  getNotes(notes) {
+    return decodeURIComponent(notes);
   }
 
   appointmentSelected(entityId) {

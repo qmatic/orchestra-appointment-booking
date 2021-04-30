@@ -1,0 +1,184 @@
+@import '../../../../styles/base/_component-manifest.scss';
+
+.qm-dashboard {
+    padding: rem($base-unit $base-unit * 2);
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  
+    // Search and customer card
+    &__header {
+        display: flex;
+      flex: 0 0 auto;
+      width: 100%;
+      margin-bottom: rem($standard-margin);
+    }
+
+    &__header-container {
+        width: 90%;
+    }
+  
+    // Booking flow
+    &__body {
+      flex: 1 1 auto;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      overflow: hidden;
+
+      &__header{
+          display: flex;
+          justify-content: space-between;
+      }
+
+      &__table-action{
+          display: flex;
+      }
+  
+      &--card-shade {
+        padding-top: rem($base-unit);
+  
+        &:before {
+          content: "";
+          display: block;
+          background: $light-transparent42;
+          height: rem($base-unit);
+          width: 90%;
+          border-radius: rem($standard-border-radius $standard-border-radius 0 0);
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+  
+    &__content {
+      flex: 1 1 auto;
+      background: $tab-background-color;
+      display: flex;
+      flex-direction: column;
+      padding: rem($standard-padding * 2 $standard-padding * 2 $standard-padding);
+      box-shadow: $dashboard-body-box-shadow;
+      border-radius: $standard-border-radius;
+      overflow: hidden;
+    }
+  }
+
+  .qm-history-search {
+    display: flex;
+    flex-wrap: wrap;
+    background: $white;
+    box-shadow: $dashboard-body-box-shadow;
+    border-radius: $standard-border-radius;
+    padding: rem($standard-padding * 1.5 $standard-padding * 2);
+    width: 100%;
+  
+    &__headline {
+      flex: 1 1 100%;
+    }
+  
+    &__layout {
+      display: flex;
+      width: 100%;
+    }
+  
+    &__search-container {
+      position: relative;
+      height: rem(46px);
+      flex: 1 1 auto;
+      margin-right: rem($base-unit);
+      z-index: map-get($map: $z-index, $key: 'customer-search');
+  
+      @at-root [dir='rtl'] & {
+        margin-right: 0;
+        margin-left: rem($base-unit);
+      }
+    }
+  
+    &__action-container {
+      flex: 0 0 auto;
+      display: flex;
+    }
+  
+    &__btn {
+      color: $secondary-color;
+  
+      &:active {
+        color: $dark-transparent82;
+      }
+  
+      .qm-action-btn__icon {
+        font-size: rem(36px);
+      }
+  
+      .qm-btn__text {
+        font-size: rem(18px);
+        line-height: rem(21px);
+        font-weight: $font-weight-regular;
+        padding-right: rem($standard-padding / 4);
+  
+        @at-root [dir='rtl'] & {
+          padding-right: 0;
+          padding-left: rem($standard-padding / 4);
+        }
+      }
+    }
+  
+    &__backdrop {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: map-get($map: $z-index, $key: 'backdrop');
+    }
+  }
+  
+  .qm-search {
+    position: relative;
+    
+    &__input {
+      width: 100%;
+      border: 1px solid $standard-border-color;
+      box-shadow: 0 0 4px 0 $dark-transparent04;
+      padding: rem(10px 48px 10px 12px);
+      color: $dark-transparent82;
+      font-size: rem(18px);
+      line-height: rem(24px);
+      font-weight: $font-weight-light;
+      height: rem(46px);
+  
+      @at-root [dir='rtl'] & {
+        padding: rem(10px 12px 10px 48px);
+      }
+    }
+  
+    &__btn {
+      position: absolute;
+      right: rem($base-unit / 2);
+      top: 50%;
+      transform: translateY(-50%);
+      color: $dark-transparent42;
+  
+      @at-root [dir='rtl'] & {
+        right: auto;
+        left: rem($base-unit / 2);
+      }
+  
+      &--clear {
+        z-index: 3;
+        .qm-action-btn__icon {
+          font-size: rem(18px);
+        }
+      }
+    }
+  }
+  
+  @media screen and (max-height: #{map-get($hight-breakpoints, 'md')}) { 
+    .qm-history-search {
+      padding: rem($standard-padding * 1.2 $standard-padding * 2);
+    }
+  }

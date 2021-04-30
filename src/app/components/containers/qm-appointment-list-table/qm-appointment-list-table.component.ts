@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AppointmentDispatchers, AppointmentSelectors, SettingsAdminSelectors, SystemInfoSelectors, UserSelectors } from '../../../../store';
 import { Subscription, Observable } from 'rxjs';
 import { IAppointment } from '../../../../models/IAppointment';
@@ -11,6 +11,9 @@ import autoTable from 'jspdf-autotable'
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '../../../../models/Setting';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 // declare let jsPDF;
 @Component({
@@ -20,6 +23,15 @@ import { Setting } from '../../../../models/Setting';
 })
 export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   @Input() branchName: string;
+  displayedColumns: string[] = [];
+  dataSource: MatTableDataSource<Object>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  private dashboardHeight = 600;
+  public dashboardRowCSSHeight = '600px';
+  private dashboardRemains = 88;
   private subscriptions: Subscription = new Subscription();
   public appointmentList$: Observable<IAppointment[]>;
   private settingsMap$: Observable<{ [name: string]: Setting }>;
@@ -42,6 +54,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   private dateConvention$: Observable<string>;
   public dateFormat = 'DD-MM-YYYY';
   private getDtFormatFromParams: boolean;
+  public userDirection: string;
 
   constructor(
     private appointmentSelectors: AppointmentSelectors,
@@ -62,6 +75,18 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
+  @ViewChild('myDiv') theDiv:ElementRef;
+  ngAfterContentChecked() {
+    let elem = document.getElementById('dashboard-body');
+    
+      let elemHight = elem.clientHeight;
+      if (elemHight !== this.dashboardHeight && elemHight > this.dashboardRemains) {
+        this.dashboardHeight = elemHight;
+        this.dashboardRowCSSHeight = (elemHight - this.dashboardRemains - 23) + 'px';
+    
+      }
+  }
+
   ngOnInit() {
     this.elementsPerPage = 5;
     this.currentPage = 1;
@@ -69,39 +94,57 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     const appointmentSubscription = this.appointmentList$.subscribe(
       (appointments: IAppointment[]) => {
         this.fulAppointmentList = appointments;
-        this.sortedfullappointmentList = appointments;
-        this.updateVisibleList();
+        this.dataSource = new MatTableDataSource(this.fulAppointmentList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sortingDataAccessor = (item, property) => {
+            switch(property) {
+              case 'date': return (item as IAppointment).startTime;
+              case 'start': return (item as IAppointment).startTime;
+              case 'end': return (item as IAppointment).endTime;
+              case 'firstName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].firstName;
+              case 'lastName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].firstName;
+              case 'resource': return (item as IAppointment).resourceName.toLowerCase();
+              case 'updated': return (item as IAppointment).updateTime;
+              case 'email': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.email;
+              case 'phone': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.phoneNumber;
+              case 'service': return (item as IAppointment).services && (item as IAppointment).services.length > 0 && (item as IAppointment).services[0].name;
+              default: return item[property];
+            }
+          };
+          this.dataSource.sort = this.sort;
+
+          if (appointments.length > 0){
+             this.dataSource.filterPredicate = (data: IAppointment, filter: string) => {
+              return data.resourceName && data.resourceName.toLowerCase().includes(filter) ||
+                     data.customers && data.customers.length > 0 && data.customers[0].firstName.toLowerCase().includes(filter) ||
+                     data.customers && data.customers.length > 0 && data.customers[0].lastName.toLowerCase().includes(filter) ||
+                     data.customers && data.customers.length > 0 && data.customers[0].properties.phoneNumber.includes(filter) ||
+                     data.customers && data.customers.length > 0 && data.customers[0].properties.email.toLowerCase().includes(filter) ||
+                     data.notes && data.notes.toLowerCase().includes(filter) ||
+                     data.services && data.services.length > 0 && data.services[0].name.toLowerCase().includes(filter) ||
+                     data.status && data.status.toLowerCase().includes(filter);
+             };
+          }
       }
     );
     this.subscriptions.add(appointmentSubscription);
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
-        this.settingsMap = settingsMap;
-        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
-        this.allFeildsDisabled =  (settingsMap.ListDate && !settingsMap.ListDate.value) &&
-        (settingsMap.ListStart && !settingsMap.ListStart.value) &&
-        (settingsMap.ListEnd && !settingsMap.ListEnd.value) &&
-        (settingsMap.ListFirstName && !settingsMap.ListFirstName.value) &&
-        (settingsMap.ListLastName && !settingsMap.ListLastName.value) &&
-        (settingsMap.ListResource && !settingsMap.ListResource.value) &&
-        (settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value) &&
-        (settingsMap.ListServices && !settingsMap.ListServices.value) &&
-        (settingsMap.ListEmail && !settingsMap.ListEmail.value) &&
-        (settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value) &&
-        (settingsMap.ListUpdated && !settingsMap.ListUpdated.value) &&
-        (settingsMap.ListStatus && !settingsMap.ListStatus.value);
+        if (settingsMap.ListDate.value) this.displayedColumns.push('date')
+        if (settingsMap.ListStart.value) this.displayedColumns.push('start')
+        if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
+        if (settingsMap.ListFirstName.value) this.displayedColumns.push('firstName')
+        if (settingsMap.ListLastName.value) this.displayedColumns.push('lastName')
+        if (settingsMap.ListResource.value) this.displayedColumns.push('resource')
+        if (settingsMap.ListNotesConf.value) this.displayedColumns.push('note')
+        if (settingsMap.ListServices.value) this.displayedColumns.push('service')
+        if (settingsMap.ListEmail.value) this.displayedColumns.push('email')
+        if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
+        if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
+        if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
       }
     );
     this.subscriptions.add(settingsSubscription);
-    this.isMilitaryTime = true;
-    const systemInformationSubscription = this.timeConvention$.subscribe(
-      timeConvention => {
-        if (timeConvention) {
-          this.isMilitaryTime = timeConvention !== 'AMPM';
-        }
-      }
-    );
-    this.subscriptions.add(systemInformationSubscription);
 
     const appointmentsLoadedSubcription = this.appointmentsLoading$.subscribe(
       (appointmentsLoaded: boolean) =>
@@ -116,6 +159,20 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     );
     this.subscriptions.add(dateConventionSubscription);
 
+    const userDirectionSubscription = this.userDirection$.subscribe(
+      (userDirection: string) => {
+        this.userDirection = userDirection;
+      }
+    );
+    this.subscriptions.add(userDirectionSubscription);
+
+  }
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   ngOnDestroy() {
@@ -157,6 +214,14 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     // @ts-ignore
     doc.save(`Appointment List from ${this.branchName}.pdf`);
 
+  }
+
+  onSearchChange(value) {
+    this.dataSource.filter = value.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   onSearchTxtChanged() {
