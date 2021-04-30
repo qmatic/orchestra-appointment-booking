@@ -305,10 +305,10 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
       (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
       (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format(dateFormat).includes(value) ||
-      (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).includes(value) ||
-      (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).includes(value) ||
-      (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`${dateFormat} - ${timeFormat}`).includes(value);
+      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format(dateFormat).toLocaleLowerCase().includes(value) ||
+      (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
+      (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
+      (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`${dateFormat} - ${timeFormat}`).toLocaleLowerCase().includes(value);
     });
 
     return newList;
