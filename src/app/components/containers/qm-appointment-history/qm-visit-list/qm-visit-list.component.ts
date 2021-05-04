@@ -63,7 +63,7 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
 
     const appointmentVisitSubcription = this.appointmentHistorySelectors.appointmentVisit$.subscribe(
       appointmentVisit => {
-          this.visitList = this.processVisitData(appointmentVisit);
+          this.visitList = appointmentVisit;
           this.dataSource = new MatTableDataSource(this.visitList);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sortingDataAccessor = (item, property) => {

@@ -88,21 +88,21 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     const appointmentsSubcription = this.appointmentHistorySelectors.historyAppointments$.subscribe(
         (appointments: IAppointment[]) => {
         
-          this.appointmentList = this.updateAppointments(appointments);
+          this.appointmentList = appointments;
           this.dataSource = new MatTableDataSource(this.appointmentList);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sortingDataAccessor = (item, property) => {
             switch(property) {
               case 'resource': return (item as IAppointment).actionData.resource.toLowerCase();
               case 'actionDate': return (item as IAppointment).timeStamp;
+              case 'branch': return (this.mapBranch((item as IAppointment).branchId)).toLowerCase();
+              case 'service': return (this.mapService((item as IAppointment).actionData.services)).toLowerCase();
               case 'start': return (item as IAppointment).actionData.start;
               case 'end': return (item as IAppointment).actionData.end;
               case 'appId': return (item as IAppointment).entityId;
               case 'notes': return (item as IAppointment).actionData.notes.toLowerCase();
               case 'title': return (item as IAppointment).actionData.title.toLowerCase();
               case 'user': return (item as IAppointment).username.toLowerCase();
-              case 'branch': return (item as IAppointment).actionBranch.toLowerCase();
-              case 'services': return (item as IAppointment).actionData.services;
               default: return item[property];
             }
           };
@@ -112,7 +112,8 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
              this.dataSource.filterPredicate = (data: IAppointment, filter: string) => {
               return data.entityId.toString().includes(filter) ||
                      data.actionData.title && data.actionData.title.includes(filter) ||
-                     data.actionBranch && data.actionBranch.toLowerCase().includes(filter) ||
+                     data.branchId && this.mapBranch(data.branchId).toLowerCase().includes(filter) ||
+                     data.actionData.services && this.mapService(data.actionData.services).toLowerCase().includes(filter) ||
                      data.actionData.notes && data.actionData.notes.toLowerCase().includes(filter) ||
                      data.username && data.username.toLowerCase().includes(filter) ||
                      data.actionData.resource && data.actionData.resource.toLowerCase().includes(filter) ||
@@ -176,7 +177,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
         [this.mapService(actionDataBefore.services)] : [this.mapService(actionDataAfter.services)];
       updatedAppointments.push(newApp);
       } catch(error){
-        console.log('JSON parse error in ' + app.id)
+        console.log('JSON parse error in ' + app.entityId)
       }
     });
     return updatedAppointments;

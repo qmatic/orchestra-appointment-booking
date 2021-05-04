@@ -40,7 +40,7 @@
           <!-- Branch Column -->
           <ng-container matColumnDef="branch">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'history.table.appointment.branch' | translate }} </th>
-            <td mat-cell *matCellDef="let row"> {{ row.actionBranch }} </td>
+            <td mat-cell *matCellDef="let row"> {{ mapBranch(row.branchId) }} </td>
           </ng-container>
 
           <!-- Resource Column -->
@@ -52,7 +52,7 @@
           <!-- Service Column -->
           <ng-container matColumnDef="service">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'history.table.appointment.services' | translate }} </th>
-            <td mat-cell *matCellDef="let row"> {{row.actionData.services }} </td>
+            <td mat-cell *matCellDef="let row"> {{ mapService(row.actionData.services) }} </td>
           </ng-container>
 
           <!-- Title Column -->
@@ -64,7 +64,7 @@
            <!-- Notes Column -->
            <ng-container matColumnDef="notes">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'history.table.appointment.notes' | translate }} </th>
-            <td mat-cell *matCellDef="let row"> {{row.actionData.notes }} </td>
+            <td mat-cell *matCellDef="let row"> {{ getNotes(row.actionData.notes) }} </td>
           </ng-container>
 
            <!-- User Column -->
