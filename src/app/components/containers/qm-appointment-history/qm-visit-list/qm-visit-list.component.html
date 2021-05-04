@@ -10,7 +10,7 @@
           <!-- Action Time Column -->
           <ng-container matColumnDef="actionTime">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'history.table.visit.action.time' | translate }} </th>
-            <td mat-cell *matCellDef="let row"> {{row.time | qmTimeFormat : '' | async}} </td>
+            <td mat-cell *matCellDef="let row"> {{ row.time | qmTimeFormat : '' | async}} </td>
           </ng-container>
       
           <!-- Status Column -->
