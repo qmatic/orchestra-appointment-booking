@@ -7,7 +7,9 @@ import { IAppointment } from '../../../../models/IAppointment';
 import { Router } from '@angular/router';
 import { QmAppointmentListTableComponent } from '../qm-appointment-list-table/qm-appointment-list-table.component';
 import { ExportExcel } from "../../../util/exportExcel";
+import { ExportPdf } from "../../../util/exportPdf";
 import { IBranch } from '../../../../models/IBranch';
+import { Setting } from '../../../../models/Setting';
 import * as XLSX from 'xlsx';
 // @ts-ignore
 import jsPDF from 'jspdf'
@@ -25,6 +27,8 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   public appointmentList: IAppointment[];
   public branchList: IBranch[];
   public selectedBranch: IBranch;
+  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  displayedColumns: string[] = [];
   constructor(
     private toastService: ToastService,
     private userSelectors: UserSelectors,
@@ -63,6 +67,24 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(appointmentSubscription);
 
     this.toastService.setToastContainer(this.toastContainer);
+
+    const settingsSubscription = this.settingsMap$.subscribe(
+      (settingsMap: { [name: string]: Setting }) => {
+        if (settingsMap.ListDate.value) this.displayedColumns.push('date')
+        if (settingsMap.ListStart.value) this.displayedColumns.push('start')
+        if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
+        if (settingsMap.ListFirstName.value) this.displayedColumns.push('firstName')
+        if (settingsMap.ListLastName.value) this.displayedColumns.push('lastName')
+        if (settingsMap.ListResource.value) this.displayedColumns.push('resource')
+        if (settingsMap.ListNotesConf.value) this.displayedColumns.push('note')
+        if (settingsMap.ListServices.value) this.displayedColumns.push('service')
+        if (settingsMap.ListEmail.value) this.displayedColumns.push('email')
+        if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
+        if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
+        if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
+      }
+    );
+    this.subscriptions.add(settingsSubscription);
   }
 
   ngOnDestroy() {
@@ -99,11 +121,11 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   }
 
   exportExcel(){
-    ExportExcel.exportTableToExcel("appointmentListTable");
+    ExportExcel.exportTableToExcel("app-full-list");
   }
 
   exportPdf(){
-
+    ExportPdf.exportTableToPdf(this.appointmentList,this.displayedColumns);
   }
 
 }
