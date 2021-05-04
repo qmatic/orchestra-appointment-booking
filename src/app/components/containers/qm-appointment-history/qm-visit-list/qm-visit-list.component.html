@@ -5,7 +5,7 @@
     </mat-form-field> -->
     <div class="qm-blocking-list__main" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <div class="mat-elevation-z8 qm-blocking-list__container" [ngClass]="{'qm-blocking-list__container__full' : visitList === undefined || (visitList && 6 > visitList.length) }">
-        <table mat-table [dataSource]="dataSource" matSort class="qm-blocking-list__table">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="actionTime" matSortDirection="desc" class="qm-blocking-list__table">
     
           <!-- Action Time Column -->
           <ng-container matColumnDef="actionTime">
