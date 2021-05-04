@@ -20,7 +20,7 @@ export const initialState: IAppointmentHistoryState = {
   appointmentVisit: []
 };
 
-export function reducer (
+export function reducer(
   state: IAppointmentHistoryState = initialState,
   action: AppointmentHistoryActions.AllAppointmentHistoryActions
 ): IAppointmentHistoryState {
@@ -100,6 +100,7 @@ export function reducer (
         appointments: [],
         appointment: null,
         appointmentVisit: [],
+        loaded: false,
         error: null
       };
     }
@@ -108,6 +109,7 @@ export function reducer (
         ...state,
         appointment: null,
         appointmentVisit: [],
+        loaded: false,
         error: null
       };
     }

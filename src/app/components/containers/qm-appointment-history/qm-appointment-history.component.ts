@@ -154,15 +154,9 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     const appointmentsSubcription = this.appointmentHistorySelectors.historyAppointments$.subscribe(
       (appointments: IAppointment[]) => {
         this.actionAppointments = appointments;
-        if (appointments.length > 0) {
-          
-          // this.fulAppointmentList = this.actionAppointments;
-          // this.sortedfullappointmentList = this.actionAppointments;
-          // this.updateVisibleList();
-          // this.showTable = true;
-        }
       }
     );
+    this.subscriptions.add(appointmentsSubcription);
     // const anAppointmentSubcription = this.appointmentHistorySelectors.appointment$.subscribe(
     //   appointment => {
     //       this.selectedAppointment = appointment;
@@ -175,14 +169,20 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     const appointmentVisitSubcription = this.appointmentHistorySelectors.appointmentVisit$.subscribe(
       appointmentVisit => {
           this.appointmentVisit = appointmentVisit;
-          // console.log(appointmentVisit);
-          // this.modelVisitData();
       }
     );
 
     const appointmentsLoadedSubcription = this.appointmentHistorySelectors.appointmentsLoaded$.subscribe(
-      (appointmentsLoaded: boolean) =>
-        (this.appointmentsLoaded = appointmentsLoaded)
+      (appointmentsLoaded: boolean) => {
+        if (appointmentsLoaded && this.actionAppointments.length === 0) {
+          const translateSubscription = this.translateService
+          .get('label.history.no.appointments')
+          .subscribe((res: string) => {
+            this.toastService.errorToast(res);
+          });
+          translateSubscription.unsubscribe();
+        }
+      }
     );
     const appointmentLoadedSubcription = this.appointmentHistorySelectors.appointmentLoaded$.subscribe(
       (appointmentsLoaded: boolean) =>
@@ -190,7 +190,6 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(currentCustomerSubscription);
-    this.subscriptions.add(appointmentsSubcription);
     this.subscriptions.add(appointmentsLoadedSubcription);
     this.subscriptions.add(appointmentLoadedSubcription);
     this.subscriptions.add(appointmentVisitSubcription);
