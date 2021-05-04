@@ -151,15 +151,16 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     const updatedAppointments = [];
     appointments.map(app => {
       const newApp: IAppointment = {};
-      const actionDataAfter = JSON.parse((app.change).toString().replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}')).after;
-      const actionDataBefore = JSON.parse((app.change).toString().replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}'))
-      .before;
-      const updatedApp = appointments.filter(appointment => appointment.entityId === app.entityId)
-      .filter(appointmentCreate => appointmentCreate.operation === 'CREATE');
-      const updatedAppActionData = JSON.parse((updatedApp[0].change).toString()
-      .replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}')).after;
+      try {
+        const actionDataAfter = JSON.parse((app.change).toString().replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}')).after;
+        const actionDataBefore = JSON.parse((app.change).toString().replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}'))
+        .before;
+        const updatedApp = appointments.filter(appointment => appointment.entityId === app.entityId)
+        .filter(appointmentCreate => appointmentCreate.operation === 'CREATE');
+        const updatedAppActionData = JSON.parse((updatedApp[0].change).toString()
+        .replace(/"{"/g, '{"').replace(/"}"/g, '"}').replace(/" }"/g, '"}')).after;
 
-      newApp.branchId = app.branchId;
+        newApp.branchId = app.branchId;
       newApp.timeStamp = app.timeStamp;
       newApp.entityId = app.entityId;
       newApp.operation = app.operation;
@@ -174,6 +175,9 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
       newApp.actionData.services = (app.operation === 'DELETE') ?
         [this.mapService(actionDataBefore.services)] : [this.mapService(actionDataAfter.services)];
       updatedAppointments.push(newApp);
+      } catch(error){
+        console.log('JSON parse error in ' + app.id)
+      }
     });
     return updatedAppointments;
   }
