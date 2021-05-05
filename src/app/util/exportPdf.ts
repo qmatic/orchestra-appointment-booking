@@ -37,4 +37,19 @@ export class ExportPdf {
     // });
     doc.save(`${fileName}.pdf`);
   }
+
+
+  static exportHtmlTableToPdf(heading: string, fileName: string, tableId:string){
+    const doc = new jsPDF('l');
+    doc.setLineWidth(2);
+    doc.text(heading, 10, 10);
+    // @ts-ignore
+    doc.autoTable({
+      html: '#'+tableId,
+      startY: 20
+    });
+    // @ts-ignore
+    doc.save(`${fileName}.pdf`);
+
+  }
 }
