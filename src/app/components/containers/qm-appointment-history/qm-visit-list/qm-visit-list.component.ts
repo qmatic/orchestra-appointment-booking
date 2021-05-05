@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
-import { AppointmentHistorySelectors, AppointmentHistoryDispatchers, UserSelectors, BranchSelectors, ServiceSelectors } from '../../../../../store/index';
+import { AppointmentHistorySelectors, AppointmentHistoryDispatchers, UserSelectors, BranchSelectors, ServiceSelectors, SystemInfoSelectors } from '../../../../../store/index';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { IAppointmentVisit } from "../../../../../models/IAppointmentVisit";
 import { IBranch } from '../../../../../models/IBranch';
 import { IService } from '../../../../../models/IService';
+import * as moment from 'moment';
 
 @Component({
   selector: 'qm-visit-list',
@@ -20,6 +21,7 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
   public userDirection: string;
   public branchlist = [];
   public servicelist = [];
+  public timeFormat = 'HH:mm';
 
   displayedColumns: string[] = ['actionTime', 'status', 'queue', 'service', 'outcome', 'mark', 'recycled', 'notes', 'servicePoint', 'user'];
   dataSource: MatTableDataSource<Object>;
@@ -37,6 +39,7 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private branchSelectors: BranchSelectors,
     private serviceSelectors: ServiceSelectors,
+    private systemInfoSelectors: SystemInfoSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
@@ -81,10 +84,13 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
               return data.visitOutcome && data.visitOutcome.toLowerCase().includes(filter) || 
                      data.workstation && data.workstation.toLowerCase().includes(filter) ||
                      data.queue && data.queue.toLowerCase().includes(filter) ||
+                     data.service && data.service.toLowerCase().includes(filter) ||
                      data.outcome && data.outcome.toLowerCase().includes(filter) ||
                      data.notes && data.notes.toLowerCase().toLowerCase().includes(filter) ||
+                     data.user && data.user.toLowerCase().toLowerCase().includes(filter) ||
                      data.mark && data.mark.toLowerCase().includes(filter) ||
-                     data.user && data.user.toLowerCase().includes(filter);
+                     data.recycled && data.recycled.toString().includes(filter) ||
+                     data.time && moment(data.time).format(this.timeFormat).toLocaleLowerCase().includes(filter);
              };
           }
       }
@@ -96,6 +102,13 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
         }
       );
       this.subscriptions.add(serviceSubscription);
+
+      const timeConventionSubscription = this.systemInfoSelectors.systemInfoTimeConvention$.subscribe(
+        (timeConvention: string) => {
+          this.timeFormat = timeConvention;
+        }
+      );
+      this.subscriptions.add(timeConventionSubscription);
 
       this.subscriptions.add(appointmentVisitSubcription);
     this.subscriptions.add(userDirectionSubscription);

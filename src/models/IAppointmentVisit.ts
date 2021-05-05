@@ -8,6 +8,7 @@ export interface IAppointmentVisit {
   mark?: string;
   notes?: string;
   nrRecycled?: number;
+  recycled?: number;
   outcome?: string;
   queue?: string;
   service?: string;

@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
-import { AppointmentHistorySelectors, AppointmentHistoryDispatchers, UserSelectors, BranchSelectors, ServiceSelectors } from '../../../../../store/index';
+import { AppointmentHistorySelectors, AppointmentHistoryDispatchers, UserSelectors, BranchSelectors, ServiceSelectors, SystemInfoSelectors } from '../../../../../store/index';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { IAppointment } from "../../../../../models/IAppointment";
 import { IBranch } from '../../../../../models/IBranch';
 import { IService } from '../../../../../models/IService';
+import * as moment from 'moment';
 
 @Component({
   selector: 'qm-history-list',
@@ -17,6 +18,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private userDirection$: Observable<string>;
   public appointmentList: IAppointment[] = [];
+  public dateFormat = 'YY-MM-DD';
 
   public userDirection: string;
   public branchlist = [];
@@ -38,6 +40,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     private userSelectors: UserSelectors,
     private branchSelectors: BranchSelectors,
     private serviceSelectors: ServiceSelectors,
+    private systemInfoSelectors: SystemInfoSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
@@ -85,6 +88,14 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
       );
       this.subscriptions.add(serviceSubscription);
 
+
+      const timeConventionSubscription = this.systemInfoSelectors.dateTimeConvention$.subscribe(
+        (dateConvention: string) => {
+          this.dateFormat = dateConvention;
+        }
+      );
+      this.subscriptions.add(timeConventionSubscription);
+
     const appointmentsSubcription = this.appointmentHistorySelectors.historyAppointments$.subscribe(
         (appointments: IAppointment[]) => {
         
@@ -117,6 +128,9 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
                      data.actionData.notes && data.actionData.notes.toLowerCase().includes(filter) ||
                      data.username && data.username.toLowerCase().includes(filter) ||
                      data.actionData.resource && data.actionData.resource.toLowerCase().includes(filter) ||
+                     data.timeStamp && moment(data.timeStamp).format(this.dateFormat).toLocaleLowerCase().includes(filter) || 
+                     data.actionData.end && moment(data.actionData.end).format(this.dateFormat).toLocaleLowerCase().includes(filter) || 
+                     data.actionData.start && moment(data.actionData.start).format(this.dateFormat).toLocaleLowerCase().includes(filter) || 
                      data.operation && data.operation.toLowerCase().includes(filter);
              };
           }
@@ -184,7 +198,8 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   }
 
   mapBranch(branchId) {
-    return this.branchlist.filter(branch => branch.id === branchId)[0].name;
+    const branch = this.branchlist.filter(branch => branch.id === branchId)
+    return branch && branch.length > 0 ? branch[0].name : '';
   }
 
   mapService(serviceIdList) {
@@ -198,7 +213,13 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   }
 
   getNotes(notes) {
-    return decodeURIComponent(notes);
+    let decodeString = '';
+    try{
+      decodeString = decodeURIComponent(notes);
+    } catch(e) {
+      decodeString = ''
+    }
+    return decodeString;
   }
 
   appointmentSelected(entityId) {
