@@ -33,6 +33,7 @@ Make sure you have installed
 - [Production Build](#production-build) 
 - [Info to customerSection](#info-to-customer-section) 
 - [Print Email Templete](#print-email-templete) 
+- [Appointment History Audit](#pappointment-history-audit) 
 - [Further help](#further-help) 
   
 ## Installation
@@ -82,6 +83,8 @@ Info to customer section can be used to add personal notes to a speci
 
 ## Print Email Templete
 Appointment booking can be configured to show email template in the print section from the configuration by enabling "Show email template for printing". To use this feature GL_Notification_1.8 or higer should be used. After enabling this feature, the print page will show the email message that is generated using the email template in the notification module.
+## Appointment History Audit
+Appointment booking contains a new module called "Appointment History Audit" and which helps to identify and analyze all customer-related appointments data in the system. To enable this, there is a setting called "Enable appointment history audit" under the "General" category. Staff members can search appointments against user and specific appointment contains additional visit details. These details not available due to past retention policy limit or if a visit has not ended yet.
 ## Further help
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
