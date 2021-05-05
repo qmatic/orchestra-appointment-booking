@@ -27,7 +27,7 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   public appointmentList: IAppointment[];
   public branchList: IBranch[];
   public selectedBranch: IBranch;
-  private settingsMap$: Observable<{ [name: string]: Setting }>;
+  // private settingsMap$: Observable<{ [name: string]: Setting }>;
   displayedColumns: string[] = [];
   constructor(
     private toastService: ToastService,
@@ -68,23 +68,25 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
 
     this.toastService.setToastContainer(this.toastContainer);
 
-    const settingsSubscription = this.settingsMap$.subscribe(
-      (settingsMap: { [name: string]: Setting }) => {
-        if (settingsMap.ListDate.value) this.displayedColumns.push('date')
-        if (settingsMap.ListStart.value) this.displayedColumns.push('start')
-        if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
-        if (settingsMap.ListFirstName.value) this.displayedColumns.push('firstName')
-        if (settingsMap.ListLastName.value) this.displayedColumns.push('lastName')
-        if (settingsMap.ListResource.value) this.displayedColumns.push('resource')
-        if (settingsMap.ListNotesConf.value) this.displayedColumns.push('note')
-        if (settingsMap.ListServices.value) this.displayedColumns.push('service')
-        if (settingsMap.ListEmail.value) this.displayedColumns.push('email')
-        if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
-        if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
-        if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
-      }
-    );
-    this.subscriptions.add(settingsSubscription);
+    // const settingsSubscription = this.settingsMap$.subscribe(
+    //   (settingsMap: { [name: string]: Setting }) => {
+    //     if(settingsMap) {
+    //       if (settingsMap.ListDate.value) this.displayedColumns.push('date')
+    //       if (settingsMap.ListStart.value) this.displayedColumns.push('start')
+    //       if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
+    //       if (settingsMap.ListFirstName.value) this.displayedColumns.push('firstName')
+    //       if (settingsMap.ListLastName.value) this.displayedColumns.push('lastName')
+    //       if (settingsMap.ListResource.value) this.displayedColumns.push('resource')
+    //       if (settingsMap.ListNotesConf.value) this.displayedColumns.push('note')
+    //       if (settingsMap.ListServices.value) this.displayedColumns.push('service')
+    //       if (settingsMap.ListEmail.value) this.displayedColumns.push('email')
+    //       if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
+    //       if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
+    //       if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
+    //     }
+    //   }
+    // );
+    // this.subscriptions.add(settingsSubscription);
   }
 
   ngOnDestroy() {
@@ -121,11 +123,12 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   }
 
   exportExcel(){
-    ExportExcel.exportTableToExcel("app-full-list");
+    ExportExcel.exportTableToExcel("full-app-hidden-list", `Appointment List from ${this.selectedBranch.name}`+ ' - ' + new Date().toISOString(), this.selectedBranch.name );
   }
 
   exportPdf(){
-    ExportPdf.exportTableToPdf(this.appointmentList,this.displayedColumns);
+    // ExportPdf.exportTableToPdf(this.appointmentList,this.displayedColumns);
+    ExportPdf.exportHtmlTableToPdf(`Appointment List from ${this.selectedBranch.name}`,`Appointment List from ${this.selectedBranch.name}`+ ' - ' + new Date().toISOString(),'full-app-hidden-list')
   }
 
 }

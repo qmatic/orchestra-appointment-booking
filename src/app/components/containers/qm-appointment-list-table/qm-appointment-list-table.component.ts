@@ -11,9 +11,9 @@ import autoTable from 'jspdf-autotable'
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '../../../../models/Setting';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 // declare let jsPDF;
 @Component({
@@ -21,10 +21,11 @@ import {MatTableDataSource} from '@angular/material/table';
   templateUrl: './qm-appointment-list-table.component.html',
   styleUrls: ['./qm-appointment-list-table.component.scss']
 })
-export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
+export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
   @Input() branchName: string;
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<Object>;
+  fullAppDataSource: MatTableDataSource<Object>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -52,7 +53,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
   public userDirection$: Observable<string>;
   public allFeildsDisabled: boolean;
   private dateConvention$: Observable<string>;
-  public dateFormat = 'DD-MM-YYYY';
+  public dateFormat = 'YY-MM-DD';
   private getDtFormatFromParams: boolean;
   public userDirection: string;
 
@@ -75,61 +76,27 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     this.dateConvention$ = this.systemInfoSelectors.systemInfoDateConvention$;
   }
 
-  @ViewChild('myDiv') theDiv:ElementRef;
+  @ViewChild('myDiv') theDiv: ElementRef;
   ngAfterContentChecked() {
     let elem = document.getElementById('dashboard-body');
-    
-      let elemHight = elem.clientHeight;
-      if (elemHight !== this.dashboardHeight && elemHight > this.dashboardRemains) {
-        this.dashboardHeight = elemHight;
-        this.dashboardRowCSSHeight = (elemHight - this.dashboardRemains - 23) + 'px';
-    
-      }
+
+    let elemHight = elem.clientHeight;
+    if (elemHight !== this.dashboardHeight && elemHight > this.dashboardRemains) {
+      this.dashboardHeight = elemHight;
+      this.dashboardRowCSSHeight = (elemHight - this.dashboardRemains - 23) + 'px';
+
+    }
   }
 
   ngOnInit() {
     this.elementsPerPage = 5;
     this.currentPage = 1;
-    document.title = 'Appointment List'
-    const appointmentSubscription = this.appointmentList$.subscribe(
-      (appointments: IAppointment[]) => {
-        this.fulAppointmentList = appointments;
-        this.dataSource = new MatTableDataSource(this.fulAppointmentList);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sortingDataAccessor = (item, property) => {
-            switch(property) {
-              case 'date': return (item as IAppointment).startTime;
-              case 'start': return (item as IAppointment).startTime;
-              case 'end': return (item as IAppointment).endTime;
-              case 'firstName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].firstName;
-              case 'lastName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].firstName;
-              case 'resource': return (item as IAppointment).resourceName.toLowerCase();
-              case 'updated': return (item as IAppointment).updateTime;
-              case 'email': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.email;
-              case 'phone': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.phoneNumber;
-              case 'service': return (item as IAppointment).services && (item as IAppointment).services.length > 0 && (item as IAppointment).services[0].name;
-              default: return item[property];
-            }
-          };
-          this.dataSource.sort = this.sort;
+    document.title = 'Appointment List';
 
-          if (appointments.length > 0){
-             this.dataSource.filterPredicate = (data: IAppointment, filter: string) => {
-              return data.resourceName && data.resourceName.toLowerCase().includes(filter) ||
-                     data.customers && data.customers.length > 0 && data.customers[0].firstName.toLowerCase().includes(filter) ||
-                     data.customers && data.customers.length > 0 && data.customers[0].lastName.toLowerCase().includes(filter) ||
-                     data.customers && data.customers.length > 0 && data.customers[0].properties.phoneNumber.includes(filter) ||
-                     data.customers && data.customers.length > 0 && data.customers[0].properties.email.toLowerCase().includes(filter) ||
-                     data.notes && data.notes.toLowerCase().includes(filter) ||
-                     data.services && data.services.length > 0 && data.services[0].name.toLowerCase().includes(filter) ||
-                     data.status && data.status.toLowerCase().includes(filter);
-             };
-          }
-      }
-    );
-    this.subscriptions.add(appointmentSubscription);
+    
     const settingsSubscription = this.settingsMap$.subscribe(
       (settingsMap: { [name: string]: Setting }) => {
+        this.settingsMap = settingsMap;
         if (settingsMap.ListDate.value) this.displayedColumns.push('date')
         if (settingsMap.ListStart.value) this.displayedColumns.push('start')
         if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
@@ -142,9 +109,71 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
         if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
         if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
     this.subscriptions.add(settingsSubscription);
+
+
+    const dateConventionSubscription = this.dateConvention$.subscribe(
+      (dateConvention: string) => {
+        this.dateFormat = this.getDtFormatFromParams ? dateConvention : this.dateFormat;
+      }
+    );
+    this.subscriptions.add(dateConventionSubscription);
+
+    
+    const appointmentSubscription = this.appointmentList$.subscribe(
+      (appointments: IAppointment[]) => {
+        this.fulAppointmentList = appointments;
+        this.dataSource = new MatTableDataSource(this.fulAppointmentList);
+        this.fullAppDataSource =  new MatTableDataSource(this.fulAppointmentList);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'date': return new Date((item as IAppointment).startTime);
+            case 'start': return moment((item as IAppointment).startTime).format('HH:mm');
+            case 'end': return moment((item as IAppointment).endTime).format('HH:mm');
+            case 'firstName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].firstName || '';
+            case 'lastName': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].lastName || '';
+            case 'resource': return (item as IAppointment).resourceName.toLowerCase() || '';
+            case 'note': return (item as IAppointment).properties.notes.toLowerCase() || '';
+            case 'updated': return new Date((item as IAppointment).updateTime);
+            case 'email': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.email || '';
+            case 'phone': return (item as IAppointment).customers && (item as IAppointment).customers.length > 0 && (item as IAppointment).customers[0].properties.phoneNumber || '';
+            case 'service': return (item as IAppointment).services && (item as IAppointment).services.length > 0 && (item as IAppointment).services[0].name || '';
+            case 'status': return (item as IAppointment).status;
+            default: return item[property];
+          }
+        };
+        this.dataSource.sort = this.sort;
+
+        if (appointments.length > 0) {
+          let timeFormat = 'hh:mm A';
+          const dateFormat = this.dateFormat;
+          if (this.isMilitaryTime) {
+            timeFormat = 'HH:mm';
+          }
+          this.dataSource.filterPredicate = (data: IAppointment, filter: string) => {
+            return  (!(this.settingsMap.ListResource && !this.settingsMap.ListResource.value)) && data.resourceName && data.resourceName.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListStart && !this.settingsMap.ListStart.value)) && moment(data.startTime).format(timeFormat).toLocaleLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListEnd && !this.settingsMap.ListEnd.value)) && moment(data.endTime).format(timeFormat).toLocaleLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListDate && !this.settingsMap.ListDate.value)) && moment(data.startTime).format(dateFormat).toLocaleLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListUpdated && !this.settingsMap.ListUpdated.value)) && moment(data.updateTime).format(`${dateFormat} ${timeFormat}`).toLocaleLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListFirstName && !this.settingsMap.ListFirstName.value)) && data.customers && data.customers.length > 0 && data.customers[0].firstName.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListLastName && !this.settingsMap.ListLastName.value)) &&  data.customers && data.customers.length > 0 && data.customers[0].lastName.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListPhoneNumber && !this.settingsMap.ListPhoneNumber.value)) &&  data.customers && data.customers.length > 0 && data.customers[0].properties.phoneNumber.includes(filter) ||
+            (!(this.settingsMap.ListEmail && !this.settingsMap.ListEmail.value))  && data.customers && data.customers.length > 0 && data.customers[0].properties.email.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListNotesConf && !this.settingsMap.ListNotesConf.value)) && data.properties && data.properties.notes.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListServices && !this.settingsMap.ListServices.value)) && data.services && data.services.length > 0 && data.services[0].name.toLowerCase().includes(filter) ||
+            (!(this.settingsMap.ListStatus && !this.settingsMap.ListStatus.value)) && data.status && data.status.toLowerCase().includes(filter);
+          };
+        }
+      }
+    );
+
+    this.subscriptions.add(appointmentSubscription);
+
 
     const appointmentsLoadedSubcription = this.appointmentsLoading$.subscribe(
       (appointmentsLoaded: boolean) =>
@@ -152,12 +181,8 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     );
     this.subscriptions.add(appointmentsLoadedSubcription);
 
-    const dateConventionSubscription = this.dateConvention$.subscribe(
-      (dateConvention: string) => {
-        this.dateFormat = this.getDtFormatFromParams ? dateConvention  : this.dateFormat;
-      }
-    );
-    this.subscriptions.add(dateConventionSubscription);
+    
+    
 
     const userDirectionSubscription = this.userDirection$.subscribe(
       (userDirection: string) => {
@@ -188,7 +213,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     const fileName = 'Appointments List.xlsx';
     /* table id is passed over here */
     const element = document.getElementById('app-full-list');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {raw: true});
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, { raw: true });
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, `${this.branchName}`);
@@ -205,11 +230,11 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     // It can parse html:
     // <table id="my-table"><!-- ... --></table>
     doc.setLineWidth(2);
-    doc.text(`Appointment List from ${this.branchName}`,10, 10);
+    doc.text(`Appointment List from ${this.branchName}`, 10, 10);
     // @ts-ignore
     doc.autoTable({
-        html: '#app-full-list',
-        startY: 20
+      html: '#app-full-list',
+      startY: 20
     });
     // @ts-ignore
     doc.save(`Appointment List from ${this.branchName}.pdf`);
@@ -256,12 +281,12 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
           let nameA, nameB;
           if (this.sortByCondition == 'DATE') {
-             nameA = new Date(a.startTime);
-             nameB = new Date(b.startTime);
+            nameA = new Date(a.startTime);
+            nameB = new Date(b.startTime);
 
           } else {
-             nameA = new Date(a.updateTime);
-             nameB = new Date(b.updateTime);
+            nameA = new Date(a.updateTime);
+            nameB = new Date(b.updateTime);
           }
 
           if ((nameA < nameB && this.sortByAsc) || (nameA > nameB && !this.sortByAsc)) {
@@ -275,15 +300,15 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         });
         this.updateVisibleList();
 
-      } else if (this.sortByCondition === 'START' ||this.sortByCondition === 'END') {
+      } else if (this.sortByCondition === 'START' || this.sortByCondition === 'END') {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
           let nameA, nameB;
-          if(this.sortByCondition === 'START' ) {
-             nameA = moment(a.startTime).format('HH:mm');
-             nameB = moment(b.startTime).format('HH:mm');
+          if (this.sortByCondition === 'START') {
+            nameA = moment(a.startTime).format('HH:mm');
+            nameB = moment(b.startTime).format('HH:mm');
           } else {
-             nameA = moment(a.endTime).format('HH:mm');
-             nameB = moment(b.endTime).format('HH:mm');
+            nameA = moment(a.endTime).format('HH:mm');
+            nameB = moment(b.endTime).format('HH:mm');
           }
           if ((nameA < nameB && this.sortByAsc) || (nameA > nameB && !this.sortByAsc)) {
             return -1;
@@ -301,12 +326,12 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
         this.sortedfullappointmentList = this.fulAppointmentList.slice().sort((a, b) => {
 
           let nameA = a.customers.length > 0 ? a.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
-          let nameB =  b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
+          let nameB = b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
 
           switch (this.sortByCondition) {
             case 'FIRST_NAME':
               nameA = a.customers.length > 0 ? a.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
-              nameB =  b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
+              nameB = b.customers.length > 0 ? b.customers[0].firstName.toUpperCase() : ''; // ignore upper and lowercase
               break;
             case 'LAST_NAME':
               nameA = a.customers.length > 0 ? a.customers[0].lastName.toUpperCase() : ''; // ignore upper and lowercase
@@ -321,12 +346,12 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
               nameB = b.properties.notes.toUpperCase(); // ignore upper and lowercase
               break;
             case 'SERVICES':
-              nameA = a.services.length > 0 ?  a.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
-              nameB = b.services.length > 0 ?  b.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
+              nameA = a.services.length > 0 ? a.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
+              nameB = b.services.length > 0 ? b.services[0].name.toUpperCase() : ''; // ignore upper and lowercase
               break;
             case 'EMAIL':
-              nameA =  a.customers.length > 0 ? a.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
-              nameB =  b.customers.length > 0 ? b.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
+              nameA = a.customers.length > 0 ? a.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
+              nameB = b.customers.length > 0 ? b.customers[0].properties.email.toUpperCase() : ''; // ignore upper and lowercase
               break;
             case 'PHONE':
               nameA = a.customers.length > 0 ? a.customers[0].properties.phoneNumber.toUpperCase() : ''; // ignore upper and lowercase
@@ -361,19 +386,19 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     if (this.isMilitaryTime) {
       timeFormat = 'HH:mm';
     }
-    const newList =  list.filter(function(app) {
+    const newList = list.filter(function (app) {
       return ((!(settingsMap.ListFirstName && !settingsMap.ListFirstName.value)) && app.customers.length > 0 && app.customers[0].firstName.toLocaleLowerCase().includes(value)) ||
-      ((!(settingsMap.ListLastName && !settingsMap.ListLastName.value)) && (app.customers.length > 0 && app.customers[0].lastName.toLocaleLowerCase().includes(value))) ||
-      (!(settingsMap.ListResource && !settingsMap.ListResource.value)) && app.resourceName.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value)) && app.properties.notes.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListServices && !settingsMap.ListServices.value)) && (app.services.length > 0 && app.services[0].name.toLocaleLowerCase().includes(value)) ||
-      (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value)) ||
-      (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
-      (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListDate && !settingsMap.ListDate.value) ) && moment(app.startTime).format(dateFormat).toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
-      (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`${dateFormat} - ${timeFormat}`).toLocaleLowerCase().includes(value);
+        ((!(settingsMap.ListLastName && !settingsMap.ListLastName.value)) && (app.customers.length > 0 && app.customers[0].lastName.toLocaleLowerCase().includes(value))) ||
+        (!(settingsMap.ListResource && !settingsMap.ListResource.value)) && app.resourceName.toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value)) && app.properties.notes.toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListServices && !settingsMap.ListServices.value)) && (app.services.length > 0 && app.services[0].name.toLocaleLowerCase().includes(value)) ||
+        (!(settingsMap.ListEmail && !settingsMap.ListEmail.value)) && (app.customers.length > 0 && app.customers[0].properties.email.toLocaleLowerCase().includes(value)) ||
+        (!(settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value)) && (app.customers.length > 0 && app.customers[0].properties.phoneNumber.toLocaleLowerCase().includes(value)) ||
+        (!(settingsMap.ListStatus && !settingsMap.ListStatus.value)) && app.status.toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListDate && !settingsMap.ListDate.value)) && moment(app.startTime).format(dateFormat).toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListStart && !settingsMap.ListStart.value)) && moment(app.startTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListEnd && !settingsMap.ListEnd.value)) && moment(app.endTime).format(timeFormat).toLocaleLowerCase().includes(value) ||
+        (!(settingsMap.ListUpdated && !settingsMap.ListUpdated.value)) && moment(app.updateTime).format(`${dateFormat} - ${timeFormat}`).toLocaleLowerCase().includes(value);
     });
 
     return newList;
@@ -388,14 +413,14 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy  {
     this.translateService
       .get('label.list.founded', {
         currentPageFrom: (this.currentPage - 1) * this.elementsPerPage + 1,
-        currentPageTo: (this.currentPage * this.elementsPerPage > this.appointmentList.length  ? this.appointmentList.length : this.currentPage * this.elementsPerPage),
+        currentPageTo: (this.currentPage * this.elementsPerPage > this.appointmentList.length ? this.appointmentList.length : this.currentPage * this.elementsPerPage),
         all: this.appointmentList.length
       })
       .subscribe(
         (listFoundLabel: string) => (label = listFoundLabel)
       )
       .unsubscribe();
-      return label;
+    return label;
   }
   clear() {
     this.searchText = '';

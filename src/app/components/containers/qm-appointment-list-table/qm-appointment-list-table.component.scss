@@ -103,7 +103,7 @@ tr.mat-row:hover {
   &__container {
     width: 100%;
     overflow: auto;
-    height: 90%;
+    height: 87%;
 
     &__full {
      height: 100%;
@@ -121,4 +121,9 @@ tr.mat-row:hover {
   &__action {
     display: flex;
   }
+}
+
+#full-app-hidden-list {
+  display: none;
+  position: absolute;
 }
