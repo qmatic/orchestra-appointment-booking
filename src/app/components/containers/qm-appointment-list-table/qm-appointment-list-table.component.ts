@@ -54,7 +54,6 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
   public allFeildsDisabled: boolean;
   private dateConvention$: Observable<string>;
   public dateFormat = 'YY-MM-DD';
-  private getDtFormatFromParams: boolean;
   public userDirection: string;
 
   constructor(
@@ -109,7 +108,6 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
         if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
         if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
         if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
-        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
       }
     );
     this.subscriptions.add(settingsSubscription);
@@ -117,7 +115,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
 
     const dateConventionSubscription = this.dateConvention$.subscribe(
       (dateConvention: string) => {
-        this.dateFormat = this.getDtFormatFromParams ? dateConvention : this.dateFormat;
+        this.dateFormat = dateConvention;
       }
     );
     this.subscriptions.add(dateConventionSubscription);
