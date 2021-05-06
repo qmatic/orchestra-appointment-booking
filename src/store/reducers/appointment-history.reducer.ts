@@ -113,7 +113,9 @@ export function reducer(
         error: null
       };
     }
-    
+    default: {
+      return state;
+    }
 }
 }
 

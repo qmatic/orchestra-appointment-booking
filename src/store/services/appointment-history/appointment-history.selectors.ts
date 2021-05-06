@@ -9,17 +9,17 @@ const getAppointmentHistoryState = createFeatureSelector<IAppointmentHistoryStat
 
 const getAllAppointments = createSelector(
   getAppointmentHistoryState,
-  (state: IAppointmentHistoryState) => state ? state.appointments : []
+  (state: IAppointmentHistoryState) => state.appointments
 );
 
 const getAppointmentById = createSelector(
     getAppointmentHistoryState,
-  (state: IAppointmentHistoryState) => state ? state.appointment : null
+  (state: IAppointmentHistoryState) => state.appointment
 );
 
 const getAppointmentVisit = createSelector(
   getAppointmentHistoryState,
-  (state: IAppointmentHistoryState) => state ? state.appointmentVisit : []
+  (state: IAppointmentHistoryState) => state.appointmentVisit
 );
 
 const getAppointmentsLoading = createSelector(
@@ -29,17 +29,17 @@ const getAppointmentsLoading = createSelector(
   
   const getAppointmentsLoaded = createSelector(
     getAppointmentHistoryState,
-    (state: IAppointmentHistoryState) => state ? state.loaded : false
+    (state: IAppointmentHistoryState) => state.loaded
   );
 
   const getAppointmentByIdLoading = createSelector(
     getAppointmentHistoryState,
-    (state: IAppointmentHistoryState) => state ? state.loading : false
+    (state: IAppointmentHistoryState) => state.loading
   );
   
   const getAppointmentByIdLoaded = createSelector(
     getAppointmentHistoryState,
-    (state: IAppointmentHistoryState) => state ? state.loaded : false
+    (state: IAppointmentHistoryState) => state.loaded
   );
 
 @Injectable()
