@@ -165,7 +165,7 @@ function processVisitData(appointmentVisit) {
       visitRow.queue = visit.queue;
       visitRow.ticket = visit.ticket;
       visitRow.service = visit.service;
-      visitRow.time = visit.entered;
+      visitRow.time = secondsToTime(visit.entered);
       visitRow.visitOutcome = visit.visitOutcome;
       visitRow.entryPoint = visit.entryPoint;
       visitRow.workstation = visit.workstation;
@@ -184,7 +184,7 @@ function processVisitData(appointmentVisit) {
       visitRow.queue = visit.queue;
       visitRow.ticket = visit.ticket;
       visitRow.service = visit.service;
-      visitRow.time = visit.called;
+      visitRow.time = secondsToTime(visit.called);
       visitRow.visitOutcome = 'called'.toUpperCase();
       visitRow.entryPoint = visit.entryPoint;
       visitRow.workstation = visit.workstation;
@@ -204,7 +204,7 @@ function processVisitData(appointmentVisit) {
       visitRow.queue = visit.queue;
       visitRow.ticket = visit.ticket;
       visitRow.service = visit.service;
-      visitRow.time = visit.visitOutcome !== 'REMOVE_BY_RESET' ? visit.finished : '23:59:59';
+      visitRow.time = visit.visitOutcome !== 'REMOVE_BY_RESET' ? secondsToTime(visit.finished) : secondsToTime(86399);
       visitRow.visitOutcome = visit.visitOutcome === 'NORMAL' ? 'ended'.toUpperCase() : visit.visitOutcome;
       visitRow.entryPoint = visit.entryPoint;
       visitRow.workstation = visit.workstation;
@@ -220,4 +220,11 @@ function processVisitData(appointmentVisit) {
   });
 
   return visitDataArray;
+}
+
+function secondsToTime(secs) {
+  const date = new Date(0);
+  date.setSeconds(secs); // specify value for SECONDS here
+
+  return date;
 }
