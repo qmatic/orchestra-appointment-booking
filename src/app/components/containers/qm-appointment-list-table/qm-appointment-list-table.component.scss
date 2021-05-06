@@ -103,7 +103,7 @@ tr.mat-row:hover {
   &__container {
     width: 100%;
     overflow: auto;
-    height: 87%;
+    height: calc(100% - 40px);
 
     &__full {
      height: 100%;
