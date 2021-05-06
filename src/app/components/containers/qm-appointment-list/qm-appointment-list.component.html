@@ -1,42 +1,41 @@
 <div class="qm-app">
-    <qm-page-header [isPreventHeaderNavigations]="true" (handleHeaderNavigations)="handleHeaderNavigations($event)"  (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
-    <qm-main>
-      <div class="qm-dashboard" dir="{{ userDirection$ | async }}">
-        <div class="qm-dashboard__header">
-          
-              <div class="qm-full-height qm-dashboard__header-container">
-                <qm-appointment-list-settings></qm-appointment-list-settings>
-              </div>
+  <qm-page-header [isPreventHeaderNavigations]="true" (handleHeaderNavigations)="handleHeaderNavigations($event)"
+    (clickBackToAppointmentsPage)="clickBackToAppointmentsPage($event)"></qm-page-header>
+  <qm-main>
+    <div class="qm-dashboard" dir="{{ userDirection$ | async }}">
+      <div class="qm-dashboard__header">
+
+        <div class="qm-full-height qm-dashboard__header-container">
+          <qm-appointment-list-settings></qm-appointment-list-settings>
         </div>
-      
-        <div class="qm-dashboard__body" id="dashboard-body" *ngIf="appointmentList && appointmentList.length > 0">
-          <div class="qm-dashboard__content">
-            <div class="qm-dashboard-row">
-              <div class="qm-dashboard-col-12">
-                <div class="qm-booking-header qm-dashboard__body__header" id="dashboard-header">
-                  <h2 class="qm-headline qm-headline--large qm-dashbord-title">{{  ('label.list.heading' | translate) + ' ' + selectedBranch.name}}</h2>
-                  <div class="qm-dashboard__body__table-action">
+      </div>
+
+      <div class="qm-dashboard__body" id="dashboard-body" *ngIf="appointmentList && appointmentList.length > 0">
+        <div class="qm-dashboard__content">
+          <div class="qm-dashboard-row">
+            <div class="qm-dashboard-col-12">
+              <div class="qm-booking-header qm-dashboard__body__header" id="dashboard-header">
+                <h2 class="qm-headline qm-headline--large qm-dashbord-title">{{ ('label.list.heading' | translate) + ' '
+                  + selectedBranch.name}}</h2>
+                <div class="qm-dashboard__body__table-action">
                   <div class="qm-history-search__layout">
                     <div class="qm-history-search__search-container">
                       <div class="qm-search" *ngIf="appointmentList && appointmentList.length > 5">
-                        <label for="appointmentSearch" class="sr-only">{{ 'label.history.input.search' | translate }}</label>
-                        <input id="appointmentSearch"
-                          type="search"
-                          class="qm-search__input"
-                          placeholder="{{ 'label.history.input.search' | translate }}"
-                          name="q"
-                          [ngModel]="searchText"
-                          #appointmentSearch
-                          (input)="onTextChange(appointmentSearch.value)"
-                          />
-                
-                        <button *ngIf="appointmentSearch.value === ''; else clearBtn" class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
+                        <label for="appointmentSearch" class="sr-only">{{ 'label.history.input.search' | translate
+                          }}</label>
+                        <input id="appointmentSearch" type="search" class="qm-search__input"
+                          placeholder="{{ 'label.history.input.search' | translate }}" name="q" [ngModel]="searchText"
+                          #appointmentSearch (input)="onTextChange(appointmentSearch.value)" />
+
+                        <button *ngIf="appointmentSearch.value === ''; else clearBtn"
+                          class="qm-action-btn qm-action-btn--only-icon qm-search__btn">
                           <i class="qm-action-btn__icon icon-search qm-search__icon" aria-hidden="true"></i>
                           <span class="sr-only">{{ 'button.historySearch.search' | translate }}</span>
                         </button>
-                
+
                         <ng-template #clearBtn>
-                          <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear" (click)="appointmentSearch.value = ''; onTextChange('')">
+                          <button class="qm-action-btn qm-action-btn--only-icon qm-search__btn qm-search__btn--clear"
+                            (click)="appointmentSearch.value = ''; onTextChange('')">
                             <i class="qm-action-btn__icon icon-close qm-search__icon" aria-hidden="true"></i>
                             <span class="sr-only">{{ 'button.historySearch.clear' | translate }}</span>
                           </button>
@@ -46,20 +45,23 @@
                   </div>
                   <div>
                     <mat-button-toggle-group name="downloadOption">
-                        <mat-button-toggle value="xls" (change)="onDownloadList($event.value)">{{ 'label.list.xls' | translate }}</mat-button-toggle>
-                        <mat-button-toggle value="pdf" (change)="onDownloadList($event.value)">{{ 'label.list.pdf' | translate }}</mat-button-toggle>
-                      </mat-button-toggle-group>
+                      <mat-button-toggle value="pdf" (change)="onDownloadList($event.value)">{{ 'label.list.pdf' |
+                        translate }}</mat-button-toggle>
+                      <mat-button-toggle value="xls" (change)="onDownloadList($event.value)">{{ 'label.list.xls' |
+                        translate }}</mat-button-toggle>
+
+                    </mat-button-toggle-group>
                   </div>
                 </div>
-                </div>
-                <qm-appointment-list-table></qm-appointment-list-table>
               </div>
+              <qm-appointment-list-table></qm-appointment-list-table>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="qm-messages" toastContainer></div>
-    </qm-main>
-    <qm-page-footer></qm-page-footer>
-  </div>
+    </div>
+
+    <div class="qm-messages" toastContainer></div>
+  </qm-main>
+  <qm-page-footer></qm-page-footer>
+</div>
