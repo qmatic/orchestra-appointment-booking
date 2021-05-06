@@ -403,7 +403,13 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
   }
 
   getNotes(notes) {
-    return decodeURIComponent(notes);
+    let decodeString = '';
+    try{
+      decodeString = decodeURIComponent(notes);
+    } catch(e) {
+      decodeString = ''
+    }
+    return decodeString;
   }
 
   updateDetailList() {
