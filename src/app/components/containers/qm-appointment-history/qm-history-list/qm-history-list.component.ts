@@ -215,7 +215,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   getNotes(notes) {
     let decodeString = '';
     try{
-      decodeString = decodeURIComponent(notes);
+      decodeString = decodeURIComponent(notes ? notes : '');
     } catch(e) {
       decodeString = ''
     }
