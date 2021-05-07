@@ -38,6 +38,25 @@ This document describes the new features, bug corrections, known issues and reco
 <h3>Upgrade instructions</h3> 
 
 ------------>
+
+<h2>Update 4.0.0.018 </h2>
+
+**Date: 7/5/2021**
+ 
+**Build number: 018**
+
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **QP-8424** | **Appointment History in Appointment Booking** |
+| **AB-189** | **Appointment List- Create new UI and integration with Appointment booking** |
+
+<h3>Upgrade instructions</h3> 
+To use the Appointment List and Appointment History Audit module, there are two settings under General section in settings page and wants to enable.
+
+----------
+
 <h2>Update 4.0.0.017 </h2>
 
 **Date: 09/02/2021**

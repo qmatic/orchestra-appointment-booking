@@ -33,7 +33,7 @@ Make sure you have installed
 - [Production Build](#production-build) 
 - [Info to customerSection](#info-to-customer-section) 
 - [Print Email Templete](#print-email-templete) 
-- [Appointment History Audit](#pappointment-history-audit) 
+- [Appointment History Audit](#appointment-history-audit) 
 - [Further help](#further-help) 
   
 ## Installation

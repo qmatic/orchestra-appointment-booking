@@ -1,7 +1,7 @@
 {
   "name": "appointment-booking",
   "version": "4.0.0",
-  "build": "017-internal",
+  "build": "018",
   "license": "MIT",
   "scripts": {
     "start": "npm run ng-config-dev && ng serve --host 0.0.0.0 --proxy-config proxy.config.json",
