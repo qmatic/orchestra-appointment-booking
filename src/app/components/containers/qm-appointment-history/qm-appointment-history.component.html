@@ -17,8 +17,11 @@
             
         
       </div>
-    
-      <div class="qm-dashboard__body" id="dashboard-body" *ngIf="(actionAppointments && actionAppointments.length > 0) || (appointmentVisit && appointmentVisit.length > 0)">
+      <div class="qm-loader-container" *ngIf="appointmentsLoading">
+        <qm-loader></qm-loader>
+      </div>
+      <div class="qm-dashboard__body" id="dashboard-body" *ngIf="(actionAppointments && actionAppointments.length > 0) || (appointmentVisit && appointmentVisit.length > 0)"
+        [ngStyle]="{'display': appointmentsLoading ? 'none' : 'flex' }">
         <div class="qm-dashboard__content">
           <div class="qm-dashboard-row">
             <div class="qm-dashboard-col-12">

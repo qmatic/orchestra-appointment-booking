@@ -159,7 +159,6 @@ import { QmVisitListComponent } from './components/containers/qm-appointment-his
 import { QmVisitDetailComponent } from './components/containers/qm-appointment-history/qm-visit-detail/qm-visit-detail.component';
 import { QmCustomerHistoryCardComponent } from './components/containers/qm-appointment-history/qm-customer-history-card/qm-customer-history-card.component';
 import { QmAppointmentListComponent } from './components/containers/qm-appointment-list/qm-appointment-list.component';
-import { QmAppointmentListDashboardComponent } from './components/containers/qm-appointment-list-dashboard/qm-appointment-list-dashboard.component';
 import { QmAppointmentListSettingsComponent } from './components/containers/qm-appointment-list-settings/qm-appointment-list-settings.component';
 import { QmAppointmentListTableComponent } from './components/containers/qm-appointment-list-table/qm-appointment-list-table.component';
 import { QmAppListFilterPipe } from './components/containers/qm-appointment-list-table/qm-app-list-filter.pipe';
@@ -277,7 +276,6 @@ const toastrGlobalOptions = {
     QmCustomerHistoryCardComponent,
     QmVisitDetailComponent,
     QmAppointmentListComponent,
-    QmAppointmentListDashboardComponent,
     QmAppointmentListSettingsComponent,
     QmAppointmentListTableComponent,
     QmAppListFilterPipe,

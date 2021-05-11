@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { Observable, Subscription } from "rxjs";
 import { IAppointment } from "../../../../models/IAppointment";
@@ -64,6 +64,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
   public servicelist = [];
   public isMilitaryTime: boolean;
   private timeConvention$: Observable<string>;
+  appointmentsLoading: boolean;
 
   constructor(
     private userSelectors: UserSelectors,
@@ -79,14 +80,15 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private systemInfoSelectors: SystemInfoSelectors,
     private locationStrategy: LocationStrategy,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.timeConvention$ = this.systemInfoSelectors.systemInfoTimeConvention$;
     this.userDirection$ = this.userSelectors.userDirection$;
     this.currentCustomer$ = this.customerSelectors.currentCustomer$;
     //this.appointments$ = this.appointmentHistorySelectors.historyAppointments$;
     // this.appointmentsLoaded$ = this.appointmentHistorySelectors.appointmentsLoaded$;
-    // this.appointmentsLoading$ = this.appointmentHistorySelectors.appointmentsLoading$;
+    this.appointmentsLoading$ = this.appointmentHistorySelectors.appointmentsLoading$;
     // this.appointment$ = this.appointmentHistorySelectors.appointment$;
     // this.appointmentLoaded$ = this.appointmentHistorySelectors.appointmentLoaded$;
     // this.appointmentLoading$ = this.appointmentHistorySelectors.appointmentLoading$;
@@ -115,6 +117,15 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     this.serviceDispatchers.fetchAllServices();
 
     this.customerDispatchers.resetCurrentCustomer();
+
+    const appointmentsLoadingSubcription = this.appointmentsLoading$.subscribe(
+      (appointmentsLoading: boolean) =>
+        {
+          this.appointmentsLoading = appointmentsLoading
+          console.log(this.appointmentsLoading)
+        }
+    );
+    this.subscriptions.add(appointmentsLoadingSubcription);
 
     this.isMilitaryTime = true;
     const systemInformationSubscription = this.timeConvention$.subscribe(
@@ -151,6 +162,7 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
       }
     );
 
+    
     const appointmentsSubcription = this.appointmentHistorySelectors.historyAppointments$.subscribe(
       (appointments: IAppointment[]) => {
         this.actionAppointments = appointments;
@@ -194,6 +206,11 @@ export class QmAppointmentHistoryComponent implements OnInit, OnDestroy {
     this.subscriptions.add(appointmentLoadedSubcription);
     this.subscriptions.add(appointmentVisitSubcription);
 
+  }
+
+  
+  ngAfterViewChecked(){
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
