@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { AppointmentDispatchers, AppointmentSelectors, SettingsAdminSelectors, SystemInfoSelectors, UserSelectors } from '../../../../store';
 import { Subscription, Observable } from 'rxjs';
 import { IAppointment } from '../../../../models/IAppointment';
@@ -11,6 +11,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 // declare let jsPDF;
+import * as XLSX from 'xlsx';
+// @ts-ignore
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+import autoTable from 'jspdf-autotable'
+
 @Component({
   selector: 'qm-appointment-list-table',
   templateUrl: './qm-appointment-list-table.component.html',
@@ -18,6 +24,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
   @Input() branchName: string;
+  @Output() isAllFeildsDisabled: EventEmitter<boolean> = new EventEmitter<boolean>();
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<Object>;
   fullAppDataSource: MatTableDataSource<Object>;
@@ -103,6 +110,19 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
         if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
         if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
         if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
+        this.allFeildsDisabled =  (settingsMap.ListDate && !settingsMap.ListDate.value) &&
+        (settingsMap.ListStart && !settingsMap.ListStart.value) &&
+        (settingsMap.ListEnd && !settingsMap.ListEnd.value) &&
+        (settingsMap.ListFirstName && !settingsMap.ListFirstName.value) &&
+        (settingsMap.ListLastName && !settingsMap.ListLastName.value) &&
+        (settingsMap.ListResource && !settingsMap.ListResource.value) &&
+        (settingsMap.ListNotesConf && !settingsMap.ListNotesConf.value) &&
+        (settingsMap.ListServices && !settingsMap.ListServices.value) &&
+        (settingsMap.ListEmail && !settingsMap.ListEmail.value) &&
+        (settingsMap.ListPhoneNumber && !settingsMap.ListPhoneNumber.value) &&
+        (settingsMap.ListUpdated && !settingsMap.ListUpdated.value) &&
+        (settingsMap.ListStatus && !settingsMap.ListStatus.value);
+        this.isAllFeildsDisabled.emit(this.allFeildsDisabled)
       }
     );
     this.subscriptions.add(settingsSubscription);
