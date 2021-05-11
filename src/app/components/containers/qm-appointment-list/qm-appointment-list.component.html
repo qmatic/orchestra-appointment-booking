@@ -4,18 +4,21 @@
   <qm-main>
     <div class="qm-dashboard" dir="{{ userDirection$ | async }}">
       <div class="qm-dashboard__header">
-
+<!-- <div>{{appointmentsLoading}}</div> -->
         <div class="qm-full-height qm-dashboard__header-container">
           <qm-appointment-list-settings></qm-appointment-list-settings>
         </div>
       </div>
+      <div class="qm-loader-container" *ngIf="appointmentsLoading">
+        <qm-loader></qm-loader>
+      </div>
+      <div class="qm-dashboard__body" id="dashboard-body" *ngIf="appointmentList && appointmentList.length > 0" [ngStyle]="{'display': appointmentsLoading ? 'none' : 'flex' }">
 
-      <div class="qm-dashboard__body" id="dashboard-body" *ngIf="appointmentList && appointmentList.length > 0">
-        <div class="qm-dashboard__content">
+        <div class="qm-dashboard__content" >
           <div class="qm-dashboard-row">
             <div class="qm-dashboard-col-12">
               <div class="qm-booking-header qm-dashboard__body__header" id="dashboard-header">
-                <h2 class="qm-headline qm-headline--large qm-dashbord-title">{{ ('label.list.heading' | translate) + ' '
+                <h2 class="qm-headline qm-headline--large qm-dashbord-title" *ngIf="!appointmentsLoading">{{ ('label.list.heading' | translate) + ' '
                   + selectedBranch.name}}</h2>
                 <div class="qm-dashboard__body__table-action">
                   <div class="qm-history-search__layout">
@@ -54,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <qm-appointment-list-table></qm-appointment-list-table>
+              <qm-appointment-list-table ></qm-appointment-list-table>
             </div>
           </div>
         </div>

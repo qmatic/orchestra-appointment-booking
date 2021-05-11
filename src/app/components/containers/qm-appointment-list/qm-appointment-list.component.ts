@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { AppointmentDispatchers, AppointmentSelectors, BranchSelectors, UserSelectors } from '../../../../store';
@@ -25,6 +25,8 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   public userDirection$: Observable<string>;
   public userDirection: string;
   public appointmentList: IAppointment[];
+  public appointmentsLoading$: Observable<boolean>;
+  public appointmentsLoading: boolean;
   public branchList: IBranch[];
   public selectedBranch: IBranch;
   // private settingsMap$: Observable<{ [name: string]: Setting }>;
@@ -36,18 +38,26 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
     private appointmentDispatcher: AppointmentDispatchers,
     private router: Router,
     private branchSelectors: BranchSelectors,
+    private cdr: ChangeDetectorRef
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
+    this.appointmentsLoading$ = this.appointmentSelectors.appointmentsLoading$;
    }
 
   ngOnInit(): void {
-
+  
     const userDirectionSubscription = this.userDirection$.subscribe(
       (userDirection: string) => {
         this.userDirection = userDirection;
       }
     );
     this.subscriptions.add(userDirectionSubscription);
+
+    const appointmentsLoadedSubcription = this.appointmentsLoading$.subscribe(
+      (appointmentsLoading: boolean) =>
+        (this.appointmentsLoading = appointmentsLoading)
+    );
+    this.subscriptions.add(appointmentsLoadedSubcription);
 
     const branchSubscription = this.branchSelectors.qpBranches$.subscribe(
       (branches: IBranch[]) => {
@@ -67,26 +77,13 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(appointmentSubscription);
 
     this.toastService.setToastContainer(this.toastContainer);
+  }
 
-    // const settingsSubscription = this.settingsMap$.subscribe(
-    //   (settingsMap: { [name: string]: Setting }) => {
-    //     if(settingsMap) {
-    //       if (settingsMap.ListDate.value) this.displayedColumns.push('date')
-    //       if (settingsMap.ListStart.value) this.displayedColumns.push('start')
-    //       if (settingsMap.ListEnd.value) this.displayedColumns.push('end')
-    //       if (settingsMap.ListFirstName.value) this.displayedColumns.push('firstName')
-    //       if (settingsMap.ListLastName.value) this.displayedColumns.push('lastName')
-    //       if (settingsMap.ListResource.value) this.displayedColumns.push('resource')
-    //       if (settingsMap.ListNotesConf.value) this.displayedColumns.push('note')
-    //       if (settingsMap.ListServices.value) this.displayedColumns.push('service')
-    //       if (settingsMap.ListEmail.value) this.displayedColumns.push('email')
-    //       if (settingsMap.ListPhoneNumber.value) this.displayedColumns.push('phone')
-    //       if (settingsMap.ListUpdated.value) this.displayedColumns.push('updated')
-    //       if (settingsMap.ListStatus.value) this.displayedColumns.push('status')
-    //     }
-    //   }
-    // );
-    // this.subscriptions.add(settingsSubscription);
+  ngAfterViewChecked(){
+    this.cdr.detectChanges();
+  }
+  appointmentsLoadingCheck() {
+    return this.appointmentsLoading;
   }
 
   ngOnDestroy() {
@@ -127,7 +124,6 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   }
 
   exportPdf(){
-    // ExportPdf.exportTableToPdf(this.appointmentList,this.displayedColumns);
     ExportPdf.exportHtmlTableToPdf(`Appointment List from ${this.selectedBranch.name}`,`Appointment List from ${this.selectedBranch.name}`+ ' - ' + new Date().toISOString(),'full-app-hidden-list')
   }
 

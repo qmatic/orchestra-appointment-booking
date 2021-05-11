@@ -1,6 +1,5 @@
 <div>
-
-  <div class="qm-booking-flow" [dir]="userDirection">
+  <div class="qm-booking-flow" [dir]="userDirection" *ngIf="!appointmentsLoaded">
     <div class="qm-blocking-list__main" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <div class="mat-elevation-z8 qm-blocking-list__container"
         [ngClass]="{'qm-blocking-list__container__full' : fulAppointmentList === undefined || (fulAppointmentList && 6 > fulAppointmentList.length) }">
