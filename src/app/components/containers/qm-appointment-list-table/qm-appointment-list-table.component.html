@@ -3,6 +3,7 @@
     <div class="qm-blocking-list__main" [ngStyle]="{'height':dashboardRowCSSHeight}">
       <div class="mat-elevation-z8 qm-blocking-list__container"
         [ngClass]="{'qm-blocking-list__container__full' : fulAppointmentList === undefined || (fulAppointmentList && 6 > fulAppointmentList.length) }">
+        <div *ngIf="allFeildsDisabled"> {{'label.lst.atleat.one' | translate}}  </div>
         <table id="app-full-list" mat-table [dataSource]="dataSource"  matSort matSortActive="date" matSortDirection="asc" class="qm-blocking-list__table">
 
           <!-- Date Column -->
@@ -92,8 +93,11 @@
               "{{dataSource.filter}}"</td>
           </tr>
         </table>
+       
       </div>
-      <mat-paginator [hidden]="fulAppointmentList === undefined || fulAppointmentList && fulAppointmentList.length < 6"
+     
+    
+      <mat-paginator *ngIf="!allFeildsDisabled" [hidden]="fulAppointmentList === undefined || fulAppointmentList && fulAppointmentList.length < 6"
         [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
     </div>
   </div>

@@ -29,6 +29,7 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   public appointmentsLoading: boolean;
   public branchList: IBranch[];
   public selectedBranch: IBranch;
+  public allFeildsDisabled: boolean;
   // private settingsMap$: Observable<{ [name: string]: Setting }>;
   displayedColumns: string[] = [];
   constructor(
@@ -117,6 +118,10 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
       return obj.id == branchId;
     })
     return selectedBranch[0];
+  }
+
+  isAllFeildsDisabledEmitted(event) {
+   this.allFeildsDisabled = event;
   }
 
   exportExcel(){

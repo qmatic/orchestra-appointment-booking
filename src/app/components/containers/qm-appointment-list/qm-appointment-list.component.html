@@ -46,7 +46,7 @@
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div *ngIf="!allFeildsDisabled">
                     <mat-button-toggle-group name="downloadOption">
                       <mat-button-toggle value="pdf" (change)="onDownloadList($event.value)">{{ 'label.list.pdf' |
                         translate }}</mat-button-toggle>
@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <qm-appointment-list-table ></qm-appointment-list-table>
+              <qm-appointment-list-table (isAllFeildsDisabled)="isAllFeildsDisabledEmitted($event)"></qm-appointment-list-table>
             </div>
           </div>
         </div>
