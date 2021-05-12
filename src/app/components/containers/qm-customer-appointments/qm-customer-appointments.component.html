@@ -3,9 +3,6 @@
   <div class="" *ngIf="appointmentsLoaded; else appointmentFetch">
     <span class="qm-headline qm-headline--large qm-customer-appointments__headline">
       <span>{{ 'label.appointments.booked' | translate }}</span>
-      <button style="float: right;margin-bottom:20px;margin-top: -10px;" type="button" class="qm-btn qm-btn--secondary qm-customer-card__btn" (click)="toAppHistory()">
-        <span class="qm-btn__text" title="{{ 'view more' }}">{{ 'view more' }}</span>
-      </button>
     </span>
     <!--
     # Note - Dropdrop component implementation has been moved into this component to get support for lifecycle hooks on component. Please note, Life Cycle Hook methods don't fire on ngContent.

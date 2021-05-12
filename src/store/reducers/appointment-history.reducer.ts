@@ -35,7 +35,7 @@ export function reducer(
       case AppointmentHistoryActions.FETCH_ACTION_APPOINTMENTS_SUCCESS: {
         return {
           ...state,
-          appointments: updateAppointments(action.payload.appointmentActions),
+          appointments: updateAppointments(sortAppointment(action.payload.appointmentActions)),
           loading: false,
           loaded: true,
           error: null
@@ -145,7 +145,33 @@ function updateAppointments(appointments: IAppointment[]) {
     newApp.actionData.title = app.operation === 'DELETE' ? actionDataBefore.title : actionDataAfter.title;
     newApp.actionData.services = (app.operation === 'DELETE') ?
       actionDataBefore.services : actionDataAfter.services;
-    updatedAppointments.push(newApp);
+      newApp.aditionalAppointments = [];
+
+    const origin = updatedAppointments.find(x => x.entityId === app.entityId);
+    if (origin) {
+      let index = updatedAppointments.indexOf(origin);
+      updatedAppointments[index].aditionalAppointments.push(newApp);
+      if (origin.actionData.start === undefined){
+        updatedAppointments[index].actionData.start = newApp.actionData.start;
+      }
+      if (origin.actionData.end === undefined){
+        updatedAppointments[index].actionData.end = newApp.actionData.end;
+      }
+      if (origin.actionData.notes === undefined){
+        updatedAppointments[index].actionData.notes = newApp.actionData.notes;
+      }
+      if (origin.actionData.resource === undefined){
+        updatedAppointments[index].actionData.resource = newApp.actionData.resource;
+      }
+      if (origin.actionData.title === undefined){
+        updatedAppointments[index].actionData.title = newApp.actionData.title;
+      }
+      if (origin.actionData.services === undefined){
+        updatedAppointments[index].actionData.services = newApp.actionData.services;
+      }
+    } else {
+      updatedAppointments.push(newApp);
+    }
     } catch(error){
       console.log('JSON parse error in ' + app.entityId)
     }
@@ -227,4 +253,10 @@ function secondsToTime(secs) {
   date.setSeconds(secs); // specify value for SECONDS here
 
   return date;
+}
+
+function sortAppointment(appList: IAppointment[]): IAppointment[] {
+  return appList.slice().sort((a, b) => {
+    return <any>new Date(b.timeStamp) - <any>new Date(a.timeStamp);
+  });
 }

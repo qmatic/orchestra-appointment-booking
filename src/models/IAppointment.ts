@@ -40,4 +40,5 @@ export interface IAppointment {
   resourceName?: string;
   properties?: {notes?: string};
   updateTime?: string;
+  aditionalAppointments?: IAppointment[];
 }
