@@ -62,6 +62,10 @@
 }
 
 .qm-history-table {
+  &__more{
+    color: black;
+    opacity: .7;
+  }
   &__create{
     background-color: $pale-aquamarine;
     opacity: .8;
@@ -91,13 +95,13 @@ table {
   width: 100%;
 }
 
-tr.mat-row {
-  cursor: pointer;
-}
+// tr.mat-row {
+//   cursor: pointer;
+// }
 
-tr.mat-row:hover {
-  background: #f5f5f5;
-}
+// tr.mat-row:hover {
+//   background: #f5f5f5;
+// }
 
 .qm-blocking-list {
   &__container {
@@ -118,7 +122,87 @@ tr.mat-row:hover {
     width: 100%;
   }
 
+  &__inner-title{
+    margin: 10px;
+  }
+
+  &__inner-table{
+    width: 100%;
+    background: transparent;
+  }
+
+  &__text-update{
+    color: red;
+  }
+
   &__action {
     display: flex;
   }
 }
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:hover {
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+tr.example-element-row:active {
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-entity-row td :hover {
+  cursor: pointer;
+  background: #f5f5f5;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+  margin: 0 -24px;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.inner-table {
+  width: 100%;
+  margin: 20px 10px;
+}
+
+.inner-table mat-form-field {
+  margin-top: 15px;
+  width: 100%;
+}
+

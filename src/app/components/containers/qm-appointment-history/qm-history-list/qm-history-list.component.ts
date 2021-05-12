@@ -1,18 +1,26 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild,  ViewChildren,  QueryList, ChangeDetectorRef } from '@angular/core';
 import { Subscription ,  Observable } from 'rxjs';
 import { AppointmentHistorySelectors, AppointmentHistoryDispatchers, UserSelectors, BranchSelectors, ServiceSelectors, SystemInfoSelectors } from '../../../../../store/index';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTableDataSource, MatTable} from '@angular/material/table';
 import { IAppointment } from "../../../../../models/IAppointment";
 import { IBranch } from '../../../../../models/IBranch';
 import { IService } from '../../../../../models/IService';
 import * as moment from 'moment';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'qm-history-list',
   templateUrl: './qm-history-list.component.html',
   styleUrls: ['./qm-history-list.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class QmHistoryListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -23,12 +31,17 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   public userDirection: string;
   public branchlist = [];
   public servicelist = [];
+  public expandId = 0;
 
-  displayedColumns: string[] = ['actionDate', 'operation', 'appId', 'start', 'end', 'branch', 'resource', 'service', 'title', 'notes', 'user'];
+  displayedColumns: string[] = ['actionDate', 'operation', 'appId', 'start', 'end', 'branch', 'resource', 'service', 'title', 'notes', 'user', 'action'];
+  innerDisplayedColumns: string[] = ['actionDate', 'operation', 'start', 'end', 'resource', 'service', 'title', 'notes', 'user'];
   dataSource: MatTableDataSource<Object>;
+  expandedElement: IAppointment | null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  @ViewChildren('innerTables') innerTables: QueryList<MatTable<IAppointment>>;
 
   private dashboardHeight = 600;
   public dashboardRowCSSHeight = '600px';
@@ -41,6 +54,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     private branchSelectors: BranchSelectors,
     private serviceSelectors: ServiceSelectors,
     private systemInfoSelectors: SystemInfoSelectors,
+    private cd: ChangeDetectorRef
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
   }
@@ -100,7 +114,66 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
         (appointments: IAppointment[]) => {
         
           this.appointmentList = appointments;
-          this.dataSource = new MatTableDataSource(this.appointmentList);
+          this.setDataSource(appointments);
+        }
+      );
+
+    this.subscriptions.add(appointmentsSubcription);
+    
+    
+    this.subscriptions.add(userDirectionSubscription);
+  }
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  toggleRow(event, element: IAppointment) {
+    event.stopPropagation();
+    element.aditionalAppointments ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    this.cd.detectChanges();
+  }
+
+  isDataUpdate(entity, field, fromInnerTable){
+    const appointment = this.appointmentList.find(app => app.entityId === entity.entityId);
+    if (appointment.aditionalAppointments.length === 0){
+      return false;
+    }
+    if (fromInnerTable) {
+      const innerAppointment = appointment.aditionalAppointments.find(app => app.timeStamp === entity.timeStamp);
+      const index = appointment.aditionalAppointments.indexOf(innerAppointment);
+      if (index + 1 < appointment.aditionalAppointments.length) {
+        const prvAppointment = appointment.aditionalAppointments[index+1];
+        if (innerAppointment.actionData[field] !== prvAppointment.actionData[field]){
+          return true;
+        }
+      }
+    } else {
+      const firstApp = appointment.aditionalAppointments[appointment.aditionalAppointments.length - 1];
+      if (appointment.actionData[field] !== firstApp.actionData[field]){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  onSearchChange(value) {
+    this.dataSource.filter = value.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  setDataSource(appointments){
+    this.dataSource = new MatTableDataSource(appointments);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sortingDataAccessor = (item, property) => {
             switch(property) {
@@ -134,32 +207,20 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
                      data.operation && data.operation.toLowerCase().includes(filter);
              };
           }
-        }
-      );
-
-    this.subscriptions.add(appointmentsSubcription);
-    
-    
-    this.subscriptions.add(userDirectionSubscription);
   }
 
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  loadAditionalAppointment(appointmet){
+    var appointmentData = Object.assign([], this.appointmentList);
+    if (this.expandId !== appointmet.entityId){
+      appointmet.aditionalAppointments.forEach(app=>{
+        appointmentData.push(app);
+      });
+
+      this.expandId = appointmet.entityId;
+    } else {
+      this.expandId = 0;
     }
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  onSearchChange(value) {
-    this.dataSource.filter = value.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.setDataSource(appointmentData);
   }
 
   updateAppointments(appointments: IAppointment[]) {
