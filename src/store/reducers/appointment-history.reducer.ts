@@ -150,7 +150,6 @@ function updateAppointments(appointments: IAppointment[]) {
     const origin = updatedAppointments.find(x => x.entityId === app.entityId);
     if (origin) {
       let index = updatedAppointments.indexOf(origin);
-      updatedAppointments[index].aditionalAppointments.push(newApp);
       if (origin.actionData.start === undefined){
         updatedAppointments[index].actionData.start = newApp.actionData.start;
       }
@@ -169,6 +168,31 @@ function updateAppointments(appointments: IAppointment[]) {
       if (origin.actionData.services === undefined){
         updatedAppointments[index].actionData.services = newApp.actionData.services;
       }
+
+      if (origin.aditionalAppointments.length > 0) {
+        const innerAppLength = origin.aditionalAppointments.length;
+        const innerOrigin = origin.aditionalAppointments[innerAppLength - 1];
+        
+        if (innerOrigin.actionData.start === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.start = newApp.actionData.start;
+        }
+        if (innerOrigin.actionData.end === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.end = newApp.actionData.end;
+        }
+        if (innerOrigin.actionData.notes === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.notes = newApp.actionData.notes;
+        }
+        if (innerOrigin.actionData.resource === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.resource = newApp.actionData.resource;
+        }
+        if (innerOrigin.actionData.title === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.title = newApp.actionData.title;
+        }
+        if (innerOrigin.actionData.services === undefined){
+          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.services = newApp.actionData.services;
+        }
+      }
+      updatedAppointments[index].aditionalAppointments.push(newApp);
     } else {
       updatedAppointments.push(newApp);
     }
