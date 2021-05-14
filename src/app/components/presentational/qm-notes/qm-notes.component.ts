@@ -56,7 +56,18 @@ export class QmNotesComponent implements OnInit, OnDestroy {
     );
 
     const notesSubscription = this.notes$.subscribe(
-      (notes: string) => (this.notes = notes)
+      (notes: string) => {
+        this.notes = notes
+        if (this.notes) {
+          var decodeString;
+          try {
+            decodeString = decodeURIComponent(this.notes ? this.notes : '');
+          } catch (e) {
+            decodeString = '';
+          }
+          this.notes =  decodeString;
+        } 
+      }
     );
 
     const notesLengthSubscription = this.notesLength$.subscribe(
@@ -94,7 +105,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
   }
 
   handleNotesInput(note: string) {
-    this.notesInput$.next(note);
+    this.notesInput$.next(encodeURIComponent(note));
   }
 
   setNote(note: string) {
