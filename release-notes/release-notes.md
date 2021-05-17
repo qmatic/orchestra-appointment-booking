@@ -51,6 +51,15 @@ This document describes the new features, bug corrections, known issues and reco
 | --- | --- |
 | **QP-8424** | **Appointment History in Appointment Booking** |
 | **AB-189** | **Appointment List- Create new UI and integration with Appointment booking** |
+| **AB-263** | **Visualize History audit and possibility to drill down on history** |
+| **AB-261** | **Implement a Loader for Appointment History** |
+| **AB-262** | **Implement a Loader for Appointment List** |
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-276** | **Character decording is not working in Notes and Title fields** |
 
 <h3>Upgrade instructions</h3> 
 To use the Appointment List and Appointment History Audit module, there are two settings under General section in settings page and wants to enable.
