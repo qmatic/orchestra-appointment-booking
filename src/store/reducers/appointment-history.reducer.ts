@@ -150,48 +150,6 @@ function updateAppointments(appointments: IAppointment[]) {
     const origin = updatedAppointments.find(x => x.entityId === app.entityId);
     if (origin) {
       let index = updatedAppointments.indexOf(origin);
-      if (origin.actionData.start === undefined){
-        updatedAppointments[index].actionData.start = newApp.actionData.start;
-      }
-      if (origin.actionData.end === undefined){
-        updatedAppointments[index].actionData.end = newApp.actionData.end;
-      }
-      if (origin.actionData.notes === undefined){
-        updatedAppointments[index].actionData.notes = newApp.actionData.notes;
-      }
-      if (origin.actionData.resource === undefined){
-        updatedAppointments[index].actionData.resource = newApp.actionData.resource;
-      }
-      if (origin.actionData.title === undefined){
-        updatedAppointments[index].actionData.title = newApp.actionData.title;
-      }
-      if (origin.actionData.services === undefined){
-        updatedAppointments[index].actionData.services = newApp.actionData.services;
-      }
-
-      if (origin.aditionalAppointments.length > 0) {
-        const innerAppLength = origin.aditionalAppointments.length;
-        const innerOrigin = origin.aditionalAppointments[innerAppLength - 1];
-        
-        if (innerOrigin.actionData.start === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.start = newApp.actionData.start;
-        }
-        if (innerOrigin.actionData.end === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.end = newApp.actionData.end;
-        }
-        if (innerOrigin.actionData.notes === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.notes = newApp.actionData.notes;
-        }
-        if (innerOrigin.actionData.resource === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.resource = newApp.actionData.resource;
-        }
-        if (innerOrigin.actionData.title === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.title = newApp.actionData.title;
-        }
-        if (innerOrigin.actionData.services === undefined){
-          updatedAppointments[index].aditionalAppointments[innerAppLength - 1].actionData.services = newApp.actionData.services;
-        }
-      }
       updatedAppointments[index].aditionalAppointments.push(newApp);
     } else {
       updatedAppointments.push(newApp);
@@ -200,7 +158,64 @@ function updateAppointments(appointments: IAppointment[]) {
       console.log('JSON parse error in ' + app.entityId)
     }
   });
-  return updatedAppointments;
+  return updateInnerAppointment(updatedAppointments);
+}
+
+function updateInnerAppointment(appointments: IAppointment[]){
+  let obj = appointments;
+  obj.forEach((element, index) => {
+    if (element.aditionalAppointments.length > 0) {
+      var sorted = innerSortAppointment(element.aditionalAppointments);
+      sorted.forEach((innerElement, innerIndex) => {
+        
+        const prvApp = sorted[innerIndex - 1];
+        if (prvApp){
+          if (innerElement.actionData.start === undefined){
+            sorted[innerIndex].actionData.start = prvApp.actionData.start;
+          }
+          if (innerElement.actionData.end === undefined){
+            sorted[innerIndex].actionData.end = prvApp.actionData.end;
+          }
+          if (innerElement.actionData.notes === undefined){
+            sorted[innerIndex].actionData.notes = prvApp.actionData.notes;
+          }
+          if (innerElement.actionData.resource === undefined){
+            sorted[innerIndex].actionData.resource = prvApp.actionData.resource;
+          }
+          if (innerElement.actionData.title === undefined){
+            sorted[innerIndex].actionData.title = prvApp.actionData.title;
+          }
+          if (innerElement.actionData.services === undefined){
+            sorted[innerIndex].actionData.services = prvApp.actionData.services;
+          }
+        }
+      });
+
+      obj[index].aditionalAppointments = sortAppointment(sorted);
+
+      const finalInner = element.aditionalAppointments[element.aditionalAppointments.length - 1];
+      if (element.actionData.start === undefined){
+        obj[index].actionData.start = finalInner.actionData.start;
+      }
+      if (element.actionData.end === undefined){
+        obj[index].actionData.end = finalInner.actionData.end;
+      }
+      if (element.actionData.notes === undefined){
+        obj[index].actionData.notes = finalInner.actionData.notes;
+      }
+      if (element.actionData.resource === undefined){
+        obj[index].actionData.resource = finalInner.actionData.resource;
+      }
+      if (element.actionData.title === undefined){
+        obj[index].actionData.title = finalInner.actionData.title;
+      }
+      if (element.actionData.services === undefined){
+        obj[index].actionData.services = finalInner.actionData.services;
+      }
+    }
+  });
+
+  return obj;
 }
 
 function processVisitData(appointmentVisit) {
@@ -282,5 +297,11 @@ function secondsToTime(secs) {
 function sortAppointment(appList: IAppointment[]): IAppointment[] {
   return appList.slice().sort((a, b) => {
     return <any>new Date(b.timeStamp) - <any>new Date(a.timeStamp);
+  });
+}
+
+function innerSortAppointment(appList: IAppointment[]): IAppointment[] {
+  return appList.slice().sort((a, b) => {
+    return <any>new Date(a.timeStamp) - <any>new Date(b.timeStamp);
   });
 }

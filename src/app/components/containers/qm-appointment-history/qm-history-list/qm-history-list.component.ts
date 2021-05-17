@@ -267,10 +267,10 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     let services = '';
     if (serviceIdList) {
       serviceIdList.map(serviceId => {
-        services = services + this.servicelist.filter(service => serviceId === service.id)[0].name;
+        services = services + ', ' + this.servicelist.filter(service => serviceId === service.id)[0].name;
       });
     }
-    return services;
+    return services.replace(', ', '');
   }
 
   getNotes(notes) {
