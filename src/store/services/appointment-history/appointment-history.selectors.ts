@@ -42,6 +42,11 @@ const getAppointmentsLoading = createSelector(
     (state: IAppointmentHistoryState) => state.loaded
   );
 
+  const getTablePageSize = createSelector(
+    getAppointmentHistoryState,
+    (state: IAppointmentHistoryState) => state.tablePageSize
+  );
+
 @Injectable()
 export class AppointmentHistorySelectors {
   constructor(private store: Store<IAppState>) {}
@@ -53,4 +58,5 @@ export class AppointmentHistorySelectors {
   appointmentsLoaded$ = this.store.select(getAppointmentsLoaded);
   appointmentLoading$ = this.store.select(getAppointmentByIdLoading);
   appointmentLoaded$ = this.store.select(getAppointmentByIdLoaded);
+  tablepageSize$ = this.store.select(getTablePageSize);
 }

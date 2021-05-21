@@ -9,6 +9,7 @@ export interface IAppointmentHistoryState {
   loaded: boolean;
   error: Object;
   appointmentVisit: IAppointmentVisit[];
+  tablePageSize: number;
 }
 
 export const initialState: IAppointmentHistoryState = {
@@ -17,7 +18,8 @@ export const initialState: IAppointmentHistoryState = {
   loading: false,
   loaded: false,
   error: null,
-  appointmentVisit: []
+  appointmentVisit: [],
+  tablePageSize: 5
 };
 
 export function reducer(
@@ -111,6 +113,12 @@ export function reducer(
         appointmentVisit: [],
         loaded: false,
         error: null
+      };
+    }
+    case AppointmentHistoryActions.SET_TABLE_PAGE_SIZE: {
+      return {
+        ...state,
+        tablePageSize: action.payload
       };
     }
     default: {

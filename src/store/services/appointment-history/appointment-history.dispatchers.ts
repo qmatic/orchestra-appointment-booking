@@ -28,5 +28,7 @@ export class AppointmentHistoryDispatchers {
   resetAppointmentVisit() {
     this.store.dispatch(new AppointmentHistoryActions.ResetAppointmentVisit());
   }
-
+  setTablepageSize(pageSize: number) {
+    this.store.dispatch(new AppointmentHistoryActions.SetTablePageSize(pageSize));
+  }
 }

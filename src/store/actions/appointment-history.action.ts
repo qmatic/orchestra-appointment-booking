@@ -12,6 +12,7 @@ export const FETCH_VISIT_DATA_FAIL = '[AppointmentHistory] FETCH_VISIT_DATA_FAIL
 export const FETCH_VISIT_DATA_SUCCESS = '[AppointmentHistory] FETCH_VISIT_DATA_SUCCESS';
 export const RESET_ACTION_APPOINTMENTS = '[AppointmentHistory] RESET_ACTION_APPOINTMENTS';
 export const RESET_APPOINTMENT_VISIT = '[AppointmentHistory] RESET_APPOINTMENT_VISIT';
+export const SET_TABLE_PAGE_SIZE = '[AppointmentHistory] SET_TABLE_PAGE_SIZE';
 
 export class FetchActionAppointments implements Action {
     readonly type = FETCH_ACTION_APPOINTMENTS;
@@ -67,6 +68,12 @@ export class FetchActionAppointments implements Action {
     constructor() {}
   }
 
+  export class SetTablePageSize implements Action {
+    readonly type = SET_TABLE_PAGE_SIZE;
+    constructor(public payload: number) {}
+  }
+  
+
   // Action types
 export type AllAppointmentHistoryActions = FetchActionAppointments |
                                         FetchActionAppointmentsSuccess |
@@ -78,4 +85,5 @@ export type AllAppointmentHistoryActions = FetchActionAppointments |
                                         FetchSelectedAppointmentFail |
                                         FetchSelectedAppointmentSuccess |
                                         ResetActionAppointments |
-                                        ResetAppointmentVisit;
+                                        ResetAppointmentVisit|
+                                        SetTablePageSize;

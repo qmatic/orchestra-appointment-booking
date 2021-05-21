@@ -27,6 +27,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
   private userDirection$: Observable<string>;
   public appointmentList: IAppointment[] = [];
   public dateFormat = 'YY-MM-DD';
+  public pageSize: number = 5;
 
   public userDirection: string;
   public branchlist = [];
@@ -78,6 +79,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
         this.userDirection = userDirection;
       }
     );
+    this.subscriptions.add(userDirectionSubscription);
 
     const appointmentSubcription = this.appointmentHistorySelectors.appointment$.subscribe(
         appointment => {
@@ -86,7 +88,16 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
             }
         }
       );
-      this.subscriptions.add(appointmentSubcription);
+    this.subscriptions.add(appointmentSubcription);
+
+    const pageSizeSubscripyion = this.appointmentHistorySelectors.tablepageSize$.subscribe(
+      size => {
+          if (size) {
+            this.pageSize = size;
+          }
+      }
+    );
+  this.subscriptions.add(pageSizeSubscripyion);
       
     const branchSubscription = this.branchSelectors.qpBranches$.subscribe(
         (branches: IBranch[]) => {
@@ -121,7 +132,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(appointmentsSubcription);
     
     
-    this.subscriptions.add(userDirectionSubscription);
+
   }
 
   ngAfterViewInit() {
@@ -129,6 +140,10 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
+  }
+  paginationChanged($event) {
+    this.appointmentHistoryDispatcher.setTablepageSize($event.pageSize);
+    console.log($event.pageSize)
   }
 
   ngOnDestroy() {
