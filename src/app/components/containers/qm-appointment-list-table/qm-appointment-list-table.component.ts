@@ -229,7 +229,7 @@ export class QmAppointmentListTableComponent implements OnInit, OnDestroy {
     try{
       decodeString = decodeURIComponent(notes);
     } catch(e) {
-      decodeString = ''
+      decodeString = notes;
     }
     return decodeString;
   }

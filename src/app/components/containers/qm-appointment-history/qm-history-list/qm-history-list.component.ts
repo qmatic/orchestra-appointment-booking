@@ -293,7 +293,7 @@ export class QmHistoryListComponent implements OnInit, OnDestroy {
     try{
       decodeString = decodeURIComponent(notes ? notes : '');
     } catch(e) {
-      decodeString = ''
+      decodeString = notes;
     }
     return decodeString;
   }

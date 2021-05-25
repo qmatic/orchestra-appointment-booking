@@ -39,6 +39,20 @@ This document describes the new features, bug corrections, known issues and reco
 
 ------------>
 
+<h2>Update 4.0.0.019-internal </h2>
+
+**Date: 25/5/2021**
+ 
+**Build number: 019**
+
+<h3>Bug fixes</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-275** | **Cannot view booked appointments if an appointment created from calendar with a note containing space character** |
+
+----------
+
 <h2>Update 4.0.0.018 </h2>
 
 **Date: 7/5/2021**

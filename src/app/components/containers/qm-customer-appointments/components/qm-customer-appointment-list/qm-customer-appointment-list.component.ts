@@ -313,8 +313,14 @@ export class QmCustomerAppointmentListComponent
   }
 
   isNotified(appointment) {
-    if (appointment && appointment.custom.toString() && JSON.parse(appointment.custom.toString()).notificationType) {
-      const notificationType = JSON.parse(appointment.custom.toString()).notificationType;
+    let notificationType;
+    try {
+      notificationType = JSON.parse(appointment.custom).notificationType
+    } catch (error) {
+      console.log(appointment.custom + ' --- ' + error)
+    }
+    if (appointment && appointment.custom) {
+      //const notificationType = JSON.parse(appointment.custom.toString()).notificationType;
       if (notificationType === 'email' || notificationType === 'sms' || notificationType === 'both') {
         return true;
       }

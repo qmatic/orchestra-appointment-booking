@@ -126,7 +126,13 @@ export class QmVisitListComponent implements OnInit, OnDestroy {
   }
 
   getNotes(notes) {
-    return decodeURIComponent(notes);
+    let decodeString = '';
+    try{
+      decodeString = decodeURIComponent(notes ? notes : '');
+    } catch(e) {
+      decodeString = notes;
+    }
+    return decodeString;
   }
 
   onSearchChange(value) {

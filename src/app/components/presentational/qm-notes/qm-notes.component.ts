@@ -63,7 +63,7 @@ export class QmNotesComponent implements OnInit, OnDestroy {
           try {
             decodeString = decodeURIComponent(this.notes ? this.notes : '');
           } catch (e) {
-            decodeString = '';
+            decodeString = notes;
           }
           this.notes =  decodeString;
         } 
