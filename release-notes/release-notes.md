@@ -45,6 +45,12 @@ This document describes the new features, bug corrections, known issues and reco
  
 **Build number: 019**
 
+<h3>Stories</h3>
+
+| **Id** | **Release notes** |
+| --- | --- |
+| **AB-281** | **Write 'nrOfCustomers' property to the custom fields** |
+
 <h3>Bug fixes</h3>
 
 | **Id** | **Release notes** |

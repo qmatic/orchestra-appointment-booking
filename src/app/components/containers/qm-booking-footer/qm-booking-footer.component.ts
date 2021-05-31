@@ -431,6 +431,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   }
 
   getAppointmentCustomJson(currentCustomer: ICustomer): string {
+    const nrOfCustomers: number = this.numberOfCustomers;
     const selectedLanguage : string = this.selectedLanguage;
       // const externalNotes : string =  this.ExternalNotes.replace(/"/g, '&quot;')
       // const externalNotes : string =  this.ExternalNotes.replace(/[|&;$%@"<>()+,\n]/g, "");
@@ -452,6 +453,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
           return `{`
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"notificationType":"${notificationType}",`
+                  + `"nrOfCustomers":"${nrOfCustomers}",`
                   + `"appId":"generic"`
                   + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
                 + `}`;
@@ -460,6 +462,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
           return `{`
                   + `"email":"${currentCustomer.email}",`
                   + `"notificationType":"${notificationType}",`
+                  + `"nrOfCustomers":"${nrOfCustomers}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
@@ -470,6 +473,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
                   + `"phoneNumber":"${currentCustomer.phone}",`
                   + `"email":"${currentCustomer.email}",`
                   + `"notificationType":"${notificationType}",`
+                  + `"nrOfCustomers":"${nrOfCustomers}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" ) 
@@ -478,6 +482,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         case 'none': {
           return `{`
                   + `"notificationType":"${notificationType}",`
+                  + `"nrOfCustomers":"${nrOfCustomers}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
@@ -489,6 +494,7 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       }
     } else {
       return `{`
+                  + `"nrOfCustomers":"${nrOfCustomers}",`
                   + `"appId":"generic"`
                   + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
                   + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
