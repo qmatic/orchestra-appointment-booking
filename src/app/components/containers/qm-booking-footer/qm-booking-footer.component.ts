@@ -431,13 +431,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
   }
 
   getAppointmentCustomJson(currentCustomer: ICustomer): string {
-    if (this.hasNotificationOptionsEnabled()) {
-      
-      const notificationType: string = this.notificationType;
-      const selectedLanguage : string = this.selectedLanguage;
+    const selectedLanguage : string = this.selectedLanguage;
       // const externalNotes : string =  this.ExternalNotes.replace(/"/g, '&quot;')
       // const externalNotes : string =  this.ExternalNotes.replace(/[|&;$%@"<>()+,\n]/g, "");
-      const externalNotes : string =  JSON.stringify(this.ExternalNotes).replace(/\\n/g, "\\n")
+    const externalNotes : string =  JSON.stringify(this.ExternalNotes).replace(/\\n/g, "\\n")
       .replace(/\\'/g, "\\'")
       .replace(/\\"/g, '\\"')
       .replace(/\\&/g, "\\&")
@@ -446,6 +443,10 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
       .replace(/\\b/g, "\\b")
       .replace(/\\f/g, "\\f");
 
+    if (this.hasNotificationOptionsEnabled()) {
+      
+      const notificationType: string = this.notificationType;
+      
       switch (notificationType) {
         case 'sms': {
           return `{`
@@ -487,7 +488,11 @@ export class QmBookingFooterComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      return '';
+      return `{`
+                  + `"appId":"generic"`
+                  + ((this.languageSelectEnabled && selectedLanguage) ?  `,"lang": "${selectedLanguage}"` : " ") 
+                  + (this.ExternalNotes ? `, "infoToCustomer":${externalNotes}` : "" )
+                + `}`;
     }
   }
 }

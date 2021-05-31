@@ -325,6 +325,8 @@ export class QmCustomerAppointmentListComponent
         return true;
       }
       return false;
+    } else {
+      return false;
     }
   }
 

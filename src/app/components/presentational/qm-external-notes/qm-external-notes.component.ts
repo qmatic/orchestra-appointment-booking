@@ -57,7 +57,8 @@ export class QmExternalNotesComponent implements OnInit {
 
     const selectedAppointmentSubscription = this.selectedAppointment$.subscribe(
       (appointment: IAppointment) => {
-        if ( appointment && JSON.parse(appointment.custom.toString()) && JSON.parse(appointment.custom.toString()).infoToCustomer) {
+
+        if ( appointment && appointment.custom && JSON.parse(appointment.custom.toString()).infoToCustomer) {
           console.log(JSON.parse(appointment.custom.toString()));
           this.appointmentMetaDispatchers.setExternalNote(JSON.parse(appointment.custom.toString()).infoToCustomer)
         }
