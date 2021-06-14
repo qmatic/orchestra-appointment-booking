@@ -113,8 +113,8 @@ export class QmAppointmentListSettingsComponent implements OnInit, OnDestroy {
 
   searchAppointments() {
     const formModel = this.searchAppointmentForm.value;
-    const startDateObj = formModel.startDate.format('YYYY-MM-DD');
-    const endDateObj = formModel.endDate.format('YYYY-MM-DD');
+    const startDateObj = formModel.startDate.format('YYYY-MM-DD') + 'T00:00';
+    const endDateObj = formModel.endDate.format('YYYY-MM-DD') + 'T23:59';
     const branchId = formModel.branch;
 
     this.appointmentDispatchers.fetchAppointmentList(startDateObj, endDateObj, branchId);
