@@ -138,6 +138,7 @@ To use the Appointment List and Appointment History Audit module, there are two 
 | **AB-161** | **Handle Backward compatibility for older Notification module** |
 | **AB-168** | **External notes - Support for line breaks** |
 | **AB-169** | **External notes - support for special characters** |
+| **AB-149** | **Appointment booking doesn't check year when entering DoB** |
 
 
 <h3>Upgrade instructions</h3> 
