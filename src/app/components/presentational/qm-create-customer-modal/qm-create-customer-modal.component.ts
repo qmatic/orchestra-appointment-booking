@@ -16,7 +16,8 @@ import { ICustomer } from '../../../../models/ICustomer';
 import {
   CustomerDispatchers,
   UserSelectors,
-  SettingsAdminSelectors
+  SettingsAdminSelectors,
+  SystemInfoSelectors
 } from '../../../../store';
 import { whiteSpaceValidator, validateNotEqualToFactory } from '../../../util/custom-form-validators';
 import { AutoClose } from '../../../../services/util/autoclose.service';
@@ -57,8 +58,11 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     'label.december'
   ];
 
+  public dobOrder = { month : 0, day : 1 , year : 2};
+
   public months: NgOption[];
   public languages: NgOption[] = [];
+  public getDtFormatFromParams = false;
   constructor(
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
@@ -69,7 +73,8 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
     private customerSelectors: CustomerSelectors,
     public autoCloseService: AutoClose,
     public LanguageSelectors: LanguageSelectors,
-    public languageDispatchers: LanguageDispatchers
+    public languageDispatchers: LanguageDispatchers,
+    private systemInfoSelectors: SystemInfoSelectors,
   ) {
     this.userDirection$ = this.userSelectors.userDirection$;
     this.settingsMap$ = this.settingAdminSelectors.settingsAsMap$;
@@ -95,6 +100,28 @@ export class QmCreateCustomerModalComponent implements OnInit, OnDestroy {
         }
       );
     }
+
+    const settingsMapSubscription = this.settingsMap$.subscribe(
+      (settingsMap: {[name: string]: Setting }) => {
+        this.getDtFormatFromParams = settingsMap.GetSystemParamsDateFormat.value;
+      }
+    );
+    this.subscriptions.add(settingsMapSubscription);
+
+    const systemInfoDateSubscription = this.systemInfoSelectors.systemInfoDateConvention$.subscribe(
+      (val: string) => {
+        if (this.getDtFormatFromParams){
+          var objArr = val.split('-');
+          if (objArr.length !== 3) {
+            objArr = val.split('/');
+          }
+          this.dobOrder.day = objArr.indexOf('DD');
+          this.dobOrder.month = objArr.indexOf('MM');
+          this.dobOrder.year = objArr.indexOf('YY');
+        }
+      }
+    );
+    this.subscriptions.add(systemInfoDateSubscription);
 
     const translateSubscription = this.translateService
       .get(this.dateLabelKeys)

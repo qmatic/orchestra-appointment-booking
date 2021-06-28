@@ -50,6 +50,7 @@ This document describes the new features, bug corrections, known issues and reco
 | **Id** | **Release notes** |
 | --- | --- |
 | **AB-281** | **Write 'nrOfCustomers' property to the custom fields** |
+| **QP-9081** | **Add an option to change the order of the dob input of customer from** |
 
 <h3>Bug fixes</h3>
 

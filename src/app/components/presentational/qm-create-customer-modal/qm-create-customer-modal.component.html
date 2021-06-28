@@ -167,7 +167,7 @@
 
               </span>
               <div class="qm-dob" formArrayName="dateOfBirth">
-                <div class="qm-dob__month">
+                <div class="qm-dob__month" [ngStyle]="{'order': dobOrder.month }">
                 <label class="qm-standard-number-field__label">
                   <span class="qm-standard-number-field__top-container">
                     <span class="qm-standard-number-field__text">{{ 'field.createCustomerForm.month' | translate }}</span>
@@ -182,7 +182,7 @@
                   </ng-select>
                 </label>
                 </div>
-                <div class="qm-dob__day">
+                <div class="qm-dob__day" [ngStyle]="{'order': dobOrder.day }">
                   <div class="qm-standard-number-field qm-standard-number-field--day">
                     <label class="qm-standard-number-field__label">
                       <span class="qm-standard-number-field__top-container">
@@ -192,7 +192,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="qm-dob__year">
+                <div class="qm-dob__year" [ngStyle]="{'order': dobOrder.year }">
                   <div class="qm-standard-number-field qm-standard-number-field--year">
                     <label class="qm-standard-number-field__label">
                       <span class="qm-standard-number-field__top-container">

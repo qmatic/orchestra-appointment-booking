@@ -6,7 +6,6 @@
   margin-right: rem(-$standard-margin / 4);
   flex-wrap: wrap;
 
-
   &__month {
     flex: 0 1 160px;
     padding-left: rem($standard-padding / 4);
@@ -46,6 +45,7 @@
     margin-top: rem(1px);
     padding-left: rem($standard-padding / 4);
     padding-right: rem($standard-padding / 4);
+    order: 3;
 
     @at-root [dir='rtl'] & {
       text-align: right;
