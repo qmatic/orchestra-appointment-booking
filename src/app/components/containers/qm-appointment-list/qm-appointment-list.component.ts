@@ -115,7 +115,7 @@ export class QmAppointmentListComponent implements OnInit, OnDestroy {
   getSelectedBranch() {
     const branchId = this.appointmentList[0].branchId;
     const selectedBranch = this.branchList.filter(obj =>{
-      return obj.id == branchId;
+      return obj.qpId == branchId;
     })
     return selectedBranch[0];
   }

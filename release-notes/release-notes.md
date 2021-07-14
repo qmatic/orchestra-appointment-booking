@@ -58,6 +58,7 @@ This document describes the new features, bug corrections, known issues and reco
 | --- | --- |
 | **AB-275** | **Cannot view booked appointments if an appointment created from calendar with a note containing space character** |
 | **AB-290** | **Appointment list date selection incorrect** |
+| **AB-302** | **Wrong branch id is used for the Appointment list** |
 
 ----------
 
